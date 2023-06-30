@@ -1,12 +1,3 @@
----
-name: HARA_BASIC_ISSUE
-about: 해라 기본 이슈 템플릿
-title: ex) [FEAT] 내용
-labels: ''
-assignees: ''
-
----
-
 <!-- Assigner, Lable 설정! -->
 
 ## 🗣️ **Issue**
