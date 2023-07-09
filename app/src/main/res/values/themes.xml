@@ -3,7 +3,89 @@
     <style name="Base.Theme.Kaera" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Theme.Kaera" parent="Base.Theme.Kaera" />
+
+    <style name="h_head1_b20">
+        <item name="android:fontFamily">@font/nanum_squareneo_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_head2_r20">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_head3_b18">
+        <item name="android:fontFamily">@font/nanum_squareneo_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_body1_b16">
+        <item name="android:fontFamily">@font/nanum_squareneo_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_body2_r16">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_body3_b14">
+        <item name="android:fontFamily">@font/nanum_squareneo_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_body4_r14">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_body5_b14_wide">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="lineSpacing">6dp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_sub1_r12">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_sub1_r12_wide">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="lineSpacing">5dp</item>
+        <item name="android:letterSpacing">-0.05</item>
+    </style>
+
+    <style name="h_modal_r13">
+        <item name="android:fontFamily">@font/nanum_myeongjo_yet_hangul</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">13sp</item>
+        <item name="lineSpacing">5dp</item>
+        <item name="android:letterSpacing">-0.1</item>
+    </style>
+
 </resources>
