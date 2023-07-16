@@ -11,12 +11,41 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue">
+        android:background="@color/gray_1">
+
+        <ImageView
+            android:id="@+id/iv_kaera_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24.5dp"
+            android:src="@drawable/icn_kaera_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_label_under_logo"
+            style="@style/h_body2_r16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19.1dp"
+            android:background="@drawable/shape_rect_gray5_10"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="4dp"
+            android:text="열심히 캐내는 중"
+            android:textColor="@color/gray_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_kaera_logo" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_under_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
