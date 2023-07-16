@@ -32,8 +32,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/home_nav_items"
-            app:itemActiveIndicatorStyle="@android:color/transparent" />
+            app:itemRippleColor="@color/gray_1"
+            app:menu="@menu/home_nav_items" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

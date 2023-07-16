@@ -33,7 +33,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 }
             }
             itemIconTintList = null
-            backgroundTintList = null
+            itemActiveIndicatorColor = null
             selectedItemId = R.id.nav_home
         }
     }
