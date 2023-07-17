@@ -13,7 +13,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="13dp"
@@ -31,11 +31,12 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:hint="@{layoutHint}"
-            android:paddingVertical="20dp"
+            android:padding="0dp"
             android:textAppearance="@style/h_body3_b14"
             android:textColor="@color/white"
-            android:textColorHint="@color/gray_4" />
+            android:textColorHint="@color/gray_4"
+            tools:text="hi" />
     </com.google.android.material.textfield.TextInputLayout>
 </layout>
