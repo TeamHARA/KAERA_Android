@@ -4,4 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="write">고민작성</string>
     <string name="complete">완료</string>
+    <string name="wirte_choice">템플릿을 선택해주세요</string>
+    <string name="wirte_nameing">고민에 이름을 붙여주세요</string>
+    <string name="write_naming_hint">이 고민에 이름을 붙이면...</string>
+    <string name="wirte_content">고민 내용 작성하기</string>
+    <string name="wirte_empty">선택된 템플릿이 없어요!</string>
+    <string name="write_empty_induction">상단에서 템플릿을 골라볼까요?</string>
+
 </resources>
