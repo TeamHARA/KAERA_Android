@@ -2,4 +2,6 @@
     <string name="app_name">Kaera</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="write">고민작성</string>
+    <string name="complete">완료</string>
 </resources>
