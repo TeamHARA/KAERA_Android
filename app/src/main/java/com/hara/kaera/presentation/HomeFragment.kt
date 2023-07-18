@@ -7,8 +7,12 @@ import com.hara.kaera.databinding.FragmentHomeBinding
 import com.hara.kaera.presentation.base.BindingFragment
 
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+    private lateinit var homeViewPagerAdapter: HomeViewPagerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeViewPagerAdapter = HomeViewPagerAdapter()
+        //homeViewPagerAdapter.submitList()
     }
 }
