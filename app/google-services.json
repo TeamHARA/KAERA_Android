@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "61612522426",
+    "project_id": "kaera-8d636",
+    "storage_bucket": "kaera-8d636.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61612522426:android:5833778b03e2479ccabb83",
+        "android_client_info": {
+          "package_name": "com.hara.kaera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61612522426-f1ira6qe7e7k849abhsnt1qeokcoht7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9nDKw__p_6hxCM0PflZU2BO4RdR2ktmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61612522426-f1ira6qe7e7k849abhsnt1qeokcoht7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
