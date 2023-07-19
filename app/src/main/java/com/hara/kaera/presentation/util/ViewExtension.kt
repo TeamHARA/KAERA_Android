@@ -7,6 +7,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
 fun View.makeSnackbar(messgae: String) {
@@ -32,6 +33,14 @@ fun Context.colorOf(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
 
 fun Context.drawableOf(@DrawableRes resId: Int) = ContextCompat.getDrawable(this, resId)
 
+fun Fragment.stringOf(@StringRes resId: Int) = getString(resId)
+
+fun Fragment.colorOf(@ColorRes resId: Int) = ContextCompat.getColor(requireContext(), resId)
+
+fun Fragment.drawableOf(@DrawableRes resId: Int) =
+    ContextCompat.getDrawable(requireContext(), resId)
+
+
 fun Int.dpToPx(context: Context): Int {
     return context.resources.displayMetrics.density.let { density ->
         (this * density).toInt()
@@ -40,6 +49,17 @@ fun Int.dpToPx(context: Context): Int {
 
 fun Int.pxToDp(context: Context): Int {
     return context.resources.displayMetrics.density.let { density ->
+        (this / density).toInt()
+    }
+}
+fun Int.dpToSp(context: Context): Int {
+    return context.resources.displayMetrics.scaledDensity.let { density ->
+        (this * density).toInt()
+    }
+}
+
+fun Int.spToDp(context: Context): Int {
+    return context.resources.displayMetrics.scaledDensity.let { density ->
         (this / density).toInt()
     }
 }
