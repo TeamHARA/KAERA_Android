@@ -5,6 +5,8 @@ import android.view.View
 import com.hara.kaera.R
 import com.hara.kaera.databinding.BottomsheetTemplateChoiceBinding
 import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
+import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
+import com.hara.kaera.presentation.util.drawableOf
 import com.hara.kaera.presentation.write.adapter.TemplateChoiceAdapter
 import com.hara.kaera.presentation.write.data.DummyTemplateData
 
@@ -16,7 +18,11 @@ class TemplateChoiceBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         templateAdapter = TemplateChoiceAdapter()
-        binding.rcvTemplate.adapter = templateAdapter
+        binding.rcvTemplate.apply {
+            adapter = templateAdapter
+            addItemDecoration(LastItemMarginItemDecoration(resources.getDimensionPixelOffset(R.dimen.template_recyclerview_lastmargin)))
+        }
+
         templateAdapter.submitList(DummyTemplateData.templateList)
     }
 

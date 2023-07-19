@@ -7,7 +7,7 @@ import com.hara.kaera.R
 /*
     템플릿 아이디와 이전에 사용한적 있는지에 따라서 이미지를 변화시켜주는 함수
  */
-@BindingAdapter(value = ["bind:templateId", "bind:templateHasUsed"], requireAll = true)
+@BindingAdapter(value = ["app:templateId", "app:templateHasUsed"], requireAll = true)
 fun ImageView.setGemStoneSrc(templateId: Int, hasUsed: Boolean) {
     this.apply {
         if (hasUsed) {
