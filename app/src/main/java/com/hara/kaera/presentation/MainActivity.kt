@@ -24,7 +24,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
                     R.id.nav_write -> {
                         // activity로 이동
-                        TemplateChoiceBottomSheet().show(supportFragmentManager, "TemplateChoice")
                         return@setOnItemSelectedListener true
                     }
                     R.id.nav_storage -> {
