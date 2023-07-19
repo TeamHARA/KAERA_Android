@@ -17,10 +17,10 @@ class TemplateChoiceAdapter() :
 
     private lateinit var inflater: LayoutInflater
 
-    /** 선택한 위치의 값을 저장해주는 필드 **/
+    /* 선택한 위치의 값을 저장해주는 필드 */
     private var selectedPosition = -1
 
-    /** 이전에 선택한 위치의 값을 저장해주는 필드**/
+    /* 이전에 선택한 위치의 값을 저장해주는 필드*/
     private var lastItemSelectedPosition = -1
 
     class ItemViewHolder(val binding: ItemTemplateBinding) : RecyclerView.ViewHolder(binding.root)
@@ -39,13 +39,14 @@ class TemplateChoiceAdapter() :
         val curItem = getItem(position)
         with(holder.binding) {
             this.templatedata = curItem
-            if (position == selectedPosition) {
+            if (position == selectedPosition) { // 선택유무에 따라서 배경이 바뀐다.
                 this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_yellow1_8)
-                this.select = true
+                this.select = true // 체크버튼이 나오도록
             } else {
                 this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_gray5_8)
                 this.select = false
             }
+            
             this.root.setOnClickListener {
                 selectedPosition = position
                 lastItemSelectedPosition = if (lastItemSelectedPosition == -1) {
