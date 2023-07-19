@@ -22,7 +22,6 @@ class TemplateChoiceBottomSheet :
             adapter = templateAdapter
             addItemDecoration(LastItemMarginItemDecoration(resources.getDimensionPixelOffset(R.dimen.template_recyclerview_lastmargin)))
         }
-
         templateAdapter.submitList(DummyTemplateData.templateList)
     }
 
