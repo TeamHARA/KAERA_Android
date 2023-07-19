@@ -3,16 +3,20 @@ package com.hara.kaera.presentation.util
 import android.os.SystemClock
 import android.view.View
 
-class OnSingleClickListener(private val interval: Int = 2000, val onSingleClick: (View) -> Unit) :
+class SingleClickListener(interval: Int, private val click: (View) -> Unit) :
     View.OnClickListener {
 
-    private var lastClickTime: Long = 0
-    override fun onClick(view: View) {
-        val elapsedRealtime = SystemClock.elapsedRealtime()
-        if ((elapsedRealtime - lastClickTime) < interval) {
-            return
+    private val clickInterval = interval
+    private var lastClickedTime: Long = 0L
+
+    override fun onClick(v: View?) {
+        if (isClickAvailable() && v != null) {
+            lastClickedTime = System.currentTimeMillis()
+            click(v)
         }
-        lastClickTime = elapsedRealtime
-        onSingleClick(view)
+    }
+
+    private fun isClickAvailable(): Boolean {
+        return System.currentTimeMillis() - lastClickedTime > clickInterval
     }
 }

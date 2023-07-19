@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ItemTemplateBinding
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
-import com.hara.kaera.presentation.util.setOnSingleClickListener
 import com.hara.kaera.presentation.write.data.TemplateData
 import kotlinx.coroutines.selects.select
 
@@ -46,7 +45,7 @@ class TemplateChoiceAdapter() :
                 this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_gray5_8)
                 this.select = false
             }
-            
+
             this.root.setOnClickListener {
                 selectedPosition = position
                 lastItemSelectedPosition = if (lastItemSelectedPosition == -1) {

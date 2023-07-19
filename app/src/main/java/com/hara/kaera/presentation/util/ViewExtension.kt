@@ -22,8 +22,8 @@ fun View.makeToast(messgae: String) {
     ).show()
 }
 
-fun View.setOnSingleClickListener(onSingleClick: (View) -> Unit) {
-    setOnClickListener(OnSingleClickListener { onSingleClick(it) })
+fun View.onSingleClick(clickInterval: Int, click: (View) -> Unit) {
+    setOnClickListener(SingleClickListener(clickInterval) { click(it) })
 }
 
 fun Context.stringOf(@StringRes resId: Int) = getString(resId)
