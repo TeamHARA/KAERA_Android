@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.write
+package com.hara.kaera.presentation.write.data
 
 object DummyTemplateData {
     val templateList = listOf<TemplateData>(

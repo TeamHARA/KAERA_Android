@@ -4,17 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="templatedata"
-            type="com.hara.kaera.presentation.write.TemplateData" />
+            type="com.hara.kaera.presentation.write.data.TemplateData" />
+
+        <variable
+            name="select"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="12dp"
-        android:background="@drawable/shape_rect_gray1_stroke_gray5_8">
+        android:layout_marginVertical="12dp">
 
         <ImageView
             android:id="@+id/iv_gem"
@@ -32,9 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="15dp"
+            android:text="@{templatedata.title}"
             android:textAppearance="@style/h_body1_b16"
             android:textColor="@color/white"
-            android:text="@{templatedata.title}"
             app:layout_constraintStart_toEndOf="@+id/iv_gem"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Free Flow" />
@@ -44,12 +50,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/h_sub1_r12"
             android:text="@{templatedata.info}"
+            android:textAppearance="@style/h_sub1_r12"
             android:textColor="@color/gray_4"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             tools:text="빈 공간을 자유롭게 채우기" />
+
+        <ImageView
+            android:id="@+id/iv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/icn_check"
+            android:visibility="@{select ? View.VISIBLE : View.GONE , default=gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

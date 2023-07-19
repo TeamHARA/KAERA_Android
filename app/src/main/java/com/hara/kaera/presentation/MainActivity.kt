@@ -5,6 +5,7 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.util.navigateTo
+import com.hara.kaera.presentation.write.TemplateChoiceBottomSheet
 
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +24,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
                     R.id.nav_write -> {
                         // activity로 이동
+                        TemplateChoiceBottomSheet().show(supportFragmentManager, "TemplateChoice")
                         return@setOnItemSelectedListener true
                     }
                     R.id.nav_storage -> {
