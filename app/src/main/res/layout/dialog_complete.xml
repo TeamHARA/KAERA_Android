@@ -33,14 +33,15 @@
             android:text="@string/write_this"
             android:textAppearance="@style/h_head2_r20"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/picker_category"
+            app:layout_constraintBottom_toBottomOf="@+id/picker_deadlines"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_title" />
+            app:layout_constraintTop_toTopOf="@+id/picker_deadlines" />
 
         <NumberPicker
-            android:id="@+id/picker_category"
+            android:id="@+id/picker_deadlines"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
+            android:layout_marginTop="44dp"
             android:descendantFocusability="blocksDescendants"
             android:selectionDividerHeight="0dp"
             android:theme="@style/numberPickerCustomSize"
@@ -56,24 +57,26 @@
             android:text="@string/write_deadline"
             android:textAppearance="@style/h_head2_r20"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/picker_category"
+            app:layout_constraintBottom_toBottomOf="@+id/picker_deadlines"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_title" />
+            app:layout_constraintTop_toTopOf="@+id/picker_deadlines" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/appCompatButton"
+            android:id="@+id/btn_complete"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@drawable/shape_rect_gray5_8"
             android:layout_marginHorizontal="17dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/shape_rect_gray5_8"
             android:text="@string/write_complete"
             android:textAppearance="@style/h_body2_r16"
             android:textColor="@color/gray_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/picker_category" />
+            app:layout_constraintTop_toBottomOf="@+id/picker_deadlines" />
 
         <TextView
+            android:id="@+id/btn_no_deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -84,7 +87,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_complete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

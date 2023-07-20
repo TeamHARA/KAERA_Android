@@ -8,8 +8,9 @@ import androidx.fragment.app.DialogFragment
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogCompleteBinding
 import com.hara.kaera.presentation.util.dpToPx
+import com.hara.kaera.presentation.util.setOnSingleClickListener
 
-class WriteCompleteDialog() : DialogFragment() {
+class WriteCompleteDialog : DialogFragment() {
 
     private var _binding: DialogCompleteBinding? = null
     private val binding get() = _binding!!
@@ -24,20 +25,31 @@ class WriteCompleteDialog() : DialogFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = DialogCompleteBinding.inflate(inflater, container, false)
         setupWidthToMatchParent()
+        setNumberPicker()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 마진 역시 Match_parent가 임의로 적용된 이후에 다시 재 설정해주어야 합니다.
         (binding.root.layoutParams as ViewGroup.MarginLayoutParams).apply {
             marginEnd = 16.dpToPx(binding.root.context)
             marginStart = 16.dpToPx(binding.root.context)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun setOnClickListener() {
+        binding.btnComplete.setOnSingleClickListener { }
+        binding.btnNoDeadline.setOnSingleClickListener { }
+    }
+
+
+    private fun setNumberPicker() {
+        binding.pickerDeadlines.apply {
+            minValue = 1
+            maxValue = 30
+        }
     }
 
     /*
@@ -49,5 +61,10 @@ class WriteCompleteDialog() : DialogFragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
