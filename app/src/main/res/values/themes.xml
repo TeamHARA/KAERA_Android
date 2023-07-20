@@ -103,5 +103,11 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
+    <style name="numberPickerCustomSize">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:colorControlNormal">@color/gray_5</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
 
 </resources>

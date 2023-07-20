@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:background="@color/gray_1">
+
+        <TextView
+            android:id="@+id/tv_deadline_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:text="@string/write_deadline_title"
+            android:textAppearance="@style/h_head3_b18"
+            android:textColor="@color/yellow1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_this"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:text="@string/write_this"
+            android:textAppearance="@style/h_head2_r20"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/picker_category"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_title" />
+
+        <NumberPicker
+            android:id="@+id/picker_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:selectionDividerHeight="0dp"
+            android:theme="@style/numberPickerCustomSize"
+            app:layout_constraintEnd_toStartOf="@+id/tv_deadline"
+            app:layout_constraintStart_toEndOf="@+id/tv_this"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_title" />
+
+        <TextView
+            android:id="@+id/tv_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            android:text="@string/write_deadline"
+            android:textAppearance="@style/h_head2_r20"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/picker_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deadline_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/appCompatButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/shape_rect_gray5_8"
+            android:layout_marginHorizontal="17dp"
+            android:text="@string/write_complete"
+            android:textAppearance="@style/h_body2_r16"
+            android:textColor="@color/gray_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/picker_category" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="38dp"
+            android:text="@string/write_no_deadline"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/gray_5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

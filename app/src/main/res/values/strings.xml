@@ -2,4 +2,9 @@
     <string name="app_name">Kaera</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="write_deadline_title">이 고민, 언제까지 끝낼까요?</string>
+    <string name="write_this">이 고민을</string>
+    <string name="write_deadline">일 후 까지 끝낼게요</string>
+    <string name="write_complete">작성 완료하기</string>
+    <string name="write_no_deadline"><u>기간없이 고민하기</u></string>
 </resources>
