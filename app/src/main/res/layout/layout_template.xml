@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.hara.kaera.presentation.TemplateDetailData" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="templatedata"
+            type="TemplateDetailData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_freeflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rect_gray2_gray3_8"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="26dp">
+
+        <TextView
+            android:id="@+id/tv_question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{templatedata.questions[0]}"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="고민의 선택지를 나열해보세요." />
+
+        <!-- TODO #8 에서 만든 shape 적용 -->
+
+        <EditText
+            android:id="@+id/et_answer1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray_3"
+            app:layout_constraintStart_toStartOf="@+id/tv_question1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question1" />
+
+        <TextView
+            android:id="@+id/tv_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{templatedata.questions[1]}"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_answer1"
+            tools:text="선택지들의 장점을 생각해보세요." />
+
+        <!-- TODO #8 에서 만든 shape 적용 -->
+        <EditText
+            android:id="@+id/et_answer2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray_3"
+            app:layout_constraintStart_toStartOf="@+id/tv_question2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question2" />
+
+        <TextView
+            android:id="@+id/tv_question3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{templatedata.questions[2]}"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_answer2"
+            tools:text="선택지들의 장점을 생각해보세요." />
+
+        <!-- TODO #8 에서 만든 shape 적용 -->
+        <EditText
+            android:id="@+id/et_answer3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray_3"
+            app:layout_constraintStart_toStartOf="@+id/tv_question3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question3" />
+
+        <TextView
+            android:id="@+id/tv_question4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{templatedata.questions[3]}"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_answer3"
+            tools:text="선택지들의 장점을 생각해보세요." />
+
+        <!-- TODO #8 에서 만든 shape 적용 -->
+        <EditText
+            android:id="@+id/et_answer4"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray_3"
+            app:layout_constraintStart_toStartOf="@+id/tv_question4"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question4" />
+
+        <TextView
+            android:id="@+id/tv_thanks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{@string/write_thanksto(templatedata.thanksTo)}"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/white"
+            android:visibility="@{templatedata.thanksTo == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_answer4"
+            tools:text="Thanks To 안드" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

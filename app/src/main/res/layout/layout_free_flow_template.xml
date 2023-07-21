@@ -13,6 +13,7 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="14dp">
 
+        <!-- TODO #8 에서 만든 shape 적용 -->
         <EditText
             android:id="@+id/et_freeflow"
             android:layout_width="match_parent"
