@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_freeflow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_rect_gray2_gray3_8"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="14dp">
+
+        <EditText
+            android:id="@+id/et_freeflow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
