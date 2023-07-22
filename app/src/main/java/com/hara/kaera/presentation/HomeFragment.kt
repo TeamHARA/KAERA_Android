@@ -2,6 +2,7 @@ package com.hara.kaera.presentation
 
 import android.os.Bundle
 import android.view.View
+import com.google.android.material.tabs.TabLayoutMediator
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeBinding
 import com.hara.kaera.presentation.base.BindingFragment
@@ -29,5 +30,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                 )
             )
         }
+
+        binding.vpDotsIndicator.attachTo(binding.vpContainer)
     }
 }
