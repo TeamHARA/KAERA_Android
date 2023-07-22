@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation
+package com.hara.kaera.presentation.write.data
 
 data class TemplateDetailData(
     val templateTitle: String,

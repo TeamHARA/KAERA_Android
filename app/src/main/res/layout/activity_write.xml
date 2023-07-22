@@ -155,29 +155,38 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_wirte_content" />
 
                     <include
-                        layout="@layout/layout_free_flow_template"
+                        android:id="@+id/cl_empty"
+                        layout="@layout/layout_template_empty"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginTop="18dp"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
 
                     <include
+                        android:id="@+id/cl_template"
                         layout="@layout/layout_template"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginTop="18dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
 
                     <include
+                        android:id="@+id/cl_freeflow"
                         layout="@layout/layout_free_flow_template"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginTop="18dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
 
