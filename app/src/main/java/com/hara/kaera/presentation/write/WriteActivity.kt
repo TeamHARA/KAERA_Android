@@ -5,7 +5,7 @@ import android.view.View
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.presentation.base.BindingActivity
-import com.hara.kaera.presentation.util.setOnSingleClickListener
+import com.hara.kaera.presentation.util.onSingleClick
 import timber.log.Timber
 
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
@@ -23,7 +23,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             appbarDetail.setNavigationOnClickListener {
                 finish()
             }
-            clChoice.setOnSingleClickListener {
+            clChoice.onSingleClick(1000) {
                 Timber.e("바텀시트 올리기")
             }
         }
