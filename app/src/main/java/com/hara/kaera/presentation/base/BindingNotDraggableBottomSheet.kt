@@ -32,7 +32,6 @@ abstract class BindingNotDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes pr
 
     @SuppressLint("RestrictedApi")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        setStyle(STYLE_NORMAL, R.style.BottomSheetDialog_Rounded)
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener {
             val behavior = bottomSheetDialog.behavior

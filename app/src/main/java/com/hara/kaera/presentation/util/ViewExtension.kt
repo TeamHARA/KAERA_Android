@@ -23,8 +23,8 @@ fun View.makeToast(message: String) {
     ).show()
 }
 
-fun View.setOnSingleClickListener(onSingleClick: (View) -> Unit) {
-    setOnClickListener(OnSingleClickListener { onSingleClick(it) })
+fun View.onSingleClick(clickInterval: Int, click: (View) -> Unit) {
+    setOnClickListener(SingleClickListener(clickInterval) { click(it) })
 }
 
 fun Context.stringOf(@StringRes resId: Int) = getString(resId)
@@ -39,6 +39,7 @@ fun Fragment.colorOf(@ColorRes resId: Int) = ContextCompat.getColor(requireConte
 
 fun Fragment.drawableOf(@DrawableRes resId: Int) = ContextCompat.getDrawable(requireContext(), resId)
 
+
 fun Int.dpToPx(context: Context): Int {
     return context.resources.displayMetrics.density.let { density ->
         (this * density).toInt()
@@ -47,6 +48,17 @@ fun Int.dpToPx(context: Context): Int {
 
 fun Int.pxToDp(context: Context): Int {
     return context.resources.displayMetrics.density.let { density ->
+        (this / density).toInt()
+    }
+}
+fun Int.dpToSp(context: Context): Int {
+    return context.resources.displayMetrics.scaledDensity.let { density ->
+        (this * density).toInt()
+    }
+}
+
+fun Int.spToDp(context: Context): Int {
+    return context.resources.displayMetrics.scaledDensity.let { density ->
         (this / density).toInt()
     }
 }
