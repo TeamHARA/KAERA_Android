@@ -30,6 +30,14 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_gem_iamge" />
 
     <View
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:background="@color/gray_3"
+        app:layout_constraintTop_toTopOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="@id/divider"
+        app:layout_constraintStart_toStartOf="@id/divider"
+        android:rotation="45"/>
+    <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -39,6 +47,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_templete_name" />
+    <View
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:background="@color/gray_3"
+        app:layout_constraintTop_toTopOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="@id/divider"
+        app:layout_constraintEnd_toEndOf="@id/divider"
+        android:rotation="45"/>
 
     <TextView
         android:layout_width="wrap_content"
