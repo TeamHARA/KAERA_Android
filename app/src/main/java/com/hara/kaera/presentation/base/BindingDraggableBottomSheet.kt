@@ -1,8 +1,10 @@
 package com.hara.kaera.presentation.base
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +35,6 @@ abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes priva
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        setStyle(STYLE_NORMAL, R.style.BottomSheetDialog_Rounded)
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
@@ -42,22 +43,38 @@ abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes priva
         return dialog
     }
 
-    @SuppressLint("RestrictedApi")
     open fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
         bottomSheetDialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         val behavior = bottomSheetDialog.behavior
+//        val bottomSheet =
+//            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
+//        val layoutParams = bottomSheet.layoutParams
+//        layoutParams.height = getBottomSheetDialogDefaultHeight()
+//        bottomSheet.layoutParams = layoutParams
         behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED
-            skipCollapsed =
-                true // 바텀 시트를 접을때 절반에서 멈추는 경우를 방지하고 한번에 쭉 내려감
+            state = BottomSheetBehavior.STATE_COLLAPSED
+//            state = BottomSheetBehavior.STATE_EXPANDED
+//            skipCollapsed = true // 바텀 시트를 접을때 절반에서 멈추는 경우를 방지하고 한번에 쭉 내려감
             // 일단 남겨둠
-            disableShapeAnimations()
             addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {}
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             })
             isHideable = true
         }
+    }
+
+    private fun getBottomSheetDialogDefaultHeight(): Int {
+        return getWindowHeight() * 75 / 100
+        // 기기 높이 대비 비율 설정 부분!!
+        // 위 수치는 기기 높이 대비 75%로 다이얼로그 높이를 설정
+    }
+
+    private fun getWindowHeight(): Int {
+        // Calculate window height for fullscreen use
+        val displayMetrics = DisplayMetrics()
+        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.heightPixels
     }
 
     override fun onDestroyView() {
