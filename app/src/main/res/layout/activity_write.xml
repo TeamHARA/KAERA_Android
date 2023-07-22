@@ -92,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="21dp"
-                    android:background="@drawable/shape_rect_yellow2_0"
+                    android:background="@drawable/shape_rect_gray3_0"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,61 +142,45 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_empty"
+                    <TextView
+                        android:id="@+id/tv_template_induction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/write_empty_induction"
+                        android:textAppearance="@style/h_body4_r14"
+                        android:textColor="@color/gray_5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_wirte_content" />
+
+                    <include
+                        layout="@layout/layout_free_flow_template"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:visibility="visible"
+                        android:layout_marginTop="18dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_wirte_content">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
 
-                        <TextView
-                            android:id="@+id/choice_induction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginTop="12dp"
-                            android:text="@string/write_empty_induction"
-                            android:textAppearance="@style/h_body4_r14"
-                            android:textColor="@color/gray_5"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <include
+                        layout="@layout/layout_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="18dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="85dp"
-                            android:src="@drawable/empty_stone"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/choice_induction" />
+                    <include
+                        layout="@layout/layout_free_flow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="18dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
 
-                        <TextView
-                            android:id="@+id/tv_choice_empty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="32dp"
-                            android:text="@string/write_empty"
-                            android:textAppearance="@style/h_head2_r20"
-                            android:textColor="@color/white"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-                        <TextView
-                            android:id="@+id/tv_choice_induction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="@string/write_choice_induction"
-                            android:textAppearance="@style/h_body4_r14"
-                            android:textColor="@color/gray_5"
-                            app:layout_constraintEnd_toEndOf="@+id/tv_choice_empty"
-                            app:layout_constraintStart_toStartOf="@+id/tv_choice_empty"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_choice_empty" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>

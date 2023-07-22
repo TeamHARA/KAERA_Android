@@ -5,13 +5,13 @@
 
     <data>
 
-        <import type="com.hara.kaera.presentation.TemplateDetailData" />
+        <import type="com.hara.kaera.presentation.write.data.TemplateDetailData" />
 
         <import type="android.view.View" />
 
         <variable
             name="templatedata"
-            type="TemplateDetailData" />
+            type="com.hara.kaera.presentation.write.data.TemplateDetailData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
