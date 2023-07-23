@@ -13,12 +13,12 @@
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
 
     <!-- 홈화면 : 원석 뷰 -->
-    <string name="home_gemstone_label">열심히 캐내는 중</string>
+    <string name="home_gemstone_label">열심히 캐내는 중 ⛏</string>
     <string name="home_gemstone_empty_title">아직 고민 원석이 없네요!</string>
     <string name="home_gemstone_empty_content">+ 버튼을 클릭해 고민을 작성해보세요.</string>
 
     <!-- 홈화면 : 보석 뷰 -->
-    <string name="home_jewel_label">그동안 캐낸 보석들</string>
+    <string name="home_jewel_label">그동안 캐낸 보석들 ✨</string>
     <string name="home_jewel_empty_title">아직 고민 보석이 없네요!</string>
     <string name="home_jewel_empty_content">원석을 터치해 고민 보석을 캐내보세요.</string>
 

@@ -1,22 +1,20 @@
 package com.hara.kaera.presentation
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.res.Resources
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.TypedArrayUtils.getResourceId
-import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ItemHomeGemsBinding
-import timber.log.Timber
 
 // [HomeFragment] ViewPager2 Adapter
 class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiffCallback) {
@@ -30,31 +28,33 @@ class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiff
         return HomeItemViewHolder(binding)
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val curList = currentList[position]
-        if (curList.isEmpty()) { // empty view
+        if (curList.isEmpty()) { // 1. empty view
             binding.rootGems.visibility = View.GONE
             binding.rootEmpty.visibility = View.VISIBLE
             when (position) {
                 0 -> { // 원석
-                    with (binding) {
+                    with(binding) {
                         ivEmpty.setImageResource(R.drawable.empty_stone)
-                        Timber.e("${Resources.getSystem().getString(R.string.home_gemstone_empty_title)}")
-                        Timber.e("${Resources.getSystem().getString(R.string.home_gemstone_empty_content)}")
-                        tvEmptyTitle.text = Resources.getSystem().getString(R.string.home_gemstone_empty_title)
-                        tvEmptyContent.text = Resources.getSystem().getString(R.string.home_gemstone_empty_content)
+                        tvEmptyTitle.text =
+                            Resources.getSystem().getString(R.string.home_gemstone_empty_title)
+                        tvEmptyContent.text =
+                            Resources.getSystem().getString(R.string.home_gemstone_empty_content)
                     }
                 }
+
                 1 -> { // 보석
-                    with (binding) {
+                    with(binding) {
                         ivEmpty.setImageResource(R.drawable.gem_blue_s_off)
-                        tvEmptyTitle.text = Resources.getSystem().getString(R.string.home_jewel_empty_title)
-                        tvEmptyContent.text = Resources.getSystem().getString(R.string.home_jewel_empty_content)
+                        tvEmptyTitle.text =
+                            Resources.getSystem().getString(R.string.home_jewel_empty_title)
+                        tvEmptyContent.text =
+                            Resources.getSystem().getString(R.string.home_jewel_empty_content)
                     }
                 }
             }
-        } else {
+        } else { // 2. 원석/보석이 존재한다
             binding.rootGems.visibility = View.VISIBLE
             binding.rootEmpty.visibility = View.GONE
             with((holder as HomeItemViewHolder).binding) {
@@ -62,10 +62,34 @@ class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiff
                     val childView = binding.rootGems.getChildAt(p)
                     if (childView is ConstraintLayout) {
                         //(childView.getChildAt(0) as ImageView).load(cur.image)
-                        (childView.getChildAt(0) as ImageView).setImageResource(curList[p].image)
+                        val delay = (0..1000).random()
+                        floatingAnimationWithValueAnimator(delay, 1000, childView, -20F).start()
+                        with(childView.getChildAt(0) as ImageView) {
+                            setImageResource(curList[p].image)
+                            // 세트(보석+라벨)가 움직이는 것에 추가로 보석을 움직이게 한다
+                            //floatingAnimationWithValueAnimator(delay, 1000, this@with,-20F).start()
+                        }
                         (childView.getChildAt(1) as TextView).text = curList[p].title
                     }
                 }
+            }
+        }
+    }
+
+    private fun floatingAnimationWithValueAnimator(
+        start: Int,
+        dur: Long,
+        view: View,
+        movement: Float
+    ): ValueAnimator {
+        return ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = dur
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = ValueAnimator.INFINITE
+            interpolator = AccelerateDecelerateInterpolator()
+            startDelay = start.toLong()
+            addUpdateListener {
+                view.translationY = animatedValue as Float * movement
             }
         }
     }
