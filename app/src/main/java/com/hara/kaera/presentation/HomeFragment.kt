@@ -17,15 +17,17 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             // sample list
             submitList(
                 listOf(
-                    listOf(
-                        Gem(R.drawable.gem_blue__on, "gemstone1"),
-                        Gem(R.drawable.gem_pink_l, "gemstone2"),
-                        Gem(R.drawable.gem_red_l, "gemstone3")
+                    listOf( // 원석 list
+                        /*
+                        Gem(R.drawable.gem_green_m, "jewel4"),
+                        Gem(R.drawable.gem_orange_m, "jewel5"),
+                        Gem(R.drawable.gem_pink_s_on, "jewel6")
+                        */
                     ),
-                    listOf(
-                        Gem(R.drawable.gem_green_m, "jewel1"),
-                        Gem(R.drawable.gem_orange_m, "jewel2"),
-                        Gem(R.drawable.gem_pink_s_on, "jewel3")
+                    listOf( // 보석 list
+//                        Gem(R.drawable.gem_green_m, "jewel1"),
+//                        Gem(R.drawable.gem_orange_m, "jewel2"),
+//                        Gem(R.drawable.gem_pink_s_on, "jewel3")
                     ),
                 )
             )

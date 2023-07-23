@@ -7,27 +7,63 @@
 
     <!-- 아직 고민 원석이 없네요 -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/iv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="120dp"
+            android:layout_marginTop="114dp"
+            android:src="@drawable/empty_stone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="114dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_empty_title"
+            style="@style/h_head3_b18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="31dp"
+            android:text="@string/home_gemstone_empty_title"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/iv_empty"
+            app:layout_constraintStart_toStartOf="@id/iv_empty"
+            app:layout_constraintTop_toBottomOf="@id/iv_empty" />
+
+        <TextView
+            android:id="@+id/tv_empty_content"
+            style="@style/h_body4_r14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/home_gemstone_empty_content"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/iv_empty"
+            app:layout_constraintStart_toStartOf="@id/iv_empty"
+            app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 원석/보석 뷰 -->
     <GridLayout
+        android:id="@+id/root_gems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnCount="3"
         android:orientation="horizontal"
         android:rowCount="4"
-        tools:visibility="gone" >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <include
             android:id="@+id/view_gemstone_1"
