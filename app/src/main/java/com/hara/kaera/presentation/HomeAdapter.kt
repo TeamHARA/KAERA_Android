@@ -1,6 +1,9 @@
 package com.hara.kaera.presentation
 
+import android.opengl.Visibility
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,23 +27,24 @@ class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiff
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val curList = currentList[position]
-        with((holder as HomeItemViewHolder).binding) {
-            for (p in curList.indices) {
-                val childView = root.getChildAt(p)
-                if (childView is ConstraintLayout) {
-                    //(childView.getChildAt(0) as ImageView).load(cur.image)
-                    (childView.getChildAt(0) as ImageView).setImageResource(curList[p].image)
-                    (childView.getChildAt(1) as TextView).text = curList[p].title
+        Log.e("ABC", "currentList size : ${curList.size}")
+        if (curList.isEmpty()) {
+            binding.rootGems.visibility = View.GONE
+            binding.rootEmpty.visibility = View.VISIBLE
+        }
+        else {
+            binding.rootGems.visibility = View.VISIBLE
+            binding.rootEmpty.visibility = View.GONE
+            with((holder as HomeItemViewHolder).binding) {
+                for (p in curList.indices) {
+                    val childView = binding.rootGems.getChildAt(p)
+                    if (childView is ConstraintLayout) {
+                        //(childView.getChildAt(0) as ImageView).load(cur.image)
+                        (childView.getChildAt(0) as ImageView).setImageResource(curList[p].image)
+                        (childView.getChildAt(1) as TextView).text = curList[p].title
+                    }
                 }
             }
-            /*
-            val childView = root.getChildAt(position)
-            if (childView is ConstraintLayout) {
-                //(childView.getChildAt(0) as ImageView).load(cur.image)
-                (childView.getChildAt(0) as ImageView).setImageResource(cur.image)
-                (childView.getChildAt(1) as TextView).text = cur.title
-            }
-            */
         }
     }
 }

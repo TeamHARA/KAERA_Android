@@ -18,9 +18,11 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             submitList(
                 listOf(
                     listOf(
-                        Gem(R.drawable.gem_blue__on, "gemstone1"),
-                        Gem(R.drawable.gem_pink_l, "gemstone2"),
-                        Gem(R.drawable.gem_red_l, "gemstone3")
+                        /*
+                        Gem(R.drawable.gem_green_m, "jewel4"),
+                        Gem(R.drawable.gem_orange_m, "jewel5"),
+                        Gem(R.drawable.gem_pink_s_on, "jewel6")
+                        */
                     ),
                     listOf(
                         Gem(R.drawable.gem_green_m, "jewel1"),
