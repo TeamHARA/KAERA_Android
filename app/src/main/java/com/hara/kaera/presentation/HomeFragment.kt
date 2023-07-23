@@ -19,32 +19,32 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             submitList(
                 listOf(
                     listOf( // 원석 list
-                        Gem(R.drawable.gemstone_yellow, "이수현"),
-                        Gem(R.drawable.gemstone_pink, "김준우"),
-                        Gem(R.drawable.gemstone_red, "장유진"),
-                        Gem(R.drawable.gemstone_pink, "4"),
-                        Gem(R.drawable.gemstone_blue, "5"),
-                        Gem(R.drawable.gemstone_pink, "6"),
-                        Gem(R.drawable.gemstone_orange, "7"),
-                        Gem(R.drawable.gemstone_pink, "8"),
-                        Gem(R.drawable.gemstone_red, "9"),
-                        Gem(R.drawable.gemstone_yellow, "10"),
-                        Gem(R.drawable.gemstone_blue, "11"),
-                        Gem(R.drawable.gemstone_green, "12")
+//                        Gem(R.drawable.gemstone_yellow, "이수현"),
+//                        Gem(R.drawable.gemstone_pink, "김준우"),
+//                        Gem(R.drawable.gemstone_red, "장유진"),
+//                        Gem(R.drawable.gemstone_pink, "4"),
+//                        Gem(R.drawable.gemstone_blue, "5"),
+//                        Gem(R.drawable.gemstone_pink, "6"),
+//                        Gem(R.drawable.gemstone_orange, "7"),
+//                        Gem(R.drawable.gemstone_pink, "8"),
+//                        Gem(R.drawable.gemstone_red, "9"),
+//                        Gem(R.drawable.gemstone_yellow, "10"),
+//                        Gem(R.drawable.gemstone_blue, "11"),
+//                        Gem(R.drawable.gemstone_green, "12")
                     ),
                     listOf( // 보석 list
-                        Gem(R.drawable.gem_pink_l, "1"),
-                        Gem(R.drawable.gem_green_l, "2"),
-                        Gem(R.drawable.gem_blue_l, "3"),
-                        Gem(R.drawable.gem_yellow_l, "4"),
-                        Gem(R.drawable.gem_orange_l, "5"),
-                        Gem(R.drawable.gem_red_l, "6"),
-                        Gem(R.drawable.gem_pink_l, "7"),
-                        Gem(R.drawable.gem_green_l, "8"),
-                        Gem(R.drawable.gem_blue_l, "9"),
-                        Gem(R.drawable.gem_red_l, "10"),
-                        Gem(R.drawable.gem_orange_l, "11"),
-                        Gem(R.drawable.gem_yellow_l, "12"),
+//                        Gem(R.drawable.gem_pink_l, "1"),
+//                        Gem(R.drawable.gem_green_l, "2"),
+//                        Gem(R.drawable.gem_blue_l, "3"),
+//                        Gem(R.drawable.gem_yellow_l, "4"),
+//                        Gem(R.drawable.gem_orange_l, "5"),
+//                        Gem(R.drawable.gem_red_l, "6"),
+//                        Gem(R.drawable.gem_pink_l, "7"),
+//                        Gem(R.drawable.gem_green_l, "8"),
+//                        Gem(R.drawable.gem_blue_l, "9"),
+//                        Gem(R.drawable.gem_red_l, "10"),
+//                        Gem(R.drawable.gem_orange_l, "11"),
+//                        Gem(R.drawable.gem_yellow_l, "12"),
                     ),
                 )
             )
@@ -56,7 +56,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             override fun onPageSelected(position: Int) {
                 //super.onPageSelected(position)
                 binding.tvLabelUnderLogo.text = when (position) {
-                    0 -> getString(R.string.home_gemstone_label)
+                    0 -> getString(R.string.home_stone_label)
                     1 -> getString(R.string.home_jewel_label)
                     else -> ""
                 }

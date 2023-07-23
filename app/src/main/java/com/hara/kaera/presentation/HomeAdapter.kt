@@ -36,20 +36,17 @@ class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiff
                 0 -> { // 원석
                     with(binding) {
                         ivEmpty.setImageResource(R.drawable.empty_stone)
-                        tvEmptyTitle.text =
-                            Resources.getSystem().getString(R.string.home_gemstone_empty_title)
-                        tvEmptyContent.text =
-                            Resources.getSystem().getString(R.string.home_gemstone_empty_content)
+                        // Resources.getSystem().getString(R.string.home_jewel_empty_content)
+                        tvEmptyTitle.text = "아직 고민 원석이 없네요!"
+                        tvEmptyContent.text = "+ 버튼을 클릭해 고민을 작성해보세요."
                     }
                 }
 
                 1 -> { // 보석
                     with(binding) {
                         ivEmpty.setImageResource(R.drawable.gem_blue_s_off)
-                        tvEmptyTitle.text =
-                            Resources.getSystem().getString(R.string.home_jewel_empty_title)
-                        tvEmptyContent.text =
-                            Resources.getSystem().getString(R.string.home_jewel_empty_content)
+                        tvEmptyTitle.text = "아직 고민 보석이 없네요!"
+                        tvEmptyContent.text = "원석을 터치해 고민 보석을 캐내보세요."
                     }
                 }
             }
