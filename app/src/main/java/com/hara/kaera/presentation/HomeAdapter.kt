@@ -1,7 +1,6 @@
 package com.hara.kaera.presentation
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
@@ -14,17 +13,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.R
-import com.hara.kaera.databinding.ItemHomeGemsBinding
+import com.hara.kaera.databinding.LayoutHomeGemsBinding
 
 // [HomeFragment] ViewPager2 Adapter
 class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiffCallback) {
-    private lateinit var binding: ItemHomeGemsBinding
+    private lateinit var binding: LayoutHomeGemsBinding
 
-    class HomeItemViewHolder(val binding: ItemHomeGemsBinding) :
+    class HomeItemViewHolder(val binding: LayoutHomeGemsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        binding = ItemHomeGemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = LayoutHomeGemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeItemViewHolder(binding)
     }
 
