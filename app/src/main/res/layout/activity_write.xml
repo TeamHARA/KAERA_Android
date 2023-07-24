@@ -103,6 +103,8 @@
                 android:layout_height="0dp"
                 android:fillViewport="true"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_choice">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,25 +124,19 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <include
-                        android:id="@+id/edit_name"
-                        layout="@layout/layout_gray3_edittext"
-                        app:layoutHint="@{@string/write_naming_hint}"
+                    <EditText
+                        android:id="@+id/et_title"
+                        style="@style/Write_Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_margin_start"
+                        android:background="@drawable/shape_rect_gray3_8"
+                        android:hint="@string/write_naming_hint"
+                        android:maxLength="7"
+                        android:paddingVertical="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_please_name" />
-
-                    <TextView
-                        android:id="@+id/tv_wirte_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/main_margin_start"
-                        android:layout_marginTop="26dp"
-                        android:text="@string/write_content"
-                        android:textAppearance="@style/h_body2_r16"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
                     <TextView
                         android:id="@+id/tv_template_induction"
@@ -152,7 +148,7 @@
                         android:textAppearance="@style/h_body4_r14"
                         android:textColor="@color/gray_5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_wirte_content" />
+                        app:layout_constraintTop_toBottomOf="@+id/et_title" />
 
                     <include
                         android:id="@+id/cl_empty"

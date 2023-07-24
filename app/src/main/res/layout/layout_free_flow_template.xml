@@ -15,10 +15,11 @@
 
         <!-- TODO #8 에서 만든 shape 적용 -->
         <EditText
+            style="@style/Write_Edittext"
             android:id="@+id/et_freeflow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray_3" />
+            android:background="@drawable/shape_rect_gray3_8" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
