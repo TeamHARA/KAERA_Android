@@ -3,6 +3,7 @@ package com.hara.kaera.presentation.write
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.widget.addTextChangedListener
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.presentation.base.BindingActivity
@@ -14,9 +15,16 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private val viewModel by viewModels<WriteViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //binding.clEmpty.visibility = View.INVISIBLE
+        setTextWatcher()
         setClickListeners()
         addObserve()
+    }
+
+    private fun setTextWatcher() {
+        binding.etTitle.addTextChangedListener {
+            if(it?.length == 0) binding.tvTitleCount.text = "0/7"
+            else binding.tvTitleCount.text = "${it!!.length}/7"
+        }
     }
 
     private fun setClickListeners() {
