@@ -119,7 +119,6 @@
             android:textAppearance="@style/h_body4_r14"
             android:textColor="@color/white"
             android:visibility="@{templatedata.thanksTo == null ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_answer4"
             tools:text="Thanks To 안드" />
