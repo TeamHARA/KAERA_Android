@@ -1,10 +1,10 @@
 package com.hara.kaera.domain.repository
 
-import com.hara.kaera.data.data.TemplateTypeDTO
+import com.hara.kaera.domain.entity.TemplateTypesEntity
 import kotlinx.coroutines.flow.Flow
 
 interface KaeraRepository {
 
-    suspend fun getAllTemplateTypesInfo(): Flow<TemplateTypeDTO>
+    fun getAllTemplateTypesInfo(): Flow<TemplateTypesEntity>
 
 }
