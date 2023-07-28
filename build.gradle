@@ -2,7 +2,7 @@
 buildscript {
     ext {
         kotlin_version = '1.4.10'
-        hilt_version = '2.42'
+        hilt_version = '2.46.1'
     }
 
     dependencies {
@@ -16,5 +16,4 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
     id 'com.google.gms.google-services' version "4.3.15" apply false
     id 'com.google.firebase.crashlytics' version '2.9.7' apply false
-    id 'com.google.dagger.hilt.android' version '2.41' apply false
 }
