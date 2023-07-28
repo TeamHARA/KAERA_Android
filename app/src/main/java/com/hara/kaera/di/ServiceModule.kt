@@ -1,11 +1,21 @@
 package com.hara.kaera.di
 
+import com.hara.kaera.data.datasource.KaeraService
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ServiceModule {
-    //TODO ViewModel 주입
+
+    @Singleton
+    @Provides
+    fun provideKaeraService(@DataSourceModule.KAREARetrofit kaeraService: Retrofit): KaeraService {
+        return kaeraService.create(KaeraService::class.java)
+    }
+
 }

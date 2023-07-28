@@ -59,7 +59,7 @@ object DataSourceModule {
     @Singleton
     @Provides
     @KAREARetrofit
-    fun provideHARARetrofit(okHttpClient: OkHttpClient): Retrofit =
+    fun provideKAERARetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL) //local.properties
             .client(okHttpClient)
