@@ -1,6 +1,13 @@
-package com.hara.kaera.data.data
+package com.hara.kaera.data.dto
 
 import kotlinx.serialization.Serializable
+
+/*
+DTO라는 이름은 애초에 변경이 가능한 클래스이다 그리도
+아래를 보게되면 status, success등 뷰에서는 필요없는 정보들이 존재하므로
+이런 필드들은 나중에 Mapper를 통해서 삭제될것이다. 하지만 서버에서 주는 데이터는 그대로 받아야 하므로
+평소처럼 JsonToDataClass 플러그인으로 생성하면된다!
+ */
 
 @Serializable
 data class TemplateTypeDTO(
