@@ -1,72 +1,29 @@
 package com.hara.kaera.di
 
-import com.hara.kaera.BuildConfig
-import com.hara.kaera.application.Constant
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.hara.kaera.data.datasource.KaeraApi
+import com.hara.kaera.data.datasource.KaeraDataSource
+import com.hara.kaera.data.datasource.KaeraDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
-
+/*
+    원래 DataSoure는 remote와 local로 나누어진다 하지만 우리는 없기때문에 현재 
+    remote부분의 실제 kaeraApi를 사용해야 하는 retrofit 객체를 주입받아서 만들어진 DataSource를
+    레포짓토리에다가 주입하기 위한 모듈
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DataSourceModule {
 
     @Provides
     @Singleton
-    fun providesHeaderInterceptor() = Interceptor { chain ->
-        with(chain) {
-            val request = request().newBuilder()
-                .addHeader("Accept", "application/json")
-                .build()
-            proceed(request)
-        }
+    fun provideKaeraDataSource(
+        kaeraApi: KaeraApi
+    ): KaeraDataSource {
+        return KaeraDataSourceImpl(kaeraApi)
     }
-
-    @Provides
-    @Singleton
-    fun providesLoggerInterceptor() = HttpLoggingInterceptor().apply {
-        level = if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor.Level.BODY
-        } else {
-            HttpLoggingInterceptor.Level.NONE
-        }
-    }
-
-    @Provides
-    @Singleton
-    fun providesOkHttpClient(
-        headerInterceptor: Interceptor,
-        loggerInterceptor: HttpLoggingInterceptor
-    ) =
-        OkHttpClient.Builder()
-            .addInterceptor(headerInterceptor)
-            .addInterceptor(loggerInterceptor)
-            .build()
-
-
-    @OptIn(ExperimentalSerializationApi::class)
-    @Singleton
-    @Provides
-    @KAREARetrofit
-    fun provideKAERARetrofit(okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL) //local.properties
-            .client(okHttpClient)
-            .addConverterFactory(Json.asConverterFactory(Constant.APPLICATION_JSON.toMediaType()))
-            .build()
-
-    @Qualifier
-    annotation class KAREARetrofit
 
 }
