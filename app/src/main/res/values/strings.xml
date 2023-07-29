@@ -23,6 +23,7 @@
     <string name="complete_tilte">이 고민, 어떻게 캐낼까요?</string>
     <string name="complete_subtitle">고민 끝에 결정한 나의 생각을 적어주세요!</string>
     <string name="complete_hint">40자 이내로 적어주세요.</string>
+    <string name="saying_shining">이 고민을 통해 더욱 빛나기를!</string>
 
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>
