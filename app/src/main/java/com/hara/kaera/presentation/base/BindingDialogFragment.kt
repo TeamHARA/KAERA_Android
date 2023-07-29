@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import com.hara.kaera.R
 import com.hara.kaera.presentation.util.dpToPx
 
 abstract class BindingDialogFragment<T : ViewDataBinding>(
@@ -17,6 +18,7 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     private var _binding: T? = null
     val binding get() = requireNotNull(_binding) { "${this.id} binding error" }
 
+    override fun getTheme(): Int = R.style.NoMarginsDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,10 +26,9 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         _binding!!.lifecycleOwner = viewLifecycleOwner
+        setupWidthToMatchParent()
         return binding.root
     }
-
-    //override fun getTheme(): Int = R.style.NoMarginsDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +37,13 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
             marginEnd = marginHorizontal.dpToPx(binding.root.context)
             marginStart = marginHorizontal.dpToPx(binding.root.context)
         }
+    }
+
+    private fun setupWidthToMatchParent() {
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun onDestroyView() {

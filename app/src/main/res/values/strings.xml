@@ -16,6 +16,10 @@
     <string name="write_empty">선택된 템플릿이 없어요!</string>
     <string name="write_empty_induction">템플릿에 따라 고민의 내용을 적어보세요</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
+    <string name="detail_edit">수정하기</string>
+    <string name="detail_deadline_edit">데드라인 수정하기</string>
+    <string name="detail_delete">삭제하기</string>
+    <string name="detail_cancel">취소</string>
 
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>
