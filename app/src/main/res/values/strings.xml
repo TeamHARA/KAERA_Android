@@ -24,6 +24,9 @@
     <string name="complete_subtitle">고민 끝에 결정한 나의 생각을 적어주세요!</string>
     <string name="complete_hint">40자 이내로 적어주세요.</string>
     <string name="saying_shining">이 고민을 통해 더욱 빛나기를!</string>
+    <string name="instagram_first">🎉 처음 캔 보석이에요 🎉</string>
+    <string name="instagram_share_induction">친구들에게 처음 캐낸 내 고민 보석을 공유해보세요!</string>
+    <string name="instagram_share_button">인스타 스토리 공유하기</string>
 
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>

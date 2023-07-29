@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/saying_shining"
+            android:text="@string/instagram_first"
             android:textAppearance="@style/h_head3_b18"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,20 +35,35 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_jewel" />
 
         <TextView
-            android:id="@+id/tv_saying"
+            android:id="@+id/tv_share_induction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
             android:layout_marginBottom="43dp"
-            android:text="고민하면서 길을 찾는 사람들, 그들은 참된 인간상이다\n- 파스칼 -"
+            android:text="@string/instagram_share_induction"
             android:textAlignment="center"
-            android:textAppearance="@style/h_modal_r13"
-            android:textColor="@color/gray_5"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_complete"
+            android:layout_width="175dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="73dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/yellow1"
+            android:padding="0dp"
+            android:text="@string/instagram_share_button"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_share_induction" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
