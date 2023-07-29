@@ -1,6 +1,7 @@
-package com.hara.kaera.presentation
+package com.hara.kaera.presentation.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -8,17 +9,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hara.kaera.databinding.ItemHomeGemsBinding
+import com.hara.kaera.R
+import com.hara.kaera.databinding.LayoutHomeGemsBinding
+import com.hara.kaera.presentation.home.model.Gem
 
 // [HomeFragment] ViewPager2 Adapter
 class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiffCallback) {
-    private lateinit var binding: ItemHomeGemsBinding
+    private lateinit var binding: LayoutHomeGemsBinding
 
-    class HomeItemViewHolder(val binding: ItemHomeGemsBinding) :
+    class HomeItemViewHolder(val binding: LayoutHomeGemsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        binding = ItemHomeGemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = LayoutHomeGemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeItemViewHolder(binding)
     }
 
@@ -53,8 +56,13 @@ class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiff
                     val childView = binding.rootGems.getChildAt(p)
                     if (childView is ConstraintLayout) {
                         //(childView.getChildAt(0) as ImageView).load(cur.image)
-                        val delay = (0..1000).random()
-                        floatingAnimationWithValueAnimator(delay, 1000, childView, -20F).start()
+                        val delay = (0..700).random()
+                        FloatingAnimation.floatingAnimationWithValueAnimator(
+                            delay,
+                            900,
+                            childView,
+                            -30F
+                        ).start()
                         with(childView.getChildAt(0) as ImageView) {
                             setImageResource(curList[p].image)
                             // 세트(보석+라벨)가 움직이는 것에 추가로 보석을 움직이게 한다
@@ -63,24 +71,6 @@ class HomeAdapter : ListAdapter<List<Gem>, RecyclerView.ViewHolder>(HomeListDiff
                         (childView.getChildAt(1) as TextView).text = curList[p].title
                     }
                 }
-            }
-        }
-    }
-
-    private fun floatingAnimationWithValueAnimator(
-        start: Int,
-        dur: Long,
-        view: View,
-        movement: Float
-    ): ValueAnimator {
-        return ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = dur
-            repeatMode = ValueAnimator.REVERSE
-            repeatCount = ValueAnimator.INFINITE
-            interpolator = AccelerateDecelerateInterpolator()
-            startDelay = start.toLong()
-            addUpdateListener {
-                view.translationY = animatedValue as Float * movement
             }
         }
     }

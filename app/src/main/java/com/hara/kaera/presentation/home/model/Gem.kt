@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation
+package com.hara.kaera.presentation.home.model
 
 import androidx.annotation.DrawableRes
 

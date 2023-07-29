@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.presentation.base.BindingActivity
+import com.hara.kaera.presentation.home.HomeFragment
 import com.hara.kaera.presentation.util.navigateTo
 import com.hara.kaera.presentation.write.WriteActivity
 
