@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 아직 고민 원석이 없네요 -->
+    <!-- empty view -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_empty"
         android:layout_width="match_parent"
@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="120dp"
             android:layout_marginTop="114dp"
-            android:src="@drawable/empty_stone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/empty_stone" />
 
         <TextView
             android:id="@+id/tv_empty_title"
@@ -32,11 +32,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:text="아직 고민 원석이 없네요!"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/iv_empty"
             app:layout_constraintStart_toStartOf="@id/iv_empty"
-            app:layout_constraintTop_toBottomOf="@id/iv_empty" />
+            app:layout_constraintTop_toBottomOf="@id/iv_empty"
+            tools:text="@string/home_gemstone_empty_title" />
 
         <TextView
             android:id="@+id/tv_empty_content"
@@ -44,15 +44,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="+ 버튼을 클릭해 고민을 작성해보세요."
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/iv_empty"
             app:layout_constraintStart_toStartOf="@id/iv_empty"
-            app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_empty_title"
+            tools:text="@string/home_gemstone_empty_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 원석/보석 뷰 -->
+    <!-- gem 뷰 -->
     <GridLayout
         android:id="@+id/root_gems"
         android:layout_width="match_parent"
@@ -66,8 +66,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <include
-            android:id="@+id/view_gemstone_1"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_1"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -75,8 +75,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_2"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_2"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -84,8 +84,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_3"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_3"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -93,8 +93,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_4"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_4"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -102,8 +102,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_5"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_5"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -111,8 +111,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_6"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_6"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -120,8 +120,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_7"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_7"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -129,8 +129,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_8"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_8"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -138,8 +138,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_9"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_9"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -147,8 +147,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_10"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_10"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -156,8 +156,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_11"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_11"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
@@ -165,8 +165,8 @@
             android:layout_gravity="center_vertical" />
 
         <include
-            android:id="@+id/view_gemstone_12"
-            layout="@layout/item_home_a_gem"
+            android:id="@+id/layout_gem_12"
+            layout="@layout/layout_home_gem_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"

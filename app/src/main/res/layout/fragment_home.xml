@@ -26,16 +26,18 @@
             android:id="@+id/tv_label_under_logo"
             style="@style/h_body2_r16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="19.1dp"
             android:background="@drawable/shape_rect_gray5_10"
+            android:gravity="center"
+            android:includeFontPadding="false"
             android:paddingHorizontal="14dp"
             android:paddingVertical="4dp"
-            android:text="열심히 캐내는 중"
             android:textColor="@color/gray_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_kaera_logo" />
+            app:layout_constraintTop_toBottomOf="@id/iv_kaera_logo"
+            tools:text="💖" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_container"
