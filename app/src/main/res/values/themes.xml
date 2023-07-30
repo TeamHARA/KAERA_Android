@@ -96,5 +96,18 @@
         <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
+    <!-- 피커 커스텀을 위한 스타일 -->
+    <style name="numberPickerCustomSize">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:colorControlNormal">@color/gray_5</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <!-- 기본 다이얼로그에서 제공하는 패딩과 하얀색 배경색을 제거 -->
+    <style name="NoMarginsDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 
 </resources>
