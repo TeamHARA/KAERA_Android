@@ -11,7 +11,7 @@ import com.hara.kaera.presentation.util.GlobalDiffCallBack
 import com.hara.kaera.presentation.write.data.TemplateData
 import kotlinx.coroutines.selects.select
 
-class TemplateChoiceAdapter() :
+class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit) :
     ListAdapter<TemplateData, TemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
 
     private lateinit var inflater: LayoutInflater
@@ -48,6 +48,7 @@ class TemplateChoiceAdapter() :
 
             this.root.setOnClickListener {
                 selectedPosition = position
+                itemClickListenr(curItem.templateId)
                 lastItemSelectedPosition = if (lastItemSelectedPosition == -1) {
                     selectedPosition
                 } else {
