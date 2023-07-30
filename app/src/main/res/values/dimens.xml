@@ -5,6 +5,6 @@
     <dimen name="gem_large">80dp</dimen>
     <dimen name="gem_medium">60dp</dimen>
     <dimen name="gem_small">46dp</dimen>
-    <dimen name="main_margin_start">12dp</dimen>
+    <dimen name="main_margin_start">16dp</dimen>
 
 </resources>

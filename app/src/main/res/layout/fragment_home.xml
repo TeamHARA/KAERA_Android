@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.HomeFragment">
+    tools:context=".presentation.home.HomeFragment">
 
     <data>
 
@@ -10,13 +10,61 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/blue">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_kaera_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24.5dp"
+            android:src="@drawable/icn_kaera_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_label_under_logo"
+            style="@style/h_body2_r16"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="19.1dp"
+            android:background="@drawable/shape_rect_gray5_10"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/gray_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_kaera_logo"
+            tools:text="💖" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="51dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintBottom_toTopOf="@id/vp_dots_indicator"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_under_logo" />
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/vp_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            app:dotsColor="@color/gray_3"
+            app:dotsCornerRadius="10dp"
+            app:dotsSize="8dp"
+            app:dotsSpacing="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vp_container"
+            app:progressMode="false"
+            app:selectedDotColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
