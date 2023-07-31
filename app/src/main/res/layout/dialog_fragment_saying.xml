@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rect_gray3_8">
+        android:background="@drawable/shape_rect_gray2_8">
 
         <ImageView
             android:id="@+id/iv_jewel"
@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
             android:layout_marginBottom="43dp"
+            android:lineSpacingExtra="7.8sp"
             android:text="고민하면서 길을 찾는 사람들, 그들은 참된 인간상이다\n- 파스칼 -"
             android:textAlignment="center"
             android:textAppearance="@style/h_modal_r13"

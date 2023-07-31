@@ -7,7 +7,7 @@ import com.hara.kaera.databinding.DialogFragmentEditBinding
 import com.hara.kaera.presentation.base.BindingDialogFragment
 
 class DialogEditFragment :
-    BindingDialogFragment<DialogFragmentEditBinding>(R.layout.dialog_fragment_edit, 24) {
+    BindingDialogFragment<DialogFragmentEditBinding>(R.layout.dialog_fragment_edit, 26) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

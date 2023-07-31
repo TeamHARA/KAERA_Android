@@ -6,11 +6,10 @@
 
     </data>
 
-    <!-- TODO  배경 바꾸기 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rect_gray3_8">
+        android:background="@drawable/shape_rect_gray2_8">
 
         <ImageView
             android:id="@+id/iv_close"
@@ -80,11 +79,11 @@
             android:layout_height="30dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
-            android:background="@color/yellow1"
-            android:padding="0dp"
+            android:background="@drawable/selector_rect_gray4_yellow1_8"
+            android:enabled="false"
             android:text="@string/complete"
             android:textAppearance="@style/h_body4_r14"
-            android:textColor="@color/black"
+            android:textColor="@drawable/selector_text_white_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
