@@ -17,6 +17,12 @@
     <string name="write_empty_induction">템플릿에 따라 고민의 내용을 적어보세요</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
 
+    <!--  보관함  -->
+    <string name="storage_title">고민 보석함</string>
+    <string name="storage_templete">모든 보석 보기</string>
+    <string name="storage_empty">아직 고민 원석이 없네요!</string>
+    <string name="storage_empty_induction">고민글 작성을 통해\n고민 원석을 새롭게 추가헤볼까요?</string>
+
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>
     <string name="home_stone_empty_title">아직 고민 원석이 없네요!</string>
