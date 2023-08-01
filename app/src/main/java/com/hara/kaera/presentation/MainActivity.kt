@@ -6,6 +6,7 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.home.HomeFragment
+import com.hara.kaera.presentation.storage.StorageFragment
 import com.hara.kaera.presentation.util.navigateTo
 import com.hara.kaera.presentation.write.WriteActivity
 
@@ -31,7 +32,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
 
                     R.id.nav_storage -> {
-                        this@MainActivity.navigateTo<TempStorageFragment>(fragContainerId = R.id.cl_fragment_container)
+                        this@MainActivity.navigateTo<StorageFragment>(fragContainerId = R.id.cl_fragment_container)
                         return@setOnItemSelectedListener true
                     }
 
