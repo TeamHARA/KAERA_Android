@@ -7,6 +7,8 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id ("kotlinx-serialization")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -85,4 +87,22 @@ dependencies {
 
     // home viewpager2 dot indicator
     implementation("com.tbuonomo:dotsindicator:5.0")
+
+
+
+    //kotlinx-serialization
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
+    //retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+
+    // okhttp3
+    implementation (platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    implementation ("com.squareup.okhttp3:okhttp")
+    implementation ("com.squareup.okhttp3:logging-interceptor")
+
+    //dependency inject hilt
+    implementation ("com.google.dagger:hilt-android:2.46.1")
+    kapt ("com.google.dagger:hilt-compiler:2.46.1")
 }
