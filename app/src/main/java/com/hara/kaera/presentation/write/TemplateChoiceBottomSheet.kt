@@ -10,21 +10,26 @@ import com.hara.kaera.presentation.write.adapter.TemplateChoiceAdapter
 import com.hara.kaera.presentation.write.data.DummyTemplateData
 
 class TemplateChoiceBottomSheet(
-    private val templateClickListener: (Int) -> Unit
+    private val templateClickListener: (Int) -> Unit,
+    private val mode: Mode,
 ) : BindingDraggableBottomSheet<BottomsheetTemplateChoiceBinding>(R.layout.bottomsheet_template_choice) {
 
     private lateinit var templateAdapter: TemplateChoiceAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        templateAdapter = TemplateChoiceAdapter() {
+        templateAdapter = TemplateChoiceAdapter({
             templateClickListener(it)
-        }
+        }, mode)
         binding.rcvTemplate.apply {
             adapter = templateAdapter
             addItemDecoration(LastItemMarginItemDecoration(resources.getDimensionPixelOffset(R.dimen.template_recyclerview_lastmargin)))
         }
         templateAdapter.submitList(DummyTemplateData.templateList)
     }
+}
 
+enum class Mode {
+    WRITE,
+    STORAGE,
 }
