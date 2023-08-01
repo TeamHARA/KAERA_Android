@@ -7,8 +7,8 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id ("kotlinx-serialization")
-    id ("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -56,53 +56,43 @@ fun getLocalProperties(propertyKey: String): String {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.5.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    //firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    //Firebase Crashlytics
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-
-    //Timber
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(Dependency.AndroidX.CORE)
+    implementation(Dependency.AndroidX.APPCOMPAT)
+    implementation(Dependency.AndroidX.CONSTRAINTLAYOUT)
+    implementation(Dependency.AndroidX.LEGACY)
+    implementation(Dependency.AndroidX.LIVEDATA)
+    implementation(Dependency.AndroidX.VIEWMODEL)
+    implementation(Dependency.AndroidX.VIEWPAGER2)
 
     // ViewModel delegate: by viewModels() 이용해 viewModel 생성
-    implementation("androidx.activity:activity-ktx:1.7.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.7")
+    implementation(Dependency.AndroidX.ACTIVITY)
+    implementation(Dependency.AndroidX.FRAGMENT)
 
-    // ViewPager2
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation(Dependency.Android.MATERIAL)
 
-    // Coil
-    implementation("io.coil-kt:coil:2.3.0")
+    testImplementation(Dependency.Test.JUNIT)
+    androidTestImplementation(Dependency.AndroidTest.JUNIT)
+    androidTestImplementation(Dependency.AndroidTest.ESPRESSO)
 
+    implementation(platform(Dependency.Firebase.FIREBASE_BOM))
+    implementation(Dependency.Firebase.FIREBASE_ANALYTICS)
+    implementation(Dependency.Firebase.FIREBASE_CRASHLYTICS)
+
+    //Timber
+    implementation(Dependency.ThirdParty.TIMBER)
     // home viewpager2 dot indicator
-    implementation("com.tbuonomo:dotsindicator:5.0")
+    implementation(Dependency.ThirdParty.DOT_INDICATOR)
 
+    implementation(Dependency.Kotlin.COIL)
+    implementation(Dependency.Kotlin.KOTLIN_SERIALIZATION)
 
+    implementation(Dependency.Retrofit2.SQUAREUP_RETROFIT2)
+    implementation(Dependency.Retrofit2.RETROFIR2_SERIALIZATIOM)
 
-    //kotlinx-serialization
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation(platform(Dependency.Okhttp3.OKHTTP3_BOM))
+    implementation(Dependency.Okhttp3.OKHTTP3)
+    implementation(Dependency.Okhttp3.OKHTTP3_LOGGING_INTERCEPTOR)
 
-    //retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
-
-    // okhttp3
-    implementation (platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-    implementation ("com.squareup.okhttp3:okhttp")
-    implementation ("com.squareup.okhttp3:logging-interceptor")
-
-    //dependency inject hilt
-    implementation ("com.google.dagger:hilt-android:2.46.1")
-    kapt ("com.google.dagger:hilt-compiler:2.46.1")
+    implementation(Dependency.Hilt.DAGGER_HILT)
+    kapt(Dependency.Hilt.HILT_COMPILER)
 }

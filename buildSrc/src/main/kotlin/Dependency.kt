@@ -37,11 +37,13 @@ object Dependency {
     }
 
     object Kotlin{
-        const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
+        const val KOTLIN_SERIALIZATION_PLUGIN = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
+        const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLINX_SERIALIZATIOM_JSON}"
+        const val COIL = "io.coil-kt:coil:${Versions.COIL}"
     }
 
     object Hilt {
-        const val HILT = "com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}"
+        const val HILT_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}"
         const val DAGGER_HILT = "com.google.dagger:hilt-android:${Versions.HILT_ANDROID}"
         const val HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.HILT_COMPILER}"
     }
@@ -52,7 +54,7 @@ object Dependency {
         const val OKHTTP3_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor"
     }
 
-    object retrofit2{
+    object Retrofit2{
         const val SQUAREUP_RETROFIT2 = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT2}"
         const val RETROFIR2_SERIALIZATIOM = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.RETROFIT2_SERIALIZATION_CONVERTER}"
     }

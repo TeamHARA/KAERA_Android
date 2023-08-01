@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     dependencies {
-        classpath(Dependency.Kotlin.KOTLIN_SERIALIZATION)
-        classpath(Dependency.Hilt.HILT)
+        classpath(Dependency.Kotlin.KOTLIN_SERIALIZATION_PLUGIN)
+        classpath(Dependency.Hilt.HILT_PLUGIN)
     }
 }
 

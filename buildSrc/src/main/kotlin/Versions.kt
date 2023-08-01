@@ -19,10 +19,10 @@ object Versions {
     //ANDROIDX
     const val CORE_KTX = "1.10.0"
     const val APPCOMPAT = "1.6.1"
+    const val CONSTRAINTLAYOUT = "2.1.4"
     const val LEGACY_SUPPORT = "1.0.0"
     const val LIFECYCLE_LIVEDATA = "2.6.1"
     const val LIFECYCLE_VIEWMODEL = "2.6.1"
-    const val CONSTRAINTLAYOUT = "2.1.4"
     const val ACTIVITY = "1.7.2"
     const val FRAGMENT = "1.6.1"
     const val VIEWPAGER2 = "1.0.0"
