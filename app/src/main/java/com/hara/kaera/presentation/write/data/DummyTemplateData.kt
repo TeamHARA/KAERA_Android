@@ -2,6 +2,7 @@ package com.hara.kaera.presentation.write.data
 
 object DummyTemplateData {
     val templateList = listOf<TemplateData>(
+        TemplateData(-1, "모든 보석 보기", "그동안 캐낸 모든 보석을 볼 수 있어요", false), // 고민 보석함
         TemplateData(0, "Free flow", "빈 공간 자유롭게 채우기", false),
         TemplateData(1, "장단점 생각하기", "고민의 장단점을 비교하며 깊게 생각해보세요.", false),
         TemplateData(2, "세번의 왜?", "내 고민 속 물음의 꼬리를 통해 해결책을 찾아가요.", true),

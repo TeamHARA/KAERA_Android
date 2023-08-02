@@ -2,6 +2,7 @@ package com.hara.kaera.presentation.write.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
@@ -52,6 +53,11 @@ class TemplateChoiceAdapter(private val itemClickListener: (Int) -> Unit, privat
                 }
 
                 Mode.STORAGE -> {
+                    if (curItem.templateId == -1) { // '모든 보석 보기'의 경우 보석 이미지 제거
+                        ivGem.visibility = View.GONE
+                    } else {
+                        ivGem.visibility = View.VISIBLE
+                    }
                     // 보관함에서 호출한 경우의 동작
                     if (position == selectedPosition) {
                         holder.binding.root.setBackgroundResource(R.drawable.shape_rect_gray4_10)
