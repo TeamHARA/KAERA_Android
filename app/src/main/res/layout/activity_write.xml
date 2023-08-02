@@ -129,7 +129,7 @@
                         android:hint="@string/write_naming_hint"
                         android:maxLength="7"
                         android:padding="16dp"
-                        android:textAppearance="@style/h_body1_b16"
+                        android:textAppearance="@style/h_body2_r16"
                         android:textColor="@color/white"
                         android:textColorHint="@color/gray_4"
                         app:layout_constraintEnd_toEndOf="parent"

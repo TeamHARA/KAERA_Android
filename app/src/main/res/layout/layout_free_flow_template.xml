@@ -11,22 +11,33 @@
         android:id="@+id/cl_freeflow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rect_gray1_gray3_8"
+        android:background="@color/gray_1"
         android:paddingHorizontal="10dp"
         android:paddingVertical="14dp">
+
+        <TextView
+            android:id="@+id/tv_freeflow_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/write_freeflow_title"
+            android:textAppearance="@style/h_body1_b16"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_freeflow"
             style="@style/Write_Edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_rect_gray3_8"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
-            android:minHeight="350dp"
+            android:minHeight="340dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_freeflow_title" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
