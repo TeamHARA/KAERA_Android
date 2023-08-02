@@ -27,10 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_1"
-                app:navigationIcon="@drawable/icn_close"
-                app:title="@string/write"
-                app:titleTextAppearance="@style/h_head3_b18"
-                app:titleTextColor="@color/white">
+                app:navigationIcon="@drawable/icn_back">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_complete"
@@ -64,18 +61,30 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_template_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="20dp"
                     android:text="@string/write_choice"
                     android:textAppearance="@style/h_body2_r16"
                     android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_template_sub_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="템플릿의 서브 타이틀이 들어감"
+                    android:textAppearance="@style/h_sub1_r12"
+                    android:textColor="@color/gray_5"
+                    app:layout_constraintBottom_toTopOf="@id/divider_gray3"
+                    app:layout_constraintStart_toStartOf="@+id/tv_template_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_template_title" />
 
                 <ImageView
                     android:id="@+id/imv_drop_down"
@@ -84,17 +93,16 @@
                     android:layout_marginEnd="18dp"
                     android:contentDescription="@string/write_choice"
                     android:src="@drawable/icn_drop_down"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_template_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_template_title" />
 
                 <View
-                    android:id="@+id/divider"
+                    android:id="@+id/divider_gray3"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="21dp"
-                    android:background="@drawable/shape_rect_gray3_0"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    android:layout_height="12dp"
+                    android:background="@drawable/shape_rect_gray2_0"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,31 +120,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp">
 
-                    <TextView
-                        android:id="@+id/tv_please_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/main_margin_start"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/write_nameing"
-                        android:textAppearance="@style/h_body2_r16"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/et_title"
-                        style="@style/Write_Edittext"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_margin_start"
-                        android:background="@drawable/shape_rect_gray3_8"
+                        android:layout_height="72dp"
+                        android:background="@color/transparent"
                         android:hint="@string/write_naming_hint"
                         android:maxLength="7"
-                        android:paddingVertical="12dp"
+                        android:padding="16dp"
+                        android:textAppearance="@style/h_body1_b16"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_please_name" />
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/divider_gray2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/shape_rect_gray3_0"
+                        app:layout_constraintTop_toBottomOf="@+id/et_title" />
 
                     <TextView
                         android:id="@+id/tv_title_count"
@@ -144,35 +149,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:text="0/7"
-                        android:textAppearance="@style/h_sub1_r12"
+                        android:textAppearance="@style/h_body2_r16"
                         android:textColor="@color/gray_5"
                         app:layout_constraintBottom_toBottomOf="@+id/et_title"
                         app:layout_constraintEnd_toEndOf="@+id/et_title"
                         app:layout_constraintTop_toTopOf="@+id/et_title" />
-
-                    <TextView
-                        android:id="@+id/tv_template_induction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="18dp"
-                        android:text="@string/write_empty_induction"
-                        android:textAppearance="@style/h_body4_r14"
-                        android:textColor="@color/gray_5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/et_title" />
 
                     <include
                         android:id="@+id/cl_empty"
                         layout="@layout/layout_template_empty"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="26dp"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider_gray2" />
 
                     <include
                         android:id="@+id/cl_template"
@@ -185,7 +178,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider_gray2" />
 
                     <include
                         android:id="@+id/cl_freeflow"
@@ -198,7 +191,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_template_induction" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider_gray2" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
