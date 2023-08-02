@@ -92,7 +92,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             appbarDetail.setNavigationOnClickListener {
                 finish()
             }
-            clChoice.onSingleClick(1000) {
+            clChoice.onSingleClick {
                 TemplateChoiceBottomSheet() {
                     viewModel.setTemplateId(it)
                     Timber.d(viewModel.templateId.value.toString())
