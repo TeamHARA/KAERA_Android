@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
+            android:maxLength="2000"
             android:nextFocusDown="@id/et_answer2"
             app:layout_constraintStart_toStartOf="@+id/tv_question1"
             app:layout_constraintTop_toBottomOf="@+id/tv_question1"
@@ -64,6 +65,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
+            android:maxLength="2000"
             android:nextFocusDown="@id/et_answer3"
             app:layout_constraintStart_toStartOf="@+id/tv_question2"
             app:layout_constraintTop_toBottomOf="@+id/tv_question2" />
@@ -88,6 +90,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
+            android:maxLength="2000"
             android:nextFocusDown="@id/et_answer4"
             app:layout_constraintStart_toStartOf="@+id/tv_question3"
             app:layout_constraintTop_toBottomOf="@+id/tv_question3" />
@@ -111,6 +114,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
+            android:maxLength="2000"
             app:layout_constraintStart_toStartOf="@+id/tv_question4"
             app:layout_constraintTop_toBottomOf="@+id/tv_question4" />
 

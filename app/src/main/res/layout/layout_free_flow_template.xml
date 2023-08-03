@@ -34,6 +34,7 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:minHeight="340dp"
+            android:maxLength="5000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

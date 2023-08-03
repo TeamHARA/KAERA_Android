@@ -141,16 +141,17 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             it.text.clear()
         }
         editTextFreeFlow.text.clear()
+        edittextTitle.text.clear()
     }
 
     private fun checkFreeFlow() {
-        binding.btnComplete.isActivated =
-            editTextFreeFlow.text.isNotEmpty() && edittextTitle.text.isNotEmpty()
+        binding.btnComplete.isEnabled =
+            editTextFreeFlow.text.isNotEmpty() && editTextFreeFlow.text.isNotBlank() && edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
     }
 
     private fun checkTemplate() {
-        binding.btnComplete.isActivated =
-            editTextList.all { it.text.isNotEmpty() } && edittextTitle.text.isNotEmpty()
+        binding.btnComplete.isEnabled =
+            editTextList.all { it.text.isNotEmpty() && it.text.isNotBlank() } && edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
     }
 
 }
