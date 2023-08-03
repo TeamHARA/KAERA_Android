@@ -46,15 +46,15 @@ abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes priva
     open fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
         bottomSheetDialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         val behavior = bottomSheetDialog.behavior
-//        val bottomSheet =
-//            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
-//        val layoutParams = bottomSheet.layoutParams
-//        layoutParams.height = getBottomSheetDialogDefaultHeight()
-//        bottomSheet.layoutParams = layoutParams
+        val bottomSheet =
+            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = getBottomSheetDialogDefaultHeight()
+        bottomSheet.layoutParams = layoutParams
         behavior.apply {
-            state = BottomSheetBehavior.STATE_COLLAPSED
-//            state = BottomSheetBehavior.STATE_EXPANDED
-//            skipCollapsed = true // 바텀 시트를 접을때 절반에서 멈추는 경우를 방지하고 한번에 쭉 내려감
+//            state = BottomSheetBehavior.STATE_COLLAPSED
+            state = BottomSheetBehavior.STATE_EXPANDED
+            skipCollapsed = true // 바텀 시트를 접을때 절반에서 멈추는 경우를 방지하고 한번에 쭉 내려감
             // 일단 남겨둠
             addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {}

@@ -93,10 +93,9 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 finish()
             }
             clChoice.onSingleClick {
-                TemplateChoiceBottomSheet() {
+                TemplateChoiceBottomSheet({
                     viewModel.setTemplateId(it)
-                    Timber.d(viewModel.templateId.value.toString())
-                }.show(supportFragmentManager, "template_choice")
+                }, viewModel.templateId.value ?: -1).show(supportFragmentManager, "template_choice")
             }
             btnComplete.onSingleClick(1000) {
                 Timber.e("complete")
