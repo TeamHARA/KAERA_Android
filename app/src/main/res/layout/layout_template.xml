@@ -123,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@{@string/write_thanksto(templatedata.thanksTo)}"
+            android:text="@{@string/write_thanksto('\u0020')}"
             android:textAppearance="@style/h_body4_r14"
             android:textColor="@color/white"
             android:visibility="@{templatedata.thanksTo == null ? View.GONE : View.VISIBLE}"
