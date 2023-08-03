@@ -19,6 +19,8 @@
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
     <string name="write_title_count">%d/7</string>
     <string name="write_thanksto">Thanks To %s</string>
+    <string name="write_title_error">고민의 제목을 붙여주세요</string>
+    <string name="write_content_error">고민의 내용을 전부 적어주세요</string>
     <string name="detail_edit">수정하기</string>
     <string name="detail_deadline_edit">데드라인 수정하기</string>
     <string name="detail_delete">삭제하기</string>

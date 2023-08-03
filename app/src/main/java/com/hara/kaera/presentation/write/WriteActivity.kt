@@ -27,6 +27,9 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private lateinit var editTextFreeFlow: EditText
     private lateinit var edittextTitle: EditText
 
+    private var titleCondition = false
+    private var contentCondition = false
+
     private val viewModel by viewModels<WriteViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,12 +94,20 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 finish()
             }
             clChoice.onSingleClick {
-                TemplateChoiceBottomSheet({
-                    viewModel.setTemplateId(it)
-                }, viewModel.templateId.value ?: -1).show(supportFragmentManager, "template_choice")
+                if(titleCondition || contentCondition){
+                    //TODO 경고 다이얼로그
+                }else{
+                    TemplateChoiceBottomSheet({
+                        viewModel.setTemplateId(it)
+                    }, viewModel.templateId.value ?: -1).show(supportFragmentManager, "template_choice")
+                }
+
             }
+
             btnComplete.onSingleClick(1000) {
-                Timber.e("complete")
+                if (!titleCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_title_error))
+                else if (!contentCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_content_error))
+                else Timber.e("굿")
             }
         }
     }
@@ -147,13 +158,15 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     }
 
     private fun checkFreeFlow() {
-        binding.btnComplete.isEnabled =
-            editTextFreeFlow.text.isNotEmpty() && editTextFreeFlow.text.isNotBlank() && edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
+        contentCondition = editTextFreeFlow.text.isNotEmpty() && editTextFreeFlow.text.isNotBlank()
+        titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
+        binding.activate = (titleCondition && contentCondition)
     }
 
     private fun checkTemplate() {
-        binding.btnComplete.isEnabled =
-            editTextList.all { it.text.isNotEmpty() && it.text.isNotBlank() } && edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
+        contentCondition = editTextList.all { it.text.isNotEmpty() && it.text.isNotBlank() }
+        titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
+        binding.activate = (titleCondition && contentCondition)
     }
 
 }
