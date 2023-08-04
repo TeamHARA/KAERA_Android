@@ -96,7 +96,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
             clChoice.onSingleClick {
                 if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
-                    DialogSaveWarning.newInstance {
+                    DialogSaveWarning() {
                         TemplateChoiceBottomSheet({
                             viewModel.setTemplateId(it)
                         }, viewModel.templateId.value ?: -1).show(
