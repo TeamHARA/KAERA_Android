@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_rect_gray2_12">
 
-
         <ImageView
             android:id="@+id/iv_warnlight"
             android:layout_width="50dp"
@@ -74,7 +73,6 @@
             android:text="@string/no"
             android:textAppearance="@style/h_body3_b14"
             android:textColor="@color/white" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

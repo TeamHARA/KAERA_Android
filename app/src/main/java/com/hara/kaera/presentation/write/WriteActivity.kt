@@ -18,6 +18,7 @@ import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.hara.kaera.presentation.util.stringOf
+import com.hara.kaera.presentation.write.dialog.DialogSaveWarning
 import timber.log.Timber
 
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
@@ -94,20 +95,29 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 finish()
             }
             clChoice.onSingleClick {
-                if(titleCondition || contentCondition){
-                    //TODO 경고 다이얼로그
-                }else{
+                if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
+                    DialogSaveWarning.newInstance {
+                        TemplateChoiceBottomSheet({
+                            viewModel.setTemplateId(it)
+                        }, viewModel.templateId.value ?: -1).show(
+                            supportFragmentManager,
+                            "template_choice"
+                        )
+                    }.show(supportFragmentManager, "warning")
+                } else {
                     TemplateChoiceBottomSheet({
                         viewModel.setTemplateId(it)
-                    }, viewModel.templateId.value ?: -1).show(supportFragmentManager, "template_choice")
+                    }, viewModel.templateId.value ?: -1).show(
+                        supportFragmentManager,
+                        "template_choice"
+                    )
                 }
-
             }
 
             btnComplete.onSingleClick(1000) {
                 if (!titleCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_title_error))
                 else if (!contentCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_content_error))
-                else Timber.e("굿")
+                else Timber.e("굿") //TODO post 서버통신
             }
         }
     }
