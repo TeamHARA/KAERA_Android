@@ -1,5 +1,6 @@
 package com.hara.kaera.presentation.write
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import com.hara.kaera.R
@@ -10,8 +11,9 @@ import com.hara.kaera.presentation.write.adapter.TemplateChoiceAdapter
 import com.hara.kaera.presentation.write.data.DummyTemplateData
 
 class TemplateChoiceBottomSheet(
-    private val templateClickListener: (Int) -> Unit,
     private val mode: Mode,
+    private val templateClickListener: (Int) -> Unit,
+    private val onDismissed: () -> Unit,
 ) : BindingDraggableBottomSheet<BottomsheetTemplateChoiceBinding>(R.layout.bottomsheet_template_choice) {
 
     private lateinit var templateAdapter: TemplateChoiceAdapter
@@ -25,7 +27,20 @@ class TemplateChoiceBottomSheet(
             adapter = templateAdapter
             addItemDecoration(LastItemMarginItemDecoration(resources.getDimensionPixelOffset(R.dimen.template_recyclerview_lastmargin)))
         }
-        templateAdapter.submitList(DummyTemplateData.templateList)
+        when (mode) {
+            Mode.WRITE -> {
+                templateAdapter.submitList(DummyTemplateData.templateList.subList(1, 8))
+            }
+
+            Mode.STORAGE -> {
+                templateAdapter.submitList(DummyTemplateData.templateList)
+            }
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onDismissed()
     }
 }
 
