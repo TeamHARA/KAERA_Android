@@ -1,8 +1,10 @@
 package com.hara.kaera.data.datasource
 
+import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -20,4 +22,11 @@ class KaeraDataSourceImpl @Inject constructor(
             emit(kaeraApi.getTemplateTypesInfo())
         }
     }
+
+    override fun getTemplateDetail(templateId: Int): Flow<TemplateDetailDTO> {
+        return flow {
+            emit(kaeraApi.getTemplateDetail(templateId))
+        }
+    }
+
 }

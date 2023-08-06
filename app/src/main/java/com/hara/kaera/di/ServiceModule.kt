@@ -32,7 +32,8 @@ object ServiceModule {
     fun providesHeaderInterceptor() = Interceptor { chain ->
         with(chain) {
             val request = request().newBuilder()
-                .addHeader("Accept", "application/json")
+                .addHeader("Accept", Constant.APPLICATION_JSON)
+                .addHeader("Authorization", BuildConfig.BEARER_TOKEN)
                 .build()
             proceed(request)
         }
@@ -70,6 +71,8 @@ object ServiceModule {
             .client(okHttpClient)
             .addConverterFactory(Json.asConverterFactory(Constant.APPLICATION_JSON.toMediaType()))
             .build()
+
+    // 로깅인터셉터 달아서 레트로핏 객체를 제공하는 프로바이저
 
     @Qualifier
     annotation class KAREARetrofit

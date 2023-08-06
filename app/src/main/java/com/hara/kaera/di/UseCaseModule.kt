@@ -1,5 +1,7 @@
 package com.hara.kaera.di
 
+import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
+import com.hara.kaera.domain.usecase.GetTemplateDetailUseCaseImpl
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCaseImpl
 import dagger.Binds
@@ -20,4 +22,9 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToGetTemplateType(getTemplateTypeUseCase: GetTemplateTypeUseCaseImpl): GetTemplateTypeUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToGetTemplateDetail(getTemplateDetailUseCase: GetTemplateDetailUseCaseImpl) : GetTemplateDetailUseCase
+
 }
