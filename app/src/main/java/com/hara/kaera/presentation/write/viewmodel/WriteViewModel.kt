@@ -1,6 +1,5 @@
-package com.hara.kaera.presentation.write
+package com.hara.kaera.presentation.write.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 

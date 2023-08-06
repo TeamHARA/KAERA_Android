@@ -1,14 +1,14 @@
-package com.hara.kaera.presentation.write
+package com.hara.kaera.presentation.write.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
+import com.hara.kaera.presentation.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
