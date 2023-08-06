@@ -16,6 +16,17 @@
     <string name="write_empty">선택된 템플릿이 없어요!</string>
     <string name="write_empty_induction">템플릿에 따라 고민의 내용을 적어보세요</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
+    <string name="detail_edit">수정하기</string>
+    <string name="detail_deadline_edit">데드라인 수정하기</string>
+    <string name="detail_delete">삭제하기</string>
+    <string name="detail_cancel">취소</string>
+    <string name="complete_tilte">이 고민, 어떻게 캐낼까요?</string>
+    <string name="complete_subtitle">고민 끝에 결정한 나의 생각을 적어주세요!</string>
+    <string name="complete_hint">40자 이내로 적어주세요.</string>
+    <string name="saying_shining">이 고민을 통해 더욱 빛나기를!</string>
+    <string name="instagram_first">🎉 처음 캔 보석이에요 🎉</string>
+    <string name="instagram_share_induction">친구들에게 처음 캐낸 내 고민 보석을 공유해보세요!</string>
+    <string name="instagram_share_button">인스타 스토리 공유하기</string>
 
     <!--  보관함  -->
     <string name="storage_title">고민 보석함</string>
