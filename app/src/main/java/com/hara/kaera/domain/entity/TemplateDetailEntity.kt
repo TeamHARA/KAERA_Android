@@ -9,9 +9,10 @@ data class TemplateDetailEntity (
 ) {
     @Serializable
     data class TemplateDetailInfo(
+        val title: String,
+        val info: String,
         val guideline: String,
-        val hints: List<String>,
         val questions: List<String>,
-        val title: String
+        val hints: List<String>
     )
 }
