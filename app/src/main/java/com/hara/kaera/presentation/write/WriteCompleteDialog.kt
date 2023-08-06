@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogCompleteBinding
 import com.hara.kaera.presentation.util.dpToPx
-import com.hara.kaera.presentation.util.setOnSingleClickListener
+import com.hara.kaera.presentation.util.onSingleClick
 
 class WriteCompleteDialog : DialogFragment() {
 
@@ -40,8 +40,8 @@ class WriteCompleteDialog : DialogFragment() {
 
 
     private fun setOnClickListener() {
-        binding.btnComplete.setOnSingleClickListener { }
-        binding.btnNoDeadline.setOnSingleClickListener { }
+        binding.btnComplete.onSingleClick(1000) { }
+        binding.btnNoDeadline.onSingleClick(1000) { }
     }
 
 

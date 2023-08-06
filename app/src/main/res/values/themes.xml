@@ -114,7 +114,8 @@
         <item name="android:scrollHorizontally">false</item>
         <item name="android:textColorHint">@color/gray_4</item>
         <item name="android:layout_marginTop">10dp</item>
-      
+    </style>
+
     <!-- 피커 커스텀을 위한 스타일 -->
     <style name="numberPickerCustomSize">
         <item name="android:textSize">20sp</item>
@@ -128,5 +129,5 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">false</item>
     </style>
-      
+
 </resources>
