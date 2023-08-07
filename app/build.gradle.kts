@@ -25,6 +25,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", getLocalProperties("BASE_URL"))
+        buildConfigField("String", "BEARER_TOKEN", getLocalProperties("BEARER_TOKEN"))
     }
 
     buildTypes {
