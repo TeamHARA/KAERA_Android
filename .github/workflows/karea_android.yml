@@ -29,7 +29,7 @@ jobs:
 
     - name: Access BEARER_TOKEN
       run: |
-        echo BASE_URL=\"$BEARER_TOKEN\" > local.properties
+        echo BEARER_TOKEN=\"$BEARER_TOKEN\" > local.properties
       shell: bash
       env:
         BASE_URL: ${{ secrets.BEARER_TOKEN }}
