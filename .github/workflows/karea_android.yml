@@ -1,8 +1,6 @@
 name: Android CI
 
 on:
-  push:
-    branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
 
@@ -29,6 +27,13 @@ jobs:
       env:
         BASE_URL: ${{ secrets.BASE_URL }}
 
+    - name: Access BEARER_TOKEN
+      run: |
+        echo BASE_URL=\"$BEARER_TOKEN\" > local.properties
+      shell: bash
+      env:
+        BASE_URL: ${{ secrets.BEARER_TOKEN }}
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       
@@ -39,7 +44,7 @@ jobs:
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
-        author_name: <HARA_AOS_CI>
+        author_name: <Kaera_Android_CI>
         fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
