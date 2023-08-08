@@ -1,6 +1,5 @@
 package com.hara.kaera.presentation.base
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
@@ -15,7 +14,7 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.hara.kaera.R
+import dagger.hilt.android.internal.managers.FragmentComponentManager
 
 abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes private val layoutRes: Int) :
     BottomSheetDialogFragment() {
@@ -73,7 +72,9 @@ abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes priva
     private fun getWindowHeight(): Int {
         // Calculate window height for fullscreen use
         val displayMetrics = DisplayMetrics()
-        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        (FragmentComponentManager.findActivity(view?.context) as Activity?)!!.windowManager.defaultDisplay.getMetrics(
+            displayMetrics
+        )
         return displayMetrics.heightPixels
     }
 

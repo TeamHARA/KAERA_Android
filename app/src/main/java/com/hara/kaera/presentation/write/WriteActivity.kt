@@ -12,15 +12,17 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
+import com.hara.kaera.presentation.util.stringOf
+import com.hara.kaera.presentation.write.dialog.DialogSaveWarning
 import com.hara.kaera.presentation.write.viewmodel.TestViewModel
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import com.hara.kaera.presentation.util.stringOf
-import com.hara.kaera.presentation.write.dialog.DialogSaveWarning
 import timber.log.Timber
 
+@AndroidEntryPoint
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
 
@@ -31,6 +33,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var titleCondition = false
     private var contentCondition = false
 
+    private val testViewModel by viewModels<TestViewModel>()
     private val viewModel by viewModels<WriteViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +99,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
             clChoice.onSingleClick {
                 if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
-                    DialogSaveWarning() {
+                    DialogSaveWarning {
                         TemplateChoiceBottomSheet({
                             viewModel.setTemplateId(it)
                         }, viewModel.templateId.value ?: -1).show(

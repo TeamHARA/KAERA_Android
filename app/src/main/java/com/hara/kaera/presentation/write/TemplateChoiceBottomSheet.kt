@@ -8,7 +8,9 @@ import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
 import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
 import com.hara.kaera.presentation.write.adapter.TemplateChoiceAdapter
 import com.hara.kaera.presentation.write.data.DummyTemplateData
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TemplateChoiceBottomSheet(
     private val templateClickListener: (Int) -> Unit,
     private val selectedId: Int
