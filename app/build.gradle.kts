@@ -24,24 +24,38 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField(
-            "String",
-            "BASE_URL",
-            gradleLocalProperties(rootDir).getProperty("BASE_URL")
-        )
-        buildConfigField(
-            "String",
-            "BEARER_TOKEN",
-            gradleLocalProperties(rootDir).getProperty("BEARER_TOKEN")
-        )
+
     }
 
     buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("BASE_URL")
+            )
+            buildConfigField(
+                "String",
+                "BEARER_TOKEN",
+                gradleLocalProperties(rootDir).getProperty("BEARER_TOKEN")
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
+            )
+
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                gradleLocalProperties(rootDir).getProperty("BASE_URL")
+            )
+            buildConfigField(
+                "String",
+                "BEARER_TOKEN",
+                gradleLocalProperties(rootDir).getProperty("BEARER_TOKEN")
             )
         }
     }
