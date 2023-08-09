@@ -20,18 +20,13 @@ jobs:
     - name: Create Local Properties
       run: touch local.properties
       
-    - name: Access BASE_URL
+    - name: Access LocalProperties
       run: |
         echo BASE_URL=\"$BASE_URL\" > local.properties
-      shell: bash
-      env:
-        BASE_URL: ${{ secrets.BASE_URL }}
-
-    - name: Access BEARER_TOKEN
-      run: |
         echo BEARER_TOKEN=\"$BEARER_TOKEN\" > local.properties
       shell: bash
       env:
+        BASE_URL: ${{ secrets.BASE_URL }}
         BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
 
     - name: Grant execute permission for gradlew
