@@ -1,6 +1,8 @@
 name: Android CI
 
 on:
+  push:
+    branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
 
@@ -33,7 +35,7 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew assembleDebug --stacktrace
     
     - name: action-slack
       uses: 8398a7/action-slack@v3
