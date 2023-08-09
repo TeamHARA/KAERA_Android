@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     id("com.android.application")
@@ -11,6 +12,9 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
     namespace = "com.hara.kaera"
     compileSdk = 33
@@ -22,40 +26,17 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "BEARER_TOKEN", properties.getProperty("BEARER_TOKEN"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
     }
 
     buildTypes {
-        debug {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                gradleLocalProperties(rootDir).getProperty("BASE_URL")
-            )
-            buildConfigField(
-                "String",
-                "BEARER_TOKEN",
-                gradleLocalProperties(rootDir).getProperty("BEARER_TOKEN")
-            )
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
-            )
-
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                gradleLocalProperties(rootDir).getProperty("BASE_URL")
-            )
-            buildConfigField(
-                "String",
-                "BEARER_TOKEN",
-                gradleLocalProperties(rootDir).getProperty("BEARER_TOKEN")
             )
         }
     }
