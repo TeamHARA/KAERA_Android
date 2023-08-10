@@ -13,15 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WriteViewModel @Inject constructor(
-    private val useCase: GetTemplateTypeUseCase,
     private val detailUseCase: GetTemplateDetailUseCase
 ) : ViewModel() {
-    private val _templateStateFlow =
-        MutableStateFlow<UiState>(UiState.Loading) // 초기상태는 UiState.Loading상태
 
-    // 값이 주기적으로 바뀔수 있으므로 MuatbleStateFLow로
-    val templateStateFlow = _templateStateFlow.asStateFlow()
-    // View에서 값을 읽어야 하므로 변경불가능 타입인 StateFlow로 준다.
 
     private val _templateDetailFlow = MutableStateFlow<UiState>(UiState.Loading)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
@@ -35,20 +29,7 @@ class WriteViewModel @Inject constructor(
 
     init {
 
-        viewModelScope.launch {
-            kotlin.runCatching {
-                useCase.getTemplateFlow()
-            }.onSuccess {
-                it.collect { collect ->
-                    if (collect.templateTypeList == null) _templateStateFlow.value =
-                        UiState.Error(collect.errorMessage!!)
-                    else _templateStateFlow.value = UiState.Success(collect.templateTypeList)
-                }
-            }.onFailure {
-                throw (it)
-                UiState.Error("서버가 불안정합니다.")
-            }
-        }
+
 
         viewModelScope.launch {
             kotlin.runCatching {

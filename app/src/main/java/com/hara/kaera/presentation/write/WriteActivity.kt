@@ -45,7 +45,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         editTextFreeFlow = binding.clFreeflow.etFreeflow
         edittextTitle = binding.etTitle
 
-
         setTextWatcher()
         setClickListeners()
         collectFlows()
@@ -112,25 +111,19 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 }
             }
         }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.templateStateFlow.collect {
-                    render(it)
-                }
-            }
-        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.templateIdFlow.collect {
-                    if (it == 0) { // freeflow
+                    if (it == 1) { // freeflow
                         binding.clEmpty.root.visibility = View.GONE
                         binding.clTemplate.root.visibility = View.GONE
                         binding.clFreeflow.root.visibility = View.VISIBLE
-                    } else if (it in 1..6) { // freeflow 제외 나머지
+                    } else if (it in 2..6) { // freeflow 제외 나머지
                         binding.clEmpty.root.visibility = View.GONE
                         binding.clFreeflow.root.visibility = View.GONE
                         binding.clTemplate.root.visibility = View.VISIBLE
-                        if (it == 4) binding.clTemplate.tvThanks.visibility = View.VISIBLE
+                        if (it == 5) binding.clTemplate.tvThanks.visibility = View.VISIBLE //thanksTo 템플릿
                         else binding.clTemplate.tvThanks.visibility = View.GONE
                     }
                     clearEditText()
