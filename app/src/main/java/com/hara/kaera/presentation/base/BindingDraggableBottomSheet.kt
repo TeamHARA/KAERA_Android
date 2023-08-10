@@ -1,6 +1,5 @@
 package com.hara.kaera.presentation.base
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
@@ -15,7 +14,7 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.hara.kaera.R
+import dagger.hilt.android.internal.managers.FragmentComponentManager
 
 abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes private val layoutRes: Int) :
     BottomSheetDialogFragment() {
@@ -46,15 +45,15 @@ abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes priva
     open fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
         bottomSheetDialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         val behavior = bottomSheetDialog.behavior
-//        val bottomSheet =
-//            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
-//        val layoutParams = bottomSheet.layoutParams
-//        layoutParams.height = getBottomSheetDialogDefaultHeight()
-//        bottomSheet.layoutParams = layoutParams
+        val bottomSheet =
+            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = getBottomSheetDialogDefaultHeight()
+        bottomSheet.layoutParams = layoutParams
         behavior.apply {
-            state = BottomSheetBehavior.STATE_COLLAPSED
-//            state = BottomSheetBehavior.STATE_EXPANDED
-//            skipCollapsed = true // 바텀 시트를 접을때 절반에서 멈추는 경우를 방지하고 한번에 쭉 내려감
+//            state = BottomSheetBehavior.STATE_COLLAPSED
+            state = BottomSheetBehavior.STATE_EXPANDED
+            skipCollapsed = true // 바텀 시트를 접을때 절반에서 멈추는 경우를 방지하고 한번에 쭉 내려감
             // 일단 남겨둠
             addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {}
@@ -73,7 +72,9 @@ abstract class BindingDraggableBottomSheet<T : ViewDataBinding>(@LayoutRes priva
     private fun getWindowHeight(): Int {
         // Calculate window height for fullscreen use
         val displayMetrics = DisplayMetrics()
-        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        (FragmentComponentManager.findActivity(view?.context) as Activity?)!!.windowManager.defaultDisplay.getMetrics(
+            displayMetrics
+        )
         return displayMetrics.heightPixels
     }
 

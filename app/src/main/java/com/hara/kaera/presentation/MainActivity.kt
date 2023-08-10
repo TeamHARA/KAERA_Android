@@ -8,7 +8,9 @@ import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.home.HomeFragment
 import com.hara.kaera.presentation.util.navigateTo
 import com.hara.kaera.presentation.write.WriteActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
