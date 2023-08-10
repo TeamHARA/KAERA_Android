@@ -16,7 +16,6 @@ import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.write.dialog.DialogSaveWarning
-import com.hara.kaera.presentation.write.viewmodel.TestViewModel
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,7 +32,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var titleCondition = false
     private var contentCondition = false
 
-    private val testViewModel by viewModels<TestViewModel>()
     private val viewModel by viewModels<WriteViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,47 +48,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
         setTextWatcher()
         setClickListeners()
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                testViewModel.templateDetailFlow.collect {
-                    render(it)
-                }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                testViewModel.templateStateFlow.collect {
-                    render(it)
-                }
-            }
-        }
-        // 마찬가지로 코루틴 열고 수집을 하는데 생명주기에 맞춰서 flow가 자동으로
-        // 꺼지고 수집하고 될수 있도록 repeatOnLifeCycle이란걸 사용! 그리고
-        // 뷰모델에 있는 StateFlow에서 뷰모델에서 해줬던것처럼 collect 해준다/
-        // 여기 내부 값은 UiState가 들어오게 된다!
-
+        collectFlows()
     }
-
-
-    private fun render(uiState: UiState) {
-        // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
-        when (uiState) {
-            is UiState.Loading -> {//TODO
-            }
-
-            is UiState.Success<*> -> {
-                Timber.e(uiState.data.toString())
-            }
-
-            is UiState.Error -> {
-                Timber.e(uiState.message)
-            }
-        }
-
-        addObserve()
-    }
-
 
     private fun setClickListeners() {
         binding.apply {
@@ -102,7 +61,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     DialogSaveWarning {
                         TemplateChoiceBottomSheet({
                             viewModel.setTemplateId(it)
-                        }, viewModel.templateId.value ?: -1).show(
+                        }, viewModel.templateIdFlow.value).show(
                             supportFragmentManager,
                             "template_choice"
                         )
@@ -110,7 +69,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 } else {
                     TemplateChoiceBottomSheet({
                         viewModel.setTemplateId(it)
-                    }, viewModel.templateId.value ?: -1).show(
+                    }, viewModel.templateIdFlow.value).show(
                         supportFragmentManager,
                         "template_choice"
                     )
@@ -130,7 +89,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             binding.tvTitleCount.text =
                 String.format(this.stringOf(R.string.write_title_count), it!!.length)
 
-            if (viewModel.templateId.value == 0) checkFreeFlow()
+            if (viewModel.templateIdFlow.value == 0) checkFreeFlow()
             else checkTemplate()
         }
         editTextFreeFlow.addTextChangedListener {
@@ -145,21 +104,43 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         }
     }
 
-    private fun addObserve() {
-        viewModel.templateId.observe(this) {
-            if (it == 0) { // freeflow
-                binding.clEmpty.root.visibility = View.GONE
-                binding.clTemplate.root.visibility = View.GONE
-                binding.clFreeflow.root.visibility = View.VISIBLE
-            } else if (it in 1..6) { // freeflow 제외 나머지
-                binding.clEmpty.root.visibility = View.GONE
-                binding.clFreeflow.root.visibility = View.GONE
-                binding.clTemplate.root.visibility = View.VISIBLE
-                if (it == 4) binding.clTemplate.tvThanks.visibility = View.VISIBLE
-                else binding.clTemplate.tvThanks.visibility = View.GONE
+    private fun collectFlows() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.templateDetailFlow.collect {
+                    render(it)
+                }
             }
-            clearEditText()
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.templateStateFlow.collect {
+                    render(it)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.templateIdFlow.collect {
+                    if (it == 0) { // freeflow
+                        binding.clEmpty.root.visibility = View.GONE
+                        binding.clTemplate.root.visibility = View.GONE
+                        binding.clFreeflow.root.visibility = View.VISIBLE
+                    } else if (it in 1..6) { // freeflow 제외 나머지
+                        binding.clEmpty.root.visibility = View.GONE
+                        binding.clFreeflow.root.visibility = View.GONE
+                        binding.clTemplate.root.visibility = View.VISIBLE
+                        if (it == 4) binding.clTemplate.tvThanks.visibility = View.VISIBLE
+                        else binding.clTemplate.tvThanks.visibility = View.GONE
+                    }
+                    clearEditText()
+                }
+            }
+        }
+        // 마찬가지로 코루틴 열고 수집을 하는데 생명주기에 맞춰서 flow가 자동으로
+        // 꺼지고 수집하고 될수 있도록 repeatOnLifeCycle이란걸 사용! 그리고
+        // 뷰모델에 있는 StateFlow에서 뷰모델에서 해줬던것처럼 collect 해준다/
+        // 여기 내부 값은 UiState가 들어오게 된다!
     }
 
     private fun clearEditText() {
@@ -180,6 +161,22 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         contentCondition = editTextList.all { it.text.isNotEmpty() && it.text.isNotBlank() }
         titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
         binding.activate = (titleCondition && contentCondition)
+    }
+
+    private fun render(uiState: UiState) {
+        // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
+        when (uiState) {
+            is UiState.Loading -> {//TODO
+            }
+
+            is UiState.Success<*> -> {
+                Timber.e(uiState.data.toString())
+            }
+
+            is UiState.Error -> {
+                Timber.e(uiState.message)
+            }
+        }
     }
 
 }
