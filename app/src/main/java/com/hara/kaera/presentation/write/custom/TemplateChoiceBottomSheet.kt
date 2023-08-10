@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.write
+package com.hara.kaera.presentation.write.custom
 
 import android.os.Bundle
 import android.view.View

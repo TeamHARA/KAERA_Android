@@ -15,7 +15,8 @@ import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
-import com.hara.kaera.presentation.write.dialog.DialogSaveWarning
+import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
+import com.hara.kaera.presentation.write.custom.DialogSaveWarning
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

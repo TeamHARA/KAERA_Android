@@ -21,7 +21,7 @@ class TemplateBottomSheetChoiceAdapter(
     private lateinit var inflater: LayoutInflater
 
     /* 선택한 위치의 값을 저장해주는 필드 */
-    private var selectedPosition = selectedId
+    private var selectedPosition = selectedId - 1
 
     /* 이전에 선택한 위치의 값을 저장해주는 필드*/
     private var lastItemSelectedPosition = -1
