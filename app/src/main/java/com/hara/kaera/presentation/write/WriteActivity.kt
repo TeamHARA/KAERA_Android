@@ -16,6 +16,7 @@ import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
+import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.custom.DialogSaveWarning
 import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
@@ -133,24 +134,24 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Success<*> -> {
-                binding.loadingBar.visibility = View.GONE
+                binding.loadingBar.visible(false)
                 if (viewModel.templateIdFlow.value == 1) { // freeflow
                     binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clFreeflow.templatedata =
                         uiState.data as TemplateDetailEntity.TemplateDetailInfo
-                    binding.clEmpty.root.visibility = View.GONE
-                    binding.clTemplate.root.visibility = View.GONE
-                    binding.clFreeflow.root.visibility = View.VISIBLE
+                    binding.clEmpty.root.visible(false)
+                    binding.clTemplate.root.visible(false)
+                    binding.clFreeflow.root.visible(true)
                 } else if (viewModel.templateIdFlow.value in 2..6) { // freeflow 제외 나머지
                     binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clTemplate.templatedata =
                         uiState.data as TemplateDetailEntity.TemplateDetailInfo
-                    binding.clEmpty.root.visibility = View.GONE
-                    binding.clFreeflow.root.visibility = View.GONE
-                    binding.clTemplate.root.visibility = View.VISIBLE
+                    binding.clEmpty.root.visible(false)
+                    binding.clFreeflow.root.visible(false)
+                    binding.clTemplate.root.visible(true)
                     if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visibility =
                         View.VISIBLE //thanksTo 템플릿
-                    else binding.clTemplate.tvThanks.visibility = View.GONE
+                    else binding.clTemplate.tvThanks.visible(false)
                 }
                 clearEditText()
             }

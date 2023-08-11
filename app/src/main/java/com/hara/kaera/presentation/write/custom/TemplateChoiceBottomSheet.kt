@@ -12,6 +12,7 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
 import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.adapter.TemplateBottomSheetChoiceAdapter
 import com.hara.kaera.presentation.write.viewmodel.TemplateChoiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,11 +46,11 @@ class TemplateChoiceBottomSheet(
                 viewModel.templateStateFlow.collect { uiState ->
                     when (uiState) {
                         is UiState.Loading -> {
-                            binding.loadingBar.visibility = View.VISIBLE
+                            binding.loadingBar.visible(true)
                         }
 
                         is UiState.Success<*> -> {
-                            binding.loadingBar.visibility = View.GONE
+                            binding.loadingBar.visible(false)
                             templateAdapter.submitList(uiState.data as List<TemplateTypesEntity.Template>)
                         }
 
