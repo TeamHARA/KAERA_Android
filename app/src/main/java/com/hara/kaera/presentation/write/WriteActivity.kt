@@ -88,7 +88,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         edittextTitle.addTextChangedListener {
             binding.tvTitleCount.text =
                 String.format(this.stringOf(R.string.write_title_count), it!!.length)
-
             if (viewModel.templateIdFlow.value == 0) checkFreeFlow()
             else checkTemplate()
         }
@@ -134,12 +133,14 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
             is UiState.Success<*> -> {
                 if (viewModel.templateIdFlow.value == 1) { // freeflow
+                    binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clFreeflow.templatedata =
                         uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clEmpty.root.visibility = View.GONE
                     binding.clTemplate.root.visibility = View.GONE
                     binding.clFreeflow.root.visibility = View.VISIBLE
                 } else if (viewModel.templateIdFlow.value in 2..6) { // freeflow 제외 나머지
+                    binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clTemplate.templatedata =
                         uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clEmpty.root.visibility = View.GONE

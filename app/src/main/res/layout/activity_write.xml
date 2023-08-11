@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="activate"
             type="Boolean" />
+
+        <variable
+            name="templatedata"
+            type="com.hara.kaera.domain.entity.TemplateDetailEntity.TemplateDetailInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,9 +44,9 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/shape_rect_gray4_10"
                     android:text="@string/complete"
-                    app:completebutton="@{activate}"
                     android:textAppearance="@style/h_body3_b14"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:completebutton="@{activate}" />
 
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -70,7 +75,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="20dp"
-                    android:text="@string/write_choice"
+                    android:text="@{templatedata.title ?? @string/write_choice}"
                     android:textAppearance="@style/h_body2_r16"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:layout_marginBottom="13dp"
-                    android:text="템플릿의 서브 타이틀이 들어감"
+                    android:text="@{templatedata.guideline}"
                     android:textAppearance="@style/h_sub1_r12"
                     android:textColor="@color/gray_5"
                     app:layout_constraintBottom_toTopOf="@id/divider_gray3"
@@ -96,7 +101,7 @@
                     android:layout_marginEnd="18dp"
                     android:contentDescription="@string/write_choice"
                     android:src="@drawable/icn_drop_down"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_template_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_template_sub_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_template_title" />
 
