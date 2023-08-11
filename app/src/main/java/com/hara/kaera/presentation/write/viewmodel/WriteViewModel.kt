@@ -2,8 +2,8 @@ package com.hara.kaera.presentation.write.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
-import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
 import com.hara.kaera.presentation.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ class WriteViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _templateDetailFlow = MutableStateFlow<UiState>(UiState.Loading)
+    private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
 
     private val _templateIdFlow = MutableStateFlow<Int>(-1)
@@ -28,6 +28,7 @@ class WriteViewModel @Inject constructor(
     }
 
     fun getTemplateDetailData() {
+        _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
             kotlin.runCatching {
                 detailUseCase.getTemplateDetailFlow(templateIdFlow.value)
@@ -35,7 +36,7 @@ class WriteViewModel @Inject constructor(
                 it.collect { collect ->
                     if (collect.templateDetailInfo == null) _templateDetailFlow.value =
                         UiState.Error(collect.errorMessage!!)
-                    else _templateDetailFlow.value = UiState.Success(collect.templateDetailInfo)
+                    else _templateDetailFlow.value = UiState.Success(collect)
                 }
             }.onFailure {
                 throw it

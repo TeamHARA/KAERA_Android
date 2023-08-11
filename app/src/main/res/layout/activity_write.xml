@@ -188,6 +188,7 @@
 
                     <include
                         android:id="@+id/cl_template"
+                        bind:templatedata="@{templatedata}"
                         layout="@layout/layout_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -201,6 +202,7 @@
 
                     <include
                         android:id="@+id/cl_freeflow"
+                        bind:templatedata="@{templatedata}"
                         layout="@layout/layout_free_flow_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

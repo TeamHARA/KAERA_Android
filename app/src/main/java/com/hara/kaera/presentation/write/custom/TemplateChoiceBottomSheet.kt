@@ -44,21 +44,29 @@ class TemplateChoiceBottomSheet(
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.templateStateFlow.collect { uiState ->
-                    when (uiState) {
-                        is UiState.Loading -> {
-                            binding.loadingBar.visible(true)
-                        }
-
-                        is UiState.Success<*> -> {
-                            binding.loadingBar.visible(false)
-                            templateAdapter.submitList(uiState.data as List<TemplateTypesEntity.Template>)
-                        }
-
-                        is UiState.Error -> {
-                            Timber.e(uiState.message)
-                        }
-                    }
+                    render(uiState)
                 }
+            }
+        }
+    }
+
+    private fun render(uiState: UiState<TemplateTypesEntity>) {
+        when (uiState) {
+            is UiState.Loading -> {
+                binding.loadingBar.visible(true)
+            }
+
+            is UiState.Success<TemplateTypesEntity> -> {
+                binding.loadingBar.visible(false)
+                templateAdapter.submitList(uiState.data.templateTypeList)
+            }
+
+            is UiState.Error -> {
+                Timber.e(uiState.error)
+            }
+
+            else -> {
+                Timber.e("else")
             }
         }
     }

@@ -126,38 +126,39 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         // 여기 내부 값은 UiState가 들어오게 된다!
     }
 
-    private fun render(uiState: UiState) {
+    private fun render(uiState: UiState<TemplateDetailEntity>) {
         // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
         when (uiState) {
             is UiState.Loading -> {
                 binding.loadingBar.visibility = View.VISIBLE
             }
 
-            is UiState.Success<*> -> {
+            is UiState.Success -> {
                 binding.loadingBar.visible(false)
                 if (viewModel.templateIdFlow.value == 1) { // freeflow
-                    binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
-                    binding.clFreeflow.templatedata =
-                        uiState.data as TemplateDetailEntity.TemplateDetailInfo
+                    binding.templatedata = uiState.data.templateDetailInfo
                     binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
                     binding.clFreeflow.root.visible(true)
                 } else if (viewModel.templateIdFlow.value in 2..6) { // freeflow 제외 나머지
-                    binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
-                    binding.clTemplate.templatedata =
-                        uiState.data as TemplateDetailEntity.TemplateDetailInfo
+                    binding.templatedata = uiState.data.templateDetailInfo
                     binding.clEmpty.root.visible(false)
                     binding.clFreeflow.root.visible(false)
                     binding.clTemplate.root.visible(true)
-                    if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visibility =
-                        View.VISIBLE //thanksTo 템플릿
+                    if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visible(
+                        true
+                    ) //thanksTo 템플릿
                     else binding.clTemplate.tvThanks.visible(false)
                 }
                 clearEditText()
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.message)
+                Timber.e(uiState.error)
+            }
+
+            else -> {
+                Timber.e("else")
             }
         }
     }
