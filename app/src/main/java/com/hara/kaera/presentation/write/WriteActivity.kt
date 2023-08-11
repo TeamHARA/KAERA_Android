@@ -16,8 +16,8 @@ import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
-import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.presentation.write.custom.DialogSaveWarning
+import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -128,10 +128,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun render(uiState: UiState) {
         // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
         when (uiState) {
-            is UiState.Loading -> {//TODO
+            is UiState.Loading -> {
+                binding.loadingBar.visibility = View.VISIBLE
             }
 
             is UiState.Success<*> -> {
+                binding.loadingBar.visibility = View.GONE
                 if (viewModel.templateIdFlow.value == 1) { // freeflow
                     binding.templatedata = uiState.data as TemplateDetailEntity.TemplateDetailInfo
                     binding.clFreeflow.templatedata =

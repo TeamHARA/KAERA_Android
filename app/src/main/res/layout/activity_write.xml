@@ -114,6 +114,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <ProgressBar
+                android:id="@+id/loading_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ScrollView
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
@@ -162,6 +172,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/et_title"
                         app:layout_constraintEnd_toEndOf="@+id/et_title"
                         app:layout_constraintTop_toTopOf="@+id/et_title" />
+
 
                     <include
                         android:id="@+id/cl_empty"

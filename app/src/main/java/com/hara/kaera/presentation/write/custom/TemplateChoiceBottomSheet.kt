@@ -44,10 +44,12 @@ class TemplateChoiceBottomSheet(
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.templateStateFlow.collect { uiState ->
                     when (uiState) {
-                        is UiState.Loading -> {//TODO
+                        is UiState.Loading -> {
+                            binding.loadingBar.visibility = View.VISIBLE
                         }
 
                         is UiState.Success<*> -> {
+                            binding.loadingBar.visibility = View.GONE
                             templateAdapter.submitList(uiState.data as List<TemplateTypesEntity.Template>)
                         }
 
