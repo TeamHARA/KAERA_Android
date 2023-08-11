@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="templatedata"
+            type="com.hara.kaera.domain.entity.TemplateDetailEntity.TemplateDetailInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +21,7 @@
             android:id="@+id/tv_freeflow_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/write_freeflow_title"
+            tools:text="@string/write_freeflow_title"
             android:textAppearance="@style/h_body1_b16"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"

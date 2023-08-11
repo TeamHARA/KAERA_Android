@@ -27,13 +27,10 @@ class WriteViewModel @Inject constructor(
         _templateIdFlow.value = choiceId
     }
 
-    init {
-
-
-
+    fun getTemplateDetailData() {
         viewModelScope.launch {
             kotlin.runCatching {
-                detailUseCase.getTemplateDetailFlow(1)
+                detailUseCase.getTemplateDetailFlow(templateIdFlow.value)
             }.onSuccess {
                 it.collect { collect ->
                     if (collect.templateDetailInfo == null) _templateDetailFlow.value =
@@ -44,8 +41,9 @@ class WriteViewModel @Inject constructor(
                 throw it
             }
         }
-
     }
+
+
     // 여기는 구조가 나중에라도 바뀔수 있다 하지만 이거 기반대로 얘기를 해보자면
     // ViewModelScope로 비동기동작을 위한 코루틴 열고
     // runCatching에서 주입받은 UseCase를 사용한다 그러면 UseCase에 의해서 Repository -> DataSoure -> Api인터페이스 기반 Retrofit 실행이 되어서

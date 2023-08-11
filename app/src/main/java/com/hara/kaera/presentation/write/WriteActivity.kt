@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
+import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.makeSnackBar
@@ -24,7 +25,6 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
-
 
     private lateinit var editTextList: List<EditText>
     private lateinit var editTextFreeFlow: EditText
@@ -116,18 +116,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.templateIdFlow.collect {
-                    if (it == 1) { // freeflow
-                        binding.clEmpty.root.visibility = View.GONE
-                        binding.clTemplate.root.visibility = View.GONE
-                        binding.clFreeflow.root.visibility = View.VISIBLE
-                    } else if (it in 2..6) { // freeflow 제외 나머지
-                        binding.clEmpty.root.visibility = View.GONE
-                        binding.clFreeflow.root.visibility = View.GONE
-                        binding.clTemplate.root.visibility = View.VISIBLE
-                        if (it == 5) binding.clTemplate.tvThanks.visibility = View.VISIBLE //thanksTo 템플릿
-                        else binding.clTemplate.tvThanks.visibility = View.GONE
-                    }
-                    clearEditText()
+                    if (it in 1..6) viewModel.getTemplateDetailData()
                 }
             }
         }
@@ -135,6 +124,38 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         // 꺼지고 수집하고 될수 있도록 repeatOnLifeCycle이란걸 사용! 그리고
         // 뷰모델에 있는 StateFlow에서 뷰모델에서 해줬던것처럼 collect 해준다/
         // 여기 내부 값은 UiState가 들어오게 된다!
+    }
+
+    private fun render(uiState: UiState) {
+        // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
+        when (uiState) {
+            is UiState.Loading -> {//TODO
+            }
+
+            is UiState.Success<*> -> {
+                if (viewModel.templateIdFlow.value == 1) { // freeflow
+                    binding.clFreeflow.templatedata =
+                        uiState.data as TemplateDetailEntity.TemplateDetailInfo
+                    binding.clEmpty.root.visibility = View.GONE
+                    binding.clTemplate.root.visibility = View.GONE
+                    binding.clFreeflow.root.visibility = View.VISIBLE
+                } else if (viewModel.templateIdFlow.value in 2..6) { // freeflow 제외 나머지
+                    binding.clTemplate.templatedata =
+                        uiState.data as TemplateDetailEntity.TemplateDetailInfo
+                    binding.clEmpty.root.visibility = View.GONE
+                    binding.clFreeflow.root.visibility = View.GONE
+                    binding.clTemplate.root.visibility = View.VISIBLE
+                    if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visibility =
+                        View.VISIBLE //thanksTo 템플릿
+                    else binding.clTemplate.tvThanks.visibility = View.GONE
+                }
+                clearEditText()
+            }
+
+            is UiState.Error -> {
+                Timber.e(uiState.message)
+            }
+        }
     }
 
     private fun clearEditText() {
@@ -157,20 +178,5 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         binding.activate = (titleCondition && contentCondition)
     }
 
-    private fun render(uiState: UiState) {
-        // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
-        when (uiState) {
-            is UiState.Loading -> {//TODO
-            }
-
-            is UiState.Success<*> -> {
-                Timber.e(uiState.data.toString())
-            }
-
-            is UiState.Error -> {
-                Timber.e(uiState.message)
-            }
-        }
-    }
 
 }
