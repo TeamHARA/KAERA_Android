@@ -9,10 +9,11 @@ import com.hara.kaera.presentation.base.BindingFragment
 import com.hara.kaera.presentation.storage.adapter.StorageGridAdapter
 import com.hara.kaera.presentation.storage.data.DummyStorageData
 import com.hara.kaera.presentation.util.onSingleClick
-import com.hara.kaera.presentation.write.Mode
-import com.hara.kaera.presentation.write.TemplateChoiceBottomSheet
+import com.hara.kaera.presentation.write.StorageTemplateChoiceBottomSheet
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class StorageFragment :
     BindingFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
 
@@ -35,7 +36,7 @@ class StorageFragment :
     private fun setClickListeners() {
         binding.apply {
             clChoice.onSingleClick(1000) {
-                TemplateChoiceBottomSheet(Mode.STORAGE, {
+                StorageTemplateChoiceBottomSheet({
                     viewModel.setSelectedId(it)
                     Timber.d(viewModel.selectedId.value.toString())
                 }, {

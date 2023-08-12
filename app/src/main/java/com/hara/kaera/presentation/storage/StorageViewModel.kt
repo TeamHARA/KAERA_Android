@@ -2,8 +2,11 @@ package com.hara.kaera.presentation.storage
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class StorageViewModel : ViewModel() {
+@HiltViewModel
+class StorageViewModel @Inject constructor() : ViewModel() {
     private val _templateId = MutableLiveData<Int>(0)
     private val _selectedId = MutableLiveData<Int>()
 

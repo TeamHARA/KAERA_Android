@@ -25,7 +25,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
-    private val testViewModel: TestViewModel by viewModels()
 
     private lateinit var editTextList: List<EditText>
     private lateinit var editTextFreeFlow: EditText
@@ -36,7 +35,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     private val testViewModel by viewModels<TestViewModel>()
     private val viewModel by viewModels<WriteViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -103,8 +101,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
                     DialogSaveWarning {
                         TemplateChoiceBottomSheet({
-                            viewModel.setTemplateId(it),
-                            Mode.WRITE
+                            viewModel.setTemplateId(it)
                         }, viewModel.templateId.value ?: -1).show(
                             supportFragmentManager,
                             "template_choice"
@@ -112,8 +109,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     }.show(supportFragmentManager, "warning")
                 } else {
                     TemplateChoiceBottomSheet({
-                        viewModel.setTemplateId(it),
-                        Mode.WRITE
+                        viewModel.setTemplateId(it)
                     }, viewModel.templateId.value ?: -1).show(
                         supportFragmentManager,
                         "template_choice"
