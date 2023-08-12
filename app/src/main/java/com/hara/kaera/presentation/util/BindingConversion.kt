@@ -1,6 +1,7 @@
 package com.hara.kaera.presentation.util
 
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import com.hara.kaera.R
 
@@ -33,6 +34,15 @@ fun ImageView.setGemStoneSrc(templateId: Int, hasUsed: Boolean) {
         }
     }
 
+}
 
-
+@BindingAdapter("app:completebutton")
+fun AppCompatButton.setBackground(activate: Boolean){
+    if(activate){
+        this.background = this.context.getDrawable(R.drawable.shape_rect_yellow1_10)
+        this.setTextColor(this.context.getColor(R.color.black))
+    }else{
+        this.background = this.context.getDrawable(R.drawable.shape_rect_gray4_10)
+        this.setTextColor(this.context.getColor(R.color.white))
+    }
 }

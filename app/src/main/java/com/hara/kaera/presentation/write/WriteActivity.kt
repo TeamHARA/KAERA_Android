@@ -12,7 +12,10 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
+import com.hara.kaera.presentation.util.stringOf
+import com.hara.kaera.presentation.write.dialog.DialogSaveWarning
 import com.hara.kaera.presentation.write.viewmodel.TestViewModel
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +31,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private lateinit var editTextFreeFlow: EditText
     private lateinit var edittextTitle: EditText
 
+    private var titleCondition = false
+    private var contentCondition = false
+
+    private val testViewModel by viewModels<TestViewModel>()
     private val viewModel by viewModels<WriteViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,22 +99,40 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             appbarDetail.setNavigationOnClickListener {
                 finish()
             }
-            clChoice.onSingleClick(1000) {
-                TemplateChoiceBottomSheet(Mode.WRITE, {
-                    viewModel.setTemplateId(it)
-                    Timber.d(viewModel.templateId.value.toString())
-                }, {}).show(supportFragmentManager, "template_choice")
+            clChoice.onSingleClick {
+                if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
+                    DialogSaveWarning {
+                        TemplateChoiceBottomSheet({
+                            viewModel.setTemplateId(it),
+                            Mode.WRITE
+                        }, viewModel.templateId.value ?: -1).show(
+                            supportFragmentManager,
+                            "template_choice"
+                        )
+                    }.show(supportFragmentManager, "warning")
+                } else {
+                    TemplateChoiceBottomSheet({
+                        viewModel.setTemplateId(it),
+                        Mode.WRITE
+                    }, viewModel.templateId.value ?: -1).show(
+                        supportFragmentManager,
+                        "template_choice"
+                    )
+                }
             }
+
             btnComplete.onSingleClick(1000) {
-                Timber.e("complete")
+                if (!titleCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_title_error))
+                else if (!contentCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_content_error))
+                else Timber.e("굿") //TODO post 서버통신
             }
         }
     }
 
     private fun setTextWatcher() {
         edittextTitle.addTextChangedListener {
-            if (it?.length == 0) binding.tvTitleCount.text = "0/7"
-            else binding.tvTitleCount.text = "${it!!.length}/7"
+            binding.tvTitleCount.text =
+                String.format(this.stringOf(R.string.write_title_count), it!!.length)
 
             if (viewModel.templateId.value == 0) checkFreeFlow()
             else checkTemplate()
@@ -118,7 +143,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         editTextList.forEach {
             it.addTextChangedListener { checkTemplate() }
         }
-
+        editTextList[3].addTextChangedListener {
+            binding.clTemplate.tvThanks.text =
+                String.format(this.stringOf(R.string.write_thanksto), it)
+        }
     }
 
     private fun addObserve() {
@@ -131,6 +159,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 binding.clEmpty.root.visibility = View.GONE
                 binding.clFreeflow.root.visibility = View.GONE
                 binding.clTemplate.root.visibility = View.VISIBLE
+                if (it == 4) binding.clTemplate.tvThanks.visibility = View.VISIBLE
+                else binding.clTemplate.tvThanks.visibility = View.GONE
             }
             clearEditText()
         }
@@ -141,16 +171,19 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             it.text.clear()
         }
         editTextFreeFlow.text.clear()
+        edittextTitle.text.clear()
     }
 
     private fun checkFreeFlow() {
-        binding.btnComplete.isActivated =
-            editTextFreeFlow.text.isNotEmpty() && edittextTitle.text.isNotEmpty()
+        contentCondition = editTextFreeFlow.text.isNotEmpty() && editTextFreeFlow.text.isNotBlank()
+        titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
+        binding.activate = (titleCondition && contentCondition)
     }
 
     private fun checkTemplate() {
-        binding.btnComplete.isActivated =
-            editTextList.all { it.text.isNotEmpty() } && edittextTitle.text.isNotEmpty()
+        contentCondition = editTextList.all { it.text.isNotEmpty() && it.text.isNotBlank() }
+        titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
+        binding.activate = (titleCondition && contentCondition)
     }
 
 }

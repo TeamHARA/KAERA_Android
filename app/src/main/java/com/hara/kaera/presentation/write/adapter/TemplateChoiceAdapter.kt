@@ -12,14 +12,15 @@ import com.hara.kaera.databinding.ItemTemplateBinding
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 import com.hara.kaera.presentation.write.Mode
 import com.hara.kaera.presentation.write.data.TemplateData
+import kotlinx.coroutines.selects.select
 
-class TemplateChoiceAdapter(private val itemClickListener: (Int) -> Unit, private val mode: Mode) :
+class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit , private val mode: Mode, private val selectedId: Int) :
     ListAdapter<TemplateData, TemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
 
     private lateinit var inflater: LayoutInflater
 
     /* 선택한 위치의 값을 저장해주는 필드 */
-    private var selectedPosition = -1
+    private var selectedPosition = selectedId
 
     /* 이전에 선택한 위치의 값을 저장해주는 필드*/
     private var lastItemSelectedPosition = -1
@@ -90,4 +91,5 @@ class TemplateChoiceAdapter(private val itemClickListener: (Int) -> Unit, privat
             }
         }
     }
+
 }

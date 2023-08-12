@@ -9,11 +9,14 @@ import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
 import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
 import com.hara.kaera.presentation.write.adapter.TemplateChoiceAdapter
 import com.hara.kaera.presentation.write.data.DummyTemplateData
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TemplateChoiceBottomSheet(
-    private val mode: Mode,
     private val templateClickListener: (Int) -> Unit,
-    private val onDismissed: () -> Unit,
+    private val selectedId: Int,
+    onDismissed: () -> Unit,
+    private val mode: Mode,
 ) : BindingDraggableBottomSheet<BottomsheetTemplateChoiceBinding>(R.layout.bottomsheet_template_choice) {
 
     private lateinit var templateAdapter: TemplateChoiceAdapter
@@ -22,7 +25,8 @@ class TemplateChoiceBottomSheet(
         super.onViewCreated(view, savedInstanceState)
         templateAdapter = TemplateChoiceAdapter({
             templateClickListener(it)
-        }, mode)
+            dismiss()
+        }, selectedId, mode)
         binding.rcvTemplate.apply {
             adapter = templateAdapter
             addItemDecoration(LastItemMarginItemDecoration(resources.getDimensionPixelOffset(R.dimen.template_recyclerview_lastmargin)))

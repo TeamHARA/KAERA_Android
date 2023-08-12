@@ -24,8 +24,16 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", getLocalProperties("BASE_URL"))
-        buildConfigField("String", "BEARER_TOKEN", getLocalProperties("BEARER_TOKEN"))
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            gradleLocalProperties(rootDir).getProperty("BASE_URL")
+        )
+        buildConfigField(
+            "String",
+            "BEARER_TOKEN",
+            gradleLocalProperties(rootDir).getProperty("BEARER_TOKEN")
+        )
     }
 
     buildTypes {
@@ -49,10 +57,6 @@ android {
         viewBinding = true
         dataBinding = true
     }
-}
-
-fun getLocalProperties(propertyKey: String): String {
-    return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
 dependencies {
