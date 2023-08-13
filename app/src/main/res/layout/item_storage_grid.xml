@@ -5,12 +5,8 @@
 
     <data>
         <variable
-            name="templateId"
-            type="int" />
-
-        <variable
             name="worryData"
-            type="com.hara.kaera.presentation.storage.data.Worry" />
+            type="com.hara.kaera.domain.entity.WorryByTemplateEntity.WorryByTemplate.Worry" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:templateHasUsed="@{true}"
-            app:templateId="@{templateId}" />
+            app:templateId="@{worryData.templateId}" />
 
         <TextView
             android:id="@+id/tv_templete_name"

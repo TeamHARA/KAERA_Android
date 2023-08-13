@@ -2,11 +2,23 @@ package com.hara.kaera.presentation.storage
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hara.kaera.domain.entity.WorryByTemplateEntity
+import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
+import com.hara.kaera.presentation.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StorageViewModel @Inject constructor() : ViewModel() {
+class StorageViewModel @Inject constructor(
+    private val useCase: GetWorryByTemplateUseCase,
+) : ViewModel() {
+    private val _worryStateFlow = MutableStateFlow<UiState<WorryByTemplateEntity>>(UiState.Init)
+    val worryStateFlow = _worryStateFlow.asStateFlow()
+
     private val _templateId = MutableLiveData<Int>(0)
     private val _selectedId = MutableLiveData<Int>()
 
@@ -16,11 +28,28 @@ class StorageViewModel @Inject constructor() : ViewModel() {
     fun setTemplateId() {
         _templateId.value = _selectedId.value
     }
+
     fun setSelectedId(choiceId: Int) {
         _selectedId.value = choiceId
     }
 
     fun getJewels() {
-        // TODO: 서버 통신
+        viewModelScope.launch {
+            _worryStateFlow.value = UiState.Loading
+            kotlin.runCatching {
+                useCase.getStorageWorryFlow(_templateId.value?.toInt() ?: 0)
+            }.onSuccess {
+                it.collect { collect ->
+                    if (collect.worryByTemplate == null) {
+                        _worryStateFlow.value = UiState.Error(collect.errorMessage!!)
+                    } else {
+                        _worryStateFlow.value = UiState.Success(collect)
+                    }
+                }
+            }.onFailure {
+                throw (it)
+                UiState.Error("서버가 불안정합니다.")
+            }
+        }
     }
 }

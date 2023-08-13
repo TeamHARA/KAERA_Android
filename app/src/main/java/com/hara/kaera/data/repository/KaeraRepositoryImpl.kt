@@ -1,10 +1,12 @@
 package com.hara.kaera.data.repository
 
 import com.hara.kaera.data.datasource.KaeraDataSource
+import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
+import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.repository.KaeraRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -38,6 +40,14 @@ class KaeraRepositoryImpl @Inject constructor(
         return flow {
             kaeraDataSource.getTemplateDetail(templateId).collect {
                 emit(mapperToTemplateDetail(it))
+            }
+        }
+    }
+
+    override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateEntity> {
+        return flow {
+            kaeraDataSource.getWorryByTemplate(templateId).collect {
+                emit(mapperToStorageWorry(it))
             }
         }
     }

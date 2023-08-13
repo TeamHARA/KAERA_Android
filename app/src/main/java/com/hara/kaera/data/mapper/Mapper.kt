@@ -2,8 +2,10 @@ package com.hara.kaera.data.mapper
 
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
+import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
+import com.hara.kaera.domain.entity.WorryByTemplateEntity
 
 /*
 Mapper는 다음과 같이 DTO타입을 Entity형태로 즉. 실제로 사용할 데이터만 담아서
@@ -17,12 +19,12 @@ object Mapper {
         if (dto.status in 400..499) { // 에러이므로 아무것도 넣지 않고 erroMessage에만 담아준다.
             return TemplateTypesEntity(
                 errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
-                templateTypeList = null
+                templateTypeList = null,
             )
         } else if (dto.status in 500..599) {
             return TemplateTypesEntity(
                 errorMessage = "네트워크상태가 불안정합니다.",
-                templateTypeList = null
+                templateTypeList = null,
             )
         } else {
             val templateTypeList = mutableListOf<TemplateTypesEntity.Template>()
@@ -33,13 +35,13 @@ object Mapper {
                         info = it.info,
                         shortInfo = it.shortInfo,
                         templateId = it.templateId,
-                        title = it.title
-                    )
+                        title = it.title,
+                    ),
                 )
             }
             return TemplateTypesEntity(
                 errorMessage = null,
-                templateTypeList = templateTypeList
+                templateTypeList = templateTypeList,
             )
         }
     }
@@ -48,12 +50,12 @@ object Mapper {
         if (dto.status in 400..499) { // 에러이므로 아무것도 넣지 않고 erroMessage에만 담아준다.
             return TemplateDetailEntity(
                 errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
-                templateDetailInfo = null
+                templateDetailInfo = null,
             )
         } else if (dto.status in 500..599) {
             return TemplateDetailEntity(
                 errorMessage = "네트워크상태가 불안정합니다.",
-                templateDetailInfo = null
+                templateDetailInfo = null,
             )
         } else {
             var templateDetailInfo: TemplateDetailEntity.TemplateDetailInfo
@@ -63,15 +65,46 @@ object Mapper {
                     info = it.info,
                     guideline = it.guideline,
                     questions = it.questions,
-                    hints = it.hints
+                    hints = it.hints,
                 )
             }
             return TemplateDetailEntity(
                 errorMessage = null,
-                templateDetailInfo = templateDetailInfo
+                templateDetailInfo = templateDetailInfo,
             )
         }
     }
 
-
+    fun mapperToStorageWorry(dto: WorryByTemplateDTO): WorryByTemplateEntity {
+        if (dto.status in 400..499) {
+            return WorryByTemplateEntity(
+                errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
+                worryByTemplate = null,
+            )
+        } else if (dto.status in 500..599) {
+            return WorryByTemplateEntity(
+                errorMessage = "네트워크상태가 불안정합니다.",
+                worryByTemplate = null,
+            )
+        } else {
+            var worryByTemplate: WorryByTemplateEntity.WorryByTemplate
+            dto.data.let {
+                worryByTemplate = WorryByTemplateEntity.WorryByTemplate(
+                    totalNum = it.totalNum,
+                    worryList = it.worry.map { worryDto ->
+                        WorryByTemplateEntity.WorryByTemplate.Worry(
+                            period = worryDto.period,
+                            templateId = worryDto.templateId,
+                            title = worryDto.title,
+                            worryId = worryDto.worryId,
+                        )
+                    },
+                )
+            }
+            return WorryByTemplateEntity(
+                errorMessage = null,
+                worryByTemplate = worryByTemplate,
+            )
+        }
+    }
 }
