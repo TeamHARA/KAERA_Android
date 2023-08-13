@@ -23,7 +23,7 @@ fun View.makeToast(message: String) {
     ).show()
 }
 
-fun View.onSingleClick(clickInterval: Int, click: (View) -> Unit) {
+fun View.onSingleClick(clickInterval: Int = 1000, click: (View) -> Unit) {
     setOnClickListener(SingleClickListener(clickInterval) { click(it) })
 }
 

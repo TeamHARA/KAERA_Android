@@ -3,8 +3,10 @@ package com.hara.kaera.application
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.hara.kaera.BuildConfig
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class Application : Application() {
 
     override fun onCreate() {

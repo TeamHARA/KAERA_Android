@@ -64,6 +64,14 @@
         <item name="android:letterSpacing">-0.04</item>
     </style>
 
+    <style name="h_body4_r14_wide">
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:letterSpacing">-0.04</item>
+    </style>
+
     <style name="h_body5_b14_wide">
         <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
         <item name="android:textStyle">normal</item>
@@ -103,5 +111,31 @@
         <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
+    <style name="Write_Edittext" parent="">
+        <item name="android:paddingVertical">16dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:gravity">top</item>
+        <item name="android:minHeight">84dp</item>
+        <item name="android:scrollHorizontally">false</item>
+        <item name="android:textColorHint">@color/gray_4</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+
+    <!-- 피커 커스텀을 위한 스타일 -->
+    <style name="numberPickerCustomSize">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
+        <item name="android:colorControlNormal">@color/gray_5</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <!-- 기본 다이얼로그에서 제공하는 패딩과 하얀색 배경색을 제거 -->
+    <style name="NoMarginsDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 
 </resources>
