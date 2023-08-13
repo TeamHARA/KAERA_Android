@@ -7,17 +7,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ItemTemplateBinding
+import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
-import com.hara.kaera.presentation.write.data.TemplateData
-import kotlinx.coroutines.selects.select
 
-class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit , private val selectedId: Int) :
-    ListAdapter<TemplateData, TemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+class TemplateBottomSheetChoiceAdapter(
+    private val itemClickListener: (Int) -> Unit,
+    selectedId: Int
+) :
+    ListAdapter<TemplateTypesEntity.Template, TemplateBottomSheetChoiceAdapter.ItemViewHolder>(
+        GlobalDiffCallBack()
+    ) {
 
     private lateinit var inflater: LayoutInflater
 
     /* 선택한 위치의 값을 저장해주는 필드 */
-    private var selectedPosition = selectedId
+    private var selectedPosition = selectedId - 1
 
     /* 이전에 선택한 위치의 값을 저장해주는 필드*/
     private var lastItemSelectedPosition = -1
@@ -48,7 +52,7 @@ class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit , privat
 
             this.root.setOnClickListener {
                 selectedPosition = position
-                itemClickListenr(curItem.templateId)
+                itemClickListener(curItem.templateId ?: -1)
                 lastItemSelectedPosition = if (lastItemSelectedPosition == -1) {
                     selectedPosition
                 } else {

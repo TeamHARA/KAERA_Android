@@ -1,46 +1,48 @@
-name: Android CI
+# name: Android CI
 
-on:
-  pull_request:
-    branches: [ "develop" ]
+# on:
+#   push:
+#     branches: [ "develop" ]
+#   pull_request:
+#     branches: [ "develop" ]
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
-    - name: Create Local Properties
-      run: touch local.properties
+#     steps:
+#     - uses: actions/checkout@v3
+#     - name: set up JDK 17
+#       uses: actions/setup-java@v3
+#       with:
+#         java-version: '17'
+#         distribution: 'temurin'
+#         cache: gradle
+#     - name: Create Local Properties
+#       run: touch local.properties
       
-    - name: Access LocalProperties
-      run: |
-        echo BASE_URL=\"$BASE_URL\" > local.properties
-        echo BEARER_TOKEN=\"$BEARER_TOKEN\" > local.properties
-      shell: bash
-      env:
-        BASE_URL: ${{ secrets.BASE_URL }}
-        BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+#     - name: Access LocalProperties
+#       run: |
+#         echo BASE_URL=\"$BASE_URL\" > local.properties
+#         echo BEARER_TOKEN=\"$BEARER_TOKEN\" > local.properties
+#       shell: bash
+#       env:
+#         BASE_URL: ${{ secrets.BASE_URL }}
+#         BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+#     - name: Grant execute permission for gradlew
+#       run: chmod +x gradlew
       
-    - name: Build with Gradle
-      run: ./gradlew build
+#     - name: Build with Gradle
+#       run: ./gradlew assembleDebug --stacktrace
     
-    - name: action-slack
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        author_name: <Kaera_Android_CI>
-        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: always()
+#     - name: action-slack
+#       uses: 8398a7/action-slack@v3
+#       with:
+#         status: ${{ job.status }}
+#         author_name: <Kaera_Android_CI>
+#         fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
+#       env:
+#         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#       if: always()

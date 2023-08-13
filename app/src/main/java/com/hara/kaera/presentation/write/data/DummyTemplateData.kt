@@ -9,5 +9,5 @@ object DummyTemplateData {
         TemplateData(4, "땡스투 새겨보기", "부정을 긍정으로, 사고를 전환해보세요.", false),
         TemplateData(5, "10 - 10 - 10", "시간을 기준으로 내 고민의 미래를 생각해보세요.", true),
         TemplateData(6, "걱정을 극복하는 <자기관리론>", "데일 카네기가 제시한 방법에 따라 걱정을 극복해보세요.", false),
-        )
+    )
 }

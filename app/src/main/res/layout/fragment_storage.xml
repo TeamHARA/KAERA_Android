@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.TempStorageFragment">
+    tools:context=".presentation.StorageFragment">
 
     <data>
 
@@ -44,7 +44,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_show_all_gem"
+            android:id="@+id/cl_choice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -57,49 +57,66 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
                 android:text="@string/storage_templete"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:layout_marginVertical="15dp"
                 android:textAppearance="@style/h_body1_b16"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
+                android:id="@+id/ib_drop_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/icn_drop_down"
                 android:background="@android:color/transparent"
+                android:src="@drawable/icn_drop_down"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <include
+            android:id="@+id/cl_empty"
+            layout="@layout/layout_jewel_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_choice" />
+
         <TextView
-            android:id="@+id/sum"
+            android:id="@+id/tv_sum_jewel_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="총 4개"
-            android:textColor="@color/white"
+            android:text="@string/storage_jewels_num"
             android:textAppearance="@style/h_body4_r14"
-            app:layout_constraintStart_toStartOf="@id/cl_show_all_gem"
-            app:layout_constraintTop_toBottomOf="@id/cl_show_all_gem" />
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/cl_choice"
+            app:layout_constraintTop_toBottomOf="@id/cl_choice" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_jewels"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            tools:listitem="@layout/item_storage_grid"
             android:layout_marginEnd="12dp"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sum"
-            app:spanCount="2" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_sum_jewel_num"
+            app:spanCount="2"
+            tools:listitem="@layout/item_storage_grid" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.write
+package com.hara.kaera.presentation.write.custom
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,9 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogCompleteBinding
 import com.hara.kaera.presentation.util.dpToPx
 import com.hara.kaera.presentation.util.onSingleClick
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WriteCompleteDialog : DialogFragment() {
 
     private var _binding: DialogCompleteBinding? = null

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Kaera</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- 고민작성화면 -->
     <string name="write_deadline_title">이 고민, 언제까지 끝낼까요?</string>
     <string name="write_this">이 고민을</string>
     <string name="write_deadline">일 후 까지 끝낼게요</string>
@@ -12,12 +12,18 @@
     <string name="write_choice">고민 템플릿을 선택해주세요</string>
     <string name="write_nameing">고민에 이름을 붙여주세요</string>
     <string name="write_naming_hint">7글자 내로 고민의 이름을 붙여주세요</string>
+    <string name="write_freeflow_title">고민의 내용을 자유롭게 작성해보세요</string>
     <string name="write_content">고민 내용 작성하기</string>
     <string name="write_empty">선택된 템플릿이 없어요!</string>
-    <string name="write_empty_induction">템플릿에 따라 고민의 내용을 적어보세요</string>
+    <string name="write_empty_induction">고민 내용 작성하기</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
     <string name="write_snackbar_title"><![CDATA[고민의 <font color=\'#ff0000\'>제목</font>을 붙여주세요!]]></string>
     <string name="write_snackbar_content">내용이 전부 작성되지 않았어요!</string>
+    <string name="write_title_count">%d/7</string>
+    <string name="write_thanksto">Thanks To %s</string>
+    <string name="write_title_error">고민의 제목을 붙여주세요</string>
+    <string name="write_content_error">고민의 내용을 전부 적어주세요</string>
+
     <string name="detail_edit">수정하기</string>
     <string name="detail_deadline_edit">데드라인 수정하기</string>
     <string name="detail_delete">삭제하기</string>
@@ -30,11 +36,21 @@
     <string name="instagram_share_induction">친구들에게 처음 캐낸 내 고민 보석을 공유해보세요!</string>
     <string name="instagram_share_button">인스타 스토리 공유하기</string>
 
+    <string name="dialog_record"><![CDATA[기록을 <font color=\'#ff0000\'>취소</font> 하시나요?]]></string>
+    <string name="dialog_cancel">취소</string>
+    <string name="dialog_sure">하시나요?</string>
+    <string name="dialog_record_warning">작성된 기록이 저장되지 않았어요.</string>
+
+
     <!--  보관함  -->
     <string name="storage_title">고민 보석함</string>
     <string name="storage_templete">모든 보석 보기</string>
     <string name="storage_empty">아직 고민 원석이 없네요!</string>
     <string name="storage_empty_induction">고민글 작성을 통해\n고민 원석을 새롭게 추가헤볼까요?</string>
+    <string name="yes">네</string>
+    <string name="no">아니요</string>
+    <string name="storage_introduce">그동안 캐낸 모든 보석을 볼 수 있어요</string>
+    <string name="storage_jewels_num">총 %d개</string>
 
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>
@@ -46,6 +62,6 @@
     <string name="home_jewel_empty_title">아직 고민 보석이 없네요!</string>
     <string name="home_jewel_empty_content">원석을 터치해 고민 보석을 캐내보세요.</string>
   
-    <string name="write_thanksto">Thanks To %s</string>
+
 
 </resources>
