@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="templatedata"
+            type="com.hara.kaera.domain.entity.TemplateDetailEntity.TemplateDetailInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,11 +23,12 @@
             android:id="@+id/tv_freeflow_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/write_freeflow_title"
+            android:text="@{templatedata.guideline}"
             android:textAppearance="@style/h_body1_b16"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/write_freeflow_title" />
 
         <EditText
             android:id="@+id/et_freeflow"
@@ -33,8 +38,9 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
-            android:minHeight="340dp"
+            android:hint="@{templatedata.hints[0]}"
             android:maxLength="5000"
+            android:minHeight="340dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
