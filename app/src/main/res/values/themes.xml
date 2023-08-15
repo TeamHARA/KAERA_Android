@@ -16,6 +16,12 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="h_head2_b18">
+        <item name="android:fontFamily">@font/nanum_squareneo_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="h_head2_r20">
         <item name="android:fontFamily">@font/nanum_squareneo_regaular</item>
         <item name="android:textStyle">normal</item>

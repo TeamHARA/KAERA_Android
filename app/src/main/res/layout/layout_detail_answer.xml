@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/h_body2_r16"
+        android:textColor="@color/gray_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="지금 나의 걱정" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:lineSpacingExtra="7sp"
+        android:textAppearance="@style/h_body4_r14"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        android:textAlignment="viewStart"
+        android:text="걱정하고 있는 걸 사실대로 써봅시다. 근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요근데이거왜걱정하고 있는 걸 사실대로 써봅시다. 걱정하고 있는 걸 사실대로 써봅시다. 걱정하고 있는 걸 사실대로 써봅시다. 걱정하고 있는 걸 사실대로 써봅시다. 걱정하고 있는 걸 사실대로 써봅시다."
+        tools:text="근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요근데이거왜제대로안써지는거같지줄바꿈이이상한가나한테왜그래요"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
