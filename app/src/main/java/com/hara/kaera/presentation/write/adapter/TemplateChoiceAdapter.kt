@@ -1,15 +1,3 @@
-package com.hara.kaera.presentation.write.adapter
-
-import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.hara.kaera.R
-import com.hara.kaera.databinding.ItemTemplateBinding
-import com.hara.kaera.presentation.util.GlobalDiffCallBack
-import com.hara.kaera.presentation.write.data.TemplateData
-import kotlinx.coroutines.selects.select
 
 class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit , private val selectedId: Int) :
     ListAdapter<TemplateData, TemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {

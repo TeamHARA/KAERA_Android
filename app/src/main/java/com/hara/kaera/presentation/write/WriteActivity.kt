@@ -98,7 +98,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         edittextTitle.addTextChangedListener {
             binding.tvTitleCount.text =
                 String.format(this.stringOf(R.string.write_title_count), it!!.length)
-            if (viewModel.templateIdFlow.value == 0) checkFreeFlow()
+            if (viewModel.templateIdFlow.value == 1) checkFreeFlow()
             else checkTemplate()
         }
         editTextFreeNote.addTextChangedListener {
