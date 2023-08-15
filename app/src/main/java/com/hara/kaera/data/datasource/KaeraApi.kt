@@ -2,8 +2,8 @@ package com.hara.kaera.data.datasource
 
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
+import com.hara.kaera.data.dto.HomeWorryListDTO
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 
 /*
@@ -20,4 +20,8 @@ interface KaeraApi {
         @Path("templateId") templateId: Int
     ): TemplateDetailDTO
 
+    @GET("worry/list/{isSolved}")
+    suspend fun getHomeWorryList(
+        @Path("isSolved") isSolved: Int
+    ): HomeWorryListDTO
 }

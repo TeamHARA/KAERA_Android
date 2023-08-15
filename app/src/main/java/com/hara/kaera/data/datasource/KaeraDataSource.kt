@@ -2,6 +2,7 @@ package com.hara.kaera.data.datasource
 
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
+import com.hara.kaera.data.dto.HomeWorryListDTO
 import kotlinx.coroutines.flow.Flow
 
 /*
@@ -16,4 +17,5 @@ interface KaeraDataSource {
 
     fun getTemplateDetail(templateId : Int) : Flow<TemplateDetailDTO>
 
+    fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListDTO>
 }

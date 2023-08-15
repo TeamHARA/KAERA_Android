@@ -2,19 +2,35 @@ package com.hara.kaera.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeBinding
-import com.hara.kaera.presentation.home.model.Gem
+import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.presentation.base.BindingFragment
+import com.hara.kaera.presentation.util.UiState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
+@AndroidEntryPoint
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+
+    private val viewModel by viewModels<HomeViewModel>()
+    private val worryList = arrayOfNulls<List<HomeWorryListEntity.Data>>(2) // [0] 원석 / [1] 보석
+    private lateinit var adapter: HomeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // TODO: 서버 통신을 '두 탭에 대해' 다 한 다음에 화면 뿌려주기!
+        adapter = HomeAdapter()
+        binding.vpContainer.adapter = adapter
 
+        /*
         binding.vpContainer.adapter = HomeAdapter().apply {
             // sample list
             submitList(
@@ -50,9 +66,15 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                 )
             )
         }
+        */
 
+        setViewPager()
+        collectFlows()
+        Timber.e("hi")
+    }
+
+    private fun setViewPager() {
         binding.vpDotsIndicator.attachTo(binding.vpContainer)
-
         binding.vpContainer.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -63,7 +85,45 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                 }
             }
         })
+    }
 
+    private fun collectFlows() {
+        // 서버 통신 1) 원석 (해결 전 고민들)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.homeWorryListStoneFlow.collect {
+                    render(0, it)
+                }
+            }
+        }
 
+        // 서버 통신 2) 원석 (해결 전 고민들)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.homeWorryListJewelFlow.collect {
+                    render(1, it)
+                }
+            }
+        }
+    }
+
+    private fun render(idx: Int, uiState: UiState<HomeWorryListEntity>) {
+        when (uiState) {
+            is UiState.Loading -> {
+                Timber.e("loading...")
+            }
+            is UiState.Success -> {
+                worryList[idx] = uiState.data.data
+                if (worryList[0]?.isEmpty() == false && worryList[1]?.isEmpty() == false) {
+                    adapter.submitList(worryList.toMutableList())
+                }
+            }
+            is UiState.Error -> {
+                Timber.e("error...")
+            }
+            else -> {
+                Timber.e("else...")
+            }
+        }
     }
 }

@@ -37,6 +37,7 @@ class StorageTemplateChoiceAdapter(
         holder: ItemViewHolder,
         @SuppressLint("RecyclerView") position: Int,
     ) {
+        /* (To. 준우킹) 오류 나서 임시 주석 처리 : 나중에 고쳐주새요
         val curItem = getItem(position)
         with(holder.binding) {
             this.templatedata = curItem
@@ -81,8 +82,8 @@ class StorageTemplateChoiceAdapter(
                 selectedPosition = position
                 lastItemSelectedPosition = selectedPosition
                 notifyItemChanged(selectedPosition)
-                itemClickListener(curItem.templateId)
+                //itemClickListener(curItem.templateId)
             }
-        }
+        }*/
     }
 }
