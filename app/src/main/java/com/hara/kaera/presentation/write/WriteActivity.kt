@@ -12,12 +12,12 @@ import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.custom.snackbar.KaeraSnackBar
+import com.hara.kaera.presentation.dialog.DialogCompleteFragment
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.custom.DialogSaveWarning
-import com.hara.kaera.presentation.write.custom.DialogWriteComplete
 import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,7 +88,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     KaeraSnackBar.DURATION.LONG
                 ).show()
                 else {
-                    DialogWriteComplete().show(supportFragmentManager, "complete")
+                    DialogCompleteFragment().show(supportFragmentManager, "complete")
                 }
             }
         }
