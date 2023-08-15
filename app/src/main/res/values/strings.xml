@@ -17,10 +17,13 @@
     <string name="write_empty">선택된 템플릿이 없어요!</string>
     <string name="write_empty_induction">고민 내용 작성하기</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
+    <string name="write_snackbar_title"><![CDATA[고민의 <font color=\'#ff0000\'>제목</font>을 붙여주세요!]]></string>
+    <string name="write_snackbar_content">내용이 전부 작성되지 않았어요!</string>
     <string name="write_title_count">%d/7</string>
     <string name="write_thanksto">Thanks To %s</string>
     <string name="write_title_error">고민의 제목을 붙여주세요</string>
     <string name="write_content_error">고민의 내용을 전부 적어주세요</string>
+
     <string name="detail_edit">수정하기</string>
     <string name="detail_deadline_edit">데드라인 수정하기</string>
     <string name="detail_delete">삭제하기</string>
@@ -46,6 +49,8 @@
     <string name="storage_empty_induction">고민글 작성을 통해\n고민 원석을 새롭게 추가헤볼까요?</string>
     <string name="yes">네</string>
     <string name="no">아니요</string>
+    <string name="storage_introduce">그동안 캐낸 모든 보석을 볼 수 있어요</string>
+    <string name="storage_jewels_num">총 %d개</string>
 
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>
