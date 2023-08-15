@@ -11,12 +11,13 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
+import com.hara.kaera.presentation.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.presentation.util.UiState
-import com.hara.kaera.presentation.util.makeSnackBar
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.custom.DialogSaveWarning
+import com.hara.kaera.presentation.write.custom.DialogWriteComplete
 import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,9 +78,18 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             btnComplete.onSingleClick(1000) {
-                if (!titleCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_title_error))
-                else if (!contentCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_content_error))
-                else Timber.e("굿") //TODO post 서버통신
+                if (!titleCondition) KaeraSnackBar.make(
+                    binding.root, baseContext.stringOf(R.string.write_snackbar_title),
+                    KaeraSnackBar.DURATION.LONG
+                ).show()
+                else if (!contentCondition) KaeraSnackBar.make(
+                    binding.root,
+                    baseContext.stringOf(R.string.write_snackbar_content),
+                    KaeraSnackBar.DURATION.LONG
+                ).show()
+                else {
+                    DialogWriteComplete().show(supportFragmentManager, "complete")
+                }
             }
         }
     }
