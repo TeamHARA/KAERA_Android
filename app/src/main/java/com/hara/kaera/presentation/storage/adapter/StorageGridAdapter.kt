@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemStorageGridBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
-import com.hara.kaera.presentation.storage.data.Worry
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
 class StorageGridAdapter() :

@@ -11,11 +11,11 @@ import com.hara.kaera.databinding.FragmentStorageBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.base.BindingFragment
 import com.hara.kaera.presentation.storage.adapter.StorageGridAdapter
+import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.write.StorageTemplateChoiceBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -30,7 +30,10 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
         initLayout()
         setClickListeners()
         addObserve()
+        collectFlows()
+    }
 
+    private fun collectFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.worryStateFlow.collect { uiState ->
@@ -70,11 +73,11 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun setClickListeners() {
         binding.apply {
             clChoice.onSingleClick(1000) {
-                StorageTemplateChoiceBottomSheet({
+                StorageTemplateChoiceBottomSheet({ // templateClickListener
                     viewModel.setSelectedId(it)
                     Timber.d(viewModel.selectedId.value.toString())
-                }, {
-                    if (viewModel.templateId.value != viewModel.selectedId.value) { // 바텀시트 dismiss 시
+                }, viewModel.templateId.value ?: 0, {
+                    if (viewModel.templateId.value != viewModel.selectedId.value) { // onDismissed
                         viewModel.setTemplateId()
                         Timber.d("****\nnew tempate id: ${viewModel.templateId.value}\n****")
                     }
@@ -90,16 +93,16 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     }
 
     private fun isEmpty(totalNum: Int): Boolean {
-        if (totalNum == 0) {
+        return if (totalNum == 0) {
             binding.clEmpty.root.visibility = View.VISIBLE
             binding.tvSumJewelNum.visibility = View.GONE
             binding.rvJewels.visibility = View.GONE
-            return true
+            true
         } else {
             binding.clEmpty.root.visibility = View.GONE
             binding.tvSumJewelNum.visibility = View.VISIBLE
             binding.rvJewels.visibility = View.VISIBLE
-            return false
+            false
         }
     }
 }

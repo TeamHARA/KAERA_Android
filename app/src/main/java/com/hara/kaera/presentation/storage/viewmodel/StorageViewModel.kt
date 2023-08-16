@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.storage
+package com.hara.kaera.presentation.storage.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +19,7 @@ class StorageViewModel @Inject constructor(
     private val _worryStateFlow = MutableStateFlow<UiState<WorryByTemplateEntity>>(UiState.Init)
     val worryStateFlow = _worryStateFlow.asStateFlow()
 
-    private val _templateId = MutableLiveData<Int>(0)
+    private val _templateId = MutableLiveData(0)
     private val _selectedId = MutableLiveData<Int>()
 
     val templateId get() = _templateId

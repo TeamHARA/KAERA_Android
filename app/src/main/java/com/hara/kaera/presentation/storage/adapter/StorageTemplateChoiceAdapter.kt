@@ -14,12 +14,15 @@ import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
 class StorageTemplateChoiceAdapter(
     private val itemClickListener: (Int) -> Unit,
-) : ListAdapter<TemplateTypesEntity.Template, StorageTemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+    selectedId: Int,
+) : ListAdapter<TemplateTypesEntity.Template, StorageTemplateChoiceAdapter.ItemViewHolder>(
+    GlobalDiffCallBack(),
+) {
 
     private lateinit var inflater: LayoutInflater
 
     /* 선택한 위치의 값을 저장해주는 필드 */
-    private var selectedPosition = 0
+    private var selectedPosition = selectedId
 
     /* 이전에 선택한 위치의 값을 저장해주는 필드*/
     private var lastItemSelectedPosition = 0

@@ -23,6 +23,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class StorageTemplateChoiceBottomSheet(
     private val templateClickListener: (Int) -> Unit,
+    private val selectedId: Int,
     private val onDismissed: () -> Unit,
 ) : BindingDraggableBottomSheet<BottomsheetTemplateChoiceBinding>(R.layout.bottomsheet_template_choice) {
 
@@ -31,10 +32,10 @@ class StorageTemplateChoiceBottomSheet(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        storageTemplateAdapter = StorageTemplateChoiceAdapter {
+        storageTemplateAdapter = StorageTemplateChoiceAdapter({
             templateClickListener(it)
             dismiss()
-        }
+        }, selectedId)
         binding.rcvTemplate.apply {
             adapter = storageTemplateAdapter
             addItemDecoration(LastItemMarginItemDecoration(resources.getDimensionPixelOffset(R.dimen.template_recyclerview_lastmargin)))
