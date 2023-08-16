@@ -13,7 +13,7 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
 class StorageTemplateChoiceAdapter(
-    private val itemClickListener: (Int) -> Unit,
+    private val itemClickListener: (Int, String) -> Unit,
     selectedId: Int,
 ) : ListAdapter<TemplateTypesEntity.Template, StorageTemplateChoiceAdapter.ItemViewHolder>(
     GlobalDiffCallBack(),
@@ -84,7 +84,7 @@ class StorageTemplateChoiceAdapter(
                 selectedPosition = position
                 lastItemSelectedPosition = selectedPosition
                 notifyItemChanged(selectedPosition)
-                itemClickListener(curItem.templateId)
+                itemClickListener(curItem.templateId, curItem.title)
             }
         }
     }

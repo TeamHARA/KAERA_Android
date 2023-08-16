@@ -73,8 +73,9 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun setClickListeners() {
         binding.apply {
             clChoice.onSingleClick(1000) {
-                StorageTemplateChoiceBottomSheet({ // templateClickListener
-                    viewModel.setSelectedId(it)
+                StorageTemplateChoiceBottomSheet({ templateId, title ->
+                    viewModel.setSelectedId(templateId)
+                    tvTemplateTitle.text = title
                     Timber.d(viewModel.selectedId.value.toString())
                 }, viewModel.templateId.value ?: 0, {
                     if (viewModel.templateId.value != viewModel.selectedId.value) { // onDismissed
