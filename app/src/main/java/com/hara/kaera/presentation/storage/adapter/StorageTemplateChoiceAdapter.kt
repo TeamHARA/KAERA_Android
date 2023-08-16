@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ItemTemplateBinding
+import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
-import com.hara.kaera.presentation.write.data.TemplateData
 
 class StorageTemplateChoiceAdapter(
     private val itemClickListener: (Int) -> Unit,
-) : ListAdapter<TemplateData, StorageTemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+) : ListAdapter<TemplateTypesEntity.Template, StorageTemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
 
     private lateinit var inflater: LayoutInflater
 
