@@ -1,5 +1,6 @@
 package com.hara.kaera.presentation.storage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -12,6 +13,7 @@ import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.base.BindingFragment
 import com.hara.kaera.presentation.storage.adapter.StorageGridAdapter
 import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
+import com.hara.kaera.presentation.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.write.StorageTemplateChoiceBottomSheet
@@ -83,6 +85,10 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                         Timber.d("****\nnew tempate id: ${viewModel.templateId.value}\n****")
                     }
                 }).show(parentFragmentManager, "template_choice")
+            }
+
+            btnViewTemplate.onSingleClick {
+                startActivity(Intent(context, WorryTemplateActivity::class.java))
             }
         }
     }

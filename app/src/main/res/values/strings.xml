@@ -54,6 +54,11 @@
     <string name="storage_template_title">모든 보석 보기</string>
     <string name="storage_template_info">그동안 캐낸 모든 보석을 볼 수 있어요</string>
 
+
+    <!--  고민 작성지  -->
+    <string name="worry_template_title">고민 템플릿</string>
+    <string name="worry_template_to_write">작성하러가기</string>
+
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>
     <string name="home_stone_empty_title">아직 고민 원석이 없네요!</string>
