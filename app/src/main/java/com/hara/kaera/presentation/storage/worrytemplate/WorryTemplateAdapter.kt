@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemWorryTemplateBinding
+import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
 class WorryTemplateAdapter() :
-    ListAdapter<DummyTemplateList.Data, WorryTemplateAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+    ListAdapter<TemplateTypesEntity.Template, WorryTemplateAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
     private lateinit var inflater: LayoutInflater
 
     class ItemViewHolder(val binding: ItemWorryTemplateBinding) :
@@ -24,21 +25,12 @@ class WorryTemplateAdapter() :
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val curItem = getItem(position)
         with(holder.binding) {
-            this.template = currentList[position]
+            this.template = curItem
 
             ivArrow.setOnClickListener {
-                ExpandAnimation.toggleArrow(ivArrow, !curItem.expand)
-                if (!curItem.expand) {
-                    ExpandAnimation.expand(clContent)
-//                    TransitionManager.beginDelayedTransition(binding.clRoot)
-//                    binding.clContent.visibility = View.VISIBLE
-//                    이렇게 하려면  android:animateLayoutChanges="true" 속성적용
-                } else {
-                    ExpandAnimation.collapse(clContent)
-//                    TransitionManager.beginDelayedTransition(binding.clRoot)
-//                    binding.clContent.visibility = View.GONE
-                }
-                curItem.expand = !curItem.expand
+                val currentState = this.isExpand ?: false
+                ExpandAnimation.toggleArrow(ivArrow, !currentState)
+                this.isExpand = !currentState
             }
         }
     }

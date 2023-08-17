@@ -2,8 +2,10 @@ package com.hara.kaera.presentation.util
 
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.hara.kaera.R
+import com.hara.kaera.presentation.storage.worrytemplate.ExpandAnimation
 
 /*
     템플릿 아이디와 이전에 사용한적 있는지에 따라서 이미지를 변화시켜주는 함수
@@ -44,5 +46,14 @@ fun AppCompatButton.setBackground(activate: Boolean){
     }else{
         this.background = this.context.getDrawable(R.drawable.shape_rect_gray4_10)
         this.setTextColor(this.context.getColor(R.color.white))
+    }
+}
+
+@BindingAdapter("isExpand")
+fun ConstraintLayout.setIsExpand(isExpand: Boolean) {
+    if (isExpand) {
+        ExpandAnimation.expand(this)
+    } else {
+        ExpandAnimation.collapse(this)
     }
 }
