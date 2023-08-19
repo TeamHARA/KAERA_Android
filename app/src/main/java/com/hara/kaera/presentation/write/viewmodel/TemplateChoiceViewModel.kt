@@ -27,7 +27,7 @@ class TemplateChoiceViewModel @Inject constructor(
         viewModelScope.launch {
             _templateStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                useCase.getTemplateFlow()
+                useCase()
             }.onSuccess {
                 it.collect { collect ->
                     if (collect.templateTypeList == null) _templateStateFlow.value =

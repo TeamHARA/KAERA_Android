@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class GetTemplateTypeUseCaseImpl @Inject constructor(private val repository: KaeraRepository) :
     GetTemplateTypeUseCase {
-    override fun getTemplateFlow(): Flow<TemplateTypesEntity> {
+    override fun invoke(): Flow<TemplateTypesEntity> {
         return repository.getAllTemplateTypesInfo()
     }
 }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetTemplateDetailUseCaseImpl  @Inject constructor(private val repository: KaeraRepository) :GetTemplateDetailUseCase{
-    override fun getTemplateDetailFlow(templateId : Int): Flow<TemplateDetailEntity> {
+    override fun invoke(templateId : Int): Flow<TemplateDetailEntity> {
         return repository.getTemplateDetailInfo(templateId)
     }
 }

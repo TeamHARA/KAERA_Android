@@ -31,7 +31,7 @@ class WriteViewModel @Inject constructor(
         _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
             kotlin.runCatching {
-                detailUseCase.getTemplateDetailFlow(templateIdFlow.value)
+                detailUseCase(templateIdFlow.value)
             }.onSuccess {
                 it.collect { collect ->
                     if (collect.templateDetailInfo == null) _templateDetailFlow.value =
