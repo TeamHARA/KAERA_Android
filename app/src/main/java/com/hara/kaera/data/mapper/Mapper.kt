@@ -2,8 +2,11 @@ package com.hara.kaera.data.mapper
 
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
+import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
+import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.presentation.util.Constant
 
 /*
 Mapper는 다음과 같이 DTO타입을 Entity형태로 즉. 실제로 사용할 데이터만 담아서
@@ -73,5 +76,22 @@ object Mapper {
         }
     }
 
+    fun mapperToHomeWorryList(dto: HomeWorryListDTO): HomeWorryListEntity {
+        val worryList = mutableListOf<HomeWorryListEntity.HomeWorry>()
+        var idx = 0
+        if (dto.status in 200..399) {
+            dto.data.forEach {
+                worryList.add(
+                    HomeWorryListEntity.HomeWorry(
+                        worryId = it.worryId,
+                        templateId = it.templateId,
+                        title = it.title,
+                        homeIndex = Constant.homeGemsSequence[idx++]
+                    )
+                )
+            }
+        }
+        return HomeWorryListEntity(worryList)
+    }
 
 }

@@ -3,6 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="isSolved"
+            type="Integer" />
+
+        <variable
+            name="gemData"
+            type="com.hara.kaera.domain.entity.HomeWorryListEntity.HomeWorry" />
+    </data>
+
+    <!--
+    app:isSolved="@{isSolved}"
+    app:templateId="@{gemData.templateId}"
+    android:text="@{gemData.title}"
+    -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

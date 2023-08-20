@@ -37,6 +37,7 @@ class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit , privat
     ) {
         val curItem = getItem(position)
         with(holder.binding) {
+            /* 준우 킹이 나중에 고쳐줄거얌
             this.templatedata = curItem
             if (position == selectedPosition) { // 선택유무에 따라서 배경이 바뀐다.
                 this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_yellow1_8)
@@ -57,6 +58,7 @@ class TemplateChoiceAdapter(private val itemClickListenr: (Int) -> Unit , privat
                 }
                 notifyItemChanged(selectedPosition)
             }
+            */
         }
     }
 
