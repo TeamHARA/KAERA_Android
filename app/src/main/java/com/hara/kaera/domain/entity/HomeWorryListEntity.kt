@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HomeWorryListEntity(
-    val data: List<HomeWorry>?
+    val data: MutableList<HomeWorry?>?
 ) {
     @Serializable
     data class HomeWorry(
