@@ -138,13 +138,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp">
 
-
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
                     <EditText
                         android:id="@+id/et_title"
                         android:layout_width="match_parent"
                         android:layout_height="72dp"
+                        android:autofillHints="no"
                         android:background="@color/transparent"
                         android:hint="@string/write_naming_hint"
+                        android:inputType="text"
                         android:maxLength="7"
                         android:padding="16dp"
                         android:textAppearance="@style/h_body2_r16"
@@ -173,18 +182,20 @@
                         app:layout_constraintEnd_toEndOf="@+id/et_title"
                         app:layout_constraintTop_toTopOf="@+id/et_title" />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <include
                         android:id="@+id/cl_empty"
                         layout="@layout/layout_template_empty"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="26dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="200dp"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider_gray2" />
+                        app:layout_constraintTop_toBottomOf="@+id/cl_title" />
 
                     <include
                         android:id="@+id/cl_template"
@@ -198,12 +209,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider_gray2" />
+                        app:layout_constraintTop_toBottomOf="@+id/cl_title" />
 
                     <include
-                        android:id="@+id/cl_freeflow"
+                        android:id="@+id/cl_freenote"
                         bind:templatedata="@{templatedata}"
-                        layout="@layout/layout_free_flow_template"
+                        layout="@layout/layout_free_note_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -212,7 +223,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider_gray2" />
+                        app:layout_constraintTop_toBottomOf="@+id/cl_title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
