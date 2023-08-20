@@ -77,12 +77,12 @@ object Mapper {
     }
 
     fun mapperToHomeWorryList(dto: HomeWorryListDTO): HomeWorryListEntity {
-        val worryList = mutableListOf<HomeWorryListEntity.Data>()
+        val worryList = mutableListOf<HomeWorryListEntity.HomeWorry>()
         var idx = 0
         if (dto.status in 200..399) {
             dto.data.forEach {
                 worryList.add(
-                    HomeWorryListEntity.Data(
+                    HomeWorryListEntity.HomeWorry(
                         worryId = it.worryId,
                         templateId = it.templateId,
                         title = it.title,

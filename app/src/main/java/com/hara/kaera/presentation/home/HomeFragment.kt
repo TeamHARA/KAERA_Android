@@ -20,7 +20,7 @@ import timber.log.Timber
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val viewModel by viewModels<HomeViewModel>()
-    private val worryList = arrayOfNulls<List<HomeWorryListEntity.Data>>(2) // [0] 원석 / [1] 보석
+    private val worryList = arrayOfNulls<List<HomeWorryListEntity.HomeWorry>>(2) // [0] 원석 / [1] 보석
     private lateinit var adapter: HomeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
