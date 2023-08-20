@@ -50,7 +50,7 @@ fun AppCompatButton.setBackground(activate: Boolean){
 }
 
 @BindingAdapter("isExpand")
-fun ConstraintLayout.setIsExpand(isExpand: Boolean) {
+fun ConstraintLayout.setExpand(isExpand: Boolean) {
     if (isExpand) {
         ExpandAnimation.expand(this)
     } else {

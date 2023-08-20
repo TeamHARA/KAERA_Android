@@ -27,7 +27,6 @@ class ExpandAnimation {
 
         @SuppressLint("Range")
         private fun expandAction(view: View): Animation {
-            // view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             view.measure(
                 View.MeasureSpec.makeMeasureSpec(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -46,12 +45,11 @@ class ExpandAnimation {
 
             val animation = object : Animation() {
                 override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-                    view.layoutParams.height =
-                        if (interpolatedTime == 1f) {
-                            ViewGroup.LayoutParams.WRAP_CONTENT
-                        } else {
-                            (actualHeight * interpolatedTime).toInt()
-                        }
+                    view.layoutParams.height = if (interpolatedTime == 1f) {
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    } else {
+                        (actualHeight * interpolatedTime).toInt()
+                    }
                     view.requestLayout()
                 }
             }
@@ -65,35 +63,6 @@ class ExpandAnimation {
 
         fun collapse(view: View) {
             val actualHeight = view.measuredHeight
-
-//            val animation = object : Animation() {
-//                override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-//                    // 애니메이션 중간 과정에서 호출됩니다.
-//                    val newHeight = (actualHeight - actualHeight * interpolatedTime).toInt()
-//                    view.layoutParams.height = newHeight
-//                    view.requestLayout()
-//                }
-//            }
-//
-//            animation.setAnimationListener(object : Animation.AnimationListener {
-//                override fun onAnimationStart(animation: Animation?) {
-//                    // 애니메이션이 시작될 때 호출됩니다.
-//                    Log.e("start","start")
-//                }
-//
-//                override fun onAnimationEnd(animation: Animation?) {
-//                    // 애니메이션이 끝날 때 호출됩니다.
-//                    Log.e("start","end")
-//                    view.requestLayout()
-//                    view.visibility = View.GONE
-//                }
-//
-//                override fun onAnimationRepeat(animation: Animation?) {
-//                    Log.e("start","repeat")
-//                    // 애니메이션이 반복될 때 호출됩니다.
-//                }
-//            })
-// 애니메이션 객체 뼈대
 
             val animation = object : Animation() {
                 override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
