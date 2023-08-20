@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
             }.onSuccess {
                 it.collect {
                     if (it.data?.isEmpty() == true)
-                        _homeWorryListStoneFlow.value = UiState.Error("에러")
+                        _homeWorryListStoneFlow.value = UiState.Empty
                     else {
                         it.data?.forEach {
                             stoneList[Constant.homeGemsSequence[stoneListSize++]] = it
@@ -57,7 +57,7 @@ class HomeViewModel @Inject constructor(
             }.onSuccess {
                 it.collect {
                     if (it.data?.isEmpty() == true)
-                        _homeWorryListJewelFlow.value = UiState.Error("에러")
+                        _homeWorryListJewelFlow.value = UiState.Empty
                     else {
                         it.data?.forEach {
                             jewelList[Constant.homeGemsSequence[jewelListSize++]] = it

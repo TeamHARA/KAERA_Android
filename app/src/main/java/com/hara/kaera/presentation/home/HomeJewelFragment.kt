@@ -62,8 +62,15 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
                 Timber.e("loading...")
             }
 
+            is UiState.Empty -> {
+                binding.clEmpty.visibility = View.VISIBLE
+                binding.rvHomeJewels.visibility = View.GONE
+            }
+
             is UiState.Success -> {
                 if (uiState.data.data?.isEmpty() == false) {
+                    binding.clEmpty.visibility = View.GONE
+                    binding.rvHomeJewels.visibility = View.VISIBLE
                     homeJewelAdapter.submitList(uiState.data.data)
                 }
             }

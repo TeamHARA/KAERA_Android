@@ -79,8 +79,15 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
                 Timber.e("loading...")
             }
 
+            is UiState.Empty -> {
+                binding.clEmpty.visibility = View.VISIBLE
+                binding.rvHomeStones.visibility = View.GONE
+            }
+
             is UiState.Success -> {
                 if (uiState.data.data?.isEmpty() == false) {
+                    binding.clEmpty.visibility = View.GONE
+                    binding.rvHomeStones.visibility = View.VISIBLE
                     homeStoneAdapter.submitList(uiState.data.data)
                 }
             }
