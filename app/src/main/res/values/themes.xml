@@ -117,6 +117,7 @@
         <item name="android:inputType">textMultiLine</item>
         <item name="android:gravity">top</item>
         <item name="android:minHeight">111dp</item>
+        <item name="android:autofillHints">no</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:scrollHorizontally">false</item>
         <item name="android:textColorHint">@color/gray_4</item>

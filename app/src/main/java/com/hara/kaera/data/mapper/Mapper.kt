@@ -2,9 +2,12 @@ package com.hara.kaera.data.mapper
 
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
+import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
+import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.presentation.util.Constant
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 
 /*
@@ -73,6 +76,24 @@ object Mapper {
                 templateDetailInfo = templateDetailInfo,
             )
         }
+    }
+
+    fun mapperToHomeWorryList(dto: HomeWorryListDTO): HomeWorryListEntity {
+        val worryList = mutableListOf<HomeWorryListEntity.HomeWorry>()
+        var idx = 0
+        if (dto.status in 200..399) {
+            dto.data.forEach {
+                worryList.add(
+                    HomeWorryListEntity.HomeWorry(
+                        worryId = it.worryId,
+                        templateId = it.templateId,
+                        title = it.title,
+                        homeIndex = Constant.homeGemsSequence[idx++]
+                    )
+                )
+            }
+        }
+        return HomeWorryListEntity(worryList)
     }
 
     fun mapperToStorageWorry(dto: WorryByTemplateDTO): WorryByTemplateEntity {

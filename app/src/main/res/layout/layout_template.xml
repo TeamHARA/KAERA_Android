@@ -6,8 +6,6 @@
 
     <data>
 
-        <import type="com.hara.kaera.presentation.write.data.TemplateDetailData" />
-
         <import type="android.view.View" />
 
         <variable
@@ -39,6 +37,7 @@
             style="@style/Write_Edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[0]}"
