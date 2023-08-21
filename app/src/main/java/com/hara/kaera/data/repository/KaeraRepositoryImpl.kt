@@ -2,14 +2,18 @@ package com.hara.kaera.data.repository
 
 import com.hara.kaera.data.datasource.KaeraDataSource
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
+import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
+import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.repository.KaeraRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -46,6 +50,14 @@ class KaeraRepositoryImpl @Inject constructor(
         return flow {
             kaeraDataSource.getHomeWorryList(isSolved).collect {
                 emit(mapperToHomeWorryList(it))
+            }
+        }
+    }
+
+    override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateEntity> {
+        return flow {
+            kaeraDataSource.getWorryByTemplate(templateId).collect {
+                emit(mapperToStorageWorry(it))
             }
         }
     }
