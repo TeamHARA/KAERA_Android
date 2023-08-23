@@ -14,6 +14,7 @@ import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.presentation.dialog.DialogCompleteFragment
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.util.visible
@@ -164,7 +165,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
+                binding.root.makeToast(uiState.error)
             }
 
             else -> {
@@ -179,6 +180,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         }
         editTextFreeNote.text.clear()
         edittextTitle.text.clear()
+        //TODO condtion 변수들 초기화
     }
 
     private fun checkFreeFlow() {

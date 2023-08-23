@@ -12,6 +12,7 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
 import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.adapter.TemplateBottomSheetChoiceAdapter
 import com.hara.kaera.presentation.write.viewmodel.TemplateChoiceViewModel
@@ -62,11 +63,11 @@ class TemplateChoiceBottomSheet(
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
+                binding.root.makeToast(uiState.error)
             }
 
             else -> {
-                Timber.e("else")
+                Timber.e(uiState.toString())
             }
         }
     }
