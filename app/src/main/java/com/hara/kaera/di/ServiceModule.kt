@@ -3,6 +3,8 @@ package com.hara.kaera.di
 import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.KaeraApi
+import com.hara.kaera.data.util.ErrorHandlerImpl
+import com.hara.kaera.domain.util.ErrorHandler
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -83,5 +85,8 @@ object ServiceModule {
         return kaeraService.create(KaeraApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideErrorHandler(): ErrorHandler = ErrorHandlerImpl()
 
 }

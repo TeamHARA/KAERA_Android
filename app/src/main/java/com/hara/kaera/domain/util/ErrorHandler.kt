@@ -1,6 +1,6 @@
 package com.hara.kaera.domain.util
 
-import com.hara.kaera.data.util.ErrorType
+import com.hara.kaera.core.ErrorType
 
 
 interface ErrorHandler {

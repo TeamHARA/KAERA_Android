@@ -1,5 +1,7 @@
 package com.hara.kaera.data.util
 
+import com.hara.kaera.core.ErrorCodes
+import com.hara.kaera.core.ErrorType
 import com.hara.kaera.domain.util.ErrorHandler
 import retrofit2.HttpException
 import java.io.IOException
