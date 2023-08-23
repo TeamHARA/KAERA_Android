@@ -147,12 +147,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 binding.loadingBar.visible(false)
                 binding.clTitle.visible(true)
                 if (viewModel.templateIdFlow.value == 1) { // freenote
-                    binding.templatedata = uiState.data.templateDetailInfo
+                    binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
                     binding.clFreenote.root.visible(true)
                 } else if (viewModel.templateIdFlow.value in 2..6) { // freenote 제외 나머지
-                    binding.templatedata = uiState.data.templateDetailInfo
+                    binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
