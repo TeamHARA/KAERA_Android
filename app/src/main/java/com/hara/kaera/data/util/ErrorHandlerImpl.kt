@@ -7,12 +7,14 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketException
+import java.net.UnknownHostException
 
 class ErrorHandlerImpl : ErrorHandler {
 
     override operator fun invoke(throwable: Throwable) = when (throwable) {
         is ConnectException -> ErrorType.Network
         is SocketException -> ErrorType.Socket
+        is UnknownHostException -> ErrorType.Network
         is HttpException -> when (throwable.code()) {
             ErrorCodes.Client.BadRequest -> ErrorType.Api.BadRequest
             ErrorCodes.Client.UnAuthorized -> ErrorType.Api.UnAuthorized

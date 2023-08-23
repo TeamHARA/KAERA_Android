@@ -13,12 +13,9 @@ sealed class ErrorType {
         object GateWayTimeOut : Api()
 
     }
+
     object IoException : ErrorType()
     object Network : ErrorType()
     object Socket : ErrorType()
-
     object Unknown : ErrorType()
-
-
-
 }

@@ -9,9 +9,7 @@ import com.hara.kaera.core.ErrorType
 
 // activity에서 fragment 바꾸기
 inline fun <reified T : Fragment> AppCompatActivity.navigateTo(
-    @IdRes fragContainerId: Int,
-    tag: String? = null,
-    action: () -> Unit = {}
+    @IdRes fragContainerId: Int, tag: String? = null, action: () -> Unit = {}
 ) {
     supportFragmentManager.commit {
         replace<T>(fragContainerId, tag)
@@ -20,8 +18,7 @@ inline fun <reified T : Fragment> AppCompatActivity.navigateTo(
     }
 }
 
-fun ErrorToMessage(error: ErrorType) = when (error) {
-
+fun errorToMessage(error: ErrorType) = when (error) {
     is ErrorType.Api.BadRequest -> "잘못된 응답입니다."
     is ErrorType.Api.UnAuthorized -> "인증되지 않은 사용입니다."
     is ErrorType.Api.Forbidden -> "잘못된 접근 입니다."
@@ -34,5 +31,4 @@ fun ErrorToMessage(error: ErrorType) = when (error) {
     is ErrorType.Socket -> "인터넷 연결이 불안정합니다."
     is ErrorType.IoException -> "알수없는 오류입니다."
     is ErrorType.Unknown -> "알수없는 오류입니다."
-
 }

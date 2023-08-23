@@ -139,6 +139,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun render(uiState: UiState<TemplateDetailEntity>) {
         // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
         when (uiState) {
+            is UiState.Init -> Unit
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
             }
@@ -165,11 +166,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
+                //TODO 에러뷰 표시
                 binding.root.makeToast(uiState.error)
-            }
-
-            else -> {
-                Timber.e("else")
             }
         }
     }

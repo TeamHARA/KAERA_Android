@@ -5,13 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
-import com.hara.kaera.presentation.util.ErrorToMessage
+import com.hara.kaera.presentation.util.errorToMessage
 import com.hara.kaera.presentation.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,14 +38,12 @@ class TemplateChoiceViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _templateStateFlow.value = UiState.Error(ErrorToMessage(collect.error))
+                            _templateStateFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
-                        else -> {}
                     }
                 }
             }.onFailure {
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
