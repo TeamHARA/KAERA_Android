@@ -1,15 +1,12 @@
 package com.hara.kaera.data.datasource
 
+import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
-import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
-import kotlinx.coroutines.Dispatchers
+import com.hara.kaera.data.util.safeCallApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -25,17 +22,13 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun getTemplateTypesInfo(): Flow<TemplateTypeDTO> {
         return flow {
             emit(kaeraApi.getTemplateTypesInfo())
-        }.catch {
-            throw it
-        }
+        }.safeCallApi()
     }
 
     override fun getTemplateDetail(templateId: Int): Flow<TemplateDetailDTO> {
         return flow {
             emit(kaeraApi.getTemplateDetail(templateId))
-        }.flowOn(Dispatchers.IO).catch {
-            throw it
-        }
+        }.safeCallApi()
     }
 
     override fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListDTO> {
