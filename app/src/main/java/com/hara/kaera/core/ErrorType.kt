@@ -1,4 +1,4 @@
-package com.hara.kaera.data.util
+package com.hara.kaera.core
 
 sealed class ErrorType {
 
@@ -13,7 +13,7 @@ sealed class ErrorType {
         object GateWayTimeOut : Api()
 
     }
-    object IoException :ErrorType()
+    object IoException : ErrorType()
     object Network : ErrorType()
     object Socket : ErrorType()
 
