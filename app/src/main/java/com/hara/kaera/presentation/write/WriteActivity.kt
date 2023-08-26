@@ -116,17 +116,20 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     private fun collectFlows() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.templateDetailFlow.collect {
-                    render(it)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.templateIdFlow.collect {
+                        if (it in 1..6 && it != viewModel.curTemplateIdFlow.value) {
+                            viewModel.getTemplateDetailData()
+                        }
+                    }
                 }
-            }
-        }
+                launch {
+                    viewModel.templateDetailFlow.collect {
+                        if (viewModel.templateIdFlow.value != viewModel.curTemplateIdFlow.value)
+                            render(it)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.templateIdFlow.collect {
-                    if (it in 1..6) viewModel.getTemplateDetailData()
+                    }
                 }
             }
         }
@@ -193,5 +196,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         binding.activate = (titleCondition && contentCondition)
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.setCurTemplateId(viewModel.templateIdFlow.value)
+        // 백그라운드 전환시 render 재실행으로 인한 텍스트초기화를 막기위해 flow에 현재 id 저장
+    }
 
 }
