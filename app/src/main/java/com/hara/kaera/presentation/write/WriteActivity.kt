@@ -59,7 +59,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 finish()
             }
             clChoice.onSingleClick {
-                if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
+                if (checkText()) { // 한글자라도 써놨을 경우
                     DialogSaveWarning {
                         TemplateChoiceBottomSheet({
                             viewModel.setTemplateId(it)
@@ -128,7 +128,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     viewModel.templateDetailFlow.collect {
                         if (viewModel.templateIdFlow.value != viewModel.curTemplateIdFlow.value)
                             render(it)
-
                     }
                 }
             }
@@ -195,6 +194,9 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
         binding.activate = (titleCondition && contentCondition)
     }
+
+    private fun checkText(): Boolean =
+        (titleCondition) || (editTextList.any { it.text.isNotEmpty() && it.text.isNotBlank() }) || (editTextFreeNote.text.isNotEmpty() || editTextFreeNote.text.isNotEmpty() && editTextFreeNote.text.isNotBlank())
 
     override fun onStop() {
         super.onStop()
