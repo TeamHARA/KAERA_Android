@@ -1,5 +1,6 @@
 package com.hara.kaera.presentation.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,16 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     val binding get() = requireNotNull(_binding) { "${this.id} binding error" }
 
     override fun getTheme(): Int = R.style.NoMarginsDialog
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        return dialog
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +37,6 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         _binding!!.lifecycleOwner = viewLifecycleOwner
-        setupWidthToMatchParent()
         return binding.root
     }
 
