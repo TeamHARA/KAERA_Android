@@ -67,7 +67,11 @@
     <string name="home_jewel_label">그동안 캐낸 보석들 ✨</string>
     <string name="home_jewel_empty_title">아직 고민 보석이 없네요!</string>
     <string name="home_jewel_empty_content">원석을 터치해 고민 보석을 캐내보세요.</string>
-  
 
+    <!--  고민 상세페이지: 해결 후  -->
+    <string name="detail_after_title">나의 고민</string>
+    <string name="detail_after_answer">내가 내린 답은</string>
+    <string name="detail_after_record">이 고민 이후 나의 기록</string>
+    <string name="detail_after_record_hint">이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요</string>
 
 </resources>
