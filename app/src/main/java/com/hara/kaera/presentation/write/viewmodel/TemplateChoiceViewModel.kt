@@ -2,8 +2,10 @@ package com.hara.kaera.presentation.write.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
+import com.hara.kaera.presentation.util.errorToMessage
 import com.hara.kaera.presentation.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TemplateChoiceViewModel @Inject constructor(
-    private val useCase: GetTemplateTypeUseCase,
+    private val getTemplateTypeUseCase: GetTemplateTypeUseCase,
 ) : ViewModel() {
 
     private val _templateStateFlow =
@@ -27,16 +29,21 @@ class TemplateChoiceViewModel @Inject constructor(
         viewModelScope.launch {
             _templateStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                useCase.getTemplateFlow()
+                getTemplateTypeUseCase()
             }.onSuccess {
                 it.collect { collect ->
-                    if (collect.templateTypeList == null) _templateStateFlow.value =
-                        UiState.Error(collect.errorMessage!!)
-                    else _templateStateFlow.value = UiState.Success(collect)
+                    when (collect) {
+                        is ApiResult.Success -> {
+                            _templateStateFlow.value = UiState.Success(collect.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _templateStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                        }
+                    }
                 }
             }.onFailure {
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }

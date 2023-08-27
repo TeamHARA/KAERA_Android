@@ -12,12 +12,12 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
 import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.adapter.TemplateBottomSheetChoiceAdapter
 import com.hara.kaera.presentation.write.viewmodel.TemplateChoiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class TemplateChoiceBottomSheet(
@@ -52,6 +52,7 @@ class TemplateChoiceBottomSheet(
 
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
+            is UiState.Init -> Unit
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
             }
@@ -62,13 +63,8 @@ class TemplateChoiceBottomSheet(
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
-            }
-
-            else -> {
-                Timber.e("else")
+                binding.root.makeToast(uiState.error)
             }
         }
     }
-
 }

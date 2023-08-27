@@ -2,9 +2,11 @@ package com.hara.kaera.presentation.storage.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,18 +29,22 @@ class StorageTemplateChoiceViewModel @Inject constructor(
         viewModelScope.launch {
             _templateStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                useCase.getTemplateFlow()
+                useCase()
             }.onSuccess {
                 it.collect { collect ->
-                    if (collect.templateTypeList == null) {
-                        _templateStateFlow.value = UiState.Error(collect.errorMessage!!)
-                    } else {
-                        _templateStateFlow.value = UiState.Success(getAllTemplate(collect))
+                    when (collect) {
+                        is ApiResult.Success -> {
+                            _templateStateFlow.value = UiState.Success(collect.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _templateStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                        }
                     }
                 }
             }.onFailure {
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
+                UiState.Error("진짜로 알 수 없는 오류입니다.")
             }
         }
     }
