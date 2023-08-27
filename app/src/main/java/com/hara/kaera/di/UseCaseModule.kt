@@ -8,6 +8,8 @@ import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCaseImpl
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCaseImpl
+import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
+import com.hara.kaera.domain.usecase.GetWorryDetailUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -38,4 +40,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToGetStorageWorry(getWorryByTemplateUseCase: GetWorryByTemplateUseCaseImpl): GetWorryByTemplateUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToWorryDetail(getWorryDetailUseCase: GetWorryDetailUseCaseImpl): GetWorryDetailUseCase
 }

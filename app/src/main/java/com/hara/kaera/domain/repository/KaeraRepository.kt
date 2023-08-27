@@ -5,6 +5,7 @@ import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import kotlinx.coroutines.flow.Flow
 
 interface KaeraRepository {
@@ -16,4 +17,6 @@ interface KaeraRepository {
     fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListEntity>
 
     fun getWorryByTemplate(templateId: Int): Flow<ApiResult<WorryByTemplateEntity>>
+
+    fun getWorryDetail(worryId: Int): Flow<ApiResult<WorryDetailEntity>>
 }

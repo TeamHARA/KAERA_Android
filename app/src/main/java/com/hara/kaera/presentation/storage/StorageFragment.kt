@@ -71,8 +71,11 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     private fun initLayout() {
         storageAdapter = StorageGridAdapter { worryId ->
-            Timber.e(worryId.toString())
-            startActivity(Intent(context, DetailAfterActivity::class.java))
+            startActivity(
+                Intent(context, DetailAfterActivity::class.java).apply {
+                    putExtra("worryId", worryId)
+                },
+            )
         }
         binding.rvJewels.adapter = storageAdapter
         viewModel.getJewels()

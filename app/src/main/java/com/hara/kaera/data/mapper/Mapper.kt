@@ -4,10 +4,12 @@ import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
+import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.presentation.util.Constant
 
 /*
@@ -91,6 +93,26 @@ object Mapper {
                         worryId = worryDto.worryId,
                     )
                 },
+            )
+        }
+    }
+
+    fun mapperToWorryDetail(dto: WorryDetailDTO): WorryDetailEntity {
+        return dto.data.let {
+            WorryDetailEntity(
+                answers = it.answers,
+                d_day = it.`d-day`,
+                deadline = it.deadline,
+                finalAnswer = it.finalAnswer,
+                period = it.period,
+                review = WorryDetailEntity.Review(
+                    content = it.review.content,
+                    updatedAt = it.review.updatedAt,
+                ),
+                subtitles = it.subtitles,
+                templateId = it.templateId,
+                title = it.title,
+                updatedAt = it.updatedAt,
             )
         }
     }
