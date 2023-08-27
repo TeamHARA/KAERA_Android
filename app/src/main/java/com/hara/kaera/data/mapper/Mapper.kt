@@ -50,30 +50,13 @@ object Mapper {
     }
 
     fun mapperToTemplateDetail(dto: TemplateDetailDTO): TemplateDetailEntity {
-        if (dto.status in 400..499) { // 에러이므로 아무것도 넣지 않고 erroMessage에만 담아준다.
-            return TemplateDetailEntity(
-                errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
-                templateDetailInfo = null,
-            )
-        } else if (dto.status in 500..599) {
-            return TemplateDetailEntity(
-                errorMessage = "네트워크상태가 불안정합니다.",
-                templateDetailInfo = null,
-            )
-        } else {
-            var templateDetailInfo: TemplateDetailEntity.TemplateDetailInfo
-            dto.data.let {
-                templateDetailInfo = TemplateDetailEntity.TemplateDetailInfo(
-                    title = it.title,
-                    info = it.info,
-                    guideline = it.guideline,
-                    questions = it.questions,
-                    hints = it.hints,
-                )
-            }
-            return TemplateDetailEntity(
-                errorMessage = null,
-                templateDetailInfo = templateDetailInfo,
+        return dto.data.let {
+            TemplateDetailEntity(
+                title = it.title,
+                info = it.info,
+                guideline = it.guideline,
+                questions = it.questions,
+                hints = it.hints,
             )
         }
     }

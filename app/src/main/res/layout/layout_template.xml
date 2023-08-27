@@ -10,7 +10,7 @@
 
         <variable
             name="templatedata"
-            type="com.hara.kaera.domain.entity.TemplateDetailEntity.TemplateDetailInfo" />
+            type="com.hara.kaera.domain.entity.TemplateDetailEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

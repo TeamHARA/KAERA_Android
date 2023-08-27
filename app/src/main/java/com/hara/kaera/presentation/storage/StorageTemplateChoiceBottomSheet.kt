@@ -14,6 +14,7 @@ import com.hara.kaera.presentation.base.BindingDraggableBottomSheet
 import com.hara.kaera.presentation.storage.viewmodel.StorageTemplateChoiceViewModel
 import com.hara.kaera.presentation.util.LastItemMarginItemDecoration
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.adapter.StorageTemplateChoiceAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +58,7 @@ class StorageTemplateChoiceBottomSheet(
 
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
+            is UiState.Init -> Unit
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
             }
@@ -67,11 +69,7 @@ class StorageTemplateChoiceBottomSheet(
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
-            }
-
-            else -> {
-                Timber.e("else")
+                binding.root.makeToast(uiState.error)
             }
         }
     }

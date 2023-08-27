@@ -14,6 +14,7 @@ import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.presentation.dialog.DialogCompleteFragment
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.util.visible
@@ -138,6 +139,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun render(uiState: UiState<TemplateDetailEntity>) {
         // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
         when (uiState) {
+            is UiState.Init -> Unit
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
             }
@@ -146,12 +148,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 binding.loadingBar.visible(false)
                 binding.clTitle.visible(true)
                 if (viewModel.templateIdFlow.value == 1) { // freenote
-                    binding.templatedata = uiState.data.templateDetailInfo
+                    binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
                     binding.clFreenote.root.visible(true)
                 } else if (viewModel.templateIdFlow.value in 2..6) { // freenote 제외 나머지
-                    binding.templatedata = uiState.data.templateDetailInfo
+                    binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
@@ -164,11 +166,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
-            }
-
-            else -> {
-                Timber.e("else")
+                //TODO 에러뷰 표시
+                binding.root.makeToast(uiState.error)
             }
         }
     }
@@ -179,6 +178,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         }
         editTextFreeNote.text.clear()
         edittextTitle.text.clear()
+        //TODO condtion 변수들 초기화
     }
 
     private fun checkFreeFlow() {
