@@ -64,8 +64,8 @@ class DetailAfterActivity :
                         listOf(binding.layoutAnswer2, binding.layoutAnswer3, binding.layoutAnswer4)
                     layouts.forEachIndexed { index, layout ->
                         if (index < worryDetail.subtitles.size && index < worryDetail.answers.size) {
-                            layout.tvTitle.text = worryDetail.subtitles[index]
-                            layout.tvContent.text = worryDetail.answers[index]
+                            layout.tvTitle.text = worryDetail.subtitles[index + 1]
+                            layout.tvContent.text = worryDetail.answers[index + 1]
                         }
                     }
                 }
