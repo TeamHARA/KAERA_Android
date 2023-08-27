@@ -60,10 +60,12 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateEntity> {
+    override fun getWorryByTemplate(templateId: Int): Flow<ApiResult<WorryByTemplateEntity>> {
         return flow {
-            kaeraDataSource.getWorryByTemplate(templateId).collect {
-                emit(mapperToStorageWorry(it))
+            kaeraDataSource.getWorryByTemplate(templateId).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToStorageWorry(it)))
             }
         }
     }

@@ -9,7 +9,7 @@ import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
 class StorageGridAdapter(private val itemClickListener: (Int) -> Unit) :
-    ListAdapter<WorryByTemplateEntity.WorryByTemplate.Worry, StorageGridAdapter.ItemViewHolder>(
+    ListAdapter<WorryByTemplateEntity.Worry, StorageGridAdapter.ItemViewHolder>(
         GlobalDiffCallBack(),
     ) {
     private lateinit var inflater: LayoutInflater

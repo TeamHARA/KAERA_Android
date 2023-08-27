@@ -15,5 +15,5 @@ interface KaeraRepository {
 
     fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListEntity>
 
-    fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateEntity>
+    fun getWorryByTemplate(templateId: Int): Flow<ApiResult<WorryByTemplateEntity>>
 }

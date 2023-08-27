@@ -3,6 +3,7 @@ package com.hara.kaera.presentation.storage.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
 import com.hara.kaera.presentation.util.UiState
@@ -37,13 +38,16 @@ class StorageViewModel @Inject constructor(
         viewModelScope.launch {
             _worryStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                useCase.getStorageWorryFlow(_templateId.value?.toInt() ?: 0)
+                useCase(_templateId.value?.toInt() ?: 0)
             }.onSuccess {
                 it.collect { collect ->
-                    if (collect.worryByTemplate == null) {
-                        _worryStateFlow.value = UiState.Error(collect.errorMessage!!)
-                    } else {
-                        _worryStateFlow.value = UiState.Success(collect)
+                    when(collect) {
+                        is ApiResult.Success -> {
+                            _worryStateFlow.value = UiState.Success(collect.data)
+                        }
+                        is ApiResult.Error -> {
+                            _worryStateFlow.value = UiState.Error(collect.error.toString())
+                        }
                     }
                 }
             }.onFailure {

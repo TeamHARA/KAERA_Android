@@ -40,7 +40,7 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateDTO> {
         return flow {
             emit(kaeraApi.getWorryByTemplate(templateId))
-        }
+        }.safeCallApi()
     }
 
 }
