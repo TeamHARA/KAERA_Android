@@ -2,6 +2,7 @@ package com.hara.kaera.presentation.write.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
 import com.hara.kaera.presentation.util.UiState
@@ -31,12 +32,18 @@ class WriteViewModel @Inject constructor(
         _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
             kotlin.runCatching {
-                detailUseCase.getTemplateDetailFlow(templateIdFlow.value)
+                detailUseCase(templateIdFlow.value)
             }.onSuccess {
                 it.collect { collect ->
-                    if (collect.templateDetailInfo == null) _templateDetailFlow.value =
-                        UiState.Error(collect.errorMessage!!)
-                    else _templateDetailFlow.value = UiState.Success(collect)
+                    when (collect) {
+                        is ApiResult.Success -> {
+                            _templateDetailFlow.value = UiState.Success(collect.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _templateDetailFlow.value = UiState.Error(collect.error.toString())
+                        }
+                    }
                 }
             }.onFailure {
                 throw it

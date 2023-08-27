@@ -1,7 +1,6 @@
 package com.hara.kaera.presentation.write
 
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
@@ -12,8 +11,10 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
+import com.hara.kaera.presentation.custom.snackbar.KaeraSnackBar
+import com.hara.kaera.presentation.dialog.DialogCompleteFragment
 import com.hara.kaera.presentation.util.UiState
-import com.hara.kaera.presentation.util.makeSnackBar
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.util.visible
@@ -28,7 +29,7 @@ import timber.log.Timber
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
     private lateinit var editTextList: List<EditText>
-    private lateinit var editTextFreeFlow: EditText
+    private lateinit var editTextFreeNote: EditText
     private lateinit var edittextTitle: EditText
 
     private var titleCondition = false
@@ -44,7 +45,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             binding.clTemplate.etAnswer3,
             binding.clTemplate.etAnswer4
         )
-        editTextFreeFlow = binding.clFreeflow.etFreeflow
+        editTextFreeNote = binding.clFreenote.etFreenote
         edittextTitle = binding.etTitle
 
         setTextWatcher()
@@ -78,9 +79,18 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             btnComplete.onSingleClick(1000) {
-                if (!titleCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_title_error))
-                else if (!contentCondition) binding.root.makeSnackBar(baseContext.stringOf(R.string.write_content_error))
-                else Timber.e("굿") //TODO post 서버통신
+                if (!titleCondition) KaeraSnackBar.make(
+                    binding.root, baseContext.stringOf(R.string.write_snackbar_title),
+                    KaeraSnackBar.DURATION.LONG
+                ).show()
+                else if (!contentCondition) KaeraSnackBar.make(
+                    binding.root,
+                    baseContext.stringOf(R.string.write_snackbar_content),
+                    KaeraSnackBar.DURATION.LONG
+                ).show()
+                else {
+                    DialogCompleteFragment().show(supportFragmentManager, "complete")
+                }
             }
         }
     }
@@ -89,10 +99,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         edittextTitle.addTextChangedListener {
             binding.tvTitleCount.text =
                 String.format(this.stringOf(R.string.write_title_count), it!!.length)
-            if (viewModel.templateIdFlow.value == 0) checkFreeFlow()
+            if (viewModel.templateIdFlow.value == 1) checkFreeFlow()
             else checkTemplate()
         }
-        editTextFreeFlow.addTextChangedListener {
+        editTextFreeNote.addTextChangedListener {
             checkFreeFlow()
         }
         editTextList.forEach {
@@ -129,21 +139,23 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun render(uiState: UiState<TemplateDetailEntity>) {
         // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
         when (uiState) {
+            is UiState.Init -> Unit
             is UiState.Loading -> {
-                binding.loadingBar.visibility = View.VISIBLE
+                binding.loadingBar.visible(true)
             }
 
             is UiState.Success -> {
                 binding.loadingBar.visible(false)
-                if (viewModel.templateIdFlow.value == 1) { // freeflow
-                    binding.templatedata = uiState.data.templateDetailInfo
+                binding.clTitle.visible(true)
+                if (viewModel.templateIdFlow.value == 1) { // freenote
+                    binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
-                    binding.clFreeflow.root.visible(true)
-                } else if (viewModel.templateIdFlow.value in 2..6) { // freeflow 제외 나머지
-                    binding.templatedata = uiState.data.templateDetailInfo
+                    binding.clFreenote.root.visible(true)
+                } else if (viewModel.templateIdFlow.value in 2..6) { // freenote 제외 나머지
+                    binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
-                    binding.clFreeflow.root.visible(false)
+                    binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
                     if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visible(
                         true
@@ -154,11 +166,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
-            }
-
-            else -> {
-                Timber.e("else")
+                //TODO 에러뷰 표시
+                binding.root.makeToast(uiState.error)
             }
         }
     }
@@ -167,12 +176,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         editTextList.forEach {
             it.text.clear()
         }
-        editTextFreeFlow.text.clear()
+        editTextFreeNote.text.clear()
         edittextTitle.text.clear()
+        //TODO condtion 변수들 초기화
     }
 
     private fun checkFreeFlow() {
-        contentCondition = editTextFreeFlow.text.isNotEmpty() && editTextFreeFlow.text.isNotBlank()
+        contentCondition = editTextFreeNote.text.isNotEmpty() && editTextFreeNote.text.isNotBlank()
         titleCondition = edittextTitle.text.isNotEmpty() && edittextTitle.text.isNotBlank()
         binding.activate = (titleCondition && contentCondition)
     }

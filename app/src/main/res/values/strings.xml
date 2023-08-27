@@ -21,16 +21,15 @@
     <string name="write_snackbar_content">내용이 전부 작성되지 않았어요!</string>
     <string name="write_title_count">%d/7</string>
     <string name="write_thanksto">Thanks To %s</string>
-    <string name="write_title_error">고민의 제목을 붙여주세요</string>
-    <string name="write_content_error">고민의 내용을 전부 적어주세요</string>
 
     <string name="detail_edit">수정하기</string>
     <string name="detail_deadline_edit">데드라인 수정하기</string>
     <string name="detail_delete">삭제하기</string>
     <string name="detail_cancel">취소</string>
+    <string name="detail_warning">수정이 불가능하니 잘 확인해서 입력해주세요</string>
     <string name="complete_tilte">이 고민, 어떻게 캐낼까요?</string>
     <string name="complete_subtitle">고민 끝에 결정한 나의 생각을 적어주세요!</string>
-    <string name="complete_hint">40자 이내로 적어주세요.</string>
+    <string name="complete_hint">80자 이내로 적어주세요.</string>
     <string name="saying_shining">이 고민을 통해 더욱 빛나기를!</string>
     <string name="instagram_first">🎉 처음 캔 보석이에요 🎉</string>
     <string name="instagram_share_induction">친구들에게 처음 캐낸 내 고민 보석을 공유해보세요!</string>
@@ -51,6 +50,13 @@
     <string name="no">아니요</string>
     <string name="storage_introduce">그동안 캐낸 모든 보석을 볼 수 있어요</string>
     <string name="storage_jewels_num">총 %d개</string>
+    <string name="storage_template_title">모든 보석 보기</string>
+    <string name="storage_template_info">그동안 캐낸 모든 보석을 볼 수 있어요</string>
+
+
+    <!--  고민 작성지  -->
+    <string name="worry_template_title">고민 템플릿</string>
+    <string name="worry_template_to_write">작성하러가기</string>
 
     <!-- 홈화면 : 원석 뷰 -->
     <string name="home_stone_label">열심히 캐내는 중 ⛏</string>

@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.write.viewmodel
+package com.hara.kaera.presentation.storage.worrytemplate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,38 +14,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TemplateChoiceViewModel @Inject constructor(
-    private val getTemplateTypeUseCase: GetTemplateTypeUseCase,
+class WorryTemplateViewModel @Inject constructor(
+    private val usecase: GetTemplateTypeUseCase,
 ) : ViewModel() {
-
-    private val _templateStateFlow =
-        MutableStateFlow<UiState<TemplateTypesEntity>>(UiState.Init) // 초기상태는 UiState.Loading상태
-
-    // 값이 주기적으로 바뀔수 있으므로 MuatbleStateFLow로
-    val templateStateFlow = _templateStateFlow.asStateFlow()
-    // View에서 값을 읽어야 하므로 변경불가능 타입인 StateFlow로 준다.
+    private val _worryTemplateStateFLow =
+        MutableStateFlow<UiState<TemplateTypesEntity>>(UiState.Init)
+    val worryTemplateStateFlow = _worryTemplateStateFLow.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _templateStateFlow.value = UiState.Loading
+            _worryTemplateStateFLow.value = UiState.Loading
             kotlin.runCatching {
-                getTemplateTypeUseCase()
+                usecase()
             }.onSuccess {
                 it.collect { collect ->
                     when (collect) {
                         is ApiResult.Success -> {
-                            _templateStateFlow.value = UiState.Success(collect.data)
+                            _worryTemplateStateFLow.value = UiState.Success(collect.data)
                         }
 
                         is ApiResult.Error -> {
-                            _templateStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                            _worryTemplateStateFLow.value =
+                                UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }
             }.onFailure {
                 throw (it)
+                UiState.Error("알 수 없는 오류 입니다.")
             }
         }
     }
-
 }

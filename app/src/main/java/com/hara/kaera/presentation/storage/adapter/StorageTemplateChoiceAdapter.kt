@@ -9,17 +9,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ItemTemplateBinding
+import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
-import com.hara.kaera.presentation.write.data.TemplateData
 
 class StorageTemplateChoiceAdapter(
-    private val itemClickListener: (Int) -> Unit,
-) : ListAdapter<TemplateData, StorageTemplateChoiceAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+    private val itemClickListener: (Int, String) -> Unit,
+    selectedId: Int,
+) : ListAdapter<TemplateTypesEntity.Template, StorageTemplateChoiceAdapter.ItemViewHolder>(
+    GlobalDiffCallBack(),
+) {
 
     private lateinit var inflater: LayoutInflater
 
     /* 선택한 위치의 값을 저장해주는 필드 */
-    private var selectedPosition = 0
+    private var selectedPosition = selectedId
 
     /* 이전에 선택한 위치의 값을 저장해주는 필드*/
     private var lastItemSelectedPosition = 0
@@ -37,7 +40,6 @@ class StorageTemplateChoiceAdapter(
         holder: ItemViewHolder,
         @SuppressLint("RecyclerView") position: Int,
     ) {
-        /* (To. 준우킹) 오류 나서 임시 주석 처리 : 나중에 고쳐주새요
         val curItem = getItem(position)
         with(holder.binding) {
             this.templatedata = curItem
@@ -82,8 +84,8 @@ class StorageTemplateChoiceAdapter(
                 selectedPosition = position
                 lastItemSelectedPosition = selectedPosition
                 notifyItemChanged(selectedPosition)
-                //itemClickListener(curItem.templateId)
+                itemClickListener(curItem.templateId, curItem.title)
             }
-        }*/
+        }
     }
 }

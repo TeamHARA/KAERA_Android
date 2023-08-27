@@ -1,12 +1,12 @@
-package com.hara.kaera.presentation.write.viewmodel
+package com.hara.kaera.presentation.storage.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
-import com.hara.kaera.presentation.util.errorToMessage
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TemplateChoiceViewModel @Inject constructor(
-    private val getTemplateTypeUseCase: GetTemplateTypeUseCase,
+class StorageTemplateChoiceViewModel @Inject constructor(
+    private val useCase: GetTemplateTypeUseCase,
 ) : ViewModel() {
 
     private val _templateStateFlow =
@@ -29,7 +29,7 @@ class TemplateChoiceViewModel @Inject constructor(
         viewModelScope.launch {
             _templateStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                getTemplateTypeUseCase()
+                useCase()
             }.onSuccess {
                 it.collect { collect ->
                     when (collect) {
@@ -44,8 +44,22 @@ class TemplateChoiceViewModel @Inject constructor(
                 }
             }.onFailure {
                 throw (it)
+                UiState.Error("진짜로 알 수 없는 오류입니다.")
             }
         }
     }
 
+    private fun getAllTemplate(templateEntity: TemplateTypesEntity): TemplateTypesEntity {
+        var templateList = mutableListOf(
+            TemplateTypesEntity.Template(
+                templateId = 0,
+                title = "모든 보석 보기",
+                info = "그동안 캐낸 모든 보석을 볼래요!",
+                shortInfo = "그동안 캐낸 모든 보석을 볼래요!",
+                hasUsed = false,
+            ),
+        )
+        templateList.addAll(templateEntity.templateTypeList!!)
+        return TemplateTypesEntity(errorMessage = null, templateTypeList = templateList)
+    }
 }

@@ -32,6 +32,9 @@
         <activity
             android:name=".presentation.write.WriteActivity"
             android:exported="true" />
+        <activity
+            android:name=".presentation.storage.worrytemplate.WorryTemplateActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

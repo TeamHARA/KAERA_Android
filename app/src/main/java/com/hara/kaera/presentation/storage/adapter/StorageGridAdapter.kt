@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemStorageGridBinding
-import com.hara.kaera.presentation.storage.data.Worry
+import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
 class StorageGridAdapter() :
-    ListAdapter<Worry, StorageGridAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+    ListAdapter<WorryByTemplateEntity.WorryByTemplate.Worry, StorageGridAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
     private lateinit var inflater: LayoutInflater
 
     class ItemViewHolder(val binding: ItemStorageGridBinding) :
@@ -26,7 +26,6 @@ class StorageGridAdapter() :
         val curItem = getItem(position)
         with(holder.binding) {
             this.worryData = currentList[position]
-            this.templateId = curItem.templateId
         }
     }
 }
