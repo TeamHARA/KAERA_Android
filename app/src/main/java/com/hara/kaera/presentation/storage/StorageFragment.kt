@@ -11,6 +11,7 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentStorageBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.base.BindingFragment
+import com.hara.kaera.presentation.detail.DetailAfterActivity
 import com.hara.kaera.presentation.storage.adapter.StorageGridAdapter
 import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
 import com.hara.kaera.presentation.storage.worrytemplate.WorryTemplateActivity
@@ -67,7 +68,10 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     }
 
     private fun initLayout() {
-        storageAdapter = StorageGridAdapter()
+        storageAdapter = StorageGridAdapter { worryId ->
+            Timber.e(worryId.toString())
+            startActivity(Intent(context, DetailAfterActivity::class.java))
+        }
         binding.rvJewels.adapter = storageAdapter
         viewModel.getJewels()
     }

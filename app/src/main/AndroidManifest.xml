@@ -35,6 +35,9 @@
         <activity
             android:name=".presentation.storage.worrytemplate.WorryTemplateActivity"
             android:exported="true" />
+        <activity
+            android:name=".presentation.detail.DetailAfterActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
