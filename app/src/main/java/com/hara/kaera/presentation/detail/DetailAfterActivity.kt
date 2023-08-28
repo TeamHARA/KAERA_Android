@@ -48,10 +48,6 @@ class DetailAfterActivity :
             is UiState.Success<WorryDetailEntity> -> {
                 val worryDetail = uiState.data
                 binding.worryDetail = worryDetail
-                with(binding) {
-                    layoutAnswer1.tvTitle.text = worryDetail.subtitles[0]
-                    layoutAnswer1.tvContent.text = worryDetail.answers[0]
-                }
 
                 if (worryDetail.templateId == 1) { // freeflow
                     with(binding) {

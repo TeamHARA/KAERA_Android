@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.DetailBeforeActivity">
 
@@ -113,12 +114,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"
+                            android:layout_marginEnd="2dp"
                             android:text="@string/detail_worry_date"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_4"
-                            android:layout_marginEnd="2dp"
-                            app:layout_constraintHorizontal_chainStyle="packed"
                             app:layout_constraintEnd_toStartOf="@+id/tv_date"
+                            app:layout_constraintHorizontal_chainStyle="packed"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
@@ -143,7 +144,9 @@
                             android:layout_marginTop="36dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_date" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_date"
+                            bind:content="@{worryDetail.answers[0]}"
+                            bind:title="@{worryDetail.subtitles[0]}" />
 
                         <include
                             android:id="@+id/layout_answer_2"
