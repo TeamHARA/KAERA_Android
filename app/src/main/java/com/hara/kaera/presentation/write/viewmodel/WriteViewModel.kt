@@ -2,6 +2,7 @@ package com.hara.kaera.presentation.write.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
 import com.hara.kaera.presentation.util.UiState
@@ -23,7 +24,7 @@ class WriteViewModel @Inject constructor(
     private val _templateIdFlow = MutableStateFlow(-1)
     val templateIdFlow = _templateIdFlow.asStateFlow()
 
-    private val _curTemplateIdFlow = MutableStateFlow(PrevId.INIT.value)
+    private val _curTemplateIdFlow = MutableStateFlow(CurId.INIT.value)
     val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
     //repeatOnLifeCycle에 따라서 백그라운드로 나갔다 다시 create되면
     //onStarted에서 tmplateIdFlow를 다시 collect함 그에 따라서
@@ -49,7 +50,7 @@ class WriteViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _templateDetailFlow.value = UiState.Success(collect.data)
-                            _curTemplateIdFlow.value = PrevId.INIT.value
+                            _curTemplateIdFlow.value = CurId.INIT.value
                         }
 
                         is ApiResult.Error -> {
@@ -63,7 +64,7 @@ class WriteViewModel @Inject constructor(
         }
     }
 
-    enum class PrevId(val value : Int) {
+    enum class CurId(val value : Int) {
         INIT(-1)
     }
 
