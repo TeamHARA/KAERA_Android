@@ -9,6 +9,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 val properties = Properties()

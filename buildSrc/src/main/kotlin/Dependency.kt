@@ -65,5 +65,9 @@ object Dependency {
         const val KAKAO_USER = "com.kakao.sdk:v2-talk:${Versions.KAKAO_SDK}"
     }
 
+    object SecertsGradle{
+        const val SECERETS_GRADLE_CLASSPATH ="com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:{${Versions.SERCRET_GRADLE}}"
+    }
+
 }
 
