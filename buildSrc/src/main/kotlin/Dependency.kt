@@ -59,5 +59,11 @@ object Dependency {
         const val RETROFIR2_SERIALIZATIOM = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.RETROFIT2_SERIALIZATION_CONVERTER}"
     }
 
+    object KaKaoSDK{
+        const val KAKAO_MODULE = "com.kakao.sdk:v2-all:${Versions.KAKAO_SDK}"
+        const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO_SDK}"
+        const val KAKAO_USER = "com.kakao.sdk:v2-talk:${Versions.KAKAO_SDK}"
+    }
+
 }
 

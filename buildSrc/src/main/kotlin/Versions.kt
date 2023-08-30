@@ -47,5 +47,7 @@ object Versions {
     //viewpager2_dot_indicator
     const val DOTSINDICATOR = "5.0"
 
+    // kakaoSDK
+    const val KAKAO_SDK = "2.15.0"
 
 }
