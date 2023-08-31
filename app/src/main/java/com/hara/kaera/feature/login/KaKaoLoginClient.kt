@@ -1,4 +1,4 @@
-package com.hara.kaera.data.datasource
+package com.hara.kaera.feature.login
 
 import android.content.Context
 import com.kakao.sdk.auth.model.OAuthToken
@@ -13,12 +13,11 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class KaKaoLoginClient @Inject constructor(
-    @ActivityContext context: Context,
+    @ActivityContext private val context: Context,
     private val userApiClient: UserApiClient
 ) {
 
-
-    suspend fun UserApiClient.Companion.login(context: Context): Result<OAuthToken> = runCatching {
+    suspend fun login(): Result<OAuthToken> = runCatching {
         if (userApiClient.isKakaoTalkLoginAvailable(context)) { // 카카오톡이 설치되어있는가?
             try {
                 UserApiClient.loginWithKakaoTalk(context)
