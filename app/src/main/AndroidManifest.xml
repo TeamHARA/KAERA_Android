@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
-            android:name=".presentation.login.LoginActivity"
+            android:name=".feature.login.LoginActivity"
             android:exported="true" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
@@ -36,10 +36,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.DetailBeforeActivity"
+            android:name=".feature.DetailBeforeActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".feature.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,10 +48,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.write.WriteActivity"
+            android:name=".feature.write.WriteActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.storage.worrytemplate.WorryTemplateActivity"
+            android:name=".feature.storage.worrytemplate.WorryTemplateActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.detail.DetailAfterActivity"
