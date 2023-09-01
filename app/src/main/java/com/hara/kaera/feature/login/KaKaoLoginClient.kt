@@ -52,7 +52,10 @@ class KaKaoLoginClient @Inject constructor(
 
     //
 
-    private fun Continuation<OAuthToken>.resumeTokenOrException(token: OAuthToken?, error: Throwable?) {
+    private fun Continuation<OAuthToken>.resumeTokenOrException(
+        token: OAuthToken?,
+        error: Throwable?
+    ) {
         if (error != null) {
             resumeWithException(error)
         } else if (token != null) {
@@ -61,6 +64,4 @@ class KaKaoLoginClient @Inject constructor(
             resumeWithException(RuntimeException("토큰 접근 에러"))
         }
     }
-
-
 }
