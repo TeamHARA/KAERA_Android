@@ -38,7 +38,7 @@ class Notification(
                         .bigText(body) // 줄넘김을 위해서 확장 알림으로 설정
                 )
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                //.setFullScreenIntent(resultPendingIntent , true)
+            //.setFullScreenIntent(resultPendingIntent , true)
         }
     }
 

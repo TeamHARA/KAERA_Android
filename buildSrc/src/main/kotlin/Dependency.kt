@@ -16,10 +16,15 @@ object Dependency {
         const val MATERIAL = "com.google.android.material:material:${Versions.ANDROID_MATERIAL}"
     }
 
+    object Google{
+        const val GOOGLE_SERVICE = "com.google.gms:google-services:${Versions.GOOGLE_SERVICE}"
+    }
+
     object Firebase {
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging-ktx:${Versions.FIREBASE_MEESAGING}"
     }
 
     object ThirdParty {

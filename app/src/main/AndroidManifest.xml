@@ -17,6 +17,17 @@
         android:theme="@style/Theme.Kaera"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--            android:resource="@drawable/ic_notification" />-->
+        <service
+            android:name=".application.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".presentation.DetailBeforeActivity"
             android:exported="true" />

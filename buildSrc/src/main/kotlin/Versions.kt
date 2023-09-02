@@ -35,8 +35,12 @@ object Versions {
     const val ANDROIDX_JUNIT = "1.1.5"
     const val ESPRESSO_CORE = "3.5.1"
 
+    //GOOGLE_SERVICE
+    const val GOOGLE_SERVICE = "4.3.15"
+
     //FIREBASE
     const val FIREBASE_BOM = "32.2.0"
+    const val FIREBASE_MEESAGING = "23.2.1"
 
     //TIMBER
     const val TIMBER = "5.0.1"
