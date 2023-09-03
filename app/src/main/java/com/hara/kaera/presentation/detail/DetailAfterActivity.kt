@@ -9,11 +9,13 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityDetailAfterBinding
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
+import com.hara.kaera.presentation.detail.custom.DialogDeleteWarning
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailAfterActivity :
@@ -24,6 +26,7 @@ class DetailAfterActivity :
         super.onCreate(savedInstanceState)
         getWorryById()
         collectFlows()
+        setClickListener()
     }
 
     private fun getWorryById() {
@@ -38,6 +41,15 @@ class DetailAfterActivity :
                     render(it)
                 }
             }
+        }
+    }
+
+    private fun setClickListener() {
+        binding.btnDelete.setOnClickListener {
+            DialogDeleteWarning {
+                // viewModel.deleteWorry()
+                Timber.e("고민글 삭제 완료")
+            }.show(supportFragmentManager, "delete")
         }
     }
 
