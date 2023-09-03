@@ -1,5 +1,6 @@
 package com.hara.kaera.di
 
+import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCaseImpl
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
@@ -12,6 +13,8 @@ import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCaseImpl
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCaseImpl
+import com.hara.kaera.domain.usecase.PutReviewUseCase
+import com.hara.kaera.domain.usecase.PutReviewUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -50,4 +53,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToDeleteWorry(deleteWorryUseCase: DeleteWorryUseCaseImpl): DeleteWorryUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToReview(putReviewUseCase: PutReviewUseCaseImpl): PutReviewUseCase
 }

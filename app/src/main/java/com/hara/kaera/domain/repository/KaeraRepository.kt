@@ -1,8 +1,10 @@
 package com.hara.kaera.domain.repository
 
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
@@ -22,4 +24,6 @@ interface KaeraRepository {
     fun getWorryDetail(worryId: Int): Flow<ApiResult<WorryDetailEntity>>
 
     fun deleteWorry(worryId: Int): Flow<ApiResult<DeleteWorryEntity>>
+
+    fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ApiResult<ReviewResEntity>>
 }

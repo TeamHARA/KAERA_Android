@@ -2,12 +2,16 @@ package com.hara.kaera.data.datasource
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.ReviewReqDTO
+import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -44,4 +48,9 @@ interface KaeraApi {
     suspend fun deleteWorry(
         @Path("worryId") worryId: Int,
     ): DeleteWorryDTO
+
+    @PUT("review")
+    suspend fun updateReview(
+        @Body reviewReqDto: ReviewReqDTO,
+    ): ReviewResDTO
 }

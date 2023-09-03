@@ -2,12 +2,14 @@ package com.hara.kaera.data.mapper
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
@@ -123,5 +125,9 @@ object Mapper {
         return dto.let {
             DeleteWorryEntity(message = it.message, status = it.status, success = it.success)
         }
+    }
+
+    fun mapperToReview(dto: ReviewResDTO): ReviewResEntity {
+        return ReviewResEntity(updateDate = dto.data.updatedAt)
     }
 }
