@@ -1,5 +1,6 @@
 package com.hara.kaera.data.datasource
 
+import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
@@ -24,4 +25,6 @@ interface KaeraDataSource {
     fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateDTO>
 
     fun getWorryDetail(worryId: Int): Flow<WorryDetailDTO>
+
+    fun deleteWorryById(worryId: Int): Flow<DeleteWorryDTO>
 }

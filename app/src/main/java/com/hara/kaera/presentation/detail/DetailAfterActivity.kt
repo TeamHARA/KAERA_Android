@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityDetailAfterBinding
+import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.detail.custom.DialogDeleteWarning
@@ -42,14 +43,36 @@ class DetailAfterActivity :
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.deleteWorryFlow.collect {
+                    renderDelete(it)
+                }
+            }
+        }
     }
 
     private fun setClickListener() {
         binding.btnDelete.setOnClickListener {
             DialogDeleteWarning {
-                // viewModel.deleteWorry()
-                Timber.e("고민글 삭제 완료")
+                viewModel.deleteWorry()
             }.show(supportFragmentManager, "delete")
+        }
+    }
+
+    private fun renderDelete(uiState: UiState<DeleteWorryEntity>) {
+        when (uiState) {
+            is UiState.Init -> Unit
+            is UiState.Loading -> Unit
+            is UiState.Success -> {
+                Timber.e("삭제 되었습니다!")
+                finish()
+            }
+
+            is UiState.Error -> {
+                binding.root.makeToast(uiState.error)
+            }
         }
     }
 

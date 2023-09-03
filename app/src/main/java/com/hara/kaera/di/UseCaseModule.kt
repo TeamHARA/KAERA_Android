@@ -1,5 +1,7 @@
 package com.hara.kaera.di
 
+import com.hara.kaera.domain.usecase.DeleteWorryUseCase
+import com.hara.kaera.domain.usecase.DeleteWorryUseCaseImpl
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCaseImpl
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
@@ -44,4 +46,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToWorryDetail(getWorryDetailUseCase: GetWorryDetailUseCaseImpl): GetWorryDetailUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToDeleteWorry(deleteWorryUseCase: DeleteWorryUseCaseImpl): DeleteWorryUseCase
 }
