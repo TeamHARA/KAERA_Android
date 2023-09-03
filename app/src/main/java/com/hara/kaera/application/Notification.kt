@@ -3,10 +3,12 @@ package com.hara.kaera.application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
-import android.os.Build
+import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.hara.kaera.R
+import com.hara.kaera.presentation.MainActivity
 
 
 class Notification(
@@ -26,7 +28,7 @@ class Notification(
     }
 
     private fun setBuilder(): NotificationCompat.Builder {
-        //val resultPendingIntent = setPendingIntent()
+        val resultPendingIntent = setPendingIntent()
 
         return with(context) {
             NotificationCompat.Builder(this, getString(R.string.project_id))
@@ -38,24 +40,24 @@ class Notification(
                         .bigText(body) // 줄넘김을 위해서 확장 알림으로 설정
                 )
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-            //.setFullScreenIntent(resultPendingIntent , true)
+                .setFullScreenIntent(resultPendingIntent , true)
         }
     }
 
-//    private fun setPendingIntent(): PendingIntent {
-//        //TODO HOME으로 갈지 Splash로 갈지 고민 Splash가 가장 깔끔하다고 생각
-//        // val resultIntent = Intent(context, SplashActivity::class.java)
-//
-//        return TaskStackBuilder.create(context).run {
-//            addNextIntentWithParentStack(resultIntent)
-//            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
-//        }
-//    }
+    private fun setPendingIntent(): PendingIntent {
+        //TODO HOME으로 갈지 Splash로 갈지 고민 Splash가 가장 깔끔하다고 생각
+        val resultIntent = Intent(context, MainActivity::class.java)
+
+        return TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(resultIntent)
+            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+        }
+    }
 
     private fun createNotificationChannel() {
         val name = context.getString(R.string.project_id)
         val descriptionText = "Description"
-        val importance = NotificationManager.IMPORTANCE_UNSPECIFIED
+        val importance = NotificationManager.IMPORTANCE_MAX
         val channel = NotificationChannel(
             context.getString(R.string.project_id),
             name,
