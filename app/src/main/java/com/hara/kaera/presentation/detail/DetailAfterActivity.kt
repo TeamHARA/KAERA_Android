@@ -1,6 +1,7 @@
 package com.hara.kaera.presentation.detail
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +29,7 @@ class DetailAfterActivity :
         getWorryById()
         collectFlows()
         setClickListener()
+        setKeyboardLayout()
     }
 
     private fun getWorryById() {
@@ -58,6 +60,10 @@ class DetailAfterActivity :
             DialogDeleteWarning {
                 viewModel.deleteWorry()
             }.show(supportFragmentManager, "delete")
+        }
+
+        binding.tvSaveBtn.setOnClickListener {
+            // TODO: 통신
         }
     }
 
@@ -104,6 +110,21 @@ class DetailAfterActivity :
 
             is UiState.Error -> {
                 binding.root.makeToast(uiState.error)
+            }
+        }
+    }
+
+    private fun setKeyboardLayout() {
+        binding.etRecordContent.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // 스크롤 위치 조절
+                binding.svContent.post {
+                    val positionToScroll = binding.etRecordContent.bottom + 100
+                    binding.svContent.smoothScrollTo(0, positionToScroll)
+                }
+                binding.clSaveLayout.visibility = View.VISIBLE
+            } else {
+                binding.clSaveLayout.visibility = View.GONE
             }
         }
     }
