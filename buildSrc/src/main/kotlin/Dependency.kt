@@ -10,6 +10,7 @@ object Dependency {
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.ACTIVITY}"
         const val FRAGMENT = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
         const val VIEWPAGER2 = "androidx.viewpager2:viewpager2:${Versions.VIEWPAGER2 }"
+        const val DATASTORE = "androidx.datastore:datastore:${Versions.DATASTORE}"
     }
 
     object Android {
