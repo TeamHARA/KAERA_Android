@@ -2,8 +2,8 @@ package com.hara.kaera.di
 
 import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
-import com.hara.kaera.data.datasource.KaeraApi
-import com.hara.kaera.data.datasource.LoginApi
+import com.hara.kaera.data.datasource.remote.KaeraApi
+import com.hara.kaera.data.datasource.remote.LoginApi
 import com.hara.kaera.data.util.ErrorHandlerImpl
 import com.hara.kaera.domain.util.ErrorHandler
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

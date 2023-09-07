@@ -65,6 +65,7 @@ dependencies {
     implementation(Dependency.AndroidX.LIVEDATA)
     implementation(Dependency.AndroidX.VIEWMODEL)
     implementation(Dependency.AndroidX.VIEWPAGER2)
+    implementation(Dependency.AndroidX.DATASTORE)
 
     // ViewModel delegate: by viewModels() 이용해 viewModel 생성
     implementation(Dependency.AndroidX.ACTIVITY)

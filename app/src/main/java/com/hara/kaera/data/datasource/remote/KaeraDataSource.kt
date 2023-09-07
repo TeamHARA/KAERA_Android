@@ -1,4 +1,4 @@
-package com.hara.kaera.data.datasource
+package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO

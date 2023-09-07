@@ -8,4 +8,9 @@ import kotlinx.coroutines.flow.Flow
 interface LoginRepository {
 
     fun getKakaoLoginJTW(accessToken: KaKaoLoginReqDTO): Flow<ApiResult<KakaoLoginJWTEntity>>
+
+    fun getSavedAccessToken(): Flow<String>
+    suspend fun saveAccessToken(accessToken: String)
+
+    suspend fun saveRefreshToken(refreshToken: String)
 }
