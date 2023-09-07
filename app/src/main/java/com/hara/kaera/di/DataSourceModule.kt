@@ -3,6 +3,9 @@ package com.hara.kaera.di
 import com.hara.kaera.data.datasource.KaeraApi
 import com.hara.kaera.data.datasource.KaeraDataSource
 import com.hara.kaera.data.datasource.KaeraDataSourceImpl
+import com.hara.kaera.data.datasource.LoginApi
+import com.hara.kaera.data.datasource.LoginDataSource
+import com.hara.kaera.data.datasource.LoginDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,9 +24,17 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideKaeraDataSource(
-        kaeraApi: KaeraApi
+        @ServiceModule.KAREARetrofit kaeraApi: KaeraApi
     ): KaeraDataSource {
         return KaeraDataSourceImpl(kaeraApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginDataSource(
+        @ServiceModule.LoginRetrofit loginApi: LoginApi
+    ): LoginDataSource {
+        return LoginDataSourceImpl(loginApi)
     }
 
 }
