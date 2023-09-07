@@ -1,11 +1,15 @@
 package com.hara.kaera.data.dto
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class KaKaoLoginResDTO(
     val status: Int, // 200
     val success: Boolean, // true
     val message: String, // 로그인 성공
     val `data`: Data
 ) {
+    @Serializable
     data class Data(
         val id: Int, // 2
         val name: String, // 김캐라
