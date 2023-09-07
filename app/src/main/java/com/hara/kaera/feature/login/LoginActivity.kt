@@ -30,8 +30,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val keyhash = Utility.getKeyHash(this)
-        Timber.e(keyhash.toString())
+//        val keyhash = Utility.getKeyHash(this)
+//        Timber.e(keyhash.toString())
 
         binding.btnKakaoLogin.onSingleClick(300) {
             lifecycleScope.launch {
@@ -71,7 +71,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is UiState.Loading -> {}
             is UiState.Success -> {
                 Timber.e(uistate.data)
-                //finishAffinity()
+                loginViewModel.saveAccessToken(uistate.data)
+                finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
             }
 

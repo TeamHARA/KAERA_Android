@@ -35,7 +35,7 @@ class LoginRepositoryImpl @Inject constructor(
     }
 
     override fun getSavedAccessToken(): Flow<String> {
-        return localLoginDataStore.data.catch{
+        return localLoginDataStore.data.catch {
             emit(emptyPreferences())
         }.map {
             it[Constant.ACCESS_TOKEN_KEY] ?: "token not found"
