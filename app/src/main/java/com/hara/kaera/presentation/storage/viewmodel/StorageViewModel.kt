@@ -46,7 +46,7 @@ class StorageViewModel @Inject constructor(
                             _worryStateFlow.value = UiState.Success(collect.data)
                         }
                         is ApiResult.Error -> {
-                            _worryStateFlow.value = UiState.Error(collect.error.toString())
+                            _worryStateFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }
