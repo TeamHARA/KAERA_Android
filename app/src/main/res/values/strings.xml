@@ -17,7 +17,7 @@
     <string name="write_empty">선택된 템플릿이 없어요!</string>
     <string name="write_empty_induction">고민 내용 작성하기</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
-    <string name="write_snackbar_title"><![CDATA[고민의 <font color=\'#ff0000\'>제목</font>을 붙여주세요!]]></string>
+    <string name="write_snackbar_title"><![CDATA[고민의 <font color=\'#FF5F5F\'>제목</font>을 붙여주세요!]]></string>
     <string name="write_snackbar_content">내용이 전부 작성되지 않았어요!</string>
     <string name="write_title_count">%d/7</string>
     <string name="write_thanksto">Thanks To %s</string>
@@ -35,7 +35,7 @@
     <string name="instagram_share_induction">친구들에게 처음 캐낸 내 고민 보석을 공유해보세요!</string>
     <string name="instagram_share_button">인스타 스토리 공유하기</string>
 
-    <string name="dialog_record"><![CDATA[기록을 <font color=\'#ff0000\'>취소</font> 하시나요?]]></string>
+    <string name="dialog_record"><![CDATA[기록을 <font color=\'#FF5F5F\'>취소</font> 하시나요?]]></string>
     <string name="dialog_cancel">취소</string>
     <string name="dialog_sure">하시나요?</string>
     <string name="dialog_record_warning">작성된 기록이 저장되지 않았어요.</string>
