@@ -50,7 +50,14 @@ class KaKaoLoginClient @Inject constructor(
             }
         }
 
-    //
+    // 로그아웃
+    suspend fun UserApiClient.Companion.logOut() {
+        suspendCoroutine { continuation ->
+            instance.logout { error ->
+                continuation.resumeLogout(error)
+            }
+        }
+    }
 
     private fun Continuation<OAuthToken>.resumeTokenOrException(
         token: OAuthToken?,
@@ -62,6 +69,14 @@ class KaKaoLoginClient @Inject constructor(
             resume(token)
         } else {
             resumeWithException(RuntimeException("토큰 접근 에러"))
+        }
+    }
+
+    private fun Continuation<Nothing>.resumeLogout(
+        error: Throwable?
+    ) {
+        if (error != null) {
+            resumeWithException(error)
         }
     }
 }

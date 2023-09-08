@@ -2,6 +2,7 @@ package com.hara.kaera.feature.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.KaKaoLoginReqDTO
 import com.hara.kaera.domain.repository.LoginRepository
@@ -22,6 +23,16 @@ class LoginViewModel @Inject constructor(
 
     private val _kakaoJWT = MutableStateFlow<UiState<String>>(UiState.Init)
     val kakaoJWT = _kakaoJWT.asStateFlow()
+
+    /*
+    나중에는 리프레시 토큰이 들어가서 accesstoken을 갱신하는 식으로 가야할듯
+     */
+    private val _localJWT = MutableStateFlow<TokenState<String>>(TokenState.Init)
+    val localJWT = _localJWT.asStateFlow()
+
+    init {
+        getAccessToken()
+    }
 
     fun getKakaoLoginJWT(oAuthToken: OAuthToken) {
         _kakaoJWT.value = UiState.Loading
@@ -48,7 +59,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun saveAccessToken(accessToken:String){
+    fun saveAccessToken(accessToken: String) {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.saveAccessToken(accessToken = accessToken)
@@ -62,18 +73,19 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    fun getAccessToken() {
+    private fun getAccessToken() {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.getSavedAccessToken()
-            }.onSuccess { it ->
+            }.onSuccess {
                 it.collect { token ->
                     when (token) {
-                        "token not found" -> {//empyu
+                        EMPTY_TOKEN -> {
+                            _localJWT.value = TokenState.Empty
                         }
 
                         else -> {
-                            Timber.e(token)
+                            _localJWT.value = TokenState.Valid(token)
                         }
                     }
 
@@ -82,8 +94,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    enum class ERORR(content: String) {
-        TOKEN_EMPTY("token not found")
+    sealed class TokenState<out T> {
+        object Init : TokenState<Nothing>()
+        object Empty : TokenState<Nothing>()
+        data class Valid<String>(val token: String) : TokenState<String>()
     }
 
 }

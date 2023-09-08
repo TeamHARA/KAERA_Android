@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import com.hara.kaera.application.Constant
+import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.data.dto.KaKaoLoginReqDTO
@@ -38,7 +39,7 @@ class LoginRepositoryImpl @Inject constructor(
         return localLoginDataStore.data.catch {
             emit(emptyPreferences())
         }.map {
-            it[Constant.ACCESS_TOKEN_KEY] ?: "token not found"
+            it[Constant.ACCESS_TOKEN_KEY] ?: EMPTY_TOKEN
         }
     }
 

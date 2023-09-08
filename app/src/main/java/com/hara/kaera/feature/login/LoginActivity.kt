@@ -10,10 +10,10 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityLoginBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.login.LoginViewModel.TokenState
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
-import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -32,6 +32,10 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
 //        val keyhash = Utility.getKeyHash(this)
 //        Timber.e(keyhash.toString())
+
+        binding.btnLogout.onSingleClick {
+
+        }
 
         binding.btnKakaoLogin.onSingleClick(300) {
             lifecycleScope.launch {
@@ -55,29 +59,56 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             }
         }
 
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.kakaoJWT.collect {
-                    render(it)
+                launch {
+                    loginViewModel.kakaoJWT.collect {
+                        render(it)
+                    }
+                }
+                launch {
+                    loginViewModel.localJWT.collect {
+                        tokenCheck(it)
+                    }
                 }
             }
         }
 
     }
 
-    private fun render(uistate: UiState<String>) {
-        when (uistate) {
+    /*
+    이 함수 자체가 카카오로그인을 한번 한 상태에서도 이루어지므로 나중에 splashActivity에서
+    처리해도 되지 않을까 생각이 듭니다. 우선은 테스트용으로 여기에서 실행
+     */
+    private fun tokenCheck(tokenState: TokenState<String>) {
+        when (tokenState) {
+            is TokenState.Init -> Unit
+            is TokenState.Empty -> {
+                binding.root.makeToast("로그인 먼저 진행해주세요")
+            }
+
+            is TokenState.Valid -> {
+                // 여기서는 나중에 토큰 재발급 동작(refresh 기반으로 accesstoken 재발급)이 있어야 할것
+                finishAffinity()
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+        }
+    }
+
+    private fun render(uiState: UiState<String>) {
+        when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> {}
             is UiState.Success -> {
-                Timber.e(uistate.data)
-                loginViewModel.saveAccessToken(uistate.data)
+                Timber.e(uiState.data)
+                loginViewModel.saveAccessToken(uiState.data)
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
             }
 
             is UiState.Error -> {
-                binding.root.makeToast(uistate.error)
+                binding.root.makeToast(uiState.error)
             }
         }
 
