@@ -41,25 +41,21 @@ class DetailAfterActivity :
 
     private fun collectFlows() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.detailStateFlow.collect {
-                    render(it)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.detailStateFlow.collect {
+                        render(it)
+                    }   
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.deleteWorryFlow.collect {
-                    renderDelete(it)
+                launch {
+                    viewModel.deleteWorryFlow.collect {
+                        renderDelete(it)
+                    }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.reviewWorryFlow.collect {
-                    renderUpdateReviewDate(it)
+                launch {
+                    viewModel.reviewWorryFlow.collect {
+                        renderUpdateReviewDate(it)
+                    }
                 }
             }
         }
