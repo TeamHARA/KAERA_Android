@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailAfterViewModel @Inject constructor(
-    private val useCase: GetWorryDetailUseCase,
+    private val worryUseCase: GetWorryDetailUseCase,
     private val deleteUseCase: DeleteWorryUseCase,
     private val reviewUseCase: PutReviewUseCase,
 ) : ViewModel() {
@@ -36,7 +36,7 @@ class DetailAfterViewModel @Inject constructor(
         viewModelScope.launch {
             _detailStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                useCase(worryId)
+                worryUseCase(worryId)
             }.onSuccess {
                 it.collect { collect ->
                     when (collect) {
