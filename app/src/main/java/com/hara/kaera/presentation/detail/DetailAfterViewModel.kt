@@ -92,7 +92,7 @@ class DetailAfterViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _reviewWorryFlow.value = UiState.Error(collect.error.toString())
+                            _reviewWorryFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }
