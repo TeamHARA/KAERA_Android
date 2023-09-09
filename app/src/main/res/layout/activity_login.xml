@@ -28,26 +28,62 @@
         <ImageView
             android:id="@+id/iv_gemlogo"
             android:layout_width="wrap_content"
+            android:padding="4dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/kaera_gem_logo" />
+            android:src="@drawable/logo_login" />
 
         <ImageView
             android:id="@+id/iv_typography"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/kaera_typography" />
+            android:src="@drawable/logo_kaera"
+            android:paddingTop="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_gemlogo" />
 
-        <ImageButton
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_sub_title"
+            android:textAppearance="@style/h_body4_r14"
+            android:layout_marginTop="11dp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flow_logo" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_kakao_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/kakao_login_medium_wide"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_rect_kakaoyellow_12"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="23dp"
+            android:text="@string/login_kakao_button"
+            android:paddingHorizontal="23dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/icn_kakao"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.9" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_rect_kakaoyellow_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="23dp"
+            android:text="로그아웃"
+            android:paddingHorizontal="23dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/icn_kakao"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
