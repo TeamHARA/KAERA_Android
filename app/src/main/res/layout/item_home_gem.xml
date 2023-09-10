@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="isSolved"
+            type="Boolean" />
+
+        <variable
+            name="gemData"
+            type="com.hara.kaera.domain.entity.HomeWorryListEntity.HomeWorry" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/background_gradient">
+
+        <ImageView
+            android:id="@+id/iv_gem"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@id/tv_gem_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:isSolved="@{isSolved}"
+            app:templateId="@{gemData.templateId}"
+            tools:src="@drawable/gemstone_yellow"/>
+
+        <TextView
+            android:id="@+id/tv_gem_label"
+            android:textAppearance="@style/h_body2_r16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_gem"
+            app:layout_constraintStart_toStartOf="@id/iv_gem"
+            app:layout_constraintTop_toBottomOf="@id/iv_gem"
+            android:layout_marginTop="8dp"
+            android:text="@{gemData.title}"
+            tools:text="gjqy"
+            android:includeFontPadding="true"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

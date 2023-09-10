@@ -142,6 +142,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         // 실제로 뷰에서 대응하는 함수 프로그래스바  visibility조절, 에러메시지 출력등을 하면 된다!
         when (uiState) {
             is UiState.Init -> Unit
+            is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
             }
