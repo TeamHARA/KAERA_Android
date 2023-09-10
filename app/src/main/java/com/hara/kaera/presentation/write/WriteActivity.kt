@@ -12,13 +12,13 @@ import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.presentation.base.BindingActivity
 import com.hara.kaera.presentation.custom.snackbar.KaeraSnackBar
-import com.hara.kaera.presentation.dialog.DialogCompleteFragment
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.util.stringOf
 import com.hara.kaera.presentation.util.visible
 import com.hara.kaera.presentation.write.custom.DialogSaveWarning
+import com.hara.kaera.presentation.write.custom.DialogWriteComplete
 import com.hara.kaera.presentation.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.presentation.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +59,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 finish()
             }
             clChoice.onSingleClick {
-                if (titleCondition || contentCondition) { // 한글자라도 써놨을 경우
+                if (checkText()) { // 한글자라도 써놨을 경우
                     DialogSaveWarning {
                         TemplateChoiceBottomSheet({
                             viewModel.setTemplateId(it)
@@ -89,7 +89,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     KaeraSnackBar.DURATION.LONG
                 ).show()
                 else {
-                    DialogCompleteFragment().show(supportFragmentManager, "complete")
+                    DialogWriteComplete() {}.show(supportFragmentManager, "complete")
                 }
             }
         }
@@ -116,17 +116,19 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     private fun collectFlows() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.templateDetailFlow.collect {
-                    render(it)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.templateIdFlow.collect {
+                        if (it in 1..6 && it != viewModel.curTemplateIdFlow.value) {
+                            viewModel.getTemplateDetailData()
+                        }
+                    }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.templateIdFlow.collect {
-                    if (it in 1..6) viewModel.getTemplateDetailData()
+                launch {
+                    viewModel.templateDetailFlow.collect {
+                        if (viewModel.templateIdFlow.value != viewModel.curTemplateIdFlow.value)
+                            render(it)
+                    }
                 }
             }
         }
@@ -193,5 +195,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         binding.activate = (titleCondition && contentCondition)
     }
 
+    private fun checkText(): Boolean =
+        (titleCondition) || (editTextList.any { it.text.isNotEmpty() && it.text.isNotBlank() }) || (editTextFreeNote.text.isNotEmpty() || editTextFreeNote.text.isNotEmpty() && editTextFreeNote.text.isNotBlank())
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.setCurTemplateId(viewModel.templateIdFlow.value)
+        // 백그라운드 전환시 render 재실행으로 인한 텍스트초기화를 막기위해 flow에 현재 id 저장
+    }
 
 }

@@ -1,9 +1,16 @@
 package com.hara.kaera.presentation.base
 
+import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -19,6 +26,10 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     val binding get() = requireNotNull(_binding) { "${this.id} binding error" }
 
     override fun getTheme(): Int = R.style.NoMarginsDialog
+    override fun onStart() {
+        super.onStart()
+        setupWidthToMatchParent()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +37,6 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         _binding!!.lifecycleOwner = viewLifecycleOwner
-        setupWidthToMatchParent()
         return binding.root
     }
 
@@ -37,6 +47,7 @@ abstract class BindingDialogFragment<T : ViewDataBinding>(
             marginEnd = marginHorizontal.dpToPx(binding.root.context)
             marginStart = marginHorizontal.dpToPx(binding.root.context)
         }
+
     }
 
     private fun setupWidthToMatchParent() {

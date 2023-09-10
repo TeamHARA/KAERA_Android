@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray_1"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="26dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="36dp">
 
         <TextView
             android:id="@+id/tv_question1"
@@ -41,17 +41,18 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[0]}"
+            android:lineSpacingExtra="6sp"
             android:maxLength="2000"
             android:nextFocusDown="@id/et_answer2"
             app:layout_constraintStart_toStartOf="@+id/tv_question1"
             app:layout_constraintTop_toBottomOf="@+id/tv_question1"
-            tools:hint="걱정하고 있는 걸 사실대로 써봅시다" />
+            tools:hint="걱정하고 있는 걸 \n사실대로 써봅시다" />
 
         <TextView
             android:id="@+id/tv_question2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="36dp"
             android:text="@{templatedata.questions[1]}"
             android:textAppearance="@style/h_body2_r16"
             android:textColor="@color/white"
@@ -64,9 +65,11 @@
             style="@style/Write_Edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[1]}"
+            android:lineSpacingExtra="6sp"
             android:maxLength="2000"
             android:nextFocusDown="@id/et_answer3"
             app:layout_constraintStart_toStartOf="@+id/tv_question2"
@@ -76,7 +79,7 @@
             android:id="@+id/tv_question3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="36dp"
             android:text="@{templatedata.questions[2]}"
             android:textAppearance="@style/h_body2_r16"
             android:textColor="@color/white"
@@ -93,6 +96,7 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[2]}"
+            android:lineSpacingExtra="6sp"
             android:maxLength="2000"
             android:nextFocusDown="@id/et_answer4"
             app:layout_constraintStart_toStartOf="@+id/tv_question3"
@@ -102,7 +106,7 @@
             android:id="@+id/tv_question4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="36dp"
             android:text="@{templatedata.questions[3]}"
             android:textAppearance="@style/h_body2_r16"
             android:textColor="@color/white"
@@ -118,6 +122,7 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[3]}"
+            android:lineSpacingExtra="6sp"
             android:maxLength="2000"
             app:layout_constraintStart_toStartOf="@+id/tv_question4"
             app:layout_constraintTop_toBottomOf="@+id/tv_question4" />
