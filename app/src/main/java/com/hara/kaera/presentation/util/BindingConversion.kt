@@ -46,7 +46,7 @@ fun ImageView.setGemSrc(templateId: Int, isSolved: Boolean) {
     this.apply {
         if (!isSolved) { // 원석
             when (templateId) {
-                0 -> Unit
+                -1 -> Unit
                 1 -> {setImageResource(R.drawable.gemstone_blue)}
                 2 -> {setImageResource(R.drawable.gemstone_red)}
                 3 -> {setImageResource(R.drawable.gemstone_orange)}
@@ -57,7 +57,7 @@ fun ImageView.setGemSrc(templateId: Int, isSolved: Boolean) {
             }
         } else { // 보석
             when (templateId) {
-                0 -> Unit
+                -1 -> Unit
                 1 -> {setImageResource(R.drawable.gem_blue_l)}
                 2 -> {setImageResource(R.drawable.gem_red_l)}
                 3 -> {setImageResource(R.drawable.gem_orange_l)}

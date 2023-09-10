@@ -14,7 +14,6 @@ import com.hara.kaera.presentation.home.adapter.HomeStoneAdapter
 import com.hara.kaera.presentation.util.GridRvItemIntervalDecoration
 import com.hara.kaera.presentation.util.UiState
 import com.hara.kaera.presentation.util.dpToPx
-import com.hara.kaera.presentation.util.pxToDp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -47,23 +46,22 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
 
     // 서버 통신 1) 원석 (해결 전 고민들)
     private fun collectFlows() {
-        /*
-        homeStoneAdapter.submitList(
-            listOf( // 원석 list
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
-                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0)
-            )
-        )*/
+//        homeStoneAdapter.submitList(
+//            listOf( // 원석 list
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0),
+//                HomeWorryListEntity.HomeWorry(0, 1, "PLEASE", 0)
+//            )
+//        )
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.homeWorryListStoneFlow.collect {
@@ -75,30 +73,18 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
 
     private fun render(uiState: UiState<HomeWorryListEntity>) {
         when (uiState) {
-            is UiState.Loading -> {
-                Timber.e("loading...")
-            }
-
+            is UiState.Init -> Timber.e("[홈 화면/원석 뷰] UiState.init")
+            is UiState.Loading -> Timber.e("[홈 화면/원석 뷰] UiState.Loading")
             is UiState.Empty -> {
                 binding.clEmpty.visibility = View.VISIBLE
                 binding.rvHomeStones.visibility = View.GONE
             }
-
-            is UiState.Success -> {
-                if (uiState.data.data?.isEmpty() == false) {
-                    binding.clEmpty.visibility = View.GONE
-                    binding.rvHomeStones.visibility = View.VISIBLE
-                    homeStoneAdapter.submitList(uiState.data.data)
-                }
+            is UiState.Success<HomeWorryListEntity> -> {
+                binding.clEmpty.visibility = View.GONE
+                binding.rvHomeStones.visibility = View.VISIBLE
+                homeStoneAdapter.submitList(uiState.data.homeWorryList)
             }
-
-            is UiState.Error -> {
-                Timber.e("error...")
-            }
-
-            else -> {
-                Timber.e("else...")
-            }
+            is UiState.Error -> Timber.e("[홈 화면/원석 뷰] UiState.Error")
         }
     }
 }
