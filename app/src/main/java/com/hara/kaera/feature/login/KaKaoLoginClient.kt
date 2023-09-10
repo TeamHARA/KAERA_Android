@@ -50,8 +50,16 @@ class KaKaoLoginClient @Inject constructor(
             }
         }
 
+    suspend fun logout():Result<Unit> = runCatching{
+        try {
+            UserApiClient.logOut()
+        }catch (error:Throwable){
+            throw error
+        }
+    }
+
     // 로그아웃
-    suspend fun UserApiClient.Companion.logOut() {
+    private suspend fun UserApiClient.Companion.logOut() {
         suspendCoroutine { continuation ->
             instance.logout { error ->
                 continuation.resumeLogout(error)
@@ -72,11 +80,13 @@ class KaKaoLoginClient @Inject constructor(
         }
     }
 
-    private fun Continuation<Nothing>.resumeLogout(
+    private fun Continuation<Unit>.resumeLogout(
         error: Throwable?
     ) {
         if (error != null) {
             resumeWithException(error)
+        }else{
+            resume(Unit)
         }
     }
 }

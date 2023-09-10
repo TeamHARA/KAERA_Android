@@ -35,6 +35,10 @@ class LoginRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearDataStore() {
+        localLoginDataStore.edit { it.clear() }
+    }
+
     override fun getSavedAccessToken(): Flow<String> {
         return localLoginDataStore.data.catch {
             emit(emptyPreferences())

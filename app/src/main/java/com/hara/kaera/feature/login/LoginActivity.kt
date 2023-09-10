@@ -14,8 +14,10 @@ import com.hara.kaera.feature.login.LoginViewModel.TokenState
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
+import com.kakao.sdk.auth.AuthApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,8 +34,23 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
 //        val keyhash = Utility.getKeyHash(this)
 //        Timber.e(keyhash.toString())
+        binding.btnToken.onSingleClick {
+            Timber.e(AuthApiClient.instance.hasToken().toString())
+        }
 
         binding.btnLogout.onSingleClick {
+            lifecycleScope.launch {
+                kotlin.runCatching {
+                    kaKaoLoginClient.logout()
+                }.onSuccess {
+                    // 데이터스토어 비우기
+                    Timber.e("logout")
+                    loginViewModel.kakaoLogOut()
+                }.onFailure {
+                    binding.root.makeToast("에러")
+                    throw it
+                }
+            }
 
         }
 
@@ -55,6 +72,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                     // _oAuthTokenFlow.value = UiState.Error(ErrorType.Token)
                     //에러
                     binding.root.makeToast(it.toString())
+                    throw it
                 }
             }
         }
@@ -74,7 +92,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 }
             }
         }
-
     }
 
     /*
@@ -102,7 +119,9 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is UiState.Loading -> {}
             is UiState.Success -> {
                 Timber.e(uiState.data)
-                loginViewModel.saveAccessToken(uiState.data)
+                runBlocking {
+                    loginViewModel.saveAccessToken(uiState.data)
+                }
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
             }
@@ -111,8 +130,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 binding.root.makeToast(uiState.error)
             }
         }
-
-
     }
 
 }

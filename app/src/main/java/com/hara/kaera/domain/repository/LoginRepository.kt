@@ -9,6 +9,8 @@ interface LoginRepository {
 
     fun getKakaoLoginJTW(accessToken: KaKaoLoginReqDTO): Flow<ApiResult<KakaoLoginJWTEntity>>
 
+    suspend fun clearDataStore()
+
     fun getSavedAccessToken(): Flow<String>
     suspend fun saveAccessToken(accessToken: String)
 
