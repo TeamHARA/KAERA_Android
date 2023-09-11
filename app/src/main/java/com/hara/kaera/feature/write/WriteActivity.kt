@@ -12,18 +12,17 @@ import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
-import com.hara.kaera.feature.dialog.DialogCompleteFragment
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.custom.DialogSaveWarning
+import com.hara.kaera.feature.write.custom.DialogWriteComplete
 import com.hara.kaera.feature.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.feature.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {

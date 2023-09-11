@@ -1,15 +1,13 @@
 package com.hara.kaera.feature.home.adapter
 
-import android.opengl.Visibility
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemHomeGemBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
-import com.hara.kaera.presentation.home.FloatingAnimation
-import com.hara.kaera.presentation.util.GlobalDiffCallBack
+import com.hara.kaera.feature.home.FloatingAnimation
+import com.hara.kaera.feature.util.GlobalDiffCallBack
 
 class HomeStoneAdapter() :
     ListAdapter<HomeWorryListEntity.HomeWorry, HomeStoneAdapter.HomeStoneViewHolder>(

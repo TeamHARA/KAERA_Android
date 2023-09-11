@@ -9,11 +9,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeJewelBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
-import com.hara.kaera.presentation.base.BindingFragment
-import com.hara.kaera.presentation.home.adapter.HomeJewelAdapter
-import com.hara.kaera.presentation.util.GridRvItemIntervalDecoration
-import com.hara.kaera.presentation.util.UiState
-import com.hara.kaera.presentation.util.dpToPx
+import com.hara.kaera.feature.base.BindingFragment
+import com.hara.kaera.feature.home.adapter.HomeJewelAdapter
+import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
+import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -63,11 +63,13 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
                 binding.clEmpty.visibility = View.VISIBLE
                 binding.rvHomeJewels.visibility = View.GONE
             }
+
             is UiState.Success<HomeWorryListEntity> -> {
                 binding.clEmpty.visibility = View.GONE
                 binding.rvHomeJewels.visibility = View.VISIBLE
                 homeJewelAdapter.submitList(uiState.data.homeWorryList)
             }
+
             is UiState.Error -> Timber.e("[홈 화면/보석 뷰] UiState.Error")
         }
     }

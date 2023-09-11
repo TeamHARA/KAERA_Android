@@ -6,9 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeBinding
-import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.feature.base.BindingFragment
-import com.hara.kaera.feature.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
