@@ -66,6 +66,8 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             is UiState.Error -> {
                 binding.root.makeToast(uiState.error)
             }
+
+            UiState.Empty -> TODO()
         }
     }
 
