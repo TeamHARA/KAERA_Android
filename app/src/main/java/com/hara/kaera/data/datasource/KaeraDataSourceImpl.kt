@@ -38,7 +38,7 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListDTO> {
         return flow {
             emit(kaeraApi.getHomeWorryList(isSolved))
-        }
+        }.safeCallApi()
     }
 
     override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateDTO> {

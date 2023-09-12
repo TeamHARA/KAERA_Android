@@ -69,18 +69,14 @@ object Mapper {
 
     fun mapperToHomeWorryList(dto: HomeWorryListDTO): HomeWorryListEntity {
         val worryList = mutableListOf<HomeWorryListEntity.HomeWorry>()
-        var idx = 0
-        if (dto.status in 200..399) {
-            dto.data.forEach {
-                worryList.add(
-                    HomeWorryListEntity.HomeWorry(
-                        worryId = it.worryId,
-                        templateId = it.templateId,
-                        title = it.title,
-                        homeIndex = Constant.homeGemsSequence[idx++],
-                    ),
+        dto.data.forEach {
+            worryList.add(
+                HomeWorryListEntity.HomeWorry(
+                    worryId = it.worryId,
+                    templateId = it.templateId,
+                    title = it.title
                 )
-            }
+            )
         }
         return HomeWorryListEntity(worryList)
     }

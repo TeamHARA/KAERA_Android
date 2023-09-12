@@ -4,13 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HomeWorryListEntity(
-    val data: List<HomeWorry>?
+    val homeWorryList: MutableList<HomeWorry>
 ) {
     @Serializable
     data class HomeWorry(
         val worryId: Int,
         val templateId: Int,
-        val title: String,
-        val homeIndex: Int
+        val title: String
     )
 }
