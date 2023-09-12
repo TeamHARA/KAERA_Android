@@ -1,14 +1,16 @@
 package com.hara.kaera.data.mapper
 
+import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
-import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
+import com.hara.kaera.data.dto.WorryDetailDTO
+import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
-import com.hara.kaera.domain.entity.HomeWorryListEntity
-import com.hara.kaera.presentation.util.Constant
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
+import com.hara.kaera.domain.entity.WorryDetailEntity
+import com.hara.kaera.presentation.util.Constant
 
 /*
 Mapper는 다음과 같이 DTO타입을 Entity형태로 즉. 실제로 사용할 데이터만 담아서
@@ -76,34 +78,37 @@ object Mapper {
     }
 
     fun mapperToStorageWorry(dto: WorryByTemplateDTO): WorryByTemplateEntity {
-        if (dto.status in 400..499) {
-            return WorryByTemplateEntity(
-                errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
-                worryByTemplate = null,
+        return dto.data.let {
+            WorryByTemplateEntity(
+                totalNum = it.totalNum,
+                worryList = it.worry.map { worryDto ->
+                    WorryByTemplateEntity.Worry(
+                        period = worryDto.period,
+                        templateId = worryDto.templateId,
+                        title = worryDto.title,
+                        worryId = worryDto.worryId,
+                    )
+                },
             )
-        } else if (dto.status in 500..599) {
-            return WorryByTemplateEntity(
-                errorMessage = "네트워크상태가 불안정합니다.",
-                worryByTemplate = null,
-            )
-        } else {
-            var worryByTemplate: WorryByTemplateEntity.WorryByTemplate
-            dto.data.let {
-                worryByTemplate = WorryByTemplateEntity.WorryByTemplate(
-                    totalNum = it.totalNum,
-                    worryList = it.worry.map { worryDto ->
-                        WorryByTemplateEntity.WorryByTemplate.Worry(
-                            period = worryDto.period,
-                            templateId = worryDto.templateId,
-                            title = worryDto.title,
-                            worryId = worryDto.worryId,
-                        )
-                    },
-                )
-            }
-            return WorryByTemplateEntity(
-                errorMessage = null,
-                worryByTemplate = worryByTemplate,
+        }
+    }
+
+    fun mapperToWorryDetail(dto: WorryDetailDTO): WorryDetailEntity {
+        return dto.data.let {
+            WorryDetailEntity(
+                answers = it.answers,
+                d_day = it.`d-day`,
+                deadline = it.deadline,
+                finalAnswer = it.finalAnswer,
+                period = it.period,
+                review = WorryDetailEntity.Review(
+                    content = it.review.content,
+                    updatedAt = it.review.updatedAt,
+                ),
+                subtitles = it.subtitles,
+                templateId = it.templateId,
+                title = it.title,
+                updatedAt = it.updatedAt,
             )
         }
     }

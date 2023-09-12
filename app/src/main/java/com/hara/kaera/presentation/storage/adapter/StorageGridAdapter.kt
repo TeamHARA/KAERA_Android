@@ -8,8 +8,10 @@ import com.hara.kaera.databinding.ItemStorageGridBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.util.GlobalDiffCallBack
 
-class StorageGridAdapter() :
-    ListAdapter<WorryByTemplateEntity.WorryByTemplate.Worry, StorageGridAdapter.ItemViewHolder>(GlobalDiffCallBack()) {
+class StorageGridAdapter(private val itemClickListener: (Int) -> Unit) :
+    ListAdapter<WorryByTemplateEntity.Worry, StorageGridAdapter.ItemViewHolder>(
+        GlobalDiffCallBack(),
+    ) {
     private lateinit var inflater: LayoutInflater
 
     class ItemViewHolder(val binding: ItemStorageGridBinding) :
@@ -26,6 +28,9 @@ class StorageGridAdapter() :
         val curItem = getItem(position)
         with(holder.binding) {
             this.worryData = currentList[position]
+            this.root.setOnClickListener {
+                itemClickListener(curItem.worryId)
+            }
         }
     }
 }

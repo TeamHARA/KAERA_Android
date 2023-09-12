@@ -11,10 +11,12 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentStorageBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.presentation.base.BindingFragment
+import com.hara.kaera.presentation.detail.DetailAfterActivity
 import com.hara.kaera.presentation.storage.adapter.StorageGridAdapter
 import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
 import com.hara.kaera.presentation.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.makeToast
 import com.hara.kaera.presentation.util.onSingleClick
 import com.hara.kaera.presentation.write.StorageTemplateChoiceBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,8 +49,10 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     private fun render(uiState: UiState<WorryByTemplateEntity>) {
         when (uiState) {
+            is UiState.Init -> Unit
+            is UiState.Loading -> Unit
             is UiState.Success<WorryByTemplateEntity> -> {
-                val worryByTemplate = uiState.data.worryByTemplate!!
+                val worryByTemplate = uiState.data
                 if (!isEmpty(worryByTemplate.totalNum)) {
                     storageAdapter.submitList(worryByTemplate.worryList)
                 }
@@ -59,15 +63,20 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                     ),
                 )
             }
-
-            else -> {
-                Timber.e("else")
+            is UiState.Error -> {
+                binding.root.makeToast(uiState.error)
             }
         }
     }
 
     private fun initLayout() {
-        storageAdapter = StorageGridAdapter()
+        storageAdapter = StorageGridAdapter { worryId ->
+            startActivity(
+                Intent(context, DetailAfterActivity::class.java).apply {
+                    putExtra("worryId", worryId)
+                },
+            )
+        }
         binding.rvJewels.adapter = storageAdapter
         viewModel.getJewels()
     }

@@ -4,6 +4,7 @@ import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
+import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.util.safeCallApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -40,7 +41,12 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateDTO> {
         return flow {
             emit(kaeraApi.getWorryByTemplate(templateId))
-        }
+        }.safeCallApi()
     }
 
+    override fun getWorryDetail(worryId: Int): Flow<WorryDetailDTO> {
+        return flow {
+            emit(kaeraApi.getWorryDetail(worryId))
+        }.safeCallApi()
+    }
 }
