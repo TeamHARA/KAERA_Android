@@ -1,16 +1,19 @@
 package com.hara.kaera.data.mapper
 
+import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
+import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
-import com.hara.kaera.presentation.util.Constant
 
 /*
 Mapper는 다음과 같이 DTO타입을 Entity형태로 즉. 실제로 사용할 데이터만 담아서
@@ -70,8 +73,8 @@ object Mapper {
                 HomeWorryListEntity.HomeWorry(
                     worryId = it.worryId,
                     templateId = it.templateId,
-                    title = it.title
-                )
+                    title = it.title,
+                ),
             )
         }
         return HomeWorryListEntity(worryList)
@@ -111,5 +114,15 @@ object Mapper {
                 updatedAt = it.updatedAt,
             )
         }
+    }
+
+    fun mapperToDeleteWorry(dto: DeleteWorryDTO): DeleteWorryEntity {
+        return dto.let {
+            DeleteWorryEntity(message = it.message, status = it.status, success = it.success)
+        }
+    }
+
+    fun mapperToReview(dto: ReviewResDTO): ReviewResEntity {
+        return ReviewResEntity(updateDate = dto.data.updatedAt)
     }
 }

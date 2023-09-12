@@ -1,6 +1,9 @@
 package com.hara.kaera.data.datasource
 
+import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.ReviewReqDTO
+import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
@@ -47,6 +50,18 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun getWorryDetail(worryId: Int): Flow<WorryDetailDTO> {
         return flow {
             emit(kaeraApi.getWorryDetail(worryId))
+        }.safeCallApi()
+    }
+
+    override fun deleteWorryById(worryId: Int): Flow<DeleteWorryDTO> {
+        return flow {
+            emit(kaeraApi.deleteWorry(worryId))
+        }.safeCallApi()
+    }
+
+    override fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ReviewResDTO> {
+        return flow {
+            emit(kaeraApi.updateReview(reviewReqDTO))
         }.safeCallApi()
     }
 }

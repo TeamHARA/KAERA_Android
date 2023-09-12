@@ -7,6 +7,7 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
 import com.hara.kaera.presentation.util.UiState
+import com.hara.kaera.presentation.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,7 +47,7 @@ class StorageViewModel @Inject constructor(
                             _worryStateFlow.value = UiState.Success(collect.data)
                         }
                         is ApiResult.Error -> {
-                            _worryStateFlow.value = UiState.Error(collect.error.toString())
+                            _worryStateFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }

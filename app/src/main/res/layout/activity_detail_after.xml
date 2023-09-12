@@ -139,7 +139,7 @@
                         <include
                             android:id="@+id/layout_answer_1"
                             layout="@layout/layout_detail_answer"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="36dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +151,7 @@
                         <include
                             android:id="@+id/layout_answer_2"
                             layout="@layout/layout_detail_answer"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +161,7 @@
                         <include
                             android:id="@+id/layout_answer_3"
                             layout="@layout/layout_detail_answer"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -171,7 +171,7 @@
                         <include
                             android:id="@+id/layout_answer_4"
                             layout="@layout/layout_detail_answer"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -235,7 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="50dp"
                     android:background="@drawable/shape_rect_gray1_stroke_gray3_8"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="12dp"
@@ -255,7 +255,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/ev_record_content"
+                        android:id="@+id/et_record_content"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -278,7 +278,7 @@
                         android:textAppearance="@style/h_sub1_r12"
                         android:textColor="@color/gray_4"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ev_record_content"
+                        app:layout_constraintTop_toBottomOf="@id/et_record_content"
                         tools:text="2019.09.01" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -286,6 +286,29 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_save_layout"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@color/gray_2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tv_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:text="저장"
+                android:textAppearance="@style/h_body2_r16"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

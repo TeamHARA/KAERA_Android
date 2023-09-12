@@ -2,12 +2,17 @@ package com.hara.kaera.data.repository
 
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.KaeraDataSource
+import com.hara.kaera.data.dto.ReviewReqDTO
+import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
+import com.hara.kaera.data.mapper.Mapper.mapperToReview
 import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
 import com.hara.kaera.data.mapper.Mapper.mapperToWorryDetail
+import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
@@ -81,6 +86,26 @@ class KaeraRepositoryImpl @Inject constructor(
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
                 emit(ApiResult.Success(mapperToWorryDetail(it)))
+            }
+        }
+    }
+
+    override fun deleteWorry(worryId: Int): Flow<ApiResult<DeleteWorryEntity>> {
+        return flow {
+            kaeraDataSource.deleteWorryById(worryId).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToDeleteWorry(it)))
+            }
+        }
+    }
+
+    override fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ApiResult<ReviewResEntity>> {
+        return flow {
+            kaeraDataSource.updateReview(reviewReqDTO).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToReview(it)))
             }
         }
     }
