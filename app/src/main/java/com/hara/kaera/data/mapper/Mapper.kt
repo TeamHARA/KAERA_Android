@@ -14,7 +14,6 @@ import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
-import com.hara.kaera.presentation.util.Constant
 
 /*
 Mapper는 다음과 같이 DTO타입을 Entity형태로 즉. 실제로 사용할 데이터만 담아서
@@ -74,8 +73,8 @@ object Mapper {
                 HomeWorryListEntity.HomeWorry(
                     worryId = it.worryId,
                     templateId = it.templateId,
-                    title = it.title
-                )
+                    title = it.title,
+                ),
             )
         }
         return HomeWorryListEntity(worryList)

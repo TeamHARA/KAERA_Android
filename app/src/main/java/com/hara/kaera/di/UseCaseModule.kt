@@ -1,6 +1,5 @@
 package com.hara.kaera.di
 
-import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCaseImpl
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
