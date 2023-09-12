@@ -9,6 +9,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 val properties = Properties()
@@ -27,6 +28,8 @@ android {
 
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         buildConfigField("String", "BEARER_TOKEN", properties.getProperty("BEARER_TOKEN"))
+        buildConfigField("String", "NATIVE_APP_KEY", properties.getProperty("NATIVE_APP_KEY"))
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -98,4 +101,8 @@ dependencies {
 
     implementation(Dependency.Hilt.DAGGER_HILT)
     kapt(Dependency.Hilt.HILT_COMPILER)
+
+    implementation(Dependency.KaKaoSDK.KAKAO_MODULE)
+    implementation(Dependency.KaKaoSDK.KAKAO_LOGIN)
+    implementation(Dependency.KaKaoSDK.KAKAO_USER)
 }
