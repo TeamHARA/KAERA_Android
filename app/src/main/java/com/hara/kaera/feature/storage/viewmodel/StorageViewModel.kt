@@ -6,9 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
-import com.hara.kaera.presentation.util.UiState
-import com.hara.kaera.presentation.util.errorToMessage
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

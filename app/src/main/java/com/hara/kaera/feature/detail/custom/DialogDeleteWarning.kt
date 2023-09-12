@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.detail.custom
+package com.hara.kaera.feature.detail.custom
 
 import android.os.Bundle
 import android.view.View

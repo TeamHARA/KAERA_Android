@@ -1,4 +1,4 @@
-package com.hara.kaera.presentation.storage
+package com.hara.kaera.feature.storage
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,22 +10,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentStorageBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
-import com.hara.kaera.presentation.base.BindingFragment
-import com.hara.kaera.presentation.detail.DetailAfterActivity
-import com.hara.kaera.presentation.storage.adapter.StorageGridAdapter
-import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
-import com.hara.kaera.presentation.storage.worrytemplate.WorryTemplateActivity
-import com.hara.kaera.presentation.util.UiState
-import com.hara.kaera.presentation.util.makeToast
-import com.hara.kaera.presentation.util.onSingleClick
-import com.hara.kaera.presentation.write.StorageTemplateChoiceBottomSheet
 import com.hara.kaera.feature.base.BindingFragment
+import com.hara.kaera.feature.detail.DetailAfterActivity
 import com.hara.kaera.feature.storage.adapter.StorageGridAdapter
-import com.hara.kaera.feature.storage.viewmodel.StorageViewModel
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.write.StorageTemplateChoiceBottomSheet
+import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
