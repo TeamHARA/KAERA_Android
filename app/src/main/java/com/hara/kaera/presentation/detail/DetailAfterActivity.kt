@@ -1,5 +1,6 @@
 package com.hara.kaera.presentation.detail
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -31,7 +32,7 @@ class DetailAfterActivity :
         getWorryById()
         collectFlows()
         setClickListener()
-        setKeyboardLayout()
+        setKeyboardListener()
     }
 
     private fun getWorryById() {
@@ -45,7 +46,7 @@ class DetailAfterActivity :
                 launch {
                     viewModel.detailStateFlow.collect {
                         render(it)
-                    }   
+                    }
                 }
                 launch {
                     viewModel.deleteWorryFlow.collect {
@@ -139,13 +140,33 @@ class DetailAfterActivity :
     private fun setKeyboardLayout() {
         binding.etRecordContent.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                // 스크롤 위치 조절
                 binding.svContent.post {
-                    val positionToScroll = binding.etRecordContent.bottom + 100
+                    val positionToScroll =
+                        binding.etRecordContent.bottom - binding.clSaveLayout.height
                     binding.svContent.smoothScrollTo(0, positionToScroll)
                 }
                 binding.clSaveLayout.visibility = View.VISIBLE
             } else {
+                binding.clSaveLayout.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setKeyboardListener() {
+        val rootView = window.decorView.rootView
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rec = Rect()
+            rootView.getWindowVisibleDisplayFrame(rec)
+
+            val screenHeight = rootView.rootView.height
+            val keypadHeight = screenHeight - rec.bottom
+
+            if (keypadHeight > screenHeight * 0.15) { // 키보드가 표시된 경우
+                binding.clSaveLayout.visibility = View.VISIBLE
+                binding.svContent.post {
+                    binding.svContent.fullScroll(View.FOCUS_DOWN)
+                }
+            } else { // 키보드가 숨겨진 경우
                 binding.clSaveLayout.visibility = View.GONE
             }
         }
