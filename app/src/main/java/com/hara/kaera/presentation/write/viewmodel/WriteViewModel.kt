@@ -21,11 +21,23 @@ class WriteViewModel @Inject constructor(
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
 
-    private val _templateIdFlow = MutableStateFlow<Int>(-1)
+    private val _templateIdFlow = MutableStateFlow(-1)
     val templateIdFlow = _templateIdFlow.asStateFlow()
 
+    private val _curTemplateIdFlow = MutableStateFlow(CurId.INIT.value)
+    val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
+    //repeatOnLifeCycle에 따라서 백그라운드로 나갔다 다시 create되면
+    //onStarted에서 tmplateIdFlow를 다시 collect함 그에 따라서
+    // getTemplateDetailData함수를 재호출함
+    // 그에따라 새로 render함수도 호출 되고 이전에 작성한 글이 render가 다시 되어서 작성했던 글들이 삭제되어 버림
+    // 이를 방지하기 위해서 나갔다 들어와도 재호출되지 않도록 singleSelecteAdapter 처럼 이전 선택한
+    // id를 저장해두었다가 조건검사에 써준다
     fun setTemplateId(choiceId: Int) {
         _templateIdFlow.value = choiceId
+    }
+
+    fun setCurTemplateId(choiceId: Int){
+        _curTemplateIdFlow.value = choiceId
     }
 
     fun getTemplateDetailData() {
@@ -38,6 +50,7 @@ class WriteViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _templateDetailFlow.value = UiState.Success(collect.data)
+                            _curTemplateIdFlow.value = CurId.INIT.value
                         }
 
                         is ApiResult.Error -> {
@@ -51,6 +64,9 @@ class WriteViewModel @Inject constructor(
         }
     }
 
+    enum class CurId(val value : Int) {
+        INIT(-1)
+    }
 
     // 여기는 구조가 나중에라도 바뀔수 있다 하지만 이거 기반대로 얘기를 해보자면
     // ViewModelScope로 비동기동작을 위한 코루틴 열고

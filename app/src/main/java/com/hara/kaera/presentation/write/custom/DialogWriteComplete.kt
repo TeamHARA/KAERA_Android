@@ -9,7 +9,9 @@ import com.hara.kaera.presentation.util.onSingleClick
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DialogWriteComplete :
+class DialogWriteComplete(
+    private val completeClickListener: () -> Unit,
+) :
     BindingDialogFragment<DialogFragmentWirteCompleteBinding>(
         R.layout.dialog_fragment_wirte_complete,
         16
@@ -22,8 +24,12 @@ class DialogWriteComplete :
     }
 
     private fun setOnClickListener() {
-        binding.btnComplete.onSingleClick(1000) { }
-        binding.btnNoDeadline.onSingleClick(1000) { }
+        binding.btnComplete.onSingleClick(1000) {
+            completeClickListener
+        }
+        binding.btnNoDeadline.onSingleClick(1000) {
+            completeClickListener
+        }
         //TODO POST 서버통신
     }
 

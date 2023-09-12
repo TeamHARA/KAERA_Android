@@ -59,6 +59,7 @@ class StorageTemplateChoiceBottomSheet(
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
+            is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
             }
