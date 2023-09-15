@@ -17,7 +17,7 @@
     <string name="write_empty">선택된 템플릿이 없어요!</string>
     <string name="write_empty_induction">고민 내용 작성하기</string>
     <string name="write_choice_induction">상단에서 템플릿을 골라볼까요?</string>
-    <string name="write_snackbar_title"><![CDATA[고민의 <font color=\'#ff0000\'>제목</font>을 붙여주세요!]]></string>
+    <string name="write_snackbar_title"><![CDATA[고민의 <font color=\'#FF5F5F\'>제목</font>을 붙여주세요!]]></string>
     <string name="write_snackbar_content">내용이 전부 작성되지 않았어요!</string>
     <string name="write_title_count">%d/7</string>
     <string name="write_thanksto">Thanks To %s</string>
@@ -35,10 +35,15 @@
     <string name="instagram_share_induction">친구들에게 처음 캐낸 내 고민 보석을 공유해보세요!</string>
     <string name="instagram_share_button">인스타 스토리 공유하기</string>
 
-    <string name="dialog_record"><![CDATA[기록을 <font color=\'#ff0000\'>취소</font> 하시나요?]]></string>
+    <string name="dialog_record"><![CDATA[기록을 <font color=\'#FF5F5F\'>취소</font> 하시나요?]]></string>
     <string name="dialog_cancel">취소</string>
     <string name="dialog_sure">하시나요?</string>
     <string name="dialog_record_warning">작성된 기록이 저장되지 않았어요.</string>
+
+    <string name="dialog_delete"><![CDATA[고민을 <font color=\'#ff0000\'>삭제</font> 하시나요?]]></string>
+    <string name="dialog_delete_confirm">삭제</string>
+    <string name="dialog_delete_warning">삭제된 고민은 복구할 수 없어요.</string>
+    <string name="dialog_write_success">작성 완료!</string>
 
 
     <!--  보관함  -->
@@ -67,7 +72,12 @@
     <string name="home_jewel_label">그동안 캐낸 보석들 ✨</string>
     <string name="home_jewel_empty_title">아직 고민 보석이 없네요!</string>
     <string name="home_jewel_empty_content">원석을 터치해 고민 보석을 캐내보세요.</string>
-  
 
+    <!--  고민 상세페이지: 해결 후  -->
+    <string name="detail_after_title">나의 고민</string>
+    <string name="detail_worry_date">고민 기간</string>
+    <string name="detail_after_answer">내가 내린 답은</string>
+    <string name="detail_after_record">이 고민 이후 나의 기록</string>
+    <string name="detail_after_record_hint">이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요</string>
 
 </resources>

@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.home.HomeFragment">
+    tools:context=".feature.home.HomeFragment">
 
     <data>
 
@@ -46,7 +46,6 @@
             android:layout_marginTop="28dp"
             android:layout_marginBottom="51dp"
             android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
             app:layout_constraintBottom_toTopOf="@id/vp_dots_indicator"
             app:layout_constraintTop_toBottomOf="@id/tv_label_under_logo" />
 

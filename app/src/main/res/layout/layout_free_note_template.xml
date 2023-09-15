@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray_1"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="14dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="36dp">
 
         <TextView
             android:id="@+id/tv_freenote_title"
@@ -35,10 +35,10 @@
             style="@style/Write_Edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[0]}"
+            android:lineSpacingExtra="6sp"
             android:maxLength="5000"
             android:minHeight="340dp"
             app:layout_constraintBottom_toBottomOf="parent"

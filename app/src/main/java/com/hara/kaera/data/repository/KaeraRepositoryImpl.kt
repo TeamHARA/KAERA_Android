@@ -2,18 +2,26 @@ package com.hara.kaera.data.repository
 
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.KaeraDataSource
+import com.hara.kaera.data.dto.ReviewReqDTO
+import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
+import com.hara.kaera.data.mapper.Mapper.mapperToReview
 import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
+import com.hara.kaera.data.mapper.Mapper.mapperToWorryDetail
+import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.domain.repository.KaeraRepository
 import com.hara.kaera.domain.util.ErrorHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -29,7 +37,7 @@ import javax.inject.Inject
 
 class KaeraRepositoryImpl @Inject constructor(
     private val kaeraDataSource: KaeraDataSource,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
 ) : KaeraRepository {
 
     override fun getAllTemplateTypesInfo(): Flow<ApiResult<TemplateTypesEntity>> {
@@ -52,18 +60,52 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListEntity> {
+    override fun getHomeWorryList(isSolved: Int): Flow<ApiResult<HomeWorryListEntity>> {
         return flow {
-            kaeraDataSource.getHomeWorryList(isSolved).collect {
-                emit(mapperToHomeWorryList(it))
+            kaeraDataSource.getHomeWorryList(isSolved).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToHomeWorryList(it)))
             }
         }
     }
 
-    override fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateEntity> {
+    override fun getWorryByTemplate(templateId: Int): Flow<ApiResult<WorryByTemplateEntity>> {
         return flow {
-            kaeraDataSource.getWorryByTemplate(templateId).collect {
-                emit(mapperToStorageWorry(it))
+            kaeraDataSource.getWorryByTemplate(templateId).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToStorageWorry(it)))
+            }
+        }
+    }
+
+    override fun getWorryDetail(worryId: Int): Flow<ApiResult<WorryDetailEntity>> {
+        return flow {
+            kaeraDataSource.getWorryDetail(worryId).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToWorryDetail(it)))
+            }
+        }
+    }
+
+    override fun deleteWorry(worryId: Int): Flow<ApiResult<DeleteWorryEntity>> {
+        return flow {
+            kaeraDataSource.deleteWorryById(worryId).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToDeleteWorry(it)))
+            }
+        }
+    }
+
+    override fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ApiResult<ReviewResEntity>> {
+        return flow {
+            kaeraDataSource.updateReview(reviewReqDTO).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToReview(it)))
             }
         }
     }
