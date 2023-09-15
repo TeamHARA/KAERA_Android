@@ -3,6 +3,7 @@ buildscript {
     dependencies {
         classpath(Dependency.Kotlin.KOTLIN_SERIALIZATION_PLUGIN)
         classpath(Dependency.Hilt.HILT_PLUGIN)
+        classpath(Dependency.Google.GOOGLE_SERVICE)
         classpath(Dependency.SecertsGradle.SECERETS_GRADLE_CLASSPATH)
     }
 }

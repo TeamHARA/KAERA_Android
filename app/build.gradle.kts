@@ -72,9 +72,6 @@ dependencies {
 
     implementation(Dependency.Android.MATERIAL)
     implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.AndroidTest.JUNIT)
@@ -83,6 +80,7 @@ dependencies {
     implementation(platform(Dependency.Firebase.FIREBASE_BOM))
     implementation(Dependency.Firebase.FIREBASE_ANALYTICS)
     implementation(Dependency.Firebase.FIREBASE_CRASHLYTICS)
+    implementation(Dependency.Firebase.FIREBASE_MESSAGING)
 
     //Timber
     implementation(Dependency.ThirdParty.TIMBER)
