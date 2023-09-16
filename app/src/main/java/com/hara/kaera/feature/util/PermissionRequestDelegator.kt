@@ -15,9 +15,21 @@ import timber.log.Timber
 
 
 class PermissionRequestDelegator(
-    private val activity: AppCompatActivity
+    private val activity: AppCompatActivity,
 ) {
-    
+
+    /*
+    현재 생각 플로우
+    안드로이드 12.0 에서는 알림권한이 요청창 필요없이 무조건 활성화 그래서 마이페이지 토글버튼에서 on off 때 알림창으로 이동시켜주는 로직만 주는걸로
+
+    하지만 13.0 이후에서는 다음과 같이 권한요청을 따로 받아와야함 따라서 권한요청 플로우대로 첫번째,두번째 거절 케이스 별로 따로 대응을 해준다.
+    다만, 최초 앱시작단계에서는 한번만 물어보고 이후에는(두번째 거절) 마이페이지에서만 권한요청 활성화를 물어보는 형식으로 권한요청이 이루어지도록 할 예정
+
+    그래서 일단 해당 런처는 권한요청이 들어오면 무조건 최초/첫번째/두번째 케이스를 모두 검사하지만 이후 실적용에서는
+    스플래시 or 홈 액티비티에서 한번 최초검사만 하는 런처 (shouldShowRequestPermissionRationale == true 일 경우 검사 안함)
+    마이페이지에서 두번째 거절 / 영구 거절 처리하는 런처를  코드나 함수로 일부 분리해야 할듯
+     */
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     val launcher = activity.registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
