@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.hara.kaera.R
-import com.hara.kaera.presentation.MainActivity
+import com.hara.kaera.feature.MainActivity
 
 
 class Notification(
