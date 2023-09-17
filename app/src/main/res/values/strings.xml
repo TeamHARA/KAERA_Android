@@ -80,4 +80,14 @@
     <string name="detail_after_record">이 고민 이후 나의 기록</string>
     <string name="detail_after_record_hint">이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요</string>
 
+    <!--  마이페이지  -->
+    <string name="mypage_title">마이페이지</string>
+    <string name="mypage_alert_setting">알림설정</string>
+    <string name="mypage_push_alert">Push 알림</string>
+    <string name="mypage_tos">이용 약관</string>
+    <string name="mypage_tos_service">서비스 이용 약관</string>
+    <string name="mypage_tos_privacy">개인정보 처리방침</string>
+    <string name="logout">로그아웃</string>
+    <string name="sign_out">계정탈퇴</string>
+
 </resources>

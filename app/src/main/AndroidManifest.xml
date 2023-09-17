@@ -20,21 +20,21 @@
         <activity
             android:name=".feature.login.LoginActivity"
             android:exported="true" />
-        <activity
-            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--        <activity-->
+<!--            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data
-                    android:host="oauth"
-                    android:scheme="kakao${NATIVE_APP_KEY}" />
-            </intent-filter>
-        </activity>
+<!--                &lt;!&ndash; Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" &ndash;&gt;-->
+<!--                <data-->
+<!--                    android:host="oauth"-->
+<!--                    android:scheme="kakao${NATIVE_APP_KEY}" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".feature.DetailBeforeActivity"
             android:exported="true" />
@@ -54,9 +54,12 @@
             android:name=".feature.storage.worrytemplate.WorryTemplateActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.detail.DetailAfterActivity"
+            android:name=".feature.detail.DetailAfterActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".feature.mypage.MypageActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
