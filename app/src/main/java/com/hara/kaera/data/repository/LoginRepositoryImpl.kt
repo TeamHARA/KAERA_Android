@@ -9,7 +9,7 @@ import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.data.dto.KaKaoLoginReqDTO
-import com.hara.kaera.data.mapper.Mapper
+import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.util.ErrorHandler
@@ -30,7 +30,7 @@ class LoginRepositoryImpl @Inject constructor(
             remoteLoginDataSource.getKakaoLoginJWT(accessToken).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
-                emit(ApiResult.Success(Mapper.mapperToJWT(it)))
+                emit(ApiResult.Success(LoginMapper.mapperToJWT(it)))
             }
         }
     }

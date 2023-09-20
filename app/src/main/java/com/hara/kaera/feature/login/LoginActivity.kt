@@ -129,6 +129,10 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is UiState.Error -> {
                 binding.root.makeToast(uiState.error)
             }
+
+            is UiState.Empty -> {
+                Unit
+            }
         }
     }
 
