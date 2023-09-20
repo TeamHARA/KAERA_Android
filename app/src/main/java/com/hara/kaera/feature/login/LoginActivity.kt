@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityLoginBinding
-import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
+import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginViewModel.TokenState
@@ -35,6 +35,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
 //        val keyhash = Utility.getKeyHash(this)
 //        Timber.e(keyhash.toString())
+
         binding.btnToken.onSingleClick {
             Timber.e(AuthApiClient.instance.hasToken().toString())
         }
@@ -52,7 +53,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                     throw it
                 }
             }
-
         }
 
         binding.btnKakaoLogin.onSingleClick(300) {
@@ -107,7 +107,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             }
 
             is TokenState.Valid -> {
-                // 여기서는 나중에 토큰 재발급 동작(refresh 기반으로 accesstoken 재발급)이 있어야 할것
+                // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로 
+                // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
+                // 이때 만료상태라면 최초로그인 과정으로 진입
+
+
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
             }
@@ -121,7 +125,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is UiState.Success -> {
                 Timber.e(uiState.data.toString())
                 runBlocking {
-                    loginViewModel.saveAccessToken(uiState.data)
+                    loginViewModel.saveKakaoJWT(uiState.data)
                 }
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))

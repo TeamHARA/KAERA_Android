@@ -2,8 +2,8 @@ package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
-import com.hara.kaera.data.dto.KaKaoLoginReqDTO
-import com.hara.kaera.data.dto.KaKaoLoginResDTO
+import com.hara.kaera.data.dto.login.KaKaoLoginReqDTO
+import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO

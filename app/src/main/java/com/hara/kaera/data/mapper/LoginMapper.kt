@@ -1,7 +1,8 @@
 package com.hara.kaera.data.mapper
 
-import com.hara.kaera.data.dto.KaKaoLoginResDTO
-import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
+import com.hara.kaera.data.dto.login.JWTRefreshResDTO
+import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
+import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 
 object LoginMapper {
 
@@ -11,4 +12,7 @@ object LoginMapper {
             refreshToken = dto.data.refreshToken,
         )
     }
+
+    fun mapperToAccessToken(dto: JWTRefreshResDTO): String = dto.data.accessToken
+
 }

@@ -1,4 +1,4 @@
-package com.hara.kaera.domain.entity
+package com.hara.kaera.domain.entity.login
 
 import kotlinx.serialization.Serializable
 
