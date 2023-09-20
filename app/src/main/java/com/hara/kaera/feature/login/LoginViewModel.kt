@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.KaKaoLoginReqDTO
+import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToMessage
@@ -21,7 +22,7 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _kakaoJWT = MutableStateFlow<UiState<String>>(UiState.Init)
+    private val _kakaoJWT = MutableStateFlow<UiState<KakaoLoginJWTEntity>>(UiState.Init)
     val kakaoJWT = _kakaoJWT.asStateFlow()
 
     /*
@@ -45,7 +46,7 @@ class LoginViewModel @Inject constructor(
 
                     when (apiresult) {
                         is ApiResult.Success -> {
-                            _kakaoJWT.value = UiState.Success(apiresult.data.accessToken)
+                            _kakaoJWT.value = UiState.Success(apiresult.data)
                         }
 
                         is ApiResult.Error -> {
@@ -59,10 +60,13 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun saveAccessToken(accessToken: String) {
+    fun saveAccessToken(jwt: KakaoLoginJWTEntity) {
         viewModelScope.launch {
             kotlin.runCatching {
-                loginRepository.saveAccessToken(accessToken = accessToken)
+                loginRepository.saveKaeraJWT(
+                    accessToken = jwt.accessToken,
+                    refreshToken = jwt.refreshToken
+                )
             }.onSuccess {
                 Timber.e("datastore success!!")
                 getAccessToken()
@@ -94,7 +98,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun kakaoLogOut(){
+    fun kakaoLogOut() {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.clearDataStore()

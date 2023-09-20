@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityLoginBinding
+import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginViewModel.TokenState
@@ -113,12 +114,12 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
     }
 
-    private fun render(uiState: UiState<String>) {
+    private fun render(uiState: UiState<KakaoLoginJWTEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> {}
             is UiState.Success -> {
-                Timber.e(uiState.data)
+                Timber.e(uiState.data.toString())
                 runBlocking {
                     loginViewModel.saveAccessToken(uiState.data)
                 }

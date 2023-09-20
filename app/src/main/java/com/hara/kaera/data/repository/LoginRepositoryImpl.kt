@@ -53,9 +53,11 @@ class LoginRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveRefreshToken(refreshToken: String) {
+    override suspend fun saveKaeraJWT(accessToken: String, refreshToken: String) {
         localLoginDataStore.edit {
+            it[Constant.ACCESS_TOKEN_KEY] = accessToken
             it[Constant.REFRESH_TOKEN_KEY] = refreshToken
         }
     }
+
 }

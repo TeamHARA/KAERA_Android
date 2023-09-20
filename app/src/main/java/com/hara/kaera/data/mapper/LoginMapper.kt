@@ -5,9 +5,10 @@ import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
 
 object LoginMapper {
 
-    fun mapperToJWT(dto : KaKaoLoginResDTO):KakaoLoginJWTEntity{
+    fun mapperToJWT(dto: KaKaoLoginResDTO): KakaoLoginJWTEntity {
         return KakaoLoginJWTEntity(
-            accessToken = dto.data.accessToken
+            accessToken = dto.data.accessToken,
+            refreshToken = dto.data.refreshToken,
         )
     }
 }

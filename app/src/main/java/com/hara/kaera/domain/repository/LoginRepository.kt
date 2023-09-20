@@ -12,7 +12,8 @@ interface LoginRepository {
     suspend fun clearDataStore()
 
     fun getSavedAccessToken(): Flow<String>
+
     suspend fun saveAccessToken(accessToken: String)
 
-    suspend fun saveRefreshToken(refreshToken: String)
+    suspend fun saveKaeraJWT(accessToken: String, refreshToken: String)
 }
