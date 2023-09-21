@@ -18,7 +18,6 @@ import com.hara.kaera.feature.util.onSingleClick
 import com.kakao.sdk.auth.AuthApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,7 +51,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             }
         }
 
-        binding.btnKakaoLogin.onSingleClick(300) {
+        binding.btnKakaoLogin.onSingleClick(300) { // 최초로그인 로직을 탐
             lifecycleScope.launch {
                 kotlin.runCatching {
                     kaKaoLoginClient.login()
@@ -67,7 +66,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                         }
                     }
                 }.onFailure {
-                    // _oAuthTokenFlow.value = UiState.Error(ErrorType.Token)
                     //에러
                     binding.root.makeToast(it.toString())
                     throw it
@@ -79,7 +77,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    loginViewModel.kakaoJWT.collect {
+                    loginViewModel.kakaoRemoteJWT.collect {
                         render(it)
                     }
                 }
@@ -100,6 +98,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         when (tokenState) {
             is TokenState.Init -> Unit
             is TokenState.Empty -> {
+                // 토큰이 비어있는 상태
+                //TODO 스플래시에서 이루어진다면 카카오로그인을 위해서 로그인 액티비티로 이동
                 binding.root.makeToast("로그인 먼저 진행해주세요")
             }
             is TokenState.Valid ->{
@@ -109,8 +109,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is TokenState.Exist -> {
                 // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로 
                 // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
-                // 이때 만료상태라면 최초로그인 과정으로 진입
                 loginViewModel.callUpdatedAccessToken()
+                // 이때 만료상태라면 최초로그인 과정으로 진입
             }
         }
     }

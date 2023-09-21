@@ -15,7 +15,6 @@ import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
@@ -26,8 +25,8 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _kakaoJWT = MutableStateFlow<UiState<KakaoLoginJWTEntity>>(UiState.Init)
-    val kakaoJWT = _kakaoJWT.asStateFlow()
+    private val _kakaoRemoteJWT = MutableStateFlow<UiState<KakaoLoginJWTEntity>>(UiState.Init)
+    val kakaoRemoteJWT = _kakaoRemoteJWT.asStateFlow()
 
     private val _tokenState = MutableStateFlow<TokenState<Nothing>>(TokenState.Init)
     val tokenState = _tokenState.asStateFlow()
@@ -42,101 +41,9 @@ class LoginViewModel @Inject constructor(
         getSavedRefreshToken()
     }
 
-    fun callKakaoLoginJWT(oAuthToken: OAuthToken) {
-        _kakaoJWT.value = UiState.Loading
-        viewModelScope.launch {
-            kotlin.runCatching {
-                loginRepository.getKakaoLoginJTW(accessToken = KaKaoLoginReqDTO(accessToken = oAuthToken.accessToken))
-            }.onSuccess {
-                it.collect { apiresult ->
-                    Timber.e(apiresult.toString())
-
-                    when (apiresult) {
-                        is ApiResult.Success -> {
-                            _kakaoJWT.value = UiState.Success(apiresult.data)
-                        }
-
-                        is ApiResult.Error -> {
-                            _kakaoJWT.value = UiState.Error(errorToMessage(apiresult.error))
-                        }
-
-                    }
-                }
-            }.onFailure {
-                throw it
-            }
-        }
-    }
-
-    fun callUpdatedAccessToken() {
-        viewModelScope.launch {
-            runBlocking {
-                loginRepository.getSavedAccessToken().collect {
-                    _localAccessToken.value = it
-                }
-            }
-
-            kotlin.runCatching {
-                loginRepository.getUpdatedAccessToken(
-                    JWTRefreshReqDTO(
-                        accessToken = _localAccessToken.value,
-                        refreshToekn = _localRefreshToken.value,
-                    )
-                )
-            }.onSuccess {
-                it.collect { apiresult ->
-                    Timber.e(apiresult.toString())
-
-                    when (apiresult) {
-                        is ApiResult.Success -> {
-                            loginRepository.updateAccessToken(apiresult.data)
-                            _tokenState.value = TokenState.Valid
-                        }
-
-                        is ApiResult.Error -> {
-                            tokenErrorHandle(apiresult.error)
-                        }
-
-                    }
-                }
-            }.onFailure {
-                throw it
-            }
-        }
-
-    }
-
-    fun saveKakaoJWT(jwt: KakaoLoginJWTEntity) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                loginRepository.saveKaeraJWT(
-                    accessToken = jwt.accessToken,
-                    refreshToken = jwt.refreshToken
-                )
-            }.onSuccess {
-                Timber.e("datastore update success!!")
-                _tokenState.value = TokenState.Valid
-            }.onFailure {
-                throw it
-            }
-        }
-
-    }
-
-    fun saveAccessToken(accessToken: String) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                loginRepository.updateAccessToken(
-                    accessToken = accessToken
-                )
-            }.onSuccess {
-                Timber.e("datastore accessToeknSave success!!")
-            }.onFailure {
-                throw it
-            }
-        }
-    }
-
+    /*
+    데이터스토어에 저장되어있는 리프레시 토큰을 가져오는 함수
+     */
     private fun getSavedRefreshToken() {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -160,6 +67,99 @@ class LoginViewModel @Inject constructor(
                 throw it
             }
         }
+    }
+
+    /*
+    카카오로그인 이후 OAuth토큰을 기반으로 JWT를 요청하는 함수
+     */
+    fun callKakaoLoginJWT(oAuthToken: OAuthToken) {
+        _kakaoRemoteJWT.value = UiState.Loading
+        viewModelScope.launch {
+            kotlin.runCatching {
+                loginRepository.getKakaoLoginJTW(accessToken = KaKaoLoginReqDTO(accessToken = oAuthToken.accessToken))
+            }.onSuccess {
+                it.collect { apiresult ->
+                    Timber.e(apiresult.toString())
+
+                    when (apiresult) {
+                        is ApiResult.Success -> {
+                            _kakaoRemoteJWT.value = UiState.Success(apiresult.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _kakaoRemoteJWT.value = UiState.Error(errorToMessage(apiresult.error))
+                        }
+
+                    }
+                }
+            }.onFailure {
+                throw it
+            }
+        }
+    }
+
+    /*
+    액세스토큰 재발급 요청하는 함수
+     */
+    fun callUpdatedAccessToken() {
+        viewModelScope.launch {
+            runBlocking {
+                loginRepository.getSavedAccessToken().collect {
+                    _localAccessToken.value = it
+                }
+            }
+
+            kotlin.runCatching {
+                loginRepository.getUpdatedAccessToken(
+                    JWTRefreshReqDTO(
+                        accessToken = _localAccessToken.value,
+                        refreshToekn = _localRefreshToken.value,
+                    )
+                )
+            }.onSuccess {
+                it.collect { apiresult ->
+                    Timber.e(apiresult.toString())
+                    when (apiresult) {
+                        is ApiResult.Success -> {
+                            kotlin.runCatching {
+                                loginRepository.updateAccessToken(accessToken = apiresult.data)
+                            }.onSuccess {
+                                _tokenState.value = TokenState.Valid
+                            }.onFailure {
+                                throw it
+                            }
+                        }
+
+                        is ApiResult.Error -> {
+                            // 토큰이 유효하지 않거나 만료된 경우
+                            tokenErrorHandle(apiresult.error)
+                        }
+                    }
+                }
+            }.onFailure {
+                throw it
+            }
+        }
+    }
+
+    /*
+    JWT를 데이터스토어에 저장하는 함수
+     */
+    fun saveKakaoJWT(jwt: KakaoLoginJWTEntity) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                loginRepository.saveKaeraJWT(
+                    accessToken = jwt.accessToken,
+                    refreshToken = jwt.refreshToken
+                )
+            }.onSuccess {
+                Timber.e("datastore update success!!")
+                _tokenState.value = TokenState.Valid
+            }.onFailure {
+                throw it
+            }
+        }
+
     }
 
     fun kakaoLogOut() {
