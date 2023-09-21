@@ -33,9 +33,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        val keyhash = Utility.getKeyHash(this)
-//        Timber.e(keyhash.toString())
-
         binding.btnToken.onSingleClick {
             Timber.e(AuthApiClient.instance.hasToken().toString())
         }
@@ -87,7 +84,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                     }
                 }
                 launch {
-                    loginViewModel.localRefreshToken.collect {
+                    loginViewModel.tokenState.collect {
                         tokenCheck(it)
                     }
                 }
@@ -113,8 +110,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로 
                 // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
                 // 이때 만료상태라면 최초로그인 과정으로 진입
-
-                loginViewModel.callUpdatedAccessToken(tokenState.token)
+                loginViewModel.callUpdatedAccessToken()
             }
         }
     }

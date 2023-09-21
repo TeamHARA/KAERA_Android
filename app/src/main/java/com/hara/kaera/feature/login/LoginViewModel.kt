@@ -29,13 +29,13 @@ class LoginViewModel @Inject constructor(
     private val _kakaoJWT = MutableStateFlow<UiState<KakaoLoginJWTEntity>>(UiState.Init)
     val kakaoJWT = _kakaoJWT.asStateFlow()
 
-    /*
-    나중에는 리프레시 토큰이 들어가서 accesstoken을 갱신하는 식으로 가야할듯
-     */
-    private val _localRefreshToken = MutableStateFlow<TokenState<String>>(TokenState.Init)
+    private val _tokenState = MutableStateFlow<TokenState<Nothing>>(TokenState.Init)
+    val tokenState = _tokenState.asStateFlow()
+
+    private val _localRefreshToken = MutableStateFlow("")
     val localRefreshToken = _localRefreshToken.asStateFlow()
 
-    private val _localAccessToken = MutableStateFlow<String>("")
+    private val _localAccessToken = MutableStateFlow("")
     val localAccessToken = _localAccessToken.asStateFlow()
 
     init {
@@ -68,7 +68,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun callUpdatedAccessToken(refreshToken: String) {
+    fun callUpdatedAccessToken() {
         viewModelScope.launch {
             runBlocking {
                 loginRepository.getSavedAccessToken().collect {
@@ -80,7 +80,7 @@ class LoginViewModel @Inject constructor(
                 loginRepository.getUpdatedAccessToken(
                     JWTRefreshReqDTO(
                         accessToken = _localAccessToken.value,
-                        refreshToekn = refreshToken,
+                        refreshToekn = _localRefreshToken.value,
                     )
                 )
             }.onSuccess {
@@ -90,7 +90,7 @@ class LoginViewModel @Inject constructor(
                     when (apiresult) {
                         is ApiResult.Success -> {
                             loginRepository.updateAccessToken(apiresult.data)
-                            _localRefreshToken.value = TokenState.Valid
+                            _tokenState.value = TokenState.Valid
                         }
 
                         is ApiResult.Error -> {
@@ -115,7 +115,7 @@ class LoginViewModel @Inject constructor(
                 )
             }.onSuccess {
                 Timber.e("datastore update success!!")
-                _localRefreshToken.value = TokenState.Valid
+                _tokenState.value = TokenState.Valid
             }.onFailure {
                 throw it
             }
@@ -146,16 +146,17 @@ class LoginViewModel @Inject constructor(
                     Timber.e(token)
                     when (token) {
                         EMPTY_TOKEN -> {
-                            _localRefreshToken.value = TokenState.Empty
+                            _tokenState.value = TokenState.Empty
                         }
 
                         else -> {
-                            _localRefreshToken.value = TokenState.Exist(token)
+                            _tokenState.value = TokenState.Exist
+                            _localRefreshToken.value = token
                         }
                     }
                 }
             }.onFailure {
-                _localRefreshToken.value = TokenState.Empty
+                _tokenState.value = TokenState.Empty
                 throw it
             }
         }
@@ -178,7 +179,7 @@ class LoginViewModel @Inject constructor(
         object Init : TokenState<Nothing>()
         object Empty : TokenState<Nothing>()
         object Valid : TokenState<Nothing>()
-        data class Exist<String>(val token: String) : TokenState<String>()
+        object Exist : TokenState<Nothing>()
     }
 
 }
