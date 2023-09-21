@@ -66,7 +66,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                     if (it.isSuccess) {
                         it.onSuccess { oAuthToken ->
                             Timber.e(oAuthToken.toString())
-                            loginViewModel.getKakaoLoginJWT(oAuthToken = oAuthToken)
+                            loginViewModel.callKakaoLoginJWT(oAuthToken = oAuthToken)
                         }
                     }
                 }.onFailure {
@@ -87,7 +87,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                     }
                 }
                 launch {
-                    loginViewModel.localJWT.collect {
+                    loginViewModel.localRefreshToken.collect {
                         tokenCheck(it)
                     }
                 }
@@ -99,21 +99,22 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     이 함수 자체가 카카오로그인을 한번 한 상태에서도 이루어지므로 나중에 splashActivity에서
     처리해도 되지 않을까 생각이 듭니다. 우선은 테스트용으로 여기에서 실행
      */
-    private fun tokenCheck(tokenState: TokenState<String>) {
+    private fun tokenCheck(tokenState: TokenState<String>) { // 나중에 뷰모델로 옮길까>
         when (tokenState) {
             is TokenState.Init -> Unit
             is TokenState.Empty -> {
                 binding.root.makeToast("로그인 먼저 진행해주세요")
             }
-
-            is TokenState.Valid -> {
+            is TokenState.Valid ->{
+                finishAffinity()
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            is TokenState.Exist -> {
                 // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로 
                 // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
                 // 이때 만료상태라면 최초로그인 과정으로 진입
 
-
-                finishAffinity()
-                startActivity(Intent(this, MainActivity::class.java))
+                loginViewModel.callUpdatedAccessToken(tokenState.token)
             }
         }
     }
@@ -123,12 +124,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is UiState.Init -> Unit
             is UiState.Loading -> {}
             is UiState.Success -> {
-                Timber.e(uiState.data.toString())
-                runBlocking {
                     loginViewModel.saveKakaoJWT(uiState.data)
-                }
-                finishAffinity()
-                startActivity(Intent(this, MainActivity::class.java))
             }
 
             is UiState.Error -> {

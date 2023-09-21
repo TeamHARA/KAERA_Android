@@ -32,3 +32,14 @@ fun errorToMessage(error: ErrorType) = when (error) {
     is ErrorType.IoException -> "알수없는 오류입니다."
     is ErrorType.Unknown -> "알수없는 오류입니다."
 }
+
+fun tokenErrorHandle(error: ErrorType) = when (error) {
+    is ErrorType.Api.BadRequest ->{ //TODO 유효하지 않은 토큰 
+     }
+    is ErrorType.Api.UnAuthorized ->{
+        //TODO 모든 토큰 만료
+    }
+    else -> {
+        //TODO 토큰관련 아님
+    }
+}

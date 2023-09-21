@@ -16,6 +16,8 @@ interface LoginRepository {
 
     fun getSavedRefreshToken(): Flow<String>
 
+    fun getSavedAccessToken(): Flow<String>
+
     suspend fun updateAccessToken(accessToken: String)
 
     suspend fun saveKaeraJWT(accessToken: String, refreshToken: String)
