@@ -60,7 +60,6 @@ class LoginRepositoryImpl @Inject constructor(
             }
         }.map {
             it[Constant.REFRESH_TOKEN_KEY] ?: EMPTY_TOKEN
-            it[Constant.ACCESS_TOKEN_KEY] ?: EMPTY_TOKEN
         }
     }
 

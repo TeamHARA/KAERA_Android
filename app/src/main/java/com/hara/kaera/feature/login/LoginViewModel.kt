@@ -4,17 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.core.ErrorType
 import com.hara.kaera.data.dto.login.JWTRefreshReqDTO
 import com.hara.kaera.data.dto.login.KaKaoLoginReqDTO
 import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToMessage
-import com.hara.kaera.feature.util.tokenErrorHandle
 import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
@@ -25,17 +26,15 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _kakaoRemoteJWT = MutableStateFlow<UiState<KakaoLoginJWTEntity>>(UiState.Init)
+    private val _kakaoRemoteJWT = MutableStateFlow<UiState<Unit>>(UiState.Init)
     val kakaoRemoteJWT = _kakaoRemoteJWT.asStateFlow()
 
     private val _tokenState = MutableStateFlow<TokenState<Nothing>>(TokenState.Init)
     val tokenState = _tokenState.asStateFlow()
 
     private val _localRefreshToken = MutableStateFlow("")
-    val localRefreshToken = _localRefreshToken.asStateFlow()
 
     private val _localAccessToken = MutableStateFlow("")
-    val localAccessToken = _localAccessToken.asStateFlow()
 
     init {
         getSavedRefreshToken()
@@ -50,7 +49,7 @@ class LoginViewModel @Inject constructor(
                 loginRepository.getSavedRefreshToken()
             }.onSuccess {
                 it.collect { token ->
-                    Timber.e(token)
+                    Timber.e("getSavedToken: $token")
                     when (token) {
                         EMPTY_TOKEN -> {
                             _tokenState.value = TokenState.Empty
@@ -59,6 +58,8 @@ class LoginViewModel @Inject constructor(
                         else -> {
                             _tokenState.value = TokenState.Exist
                             _localRefreshToken.value = token
+                            callUpdatedAccessToken()
+                            Timber.e(_localRefreshToken.value)
                         }
                     }
                 }
@@ -79,11 +80,12 @@ class LoginViewModel @Inject constructor(
                 loginRepository.getKakaoLoginJTW(accessToken = KaKaoLoginReqDTO(accessToken = oAuthToken.accessToken))
             }.onSuccess {
                 it.collect { apiresult ->
-                    Timber.e(apiresult.toString())
+                    Timber.e("callKakaoLoginJWT : $apiresult")
 
                     when (apiresult) {
                         is ApiResult.Success -> {
-                            _kakaoRemoteJWT.value = UiState.Success(apiresult.data)
+                            saveKakaoJWT(apiresult.data)
+                            _kakaoRemoteJWT.value = UiState.Success(Unit)
                         }
 
                         is ApiResult.Error -> {
@@ -103,10 +105,8 @@ class LoginViewModel @Inject constructor(
      */
     fun callUpdatedAccessToken() {
         viewModelScope.launch {
-            runBlocking {
-                loginRepository.getSavedAccessToken().collect {
-                    _localAccessToken.value = it
-                }
+            _localAccessToken.value = runBlocking {
+                loginRepository.getSavedAccessToken().first()
             }
 
             kotlin.runCatching {
@@ -117,6 +117,8 @@ class LoginViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
+                Timber.e("refresh: ${_localRefreshToken.value}")
+                Timber.e("access: ${_localAccessToken.value}")
                 it.collect { apiresult ->
                     Timber.e(apiresult.toString())
                     when (apiresult) {
@@ -132,7 +134,28 @@ class LoginViewModel @Inject constructor(
 
                         is ApiResult.Error -> {
                             // 토큰이 유효하지 않거나 만료된 경우
-                            tokenErrorHandle(apiresult.error)
+                            // TODO 스플래시일 경우 로그인 액티비티를 이동하지 않으면서 
+                            // kakaoclient를 이용하여 로그인 후 OAuth토큰을 기반으로 JWT를 새로 받아와야함
+                            // kakaoclinet.lio
+                            when (apiresult.error) {
+                                is ErrorType.Api.BadRequest -> {
+                                    //TODO 유효하지 않은 토큰
+                                    Timber.e("token invalid")
+                                    _tokenState.value = TokenState.Expired
+                                }
+
+                                is ErrorType.Api.UnAuthorized -> {
+                                    //TODO 모든 토큰 만료
+                                    Timber.e("token expired")
+                                    _tokenState.value = TokenState.Expired
+                                }
+
+                                else -> {
+                                    //TODO 토큰관련 아님
+                                    Timber.e("not token error")
+                                    errorToMessage(apiresult.error)
+                                }
+                            }
                         }
                     }
                 }
@@ -145,7 +168,7 @@ class LoginViewModel @Inject constructor(
     /*
     JWT를 데이터스토어에 저장하는 함수
      */
-    fun saveKakaoJWT(jwt: KakaoLoginJWTEntity) {
+    private fun saveKakaoJWT(jwt: KakaoLoginJWTEntity) {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.saveKaeraJWT(
@@ -159,7 +182,6 @@ class LoginViewModel @Inject constructor(
                 throw it
             }
         }
-
     }
 
     fun kakaoLogOut() {
@@ -178,8 +200,10 @@ class LoginViewModel @Inject constructor(
     sealed class TokenState<out T> {
         object Init : TokenState<Nothing>()
         object Empty : TokenState<Nothing>()
-        object Valid : TokenState<Nothing>()
         object Exist : TokenState<Nothing>()
+        object Valid : TokenState<Nothing>()
+        object Expired : TokenState<Nothing>()
+
     }
 
 }
