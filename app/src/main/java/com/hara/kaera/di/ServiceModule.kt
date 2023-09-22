@@ -40,7 +40,7 @@ object ServiceModule {
     fun providesKaeraHeaderInterceptor(
         loginRepositroy: LoginRepository
     ): Interceptor {
-        val authToken: String? = runBlocking {
+        val authToken: String = runBlocking {
             loginRepositroy.getSavedAccessToken().first()
         }
         return Interceptor { chain ->

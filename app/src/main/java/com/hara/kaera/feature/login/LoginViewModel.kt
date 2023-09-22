@@ -46,21 +46,22 @@ class LoginViewModel @Inject constructor(
     private fun getSavedRefreshToken() {
         viewModelScope.launch {
             kotlin.runCatching {
-                loginRepository.getSavedRefreshToken()
-            }.onSuccess {
-                it.collect { token ->
-                    Timber.e("getSavedToken: $token")
-                    when (token) {
-                        EMPTY_TOKEN -> {
-                            _tokenState.value = TokenState.Empty
-                        }
+                loginRepository.getSavedRefreshToken().first() // 함수 호출당 딱 한번만 수집 
+                // 이유는 해당 함수는 토큰이 있냐 없냐 검사후 다시 수집하면안됨
+                // 토큰이 없으면 TokenState.Empty로 간 후 최초 로그인 로직(카카오로그인 -> JWT발급 -> 저장 -> 홈화면이동)
+                // 토큰이 있으면 TokenState.Exist(밑에 보면 알겠지만 미리 refreshToken은 저장) 이후 재발급로직(재발급 서버통신 -> accessToken 리스폰-> accessToken만 갱신 -> 홈화면 이동)
+            }.onSuccess { token ->
+                Timber.e("getSavedRefreshToken: $token")
+                when (token) {
+                    EMPTY_TOKEN -> {
+                        _tokenState.value = TokenState.Empty
+                    }
 
-                        else -> {
-                            _tokenState.value = TokenState.Exist
-                            _localRefreshToken.value = token
-                            callUpdatedAccessToken()
-                            Timber.e(_localRefreshToken.value)
-                        }
+                    else -> {
+                        _tokenState.value = TokenState.Exist
+                        _localRefreshToken.value = token
+                        callUpdatedAccessToken()
+                        Timber.e(_localRefreshToken.value)
                     }
                 }
             }.onFailure {
@@ -103,13 +104,15 @@ class LoginViewModel @Inject constructor(
     /*
     액세스토큰 재발급 요청하는 함수
      */
-    fun callUpdatedAccessToken() {
+    private fun callUpdatedAccessToken() {
         viewModelScope.launch {
             _localAccessToken.value = runBlocking {
                 loginRepository.getSavedAccessToken().first()
             }
 
             kotlin.runCatching {
+                Timber.e("refresh: ${_localRefreshToken.value}")
+                Timber.e("access: ${_localAccessToken.value}")
                 loginRepository.getUpdatedAccessToken(
                     JWTRefreshReqDTO(
                         accessToken = _localAccessToken.value,
@@ -117,12 +120,10 @@ class LoginViewModel @Inject constructor(
                     )
                 )
             }.onSuccess {
-                Timber.e("refresh: ${_localRefreshToken.value}")
-                Timber.e("access: ${_localAccessToken.value}")
                 it.collect { apiresult ->
-                    Timber.e(apiresult.toString())
                     when (apiresult) {
                         is ApiResult.Success -> {
+                            Timber.e("callUpdatedAccessToken : ${apiresult.data}")
                             kotlin.runCatching {
                                 loginRepository.updateAccessToken(accessToken = apiresult.data)
                             }.onSuccess {
@@ -133,6 +134,7 @@ class LoginViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
+                            Timber.e("callUpdatedAccessToken : ${apiresult.error}")
                             // 토큰이 유효하지 않거나 만료된 경우
                             // TODO 스플래시일 경우 로그인 액티비티를 이동하지 않으면서 
                             // kakaoclient를 이용하여 로그인 후 OAuth토큰을 기반으로 JWT를 새로 받아와야함
