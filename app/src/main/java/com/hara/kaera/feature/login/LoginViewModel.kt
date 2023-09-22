@@ -116,7 +116,7 @@ class LoginViewModel @Inject constructor(
                 loginRepository.getUpdatedAccessToken(
                     JWTRefreshReqDTO(
                         accessToken = _localAccessToken.value,
-                        refreshToekn = _localRefreshToken.value,
+                        refreshToken = _localRefreshToken.value,
                     )
                 )
             }.onSuccess {
