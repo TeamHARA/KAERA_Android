@@ -55,16 +55,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_user_email"
+            <!--     TODO: 이미지 변경       -->
+            <ImageView
+                android:id="@+id/iv_view_kakao_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="email@kakao.com"
-                android:textAppearance="@style/h_body3_b14"
-                android:textColor="@color/white"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/kakao_login_medium_narrow"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_user_name"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,12 +105,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="21dp"
-                app:switchMinWidth="0dp"
-                app:thumbTextPadding="24dp"
+                app:thumbTint="@drawable/thumb_tint"
+                app:trackTint="@drawable/track_tint"
+                android:thumb="@drawable/switch_thumb"
+                app:track="@drawable/switch_track"
+                android:switchMinWidth="0dp"
                 android:textOff=""
                 android:textOn=""
-                app:track="@drawable/selector_switch_track"
-                android:thumb="@drawable/shape_switch_thumb"
+                android:thumbTextPadding="24dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_alert"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_alert" />
