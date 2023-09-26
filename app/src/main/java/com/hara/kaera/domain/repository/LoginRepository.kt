@@ -1,8 +1,8 @@
 package com.hara.kaera.domain.repository
 
 import com.hara.kaera.core.ApiResult
-import com.hara.kaera.data.dto.login.JWTRefreshReqDTO
-import com.hara.kaera.data.dto.login.KaKaoLoginReqDTO
+import com.hara.kaera.domain.dto.JWTRefreshReqDTO
+import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 import kotlinx.coroutines.flow.Flow
 
