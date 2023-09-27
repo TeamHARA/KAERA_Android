@@ -2,6 +2,9 @@ package com.hara.kaera.data.util
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import timber.log.Timber
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.security.KeyStore
@@ -28,7 +31,8 @@ class CryptoManager {
     }
 
     private fun getKey(): SecretKey {
-        val existingKey = keyStore.getEntry("secret", null) as? KeyStore.SecretKeyEntry
+        val existingKey = keyStore.getEntry(ALIAS, null) as? KeyStore.SecretKeyEntry
+        Timber.e(existingKey.toString())
         return existingKey?.secretKey ?: createKey()
     }
 
@@ -36,9 +40,10 @@ class CryptoManager {
         return KeyGenerator.getInstance(ALGORITHM).apply {
             init(
                 KeyGenParameterSpec.Builder(
-                    "secret",
+                    ALIAS,
                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
                 )
+                    .setKeySize(KEY_SIZE * 8) // key size in bits
                     .setBlockModes(BLOCK_MODE)
                     .setEncryptionPaddings(PADDING)
                     .setUserAuthenticationRequired(false)
@@ -48,32 +53,57 @@ class CryptoManager {
         }.generateKey()
     }
 
-    fun encrypt(bytes: ByteArray, outputStream: OutputStream): ByteArray {
-        val encryptedBytes = encryptCipher.doFinal(bytes)
+    fun encrypt(bytes: ByteArray, outputStream: OutputStream) {
+        val cipher = encryptCipher
+        val iv = cipher.iv
         outputStream.use {
-            it.write(encryptCipher.iv.size)
-            it.write(encryptCipher.iv)
-            it.write(encryptedBytes.size)
-            it.write(encryptedBytes)
+            it.write(iv)
+            // write the payload in chunks to make sure to support larger data amounts (this would otherwise fail silently and result in corrupted data being read back)
+            ////////////////////////////////////
+            val inputStream = ByteArrayInputStream(bytes)
+            val buffer = ByteArray(CHUNK_SIZE)
+            while (inputStream.available() > CHUNK_SIZE) {
+                inputStream.read(buffer)
+                val ciphertextChunk = cipher.update(buffer)
+                it.write(ciphertextChunk)
+            }
+            // the last chunk must be written using doFinal() because this takes the padding into account
+            val remainingBytes = inputStream.readBytes()
+            val lastChunk = cipher.doFinal(remainingBytes)
+            it.write(lastChunk)
+            //////////////////////////////////
         }
-        return encryptedBytes
     }
 
     fun decrypt(inputStream: InputStream): ByteArray {
         return inputStream.use {
-            val ivSize = it.read()
-            val iv = ByteArray(ivSize)
+            val iv = ByteArray(KEY_SIZE)
             it.read(iv)
+            val cipher = getDecryptCipherForIv(iv)
+            val outputStream = ByteArrayOutputStream()
 
-            val encryptedBytesSize = it.read()
-            val encryptedBytes = ByteArray(encryptedBytesSize)
-            it.read(encryptedBytes)
+            // read the payload in chunks to make sure to support larger data amounts (this would otherwise fail silently and result in corrupted data being read back)
+            ////////////////////////////////////
+            val buffer = ByteArray(CHUNK_SIZE)
+            while (inputStream.available() > CHUNK_SIZE) {
+                inputStream.read(buffer)
+                val ciphertextChunk = cipher.update(buffer)
+                outputStream.write(ciphertextChunk)
+            }
+            // the last chunk must be read using doFinal() because this takes the padding into account
+            val remainingBytes = inputStream.readBytes()
+            val lastChunk = cipher.doFinal(remainingBytes)
+            outputStream.write(lastChunk)
+            //////////////////////////////////
 
-            getDecryptCipherForIv(iv).doFinal(encryptedBytes)
+            outputStream.toByteArray()
         }
     }
 
     companion object {
+        private const val CHUNK_SIZE = 1024 * 4 // bytes
+        private const val KEY_SIZE = 16 // bytes
+        private const val ALIAS = "kaera"
         private const val ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
         private const val BLOCK_MODE = KeyProperties.BLOCK_MODE_CBC
         private const val PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
