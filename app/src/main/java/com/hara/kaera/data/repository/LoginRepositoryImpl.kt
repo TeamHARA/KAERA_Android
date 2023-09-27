@@ -1,30 +1,26 @@
 package com.hara.kaera.data.repository
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
 import com.hara.kaera.application.Constant
-import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
+import com.hara.kaera.domain.entity.login.LoginData
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.util.ErrorHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import java.io.IOException
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
     private val remoteLoginDataSource: LoginDataSource,
-    private val localLoginDataStore: DataStore<Preferences>,
-    private val errorHandler: ErrorHandler
+    private val localLoginDataStore: DataStore<LoginData>,
+    private val errorHandler: ErrorHandler,
 ) : LoginRepository {
 
     override fun getKakaoLoginJTW(accessToken: KaKaoLoginReqDTO): Flow<ApiResult<KakaoLoginJWTEntity>> {
@@ -48,43 +44,36 @@ class LoginRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearDataStore() {
-        localLoginDataStore.edit { it.clear() }
+        localLoginDataStore.updateData {
+            it.copy(accessToken = null, refreshToken = null)
+        }
     }
 
     override fun getSavedRefreshToken(): Flow<String> {
         return localLoginDataStore.data.catch {
-            if (it is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw it
-            }
+            throw it
         }.map {
-            it[Constant.REFRESH_TOKEN_KEY] ?: EMPTY_TOKEN
+            it.refreshToken ?: Constant.EMPTY_TOKEN
         }
     }
 
     override fun getSavedAccessToken(): Flow<String> {
         return localLoginDataStore.data.catch {
-            if (it is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw it
-            }
+            throw it
         }.map {
-            it[Constant.ACCESS_TOKEN_KEY] ?: EMPTY_TOKEN
+            it.accessToken ?: Constant.EMPTY_TOKEN
         }
     }
 
     override suspend fun updateAccessToken(accessToken: String) {
-        localLoginDataStore.edit {
-            it[Constant.ACCESS_TOKEN_KEY] = accessToken
+        localLoginDataStore.updateData {
+            it.copy(accessToken = accessToken)
         }
     }
 
     override suspend fun saveKaeraJWT(accessToken: String, refreshToken: String) {
-        localLoginDataStore.edit {
-            it[Constant.ACCESS_TOKEN_KEY] = accessToken
-            it[Constant.REFRESH_TOKEN_KEY] = refreshToken
+        localLoginDataStore.updateData {
+            it.copy(accessToken = accessToken, refreshToken = refreshToken)
         }
     }
 

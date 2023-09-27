@@ -1,9 +1,7 @@
-package com.hara.kaera.feature.util
+package com.hara.kaera.data.util
 
-import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import androidx.annotation.RequiresApi
 import java.io.InputStream
 import java.io.OutputStream
 import java.security.KeyStore
