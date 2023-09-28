@@ -27,6 +27,7 @@ object Versions {
     const val FRAGMENT = "1.6.1"
     const val VIEWPAGER2 = "1.0.0"
     const val DATASTORE = "1.0.0"
+    const val SPLASH_SCREEN="1.1.0-alpha01"
 
     //ANDROID
     const val ANDROID_MATERIAL = "1.9.0"
