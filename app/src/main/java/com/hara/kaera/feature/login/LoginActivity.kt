@@ -10,7 +10,8 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityLoginBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.login.LoginViewModel.TokenState
+import com.hara.kaera.feature.util.KaKaoLoginClient
+import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -117,13 +118,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
             }
-
-            is TokenState.Expired -> {
-                // 저장된 리프레시 토큰이 만료된 상태
-                // 따라서 카카오 로그인 과정을 다시 거쳐서 JWT (리프레시/액세스) 모두 갱신해야 한다
-                Timber.e("Expired")
-                kakaoLogin()
-            }
+            else -> Unit
         }
     }
 
