@@ -1,14 +1,9 @@
 package com.hara.kaera.feature.splash
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.animation.AnticipateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.doOnEnd
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -31,7 +26,7 @@ class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+
         collectState()
     }
 
@@ -41,9 +36,8 @@ class StartActivity : AppCompatActivity() {
             is TokenState.Empty -> {
                 // 데이터스토어에 토큰이 비어있는 상태
                 // 카카오로그인을 위해서 로그인 액티비티로 이동
-                exitSplash()
-                finishAffinity()
                 startActivity(Intent(this, LoginActivity::class.java))
+                finishAffinity()
             }
 
             is TokenState.Exist -> Unit
@@ -53,9 +47,8 @@ class StartActivity : AppCompatActivity() {
 
 
             is TokenState.Valid -> {
-                exitSplash()
-                finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
+                finishAffinity()
             }
 
             is TokenState.Expired -> {
@@ -64,26 +57,6 @@ class StartActivity : AppCompatActivity() {
                 // 카카오 로그인을 다시 거쳐서 JWT (리프레시/액세스) 모두 갱신해야 한다
                 kakaoLogin()
             }
-        }
-    }
-
-    private fun exitSplash() {
-        splashScreen.setOnExitAnimationListener { splashScreenView ->
-            // Create your custom animation.
-            val slideUp = ObjectAnimator.ofFloat(
-                splashScreenView,
-                View.TRANSLATION_Y,
-                0f,
-                -splashScreenView.height.toFloat()
-            )
-            slideUp.interpolator = AnticipateInterpolator()
-            slideUp.duration = 500L
-
-            // Call SplashScreenView.remove at the end of your custom animation.
-            slideUp.doOnEnd { splashScreenView.removeAllViews() }
-
-            // Run your animation.
-            slideUp.start()
         }
     }
 
