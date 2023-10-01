@@ -63,14 +63,18 @@ class DetailAfterActivity :
     }
 
     private fun setClickListener() {
-        binding.btnDelete.setOnClickListener {
-            DialogDeleteWarning {
-                viewModel.deleteWorry()
-            }.show(supportFragmentManager, "delete")
-        }
-
-        binding.tvSaveBtn.setOnClickListener {
-            viewModel.updateReview(binding.etRecordContent.text.toString())
+        with(binding) {
+            appbarDetail.setNavigationOnClickListener { // 앱바 'X' 버튼 클릭
+                finish()
+            }
+            btnDelete.setOnClickListener {
+                DialogDeleteWarning {
+                    viewModel.deleteWorry()
+                }.show(supportFragmentManager, "delete")
+            }
+            tvSaveBtn.setOnClickListener {
+                viewModel.updateReview(binding.etRecordContent.text.toString())
+            }
         }
     }
 

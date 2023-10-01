@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{`D- ` + worryDetail.d_day}"
+                    android:text="@{(worryDetail.d_day &lt; 0 ? `D` : `D+`) + worryDetail.d_day}"
                     android:textAppearance="@style/h_head3_b18"
                     android:textColor="@color/yellow1"
                     tools:text="D-2" />
