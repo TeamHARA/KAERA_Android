@@ -46,7 +46,7 @@ class DetailAfterViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _detailStateFlow.value = UiState.Error(collect.error.toString())
+                            _detailStateFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }
@@ -69,7 +69,7 @@ class DetailAfterViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _deleteWorryFlow.value = UiState.Error(collect.error.toString())
+                            _deleteWorryFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }

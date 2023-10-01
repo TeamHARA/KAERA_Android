@@ -9,7 +9,9 @@ import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.feature.home.FloatingAnimation
 import com.hara.kaera.feature.util.GlobalDiffCallBack
 
-class HomeJewelAdapter() :
+class HomeJewelAdapter(
+    private val goToDetailAfterActivity: (worryId: Int) -> Unit
+) :
     ListAdapter<HomeWorryListEntity.HomeWorry, HomeJewelAdapter.HomeJewelViewHolder>(
         GlobalDiffCallBack()
     ) {
@@ -39,6 +41,11 @@ class HomeJewelAdapter() :
                 this.root,
                 -30F
             ).start()
+
+            // 고민 후 상세보기로 이동
+            root.setOnClickListener { jewel ->
+                goToDetailAfterActivity(curItem.worryId)
+            }
         }
     }
 }

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".feature.DetailBeforeActivity">
+    tools:context=".feature.detail.DetailBeforeActivity">
 
     <data>
 
+        <variable
+            name="worryDetail"
+            type="com.hara.kaera.domain.entity.WorryDetailEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,9 +48,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="D-2"
+                    android:text="@{(worryDetail.d_day &lt; 0 ? `D` : `D+`) + worryDetail.d_day}"
                     android:textAppearance="@style/h_head3_b18"
-                    android:textColor="@color/yellow1" />
+                    android:textColor="@color/yellow1"
+                    tools:text="D-2" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_edit"
@@ -101,22 +106,25 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="11dp"
-                            android:src="@drawable/gemstone_orange"
+                            app:isSolved="@{false}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:templateId="@{worryDetail.templateId}"
+                            tools:src="@drawable/gemstone_orange" />
 
                         <TextView
                             android:id="@+id/tv_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
-                            android:text="졸업 후 나는"
+                            android:text="@{worryDetail.title}"
                             android:textAppearance="@style/h_head2_b18"
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/iv_stone" />
+                            app:layout_constraintTop_toBottomOf="@id/iv_stone"
+                            tools:text="졸업 후 나는" />
 
                         <include
                             android:id="@+id/layout_answer_1"
@@ -124,9 +132,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="42dp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_title"
+                            bind:content="@{worryDetail.answers[0]}"
+                            bind:title="@{worryDetail.subtitles[0]}" />
 
                         <include
                             android:id="@+id/layout_answer_2"
@@ -134,9 +143,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/layout_answer_1" />
+                            app:layout_constraintTop_toBottomOf="@id/layout_answer_1"
+                            bind:content="@{worryDetail.answers[1]}"
+                            bind:title="@{worryDetail.subtitles[1]}" />
 
                         <include
                             android:id="@+id/layout_answer_3"
@@ -144,9 +154,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/layout_answer_2" />
+                            app:layout_constraintTop_toBottomOf="@id/layout_answer_2"
+                            bind:content="@{worryDetail.answers[2]}"
+                            bind:title="@{worryDetail.subtitles[2]}" />
 
                         <include
                             android:id="@+id/layout_answer_4"
@@ -154,9 +165,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/layout_answer_3" />
+                            app:layout_constraintTop_toBottomOf="@id/layout_answer_3"
+                            bind:content="@{worryDetail.answers[3]}"
+                            bind:title="@{worryDetail.subtitles[3]}" />
 
                         <TextView
                             android:id="@+id/tv_written_date"
@@ -164,12 +176,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="54dp"
                             android:layout_marginBottom="48dp"
-                            android:text="작성일 2023.08.15"
+                            android:text="@{`작성일 ` + worryDetail.updatedAt}"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_5"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/layout_answer_4" />
+                            app:layout_constraintTop_toBottomOf="@id/layout_answer_4"
+                            tools:text="작성일 2023.08.15" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -182,13 +195,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="55dp"
-                    android:visibility="gone"
                     app:cardCornerRadius="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/gray_1_1"
-                    app:strokeWidth="1dp">
+                    app:strokeWidth="1dp"
+                    tools:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/fr_cl_content"
@@ -202,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="11dp"
-                            android:src="@drawable/gemstone_orange"
+                            android:src="@drawable/gemstone_blue"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -212,7 +225,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
-                            android:text="졸업 후 나는"
+                            android:text="@{worryDetail.title}"
                             android:textAppearance="@style/h_head2_b18"
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -225,9 +238,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="42dp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/fr_tv_title" />
+                            app:layout_constraintTop_toBottomOf="@id/fr_tv_title"
+                            bind:content="@{worryDetail.answers[0]}"
+                            bind:title="@{worryDetail.subtitles[0]}" />
 
                         <TextView
                             android:id="@+id/fr_tv_written_date"
@@ -235,12 +249,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="54dp"
                             android:layout_marginBottom="48dp"
-                            android:text="작성일 2023.08.15"
+                            android:text="@{`작성일 ` + worryDetail.updatedAt}"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_5"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/fr_layout_answer_1" />
+                            app:layout_constraintTop_toBottomOf="@id/fr_layout_answer_1"
+                            tools:text="작성일 2023.10.01" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
