@@ -1,4 +1,4 @@
-package com.hara.kaera.feature.home
+package com.hara.kaera.feature.home.gems
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import com.hara.kaera.databinding.FragmentHomeJewelBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.detail.DetailAfterActivity
-import com.hara.kaera.feature.detail.DetailBeforeActivity
+import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.home.adapter.HomeJewelAdapter
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
@@ -26,6 +26,10 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
     private lateinit var homeJewelAdapter: HomeJewelAdapter
     private val viewModel by viewModels<HomeViewModel>()
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getHomeWorryList(true)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

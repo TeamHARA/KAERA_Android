@@ -1,6 +1,7 @@
 package com.hara.kaera.domain.repository
 
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
@@ -31,6 +32,8 @@ interface KaeraRepository {
     fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ApiResult<ReviewResEntity>>
 
     fun editWorry(editWorryReqDTO: EditWorryReqDTO): Flow<ApiResult<String>>
+
+    fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<String>>
 
     fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>>
 }

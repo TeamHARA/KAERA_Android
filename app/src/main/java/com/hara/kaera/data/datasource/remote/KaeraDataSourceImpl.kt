@@ -1,6 +1,8 @@
 package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
@@ -75,6 +77,13 @@ class KaeraDataSourceImpl @Inject constructor(
             emit(kaeraApi.editWorry(editWorryReqDTO))
         }.safeCallApi()
     }
+
+    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<EditDeadlineResDTO> {
+        return flow {
+            emit(kaeraApi.editDeadline(editDeadlineReqDTO))
+        }.safeCallApi()
+    }
+
 
     override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<WriteWorryResDTO> {
         return flow {

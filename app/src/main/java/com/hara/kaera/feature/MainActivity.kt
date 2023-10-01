@@ -2,6 +2,8 @@ package com.hara.kaera.feature
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.activity.OnBackPressedCallback
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
@@ -14,9 +16,12 @@ import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.navigateTo
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+    private val homeFragment = HomeFragment()
+    private val storageFragment = StorageFragment()
 
     private var time: Long = 0
     private val callback = object : OnBackPressedCallback(true) {
@@ -70,4 +75,14 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
+    private fun isFragmentInBackStack(fragment: Fragment): Boolean {
+        val backStackCount = supportFragmentManager.backStackEntryCount
+        for (i in 0 until backStackCount) {
+            val entry = supportFragmentManager.getBackStackEntryAt(i)
+            if (entry.name == fragment.javaClass.simpleName) {
+                return true
+            }
+        }
+        return false
+    }
 }

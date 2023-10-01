@@ -1,6 +1,8 @@
 package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
@@ -71,6 +73,11 @@ interface KaeraApi {
     suspend fun editWorry(
         @Body editWorryReqDTO: EditWorryReqDTO
     ): EditWorryResDTO
+
+    @PATCH("worry/deadline")
+    suspend fun editDeadline(
+        @Body editDeadlineReqDTO: EditDeadlineReqDTO
+    ): EditDeadlineResDTO
 
     @POST("worry")
     suspend fun writeWorry(

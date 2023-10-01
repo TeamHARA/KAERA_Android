@@ -1,6 +1,8 @@
 package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
@@ -40,6 +42,8 @@ interface KaeraDataSource {
     fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ReviewResDTO>
 
     fun editWorry(editWorryReqDTO: EditWorryReqDTO): Flow<EditWorryResDTO>
+
+    fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<EditDeadlineResDTO>
 
     fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<WriteWorryResDTO>
 }

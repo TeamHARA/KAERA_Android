@@ -2,6 +2,7 @@ package com.hara.kaera.data.repository
 
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.KaeraDataSource
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
@@ -112,16 +113,28 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    // TODO: Nothing으로 바꾸어서 넘겨줘야 할 듯.. 현재는 그냥 (임시적으로) message 넘겨줘
+    // TODO: Nothing으로 바꾸어서 넘겨줘야 할 듯.. 현재는 그냥 (임시적으로) updatedAt(날짜/String) 넘겨줘
     override fun editWorry(editWorryReqDTO: EditWorryReqDTO): Flow<ApiResult<String>> {
         return flow {
             kaeraDataSource.editWorry(editWorryReqDTO).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
-                emit(ApiResult.Success(it.message))
+                emit(ApiResult.Success(it.data.updatedAt))
             }
         }
     }
+
+    // TODO: Nothing으로 바꾸어서 넘겨줘야 할 듯.. 현재는 그냥 (임시적으로) deadline(날짜/String) 넘겨줘
+    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<String>> {
+        return flow {
+            kaeraDataSource.editDeadline(editDeadlineReqDTO).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(it.data.deadline))
+            }
+        }
+    }
+
 
     // TODO: Nothing으로 바꾸어서 넘겨줘야 할 듯.. 현재는 그냥 (임시적으로) message 넘겨줘
     override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>> {

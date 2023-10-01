@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -71,6 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 선택된 템플릿이 없어요! -->
         <include
             android:id="@+id/cl_empty"
             layout="@layout/layout_template_empty"
@@ -154,7 +156,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <ScrollView
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
@@ -164,6 +165,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_choice">
 
+                <!-- 글 제목 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_content"
                     android:layout_width="match_parent"
@@ -176,7 +178,8 @@
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible">
 
                         <EditText
                             android:id="@+id/et_title"
@@ -226,8 +229,10 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cl_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/cl_title"
+                        tools:visibility="visible" />
 
+                    <!-- 2) free note 템플릿 -->
                     <include
                         android:id="@+id/cl_freenote"
                         bind:templatedata="@{templatedata}"

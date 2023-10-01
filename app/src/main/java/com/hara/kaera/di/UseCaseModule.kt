@@ -2,6 +2,10 @@ package com.hara.kaera.di
 
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCaseImpl
+import com.hara.kaera.domain.usecase.EditDeadlineUseCase
+import com.hara.kaera.domain.usecase.EditDeadlineUseCaseImpl
+import com.hara.kaera.domain.usecase.EditWorryUseCase
+import com.hara.kaera.domain.usecase.EditWorryUseCaseImpl
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCaseImpl
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
@@ -14,6 +18,8 @@ import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCaseImpl
 import com.hara.kaera.domain.usecase.PutReviewUseCase
 import com.hara.kaera.domain.usecase.PutReviewUseCaseImpl
+import com.hara.kaera.domain.usecase.WriteWorryUseCase
+import com.hara.kaera.domain.usecase.WriteWorryUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -56,4 +62,16 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToReview(putReviewUseCase: PutReviewUseCaseImpl): PutReviewUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToEditWorry(editWorryUseCase: EditWorryUseCaseImpl): EditWorryUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToEditDeadline(editDeadlineUseCase: EditDeadlineUseCaseImpl): EditDeadlineUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToWriteWorry(writeWorryUseCase: WriteWorryUseCaseImpl): WriteWorryUseCase
 }
