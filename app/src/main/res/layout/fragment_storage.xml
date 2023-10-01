@@ -34,7 +34,7 @@
                 app:titleTextColor="@color/white">
 
                 <ImageButton
-                    android:id="@+id/btn_view_template"
+                    android:id="@+id/btn_mypage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

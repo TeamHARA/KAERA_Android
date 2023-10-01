@@ -34,7 +34,7 @@ class StorageTemplateChoiceViewModel @Inject constructor(
                 it.collect { collect ->
                     when (collect) {
                         is ApiResult.Success -> {
-                            _templateStateFlow.value = UiState.Success(collect.data)
+                            _templateStateFlow.value = UiState.Success(getAllTemplate(collect.data))
                         }
 
                         is ApiResult.Error -> {

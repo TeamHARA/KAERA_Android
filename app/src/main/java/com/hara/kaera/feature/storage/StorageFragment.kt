@@ -12,6 +12,7 @@ import com.hara.kaera.databinding.FragmentStorageBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.detail.DetailAfterActivity
+import com.hara.kaera.feature.mypage.MypageActivity
 import com.hara.kaera.feature.storage.adapter.StorageGridAdapter
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.feature.util.UiState
@@ -99,8 +100,12 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                 }).show(parentFragmentManager, "template_choice")
             }
 
-            btnViewTemplate.onSingleClick {
+            appbarDetail.setNavigationOnClickListener {
                 startActivity(Intent(context, WorryTemplateActivity::class.java))
+            }
+
+            btnMypage.onSingleClick {
+                startActivity(Intent(context, MypageActivity::class.java))
             }
         }
     }
