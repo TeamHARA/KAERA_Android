@@ -1,4 +1,4 @@
-package com.hara.kaera.data.dto
+package com.hara.kaera.data.dto.login
 
 import kotlinx.serialization.Serializable
 
@@ -13,6 +13,7 @@ data class KaKaoLoginResDTO(
     data class Data(
         val id: Int, // 2
         val name: String, // 김캐라
-        val accessToken: String // 캐라의 jwt 액세스토큰
+        val accessToken: String, // 캐라의 jwt 액세스토큰
+        val refreshToken: String, // 캐라의 jwt 리프레시토큰
     )
 }

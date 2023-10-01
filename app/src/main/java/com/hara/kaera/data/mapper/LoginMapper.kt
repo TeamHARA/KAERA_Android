@@ -1,13 +1,18 @@
 package com.hara.kaera.data.mapper
 
-import com.hara.kaera.data.dto.KaKaoLoginResDTO
-import com.hara.kaera.domain.entity.KakaoLoginJWTEntity
+import com.hara.kaera.data.dto.login.JWTRefreshResDTO
+import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
+import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 
 object LoginMapper {
 
-    fun mapperToJWT(dto : KaKaoLoginResDTO):KakaoLoginJWTEntity{
+    fun mapperToJWT(dto: KaKaoLoginResDTO): KakaoLoginJWTEntity {
         return KakaoLoginJWTEntity(
-            accessToken = dto.data.accessToken
+            accessToken = dto.data.accessToken,
+            refreshToken = dto.data.refreshToken,
         )
     }
+
+    fun mapperToAccessToken(dto: JWTRefreshResDTO): String = dto.data.accessToken
+
 }

@@ -17,7 +17,6 @@ import com.hara.kaera.feature.util.onSingleClick
 import com.kakao.sdk.auth.AuthApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,8 +31,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        val keyhash = Utility.getKeyHash(this)
-//        Timber.e(keyhash.toString())
         binding.btnToken.onSingleClick {
             Timber.e(AuthApiClient.instance.hasToken().toString())
         }
@@ -51,45 +48,47 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                     throw it
                 }
             }
-
         }
 
-        binding.btnKakaoLogin.onSingleClick(300) {
-            lifecycleScope.launch {
-                kotlin.runCatching {
-                    kaKaoLoginClient.login()
-                }.onSuccess {
-                    // OAuthToken 뜯어서 서버에 리퀘스트바디로 전달
-                    // DataStore에 저장
-                    Timber.e(it.isSuccess.toString())
-                    if (it.isSuccess) {
-                        it.onSuccess { oAuthToken ->
-                            Timber.e(oAuthToken.toString())
-                            loginViewModel.getKakaoLoginJWT(oAuthToken = oAuthToken)
-                        }
-                    }
-                }.onFailure {
-                    // _oAuthTokenFlow.value = UiState.Error(ErrorType.Token)
-                    //에러
-                    binding.root.makeToast(it.toString())
-                    throw it
-                }
-            }
+        binding.btnKakaoLogin.onSingleClick(300) { // 최초로그인 로직을 탐
+            kakaoLogin()
         }
 
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    loginViewModel.kakaoJWT.collect {
+                    loginViewModel.kakaoRemoteJWT.collect {
                         render(it)
                     }
                 }
                 launch {
-                    loginViewModel.localJWT.collect {
+                    loginViewModel.tokenState.collect {
                         tokenCheck(it)
                     }
                 }
+            }
+        }
+    }
+
+    private fun kakaoLogin() { // 최초 혹은 이후 카카오로그인 과정
+        lifecycleScope.launch {
+            kotlin.runCatching {
+                kaKaoLoginClient.login()
+            }.onSuccess {
+                // OAuthToken 뜯어서 서버에 리퀘스트바디로 전달
+                // DataStore에 저장
+                Timber.e(it.isSuccess.toString())
+                if (it.isSuccess) {
+                    it.onSuccess { oAuthToken ->
+                        Timber.e(oAuthToken.toString())
+                        loginViewModel.callKakaoLoginJWT(oAuthToken = oAuthToken)
+                    }
+                }
+            }.onFailure {
+                //에러
+                binding.root.makeToast(it.toString())
+                throw it
             }
         }
     }
@@ -98,32 +97,44 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     이 함수 자체가 카카오로그인을 한번 한 상태에서도 이루어지므로 나중에 splashActivity에서
     처리해도 되지 않을까 생각이 듭니다. 우선은 테스트용으로 여기에서 실행
      */
-    private fun tokenCheck(tokenState: TokenState<String>) {
+    private fun tokenCheck(tokenState: TokenState<String>) { // 나중에 뷰모델로 옮길까>
         when (tokenState) {
             is TokenState.Init -> Unit
             is TokenState.Empty -> {
+                //데이터스토어에 토큰이 비어있는 상태
+                //TODO 스플래시에서 이루어진다면 카카오로그인을 위해서 로그인 액티비티로 이동
                 binding.root.makeToast("로그인 먼저 진행해주세요")
             }
 
+            is TokenState.Exist -> {
+                // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로
+                // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
+                //loginViewModel.callUpdatedAccessToken()
+                // 이때 만료상태라면 최초로그인 과정으로 진입
+            }
+
             is TokenState.Valid -> {
-                // 여기서는 나중에 토큰 재발급 동작(refresh 기반으로 accesstoken 재발급)이 있어야 할것
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
+            }
+
+            is TokenState.Expired -> {
+                // 저장된 리프레시 토큰이 만료된 상태
+                // 따라서 카카오 로그인 과정을 다시 거쳐서 JWT (리프레시/액세스) 모두 갱신해야 한다
+                kakaoLogin()
             }
         }
     }
 
-    private fun render(uiState: UiState<String>) {
+    private fun render(uiState: UiState<Unit>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> {}
+            is UiState.Loading -> {
+                // 로딩 시작
+            }
+
             is UiState.Success -> {
-                Timber.e(uiState.data)
-                runBlocking {
-                    loginViewModel.saveAccessToken(uiState.data)
-                }
-                finishAffinity()
-                startActivity(Intent(this, MainActivity::class.java))
+                // 로딩 종료
             }
 
             is UiState.Error -> {
