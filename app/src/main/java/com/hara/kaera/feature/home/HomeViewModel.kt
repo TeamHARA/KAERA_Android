@@ -7,6 +7,7 @@ import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,7 +54,7 @@ class HomeViewModel @Inject constructor(
                             }
                         }
                         is ApiResult.Error -> {
-                            _homeWorryListStoneFlow.value = UiState.Error(collect.error.toString())
+                            _homeWorryListStoneFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }

@@ -8,6 +8,7 @@ import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.domain.usecase.PutReviewUseCase
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,7 +39,7 @@ class DetailBeforeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _detailStateFlow.value = UiState.Error(collect.error.toString())
+                            _detailStateFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }
