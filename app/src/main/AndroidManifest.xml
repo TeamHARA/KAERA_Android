@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.DetailBeforeActivity"
+            android:name=".feature.detail.DetailBeforeActivity"
             android:exported="true" />
         <activity
             android:name=".feature.MainActivity"
@@ -69,7 +69,7 @@
             android:name=".feature.storage.worrytemplate.WorryTemplateActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.detail.DetailAfterActivity"
+            android:name=".feature.detail.DetailAfterActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
     </application>
