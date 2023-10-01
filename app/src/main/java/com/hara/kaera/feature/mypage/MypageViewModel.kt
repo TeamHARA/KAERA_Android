@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MypageViewModel @Inject constructor() : ViewModel() {
-    fun getUserInfo() {
-        // 통신
+    lateinit var userName: String
+    init {
+        // TODO: 유저 이름 변경
     }
 }

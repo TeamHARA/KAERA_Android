@@ -88,6 +88,11 @@
     <string name="mypage_tos_service">서비스 이용 약관</string>
     <string name="mypage_tos_privacy">개인정보 처리방침</string>
     <string name="logout">로그아웃</string>
-    <string name="sign_out">계정탈퇴</string>
+    <string name="sign_out"><![CDATA[<u>계정 탈퇴</u>]]></string>
+    <string name="sign_out_yes">탈퇴</string>
+    <string name="logout_warning_title">로그아웃하시겠어요?</string>
+    <string name="logout_warning_content">고민 원석과 보석은 저장되고 있어요</string>
+    <string name="sign_out_warning_title">정말로 탈퇴하실 건가요?</string>
+    <string name="sign_out_warning_content">탈퇴 후 내용은 복구가 불가능해요</string>
 
 </resources>

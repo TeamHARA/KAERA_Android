@@ -60,6 +60,9 @@
         <activity
             android:name=".feature.mypage.MypageActivity"
             android:exported="true" />
+        <activity
+            android:name=".feature.mypage.WebViewActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
