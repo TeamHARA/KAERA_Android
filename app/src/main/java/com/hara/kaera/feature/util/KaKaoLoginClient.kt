@@ -1,4 +1,4 @@
-package com.hara.kaera.feature.login
+package com.hara.kaera.feature.util
 
 import android.content.Context
 import com.kakao.sdk.auth.model.OAuthToken
