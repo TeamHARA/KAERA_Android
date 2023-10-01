@@ -1,7 +1,9 @@
 package com.hara.kaera.di
 
 import com.hara.kaera.data.repository.KaeraRepositoryImpl
+import com.hara.kaera.data.repository.LoginRepositoryImpl
 import com.hara.kaera.domain.repository.KaeraRepository
+import com.hara.kaera.domain.repository.LoginRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,4 +20,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindToKaeraRepository(kaeraRepositoryImpl: KaeraRepositoryImpl): KaeraRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToLoginRepository(loginRepositoryImpl: LoginRepositoryImpl): LoginRepository
 }

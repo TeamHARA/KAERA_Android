@@ -1,7 +1,9 @@
-package com.hara.kaera.data.datasource
+package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.KaKaoLoginReqDTO
+import com.hara.kaera.data.dto.KaKaoLoginResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
@@ -11,6 +13,7 @@ import com.hara.kaera.data.dto.WorryDetailDTO
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -38,6 +41,11 @@ interface KaeraApi {
     suspend fun getWorryByTemplate(
         @Query("templateId") templateId: Int,
     ): WorryByTemplateDTO
+
+    @POST("user/kakao/login")
+    suspend fun getKakaoLoginJTW(
+        @Body kaKaoLoginReqDTO: KaKaoLoginReqDTO
+    ): KaKaoLoginResDTO
 
     @GET("worry/{worryId}")
     suspend fun getWorryDetail(

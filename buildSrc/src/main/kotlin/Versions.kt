@@ -26,6 +26,7 @@ object Versions {
     const val ACTIVITY = "1.7.2"
     const val FRAGMENT = "1.6.1"
     const val VIEWPAGER2 = "1.0.0"
+    const val DATASTORE = "1.0.0"
 
     //ANDROID
     const val ANDROID_MATERIAL = "1.9.0"

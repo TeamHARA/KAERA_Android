@@ -1,4 +1,4 @@
-package com.hara.kaera.data.datasource
+package com.hara.kaera.data.datasource.remote
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
@@ -9,6 +9,7 @@ import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.util.safeCallApi
+import com.hara.kaera.di.ServiceModule
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -20,7 +21,7 @@ import javax.inject.Inject
  */
 
 class KaeraDataSourceImpl @Inject constructor(
-    private val kaeraApi: KaeraApi
+    @ServiceModule.KAREARetrofit private val kaeraApi: KaeraApi
 ) : KaeraDataSource {
 
     override fun getTemplateTypesInfo(): Flow<TemplateTypeDTO> {

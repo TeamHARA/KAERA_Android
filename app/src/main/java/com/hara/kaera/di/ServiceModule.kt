@@ -2,14 +2,18 @@ package com.hara.kaera.di
 
 import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
-import com.hara.kaera.data.datasource.KaeraApi
+import com.hara.kaera.data.datasource.remote.KaeraApi
+import com.hara.kaera.data.datasource.remote.LoginApi
 import com.hara.kaera.data.util.ErrorHandlerImpl
+import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.util.ErrorHandler
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -17,6 +21,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import timber.log.Timber
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -31,15 +36,24 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun providesHeaderInterceptor() = Interceptor { chain ->
-        with(chain) {
-            val request = request().newBuilder()
-                .addHeader("Accept", Constant.APPLICATION_JSON)
-                .addHeader("Authorization", BuildConfig.BEARER_TOKEN)
-                .build()
-            proceed(request)
+    @KAREARetrofit
+    fun providesKaeraHeaderInterceptor(
+        loginRepositroy: LoginRepository
+    ): Interceptor {
+        val authToken: String? = runBlocking {
+            loginRepositroy.getSavedAccessToken().first()
+        }
+        return Interceptor { chain ->
+            with(chain) {
+                val request = request().newBuilder()
+                    .addHeader("Accept", Constant.APPLICATION_JSON)
+                    .addHeader("Authorization", authToken ?: "nothing")
+                    .build()
+                proceed(request)
+            }
         }
     }
+
 
     @Provides
     @Singleton
@@ -53,8 +67,9 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(
-        headerInterceptor: Interceptor,
+    @KAREARetrofit
+    fun providesKaeraOkHttpClient(
+        @KAREARetrofit headerInterceptor: Interceptor,
         loggerInterceptor: HttpLoggingInterceptor
     ) =
         OkHttpClient.Builder()
@@ -67,26 +82,77 @@ object ServiceModule {
     @Singleton
     @Provides
     @KAREARetrofit
-    fun provideKAERARetrofit(okHttpClient: OkHttpClient): Retrofit =
+    fun provideKAERARetrofit(@KAREARetrofit okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL) //local.properties
             .client(okHttpClient)
             .addConverterFactory(Json.asConverterFactory(Constant.APPLICATION_JSON.toMediaType()))
             .build()
 
-    // 로깅인터셉터 달아서 레트로핏 객체를 제공하는 프로바이저
-
-    @Qualifier
-    annotation class KAREARetrofit
 
     @Singleton
     @Provides
+    @KAREARetrofit
     fun provideKaeraService(@KAREARetrofit kaeraService: Retrofit): KaeraApi {
         return kaeraService.create(KaeraApi::class.java)
     }
 
+
+    @Provides
+    @Singleton
+    @LoginRetrofit
+            /*
+            헤더 없이 토큰 발급용으로 사용되는 레트로핏
+             */
+    fun providesLoginHeaderInterceptor() = Interceptor { chain ->
+        with(chain) {
+            val request = request().newBuilder()
+                .addHeader("Accept", Constant.APPLICATION_JSON)
+                .build()
+            proceed(request)
+        }
+    }
+
+    @Provides
+    @Singleton
+    @LoginRetrofit
+    fun providesLoginOkHttpClient(
+        @LoginRetrofit headerInterceptor: Interceptor,
+        loggerInterceptor: HttpLoggingInterceptor
+    ) =
+        OkHttpClient.Builder()
+            .addInterceptor(headerInterceptor)
+            .addInterceptor(loggerInterceptor)
+            .build()
+
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    @LoginRetrofit
+    fun provideLoginRetrofit(@LoginRetrofit okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL) //local.properties
+            .client(okHttpClient)
+            .addConverterFactory(Json.asConverterFactory(Constant.APPLICATION_JSON.toMediaType()))
+            .build()
+
+    @Singleton
+    @Provides
+    @LoginRetrofit
+    fun provideLoginService(@LoginRetrofit loginService: Retrofit): LoginApi {
+        return loginService.create(LoginApi::class.java)
+    }
+
+
     @Provides
     @Singleton
     fun provideErrorHandler(): ErrorHandler = ErrorHandlerImpl()
+
+    @Qualifier
+    annotation class KAREARetrofit
+
+    @Qualifier
+    annotation class LoginRetrofit
 
 }
