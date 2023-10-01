@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
 
     <application
@@ -34,9 +34,6 @@
         </service>
 
         <activity
-            android:name=".feature.login.LoginActivity"
-            android:exported="true" />
-        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
@@ -52,8 +49,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.DetailBeforeActivity"
-            android:exported="true" />
+            android:name=".feature.splash.StartActivity"
+            android:theme="@style/Theme.Kaera"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".feature.login.LoginActivity"
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".feature.MainActivity"
             android:exported="true">
@@ -64,13 +69,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".feature.DetailBeforeActivity"
+            android:exported="true" />
+        <activity
             android:name=".feature.write.WriteActivity"
             android:exported="true" />
         <activity
             android:name=".feature.storage.worrytemplate.WorryTemplateActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.detail.DetailAfterActivity"
+            android:name=".feature.detail.DetailAfterActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
     </application>
