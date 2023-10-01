@@ -1,4 +1,4 @@
-package com.hara.kaera.data.dto.login
+package com.hara.kaera.domain.dto
 
 import kotlinx.serialization.Serializable
 

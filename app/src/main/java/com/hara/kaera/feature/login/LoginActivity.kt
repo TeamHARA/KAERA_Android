@@ -121,6 +121,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is TokenState.Expired -> {
                 // 저장된 리프레시 토큰이 만료된 상태
                 // 따라서 카카오 로그인 과정을 다시 거쳐서 JWT (리프레시/액세스) 모두 갱신해야 한다
+                Timber.e("Expired")
                 kakaoLogin()
             }
         }

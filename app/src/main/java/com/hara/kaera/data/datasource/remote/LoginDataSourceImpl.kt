@@ -1,8 +1,8 @@
 package com.hara.kaera.data.datasource.remote
 
-import com.hara.kaera.data.dto.login.JWTRefreshReqDTO
+import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.data.dto.login.JWTRefreshResDTO
-import com.hara.kaera.data.dto.login.KaKaoLoginReqDTO
+import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
 import com.hara.kaera.data.util.safeCallApi
 import com.hara.kaera.di.ServiceModule
