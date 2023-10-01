@@ -24,6 +24,7 @@ class WriteViewModel @Inject constructor(
     private val editWorryUseCase: EditWorryUseCase
 ) : ViewModel() {
 
+
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
 

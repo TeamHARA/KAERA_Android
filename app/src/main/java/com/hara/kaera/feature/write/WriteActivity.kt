@@ -1,6 +1,5 @@
 package com.hara.kaera.feature.write
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.viewModels
@@ -9,11 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
-import com.hara.kaera.data.dto.EditWorryReqDTO
-import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
-import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.detail.DetailBeforeActivity
@@ -220,10 +216,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 }
             }
         }
-
-//        코루틴을 열고 flow를 수집하는데 생명주기에 맞춰서 flow가 자동으로 꺼지고 수집되도록
-//        'repeatOnLifeCycle'을 사용! ViewModel에 있는 StateFlow에서 collect 해준다!
-//        여기 내부 값은 UiState가 들어오게 된다!
+        // 마찬가지로 코루틴 열고 수집을 하는데 생명주기에 맞춰서 flow가 자동으로
+        // 꺼지고 수집하고 될수 있도록 repeatOnLifeCycle이란걸 사용! 그리고
+        // 뷰모델에 있는 StateFlow에서 뷰모델에서 해줬던것처럼 collect 해준다/
+        // 여기 내부 값은 UiState가 들어오게 된다!
     }
 
     private fun render(uiState: UiState<TemplateDetailEntity>) {
@@ -269,7 +265,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                //TODO: 에러뷰 표시
+                //TODO 에러뷰 표시
                 binding.root.makeToast(uiState.error)
             }
         }
@@ -281,7 +277,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         }
         editTextFreeNote.text.clear()
         edittextTitle.text.clear()
-        //TODO: condition 변수들 초기화
+        //TODO condtion 변수들 초기화
     }
 
     private fun checkFreeFlow() {
