@@ -67,7 +67,8 @@ class LoginViewModel @Inject constructor(
             kotlin.runCatching {
                 loginRepository.saveKaeraJWT(
                     accessToken = jwt.accessToken,
-                    refreshToken = jwt.refreshToken
+                    refreshToken = jwt.refreshToken,
+                    name = jwt.name,
                 )
             }.onSuccess {
                 Timber.e("datastore update success!!")
@@ -90,7 +91,6 @@ class LoginViewModel @Inject constructor(
         }
 
     }
-
 
 
 }

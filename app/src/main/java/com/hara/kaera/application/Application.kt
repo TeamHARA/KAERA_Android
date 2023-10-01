@@ -2,6 +2,8 @@ package com.hara.kaera.application
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hara.kaera.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
@@ -18,6 +20,16 @@ class Application : Application() {
         val keyHash = Utility.getKeyHash(this)
         Timber.e("keyhash : $keyHash")
         KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            Timber.e(token)
+        })
+
     }
 
 }

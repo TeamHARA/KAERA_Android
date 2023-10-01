@@ -4,9 +4,9 @@ import androidx.datastore.core.DataStore
 import com.hara.kaera.application.Constant
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.LoginDataSource
+import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
-import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 import com.hara.kaera.domain.entity.login.LoginData
 import com.hara.kaera.domain.repository.LoginRepository
@@ -71,9 +71,9 @@ class LoginRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveKaeraJWT(accessToken: String, refreshToken: String) {
+    override suspend fun saveKaeraJWT(accessToken: String, refreshToken: String, name: String) {
         localLoginDataStore.updateData {
-            it.copy(accessToken = accessToken, refreshToken = refreshToken)
+            it.copy(accessToken = accessToken, refreshToken = refreshToken, name = name)
         }
     }
 

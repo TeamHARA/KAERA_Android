@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class KakaoLoginJWTEntity(
     val accessToken: String,
     val refreshToken: String,
+    val name: String,
 )
