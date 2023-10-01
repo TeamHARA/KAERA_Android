@@ -10,16 +10,23 @@ object Dependency {
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.ACTIVITY}"
         const val FRAGMENT = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
         const val VIEWPAGER2 = "androidx.viewpager2:viewpager2:${Versions.VIEWPAGER2 }"
+        const val DATASTORE = "androidx.datastore:datastore:${Versions.DATASTORE}"
+        const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
     }
 
     object Android {
         const val MATERIAL = "com.google.android.material:material:${Versions.ANDROID_MATERIAL}"
     }
 
+    object Google{
+        const val GOOGLE_SERVICE = "com.google.gms:google-services:${Versions.GOOGLE_SERVICE}"
+    }
+
     object Firebase {
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging-ktx:${Versions.FIREBASE_MEESAGING}"
     }
 
     object ThirdParty {

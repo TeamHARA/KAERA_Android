@@ -7,6 +7,7 @@ import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,13 +47,14 @@ class HomeViewModel @Inject constructor(
                             }
                             else {
                                 collect.data.homeWorryList.forEach { stone ->
-                                    stoneList[Constant.homeGemsSequence[stoneListSize++]] = stone
+                                    // TODO: 서버에 원석이 12개 넘게 있을 때
+                                    if (stoneListSize < 12) stoneList[Constant.homeGemsSequence[stoneListSize++]] = stone
                                 }
                                 _homeWorryListStoneFlow.value = UiState.Success(HomeWorryListEntity(stoneList))
                             }
                         }
                         is ApiResult.Error -> {
-                            _homeWorryListStoneFlow.value = UiState.Error(collect.error.toString())
+                            _homeWorryListStoneFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }
@@ -76,7 +78,8 @@ class HomeViewModel @Inject constructor(
                                 _homeWorryListJewelFlow.value = UiState.Empty
                             } else {
                                 collect.data.homeWorryList.forEach { jewel ->
-                                    jewelList[Constant.homeGemsSequence[jewelListSize++]] = jewel
+                                    // TODO: 서버에 보석이 12개 넘게 있을 때
+                                    if (jewelListSize < 12) jewelList[Constant.homeGemsSequence[jewelListSize++]] = jewel
                                 }
                                 _homeWorryListJewelFlow.value =
                                     UiState.Success(HomeWorryListEntity(jewelList))

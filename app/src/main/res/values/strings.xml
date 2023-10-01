@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Kaera</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <!-- 로그인 화면 -->
+    <string name="login_sub_title">나의 고민을 빛나는 보석으로</string>
+    <string name="login_kakao_button">카카오 로그인</string>
     <!-- 고민작성화면 -->
     <string name="write_deadline_title">이 고민, 언제까지 끝낼까요?</string>
     <string name="write_this">이 고민을</string>

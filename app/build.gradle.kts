@@ -65,6 +65,8 @@ dependencies {
     implementation(Dependency.AndroidX.LIVEDATA)
     implementation(Dependency.AndroidX.VIEWMODEL)
     implementation(Dependency.AndroidX.VIEWPAGER2)
+    implementation(Dependency.AndroidX.DATASTORE)
+    implementation(Dependency.AndroidX.SPLASH_SCREEN)
 
     // ViewModel delegate: by viewModels() 이용해 viewModel 생성
     implementation(Dependency.AndroidX.ACTIVITY)
@@ -72,9 +74,6 @@ dependencies {
 
     implementation(Dependency.Android.MATERIAL)
     implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.AndroidTest.JUNIT)
@@ -83,6 +82,7 @@ dependencies {
     implementation(platform(Dependency.Firebase.FIREBASE_BOM))
     implementation(Dependency.Firebase.FIREBASE_ANALYTICS)
     implementation(Dependency.Firebase.FIREBASE_CRASHLYTICS)
+    implementation(Dependency.Firebase.FIREBASE_MESSAGING)
 
     //Timber
     implementation(Dependency.ThirdParty.TIMBER)

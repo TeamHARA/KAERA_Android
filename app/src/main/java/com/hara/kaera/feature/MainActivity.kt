@@ -7,6 +7,8 @@ import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.storage.StorageFragment
+import com.hara.kaera.feature.util.PermissionRequestDelegator
+import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.navigateTo
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (PermissionRequestDelegator(this).checkPermissions() == true) {
+            binding.root.makeToast("원활한 서비스를 위해서 알림을 활성화 해주세요!")
+        }
         registerBottomNav()
     }
 

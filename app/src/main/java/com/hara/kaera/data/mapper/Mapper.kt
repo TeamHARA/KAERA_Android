@@ -105,8 +105,8 @@ object Mapper {
                 finalAnswer = it.finalAnswer,
                 period = it.period,
                 review = WorryDetailEntity.Review(
-                    content = it.review.content,
-                    updatedAt = it.review.updatedAt,
+                    content = it.review?.content ?: "",
+                    updatedAt = it.review?.updatedAt ?: "",
                 ),
                 subtitles = it.subtitles,
                 templateId = it.templateId,

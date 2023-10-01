@@ -1,5 +1,6 @@
 package com.hara.kaera.feature.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -10,6 +11,8 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeStoneBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.feature.base.BindingFragment
+import com.hara.kaera.feature.detail.DetailAfterActivity
+import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.home.adapter.HomeStoneAdapter
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
@@ -31,7 +34,15 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
     }
 
     private fun setRecyclerView() {
-        homeStoneAdapter = HomeStoneAdapter()
+        homeStoneAdapter = HomeStoneAdapter(
+            fun(worryId: Int) {
+                startActivity(
+                    Intent(context, DetailBeforeActivity::class.java).apply {
+                        putExtra("worryId", worryId)
+                    }
+                )
+            }
+        )
         binding.rvHomeStones.run {
             adapter = homeStoneAdapter
             addItemDecoration(

@@ -14,9 +14,9 @@ data class WorryDetailDTO(
         val answers: List<String>,
         val `d-day`: Int,
         val deadline: String,
-        val finalAnswer: String,
+        val finalAnswer: String?, // 고민 해결 전이면 서버에서 null로 온다
         val period: String,
-        val review: Review,
+        val review: Review?, // 고민 해결 전이면 서버에서 null로 온다
         val subtitles: List<String>,
         val templateId: Int,
         val title: String,

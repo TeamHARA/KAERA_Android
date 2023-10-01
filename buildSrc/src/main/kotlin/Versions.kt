@@ -26,6 +26,8 @@ object Versions {
     const val ACTIVITY = "1.7.2"
     const val FRAGMENT = "1.6.1"
     const val VIEWPAGER2 = "1.0.0"
+    const val DATASTORE = "1.0.0"
+    const val SPLASH_SCREEN="1.0.1"
 
     //ANDROID
     const val ANDROID_MATERIAL = "1.9.0"
@@ -35,8 +37,12 @@ object Versions {
     const val ANDROIDX_JUNIT = "1.1.5"
     const val ESPRESSO_CORE = "3.5.1"
 
+    //GOOGLE_SERVICE
+    const val GOOGLE_SERVICE = "4.3.15"
+
     //FIREBASE
     const val FIREBASE_BOM = "32.2.0"
+    const val FIREBASE_MEESAGING = "23.2.1"
 
     //TIMBER
     const val TIMBER = "5.0.1"
