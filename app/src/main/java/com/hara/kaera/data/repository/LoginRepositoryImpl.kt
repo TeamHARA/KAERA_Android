@@ -71,9 +71,19 @@ class LoginRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveKaeraJWT(accessToken: String, refreshToken: String, name: String) {
+    override suspend fun saveKaeraJWT(
+        accessToken: String,
+        refreshToken: String,
+        name: String,
+        userId: Int
+    ) {
         localLoginDataStore.updateData {
-            it.copy(accessToken = accessToken, refreshToken = refreshToken, name = name)
+            it.copy(
+                accessToken = accessToken,
+                refreshToken = refreshToken,
+                name = name,
+                userId = userId
+            )
         }
     }
 

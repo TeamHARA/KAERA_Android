@@ -69,6 +69,7 @@ class LoginViewModel @Inject constructor(
                     accessToken = jwt.accessToken,
                     refreshToken = jwt.refreshToken,
                     name = jwt.name,
+                    userId = jwt.userId,
                 )
             }.onSuccess {
                 Timber.e("datastore update success!!")
