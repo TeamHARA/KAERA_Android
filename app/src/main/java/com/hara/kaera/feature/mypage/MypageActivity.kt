@@ -2,17 +2,29 @@ package com.hara.kaera.feature.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_mypage) {
+
+    private val myPageViewModel by viewModels<MypageViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setClickListener()
+
+        lifecycleScope.launch {
+            myPageViewModel.savedName.collect {
+                binding.vm = myPageViewModel
+            }
+        }
+
     }
 
     private fun setClickListener() {

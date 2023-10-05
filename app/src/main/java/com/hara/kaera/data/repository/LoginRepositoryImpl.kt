@@ -45,7 +45,7 @@ class LoginRepositoryImpl @Inject constructor(
 
     override suspend fun clearDataStore() {
         localLoginDataStore.updateData {
-            it.copy(accessToken = null, refreshToken = null)
+            it.copy(accessToken = null, refreshToken = null, name = null, userId = null)
         }
     }
 
@@ -62,6 +62,14 @@ class LoginRepositoryImpl @Inject constructor(
             throw it
         }.map {
             it.accessToken ?: Constant.EMPTY_TOKEN
+        }
+    }
+
+    override fun getSavedName(): Flow<String> {
+        return localLoginDataStore.data.catch {
+            throw it
+        }.map {
+            it.name ?: Constant.EMPTY_NAME
         }
     }
 
@@ -82,7 +90,7 @@ class LoginRepositoryImpl @Inject constructor(
                 accessToken = accessToken,
                 refreshToken = refreshToken,
                 name = name,
-                userId = userId
+                userId = userId,
             )
         }
     }

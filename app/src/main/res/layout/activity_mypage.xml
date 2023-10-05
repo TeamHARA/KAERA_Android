@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="24dp"
                 android:layout_marginStart="15dp"
-                android:text="@{vm.userName}"
+                android:text="@{vm.savedName}"
                 android:textAppearance="@style/h_head1_b20"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"

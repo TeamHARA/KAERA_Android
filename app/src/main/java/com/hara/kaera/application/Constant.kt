@@ -7,6 +7,5 @@ object Constant {
     // dataStore
     const val TOKEN_DATASTORE_NAME = "token_datastore.json"
     const val EMPTY_TOKEN = "token not founded"
-    val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
-    val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
+    const val EMPTY_NAME = "김캐라"
 }
