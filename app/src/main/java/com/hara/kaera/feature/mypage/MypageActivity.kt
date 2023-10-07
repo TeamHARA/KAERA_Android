@@ -7,24 +7,34 @@ import androidx.lifecycle.lifecycleScope
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
+import com.hara.kaera.feature.util.KaKaoLoginClient
+import com.hara.kaera.feature.util.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_mypage) {
 
     private val myPageViewModel by viewModels<MypageViewModel>()
+
+    @Inject
+    lateinit var kaKaoLoginClient: KaKaoLoginClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setClickListener()
+        collectFlow()
+    }
 
+    private fun collectFlow() {
         lifecycleScope.launch {
             myPageViewModel.savedName.collect {
                 binding.vm = myPageViewModel
             }
         }
-
     }
 
     private fun setClickListener() {
@@ -47,7 +57,20 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             }
             tvLogout.setOnClickListener {
                 DialogMypage("logout") {
-                    // TODO: 로그아웃 로직
+                    lifecycleScope.launch {
+                        kotlin.runCatching {
+                            kaKaoLoginClient.logout()
+                        }.onSuccess {
+                            // 데이터스토어 비우기
+                            Timber.e("logout")
+                            myPageViewModel.kakaoLogOut()
+                            startActivity(Intent(baseContext, LoginActivity::class.java))
+                            finishAffinity()
+                        }.onFailure {
+                            binding.root.makeToast("잠시후 다시 시도해주세요.")
+                            throw it
+                        }
+                    }
                 }.show(supportFragmentManager, "logout")
             }
             tvSignout.setOnClickListener {

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +25,18 @@ class MypageViewModel @Inject constructor(
                 loginRepository.getSavedName().first()
             }.onSuccess {
                 _savedName.value = it
+            }.onFailure {
+                throw it
+            }
+        }
+    }
+
+    fun kakaoLogOut() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                loginRepository.clearDataStore()
+            }.onSuccess {
+                Timber.e("clear")
             }.onFailure {
                 throw it
             }
