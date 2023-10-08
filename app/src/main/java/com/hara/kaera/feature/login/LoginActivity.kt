@@ -24,38 +24,20 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
-    val loginViewModel by viewModels<LoginViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     @Inject
     lateinit var kaKaoLoginClient: KaKaoLoginClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.btnToken.onSingleClick {
-            Timber.e(AuthApiClient.instance.hasToken().toString())
-        }
-
-        binding.btnLogout.onSingleClick {
-            lifecycleScope.launch {
-                kotlin.runCatching {
-                    kaKaoLoginClient.logout()
-                }.onSuccess {
-                    // 데이터스토어 비우기
-                    Timber.e("logout")
-                    loginViewModel.kakaoLogOut()
-                }.onFailure {
-                    binding.root.makeToast("에러")
-                    throw it
-                }
-            }
-        }
-
+        collectFlow()
         binding.btnKakaoLogin.onSingleClick(300) { // 최초로그인 로직을 탐
             kakaoLogin()
         }
 
-
+    }
+    private fun collectFlow(){
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {

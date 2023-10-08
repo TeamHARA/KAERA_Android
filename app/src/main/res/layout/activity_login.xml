@@ -68,39 +68,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.9" />
 
-        <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/shape_rect_kakaoyellow_12"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginHorizontal="23dp"
-        android:text="로그아웃"
-        android:paddingHorizontal="23dp"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:drawableStart="@drawable/icn_kakao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_token"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/shape_rect_kakaoyellow_12"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginHorizontal="23dp"
-            android:text="토큰 확인"
-            android:paddingHorizontal="23dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:drawableStart="@drawable/icn_kakao"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

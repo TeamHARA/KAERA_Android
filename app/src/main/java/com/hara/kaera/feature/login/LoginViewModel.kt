@@ -80,15 +80,4 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun kakaoLogOut() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                loginRepository.clearDataStore()
-            }.onSuccess {
-                Timber.e("clear")
-            }.onFailure {
-                throw it
-            }
-        }
-    }
 }
