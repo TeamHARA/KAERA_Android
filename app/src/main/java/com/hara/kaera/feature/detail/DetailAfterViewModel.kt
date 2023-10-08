@@ -1,5 +1,6 @@
 package com.hara.kaera.feature.detail
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
@@ -31,6 +32,9 @@ class DetailAfterViewModel @Inject constructor(
     val deleteWorryFlow = _deleteWorryFlow.asStateFlow()
     private val _reviewWorryFlow = MutableStateFlow<UiState<ReviewResEntity>>(UiState.Init)
     val reviewWorryFlow = _reviewWorryFlow.asStateFlow()
+
+    private val _reviewContent = MutableLiveData<String>()
+    var reviewContent = _reviewContent.value
 
     fun getWorryDetail(worryId: Int) {
         this.worryId = worryId
