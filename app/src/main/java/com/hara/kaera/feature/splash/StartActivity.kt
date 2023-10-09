@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.hara.kaera.R
+import com.hara.kaera.databinding.ActivitySplashBinding
 import com.hara.kaera.feature.MainActivity
+import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
@@ -17,7 +20,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StartActivity : AppCompatActivity() {
+class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     val startViewModel by viewModels<StartViewModel>()
 

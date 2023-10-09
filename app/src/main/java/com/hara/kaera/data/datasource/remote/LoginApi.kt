@@ -13,7 +13,7 @@ interface LoginApi {
         @Body kaKaoLoginReqDTO: KaKaoLoginReqDTO
     ): KaKaoLoginResDTO
 
-    @POST("auth/refresh/tokens")
+    @POST("auth/token/refresh")
     suspend fun getAccessToken(
         @Body jwtRefreshReqDTO: JWTRefreshReqDTO
     ):JWTRefreshResDTO
