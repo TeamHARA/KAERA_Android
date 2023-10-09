@@ -8,12 +8,12 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LoginApi {
-    @POST("user/kakao/login")
+    @POST("auth/kakao/login")
     suspend fun getKakaoLoginJWT(
         @Body kaKaoLoginReqDTO: KaKaoLoginReqDTO
     ): KaKaoLoginResDTO
 
-    @POST("user/token/refresh")
+    @POST("auth/refresh/tokens")
     suspend fun getAccessToken(
         @Body jwtRefreshReqDTO: JWTRefreshReqDTO
     ):JWTRefreshResDTO
