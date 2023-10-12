@@ -31,7 +31,7 @@ class MypageViewModel @Inject constructor(
         }
     }
 
-    fun kakaoLogOut() {
+    fun clearDataStore() {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.clearDataStore()
@@ -42,5 +42,6 @@ class MypageViewModel @Inject constructor(
             }
         }
     }
+
 
 }
