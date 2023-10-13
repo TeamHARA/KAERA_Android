@@ -62,7 +62,7 @@ class PermissionRequestDelegator(
         }
     }
 
-    fun checkPermissions(): Boolean?{
+    fun checkPermissions(place : PLACE = PLACE.MY_PAGE): Boolean?{
         if (ContextCompat.checkSelfPermission(activity.baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
             // 권한 부여된 상태
             Unit
@@ -77,13 +77,21 @@ class PermissionRequestDelegator(
                     requestPermissions(activity, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
                     return true
                 }else{
-                    launcher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+                    when(place){
+                        PLACE.HOME ->{
+                            Unit
+                        }
+                        PLACE.MY_PAGE -> {
+                            launcher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+                        }
+                    }
                 }
-
             }
         }
         return null
     }
-
+    enum class PLACE {
+        HOME,MY_PAGE
+    }
 
 }
