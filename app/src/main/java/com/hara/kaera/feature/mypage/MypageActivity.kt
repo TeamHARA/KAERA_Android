@@ -1,8 +1,13 @@
 package com.hara.kaera.feature.mypage
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,12 +28,12 @@ import javax.inject.Inject
 class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_mypage) {
 
     private val myPageViewModel by viewModels<MypageViewModel>()
-    private val permissionRequestDelegator =  PermissionRequestDelegator(this)
-
+    private lateinit var permissionRequestDelegator :  PermissionRequestDelegator
     @Inject
     lateinit var kaKaoLoginClient: KaKaoLoginClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        permissionRequestDelegator = PermissionRequestDelegator(this)
         setClickListener()
         grantPermission()
         collectFlow()
@@ -37,18 +42,42 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
     private fun collectFlow() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                myPageViewModel.savedName.collect {
-                    binding.vm = myPageViewModel
+                launch {
+                    myPageViewModel.savedName.collect {
+                        binding.vm = myPageViewModel
+                    }
                 }
+                launch {
+                    myPageViewModel.permissionGranted.collect{
+                        binding.tbAlertToggle.isChecked = it
+                    }
+                }
+
             }
         }
     }
 
     private fun grantPermission(){
+        myPageViewModel.permissionChanged(
+            ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        )
+
         binding.tbAlertToggle.setOnClickListener {
-            binding.tbAlertToggle.isChecked =
-                permissionRequestDelegator.checkPermissions() != true
+            if(myPageViewModel.permissionGranted.value){
+                Timber.e("ture_check")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    revokeSelfPermissionOnKill(Manifest.permission.POST_NOTIFICATIONS)
+                    myPageViewModel.permissionChanged(
+                        ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+                    )
+                }
+            }else{
+                Timber.e("false_check")
+                permissionRequestDelegator.checkPermissions()
+            }
         }
+        // 현재 상황 권한 삭제가 실시간으로 반영이 되지 않고 앱 재시작시 반영 그러므로
+        // onDestoy에서 체크박스가 체크되어있으면 revoke를 부르는 방식으로 하는것
     }
 
     private fun setClickListener() {

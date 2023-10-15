@@ -19,6 +19,9 @@ class MypageViewModel @Inject constructor(
     private val _savedName = MutableStateFlow(Constant.EMPTY_NAME)
     val savedName get() = _savedName.asStateFlow()
 
+    private val _permissionGranted = MutableStateFlow(false)
+    val permissionGranted get() = _permissionGranted.asStateFlow()
+
     init {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -31,6 +34,9 @@ class MypageViewModel @Inject constructor(
         }
     }
 
+    fun permissionChanged(granted : Boolean){
+        _permissionGranted.value = granted
+    }
     fun clearDataStore() {
         viewModelScope.launch {
             kotlin.runCatching {
