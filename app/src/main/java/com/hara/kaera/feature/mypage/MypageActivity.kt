@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -57,6 +56,13 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if(!myPageViewModel.permissionGranted.value)
+            revokeSelfPermissionOnKill(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
     private fun grantPermission(){
         myPageViewModel.permissionChanged(
             ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
@@ -66,7 +72,6 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             if(myPageViewModel.permissionGranted.value){
                 Timber.e("ture_check")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    revokeSelfPermissionOnKill(Manifest.permission.POST_NOTIFICATIONS)
                     myPageViewModel.permissionChanged(
                         ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
                     )
