@@ -13,6 +13,17 @@
         android:background="@color/gray_1"
         tools:context=".feature.login.LoginActivity">
 
+        <ProgressBar
+            android:id="@+id/loading_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow_logo"
             android:layout_width="wrap_content"
@@ -28,24 +39,24 @@
         <ImageView
             android:id="@+id/iv_gemlogo"
             android:layout_width="wrap_content"
-            android:padding="4dp"
             android:layout_height="wrap_content"
+            android:padding="4dp"
             android:src="@drawable/kaera_logo" />
 
         <ImageView
             android:id="@+id/iv_typography"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/typography_kaera"
             android:paddingTop="3dp"
+            android:src="@drawable/typography_kaera"
             app:layout_constraintTop_toBottomOf="@+id/iv_gemlogo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
             android:text="@string/login_sub_title"
             android:textAppearance="@style/h_body4_r14"
-            android:layout_marginTop="11dp"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,14 +66,14 @@
             android:id="@+id/btn_kakao_login"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/shape_rect_kakaoyellow_12"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginHorizontal="23dp"
-            android:text="@string/login_kakao_button"
+            android:background="@drawable/shape_rect_kakaoyellow_12"
+            android:drawableStart="@drawable/icn_kakao"
             android:paddingHorizontal="23dp"
+            android:text="@string/login_kakao_button"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:drawableStart="@drawable/icn_kakao"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
