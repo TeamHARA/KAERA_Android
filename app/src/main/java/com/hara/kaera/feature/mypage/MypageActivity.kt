@@ -46,43 +46,37 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                         binding.vm = myPageViewModel
                     }
                 }
-                launch {
-                    myPageViewModel.permissionGranted.collect{
-                        binding.tbAlertToggle.isChecked = it
-                    }
-                }
-
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if(!myPageViewModel.permissionGranted.value)
-            revokeSelfPermissionOnKill(Manifest.permission.POST_NOTIFICATIONS)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if(!myPageViewModel.permissionGranted.value)
+//            revokeSelfPermissionOnKill(Manifest.permission.POST_NOTIFICATIONS)
+//        }
     }
     private fun grantPermission(){
-        myPageViewModel.permissionChanged(
-            ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
-        )
 
         binding.tbAlertToggle.setOnClickListener {
-            if(myPageViewModel.permissionGranted.value){
+            if(ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
+                // 여기서 서버에 fcm 토큰을 삭제하고 체크하고 등록하는 로직이 필요함!
+                // 안드로이드에서 즉시 프로그래밍적으로 알림권한을 삭제하거나 비활성화 시키는 방법은 없음(앱의 재시작이 필요)
+                // 따라서 알림권한이 잇는가 -> 그다음 fcm 토큰이서버에 등록되어 있는가? 둘다 true이면 토클이 isChecked true
+                // 하나라도 false일 경우 isCheceked가 false로 될 필요가 있다 따라서.
+                // 서버측에 fcm 관련 api가 필요하다
                 Timber.e("ture_check")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    myPageViewModel.permissionChanged(
-                        ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
-                    )
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                    myPageViewModel.permissionChanged(
+//                        ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+//                    )
+//                }
             }else{
                 Timber.e("false_check")
                 permissionRequestDelegator.checkPermissions()
             }
         }
-        // 현재 상황 권한 삭제가 실시간으로 반영이 되지 않고 앱 재시작시 반영 그러므로
-        // onDestoy에서 체크박스가 체크되어있으면 revoke를 부르는 방식으로 하는것
     }
 
     private fun setClickListener() {
@@ -128,7 +122,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             kaKaoLoginClient.unLink()
                         }.onSuccess {
                             // 데이터스토어 비우기
-                            Timber.e("logout")
+                            Timber.e("unlink")
                             myPageViewModel.clearDataStore()
                             startActivity(Intent(baseContext, LoginActivity::class.java))
                             finishAffinity()
