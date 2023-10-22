@@ -14,13 +14,14 @@ import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
+import com.hara.kaera.feature.detail.custom.DialogUpdateWarning
 import com.hara.kaera.feature.dialog.DialogWriteSuccess
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailAfterActivity :
@@ -35,6 +36,10 @@ class DetailAfterActivity :
         setKeyboardListener()
     }
 
+    override fun onBackPressed() {
+        onClickBackPressed()
+    }
+
     private fun getWorryById() {
         val worryId = intent.getIntExtra("worryId", 0)
         viewModel.getWorryDetail(worryId)
@@ -45,17 +50,17 @@ class DetailAfterActivity :
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.detailStateFlow.collect {
-                        render(it)
+                        renderGetWorry(it)
                     }
                 }
                 launch {
                     viewModel.deleteWorryFlow.collect {
-                        renderDelete(it)
+                        renderDeleteWorry(it)
                     }
                 }
                 launch {
                     viewModel.reviewWorryFlow.collect {
-                        renderUpdateReviewDate(it)
+                        renderUpdateReview(it)
                     }
                 }
             }
@@ -65,25 +70,34 @@ class DetailAfterActivity :
     private fun setClickListener() {
         with(binding) {
             appbarDetail.setNavigationOnClickListener { // 앱바 'X' 버튼 클릭
-                finish()
+                onClickBackPressed()
             }
-            btnDelete.setOnClickListener {
+            btnDelete.onSingleClick {
                 DialogDeleteWarning {
                     viewModel.deleteWorry()
-                }.show(supportFragmentManager, "delete")
+                }.show(supportFragmentManager, "delete_worry")
             }
-            tvSaveBtn.setOnClickListener {
+            tvSaveBtn.onSingleClick {
                 viewModel.updateReview(binding.etRecordContent.text.toString())
             }
         }
     }
 
-    private fun renderDelete(uiState: UiState<DeleteWorryEntity>) {
+    private fun onClickBackPressed() {
+        if (viewModel.reviewContent != binding.etRecordContent.text.toString()) {
+            DialogUpdateWarning {
+                finish()
+            }.show(supportFragmentManager, "update_review")
+        } else {
+            finish()
+        }
+    }
+
+    private fun renderDeleteWorry(uiState: UiState<DeleteWorryEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> Unit
             is UiState.Success -> {
-                Timber.e("삭제 되었습니다!")
                 finish()
             }
 
@@ -95,14 +109,19 @@ class DetailAfterActivity :
         }
     }
 
-    private fun renderUpdateReviewDate(uiState: UiState<ReviewResEntity>) {
+    private fun renderUpdateReview(uiState: UiState<ReviewResEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> {
+                binding.root.makeToast("로딩중")
+            }
+
             is UiState.Success -> {
+                // update review date
                 binding.tvRecordDate.text = uiState.data.updateDate
                 DialogWriteSuccess().show(supportFragmentManager, "review")
-                Timber.e("저장 완료")
+                // update current review
+                viewModel.reviewContent = binding.etRecordContent.text.toString()
             }
 
             is UiState.Error -> {
@@ -113,7 +132,7 @@ class DetailAfterActivity :
         }
     }
 
-    private fun render(uiState: UiState<WorryDetailEntity>) {
+    private fun renderGetWorry(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> Unit
@@ -137,6 +156,8 @@ class DetailAfterActivity :
                         }
                     }
                 }
+                // update 된 review 반영
+                viewModel.reviewContent = worryDetail.review?.content.toString()
             }
 
             is UiState.Error -> {
@@ -144,21 +165,6 @@ class DetailAfterActivity :
             }
 
             UiState.Empty -> TODO()
-        }
-    }
-
-    private fun setKeyboardLayout() {
-        binding.etRecordContent.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                binding.svContent.post {
-                    val positionToScroll =
-                        binding.etRecordContent.bottom - binding.clSaveLayout.height
-                    binding.svContent.smoothScrollTo(0, positionToScroll)
-                }
-                binding.clSaveLayout.visibility = View.VISIBLE
-            } else {
-                binding.clSaveLayout.visibility = View.GONE
-            }
         }
     }
 
