@@ -4,9 +4,9 @@ import androidx.datastore.core.DataStore
 import com.hara.kaera.application.Constant
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.LoginDataSource
+import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
-import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 import com.hara.kaera.domain.entity.login.LoginData
 import com.hara.kaera.domain.repository.LoginRepository
@@ -45,7 +45,7 @@ class LoginRepositoryImpl @Inject constructor(
 
     override suspend fun clearDataStore() {
         localLoginDataStore.updateData {
-            it.copy(accessToken = null, refreshToken = null)
+            it.copy(accessToken = null, refreshToken = null, name = null, userId = null)
         }
     }
 
@@ -65,15 +65,33 @@ class LoginRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getSavedName(): Flow<String> {
+        return localLoginDataStore.data.catch {
+            throw it
+        }.map {
+            it.name ?: Constant.EMPTY_NAME
+        }
+    }
+
     override suspend fun updateAccessToken(accessToken: String) {
         localLoginDataStore.updateData {
             it.copy(accessToken = accessToken)
         }
     }
 
-    override suspend fun saveKaeraJWT(accessToken: String, refreshToken: String) {
+    override suspend fun saveKaeraJWT(
+        accessToken: String,
+        refreshToken: String,
+        name: String,
+        userId: Int
+    ) {
         localLoginDataStore.updateData {
-            it.copy(accessToken = accessToken, refreshToken = refreshToken)
+            it.copy(
+                accessToken = accessToken,
+                refreshToken = refreshToken,
+                name = name,
+                userId = userId,
+            )
         }
     }
 

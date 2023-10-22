@@ -10,6 +10,8 @@ object LoginMapper {
         return KakaoLoginJWTEntity(
             accessToken = dto.data.accessToken,
             refreshToken = dto.data.refreshToken,
+            name = dto.data.name,
+            userId = dto.data.id,
         )
     }
 

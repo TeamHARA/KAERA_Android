@@ -62,7 +62,24 @@ class KaKaoLoginClient @Inject constructor(
     private suspend fun UserApiClient.Companion.logOut() {
         suspendCoroutine { continuation ->
             instance.logout { error ->
-                continuation.resumeLogout(error)
+                continuation.resumeDisConnect(error)
+            }
+        }
+    }
+
+    suspend fun unLink():Result<Unit> = runCatching{
+        try {
+            UserApiClient.unLink()
+        }catch (error:Throwable){
+            throw error
+        }
+    }
+
+    // 연결끊기 회원탈퇴
+    private suspend fun UserApiClient.Companion.unLink() {
+        suspendCoroutine { continuation ->
+            instance.unlink { error ->
+                continuation.resumeDisConnect(error)
             }
         }
     }
@@ -80,7 +97,7 @@ class KaKaoLoginClient @Inject constructor(
         }
     }
 
-    private fun Continuation<Unit>.resumeLogout(
+    private fun Continuation<Unit>.resumeDisConnect(
         error: Throwable?
     ) {
         if (error != null) {

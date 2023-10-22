@@ -15,6 +15,7 @@ import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
+import com.hara.kaera.feature.util.visible
 import com.kakao.sdk.auth.AuthApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,38 +25,20 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
-    val loginViewModel by viewModels<LoginViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     @Inject
     lateinit var kaKaoLoginClient: KaKaoLoginClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.btnToken.onSingleClick {
-            Timber.e(AuthApiClient.instance.hasToken().toString())
-        }
-
-        binding.btnLogout.onSingleClick {
-            lifecycleScope.launch {
-                kotlin.runCatching {
-                    kaKaoLoginClient.logout()
-                }.onSuccess {
-                    // 데이터스토어 비우기
-                    Timber.e("logout")
-                    loginViewModel.kakaoLogOut()
-                }.onFailure {
-                    binding.root.makeToast("에러")
-                    throw it
-                }
-            }
-        }
-
+        collectFlow()
         binding.btnKakaoLogin.onSingleClick(300) { // 최초로그인 로직을 탐
             kakaoLogin()
         }
 
-
+    }
+    private fun collectFlow(){
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -79,10 +62,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             }.onSuccess {
                 // OAuthToken 뜯어서 서버에 리퀘스트바디로 전달
                 // DataStore에 저장
-                Timber.e(it.isSuccess.toString())
                 if (it.isSuccess) {
                     it.onSuccess { oAuthToken ->
-                        Timber.e(oAuthToken.toString())
                         loginViewModel.callKakaoLoginJWT(oAuthToken = oAuthToken)
                     }
                 }
@@ -98,7 +79,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     이 함수 자체가 카카오로그인을 한번 한 상태에서도 이루어지므로 나중에 splashActivity에서
     처리해도 되지 않을까 생각이 듭니다. 우선은 테스트용으로 여기에서 실행
      */
-    private fun tokenCheck(tokenState: TokenState<String>) { // 나중에 뷰모델로 옮길까>
+    private fun tokenCheck(tokenState: TokenState<String>) {
+        Timber.e(tokenState.toString())
         when (tokenState) {
             is TokenState.Init -> Unit
             is TokenState.Empty -> {
@@ -126,11 +108,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> {
-                // 로딩 시작
+                binding.loadingBar.visible(true)
             }
 
             is UiState.Success -> {
-                // 로딩 종료
+                binding.loadingBar.visible(false)
             }
 
             is UiState.Error -> {

@@ -2,12 +2,17 @@ package com.hara.kaera.feature.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.hara.kaera.R
+import com.hara.kaera.databinding.ActivitySplashBinding
 import com.hara.kaera.feature.MainActivity
+import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
@@ -17,7 +22,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StartActivity : AppCompatActivity() {
+class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     val startViewModel by viewModels<StartViewModel>()
 
@@ -26,7 +31,35 @@ class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        collectState()
+        Handler(Looper.getMainLooper()).postDelayed({
+            splashAnimated()
+        },800) // 애니메이션 시작전 800ms 대기
+    }
+
+    private fun splashAnimated() {
+        binding.flowLogo.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1f)
+                .setDuration(300)
+                .setStartDelay(800)
+                .withEndAction {
+                    // 첫 번째 애니메이션 종료 시 실행할 코드
+                    // 두 번째 애니메이션 시작
+                    binding.tvSlogan.apply {
+                        alpha = 0f
+                        visibility = View.VISIBLE
+                        animate()
+                            .alpha(1f)
+                            .setDuration(400)
+                            .setStartDelay(800).withEndAction {
+                                // 두 번째 애니메이션 종료 시 실행할 코드
+                                collectState()
+                            }
+                    }
+                }
+        }
     }
 
     private fun tokenCheck(tokenState: TokenState<String>) {

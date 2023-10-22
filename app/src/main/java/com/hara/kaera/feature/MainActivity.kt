@@ -17,8 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (PermissionRequestDelegator(this).checkPermissions() == true) {
-            binding.root.makeToast("원활한 서비스를 위해서 알림을 활성화 해주세요!")
+        if (PermissionRequestDelegator(this).checkPermissions(PermissionRequestDelegator.PLACE.HOME) == true) {
+            binding.root.makeToast("원활한 서비스를 위해서 알림을 활성화 해 주세요!")
         }
         registerBottomNav()
     }
