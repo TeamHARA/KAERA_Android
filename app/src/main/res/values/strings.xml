@@ -98,4 +98,14 @@
     <string name="sign_out_warning_title">정말로 탈퇴하실 건가요?</string>
     <string name="sign_out_warning_content">탈퇴 후 내용은 복구가 불가능해요</string>
 
+    <!--  온보딩  -->
+    <string name="next">다음</string>
+    <string name="start">시작하기</string>
+    <string name="first_title_top">캐라에서는 고민을 기록하며</string>
+    <string name="first_title_bottom">진정한 나를 찾을 수 있어요</string>
+    <string name="second_title_top">캐라 템플릿에 맞춰</string>
+    <string name="second_title_bottom">복잡한 생각을 정리해보세요</string>
+    <string name="third_title_top">과거의 고민 원석을</string>
+    <string name="third_title_bottom">미래의 빛나는 보석으로 캐내보세요!</string>
+
 </resources>

@@ -46,7 +46,7 @@
             android:background="@{viewPager.currentItem == 2 ? @drawable/shape_rect_yellow1_12 : @drawable/shape_rect_gray5_12}"
             android:paddingVertical="21dp"
             android:layout_marginBottom="50dp"
-            android:text="다음"
+            android:text="@{viewPager.currentItem == 2 ? @string/start : @string/next}"
             android:textAppearance="@style/h_head1_b20"
             android:textColor="@color/gray_1"
             app:layout_constraintEnd_toEndOf="parent"
