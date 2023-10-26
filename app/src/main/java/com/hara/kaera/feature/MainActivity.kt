@@ -20,6 +20,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         if (PermissionRequestDelegator(this).checkPermissions(PermissionRequestDelegator.PLACE.HOME) == true) {
             binding.root.makeToast("원활한 서비스를 위해서 알림을 활성화 해 주세요!")
         }
+        //TODO 원석이 가득찰 경우 DialogFullStoneFragment().show(supportFragmentManager, "full_stone")
+        //이거 수정하려면 HomeFragment에 있는 뷰모델을 액티비티에서 생성되도록 옮기고
+        // 내부 아이템이 12면 바텀내비 부분에서 조건문으로 분기처리 해줘야 되겠네
         registerBottomNav()
     }
 
