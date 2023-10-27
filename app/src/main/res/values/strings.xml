@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Kaera</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <!-- 에러 화면 -->
+    <string name="error_network">네트워크 오류</string>
+    <string name="error_network_guide">인터넷 연결 후 다시 시도해주세요</string>
+    <string name="refresh">새로고침하기</string>
+
     <!-- 로그인 화면 -->
     <string name="login_sub_title">나의 고민을 빛나는 보석으로</string>
     <string name="login_kakao_button">카카오 로그인</string>
