@@ -86,8 +86,10 @@ dependencies {
 
     //Timber
     implementation(Dependency.ThirdParty.TIMBER)
-    // home viewpager2 dot indicator
+    //viewpager2 dot indicator
     implementation(Dependency.ThirdParty.DOT_INDICATOR)
+    //Lottie
+    implementation(Dependency.ThirdParty.LOTTIE)
 
     implementation(Dependency.Kotlin.COIL)
     implementation(Dependency.Kotlin.KOTLIN_SERIALIZATION)

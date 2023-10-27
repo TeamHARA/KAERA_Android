@@ -32,6 +32,7 @@ object Dependency {
     object ThirdParty {
         const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
         const val DOT_INDICATOR = "com.tbuonomo:dotsindicator:${Versions.DOTSINDICATOR}"
+        const val LOTTIE = "com.airbnb.android:lottie:${Versions.LOTTIE}"
     }
 
     object Test {

@@ -13,16 +13,17 @@
         android:background="@color/gray_1"
         tools:context=".feature.login.LoginActivity">
 
-        <ProgressBar
-            android:id="@+id/loading_bar"
+        <com.airbnb.lottie.LottieAnimationView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow_logo"

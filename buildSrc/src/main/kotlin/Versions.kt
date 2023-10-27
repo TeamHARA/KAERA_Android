@@ -59,4 +59,6 @@ object Versions {
     //SECERETS_GRADLE
     const val SERCRET_GRADLE = "2.0.1"
 
+    //LOTTIE
+    const val LOTTIE = "6.1.0"
 }
