@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.dialog.DialogFullStoneFragment
 import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.storage.StorageFragment
 import com.hara.kaera.feature.util.PermissionRequestDelegator
