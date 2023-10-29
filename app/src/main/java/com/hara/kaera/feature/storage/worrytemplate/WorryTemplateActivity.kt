@@ -22,9 +22,15 @@ class WorryTemplateActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initAdapter()
+        setOnClickListeners()
         collectFlows()
+    }
+
+    private fun setOnClickListeners() {
+        binding.appbarDetail.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun initAdapter() {
