@@ -70,8 +70,4 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-    }
 }

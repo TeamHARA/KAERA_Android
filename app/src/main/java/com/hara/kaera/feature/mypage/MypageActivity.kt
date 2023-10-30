@@ -16,6 +16,7 @@ import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
+import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.PermissionRequestDelegator
 import com.hara.kaera.feature.util.makeToast
@@ -134,7 +135,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             // 데이터스토어 비우기
                             Timber.e("unlink")
                             myPageViewModel.clearDataStore()
-                            startActivity(Intent(baseContext, LoginActivity::class.java))
+                            startActivity(Intent(baseContext, OnboardingActivity::class.java))
                             finishAffinity()
                         }.onFailure {
                             binding.root.makeToast("잠시후 다시 시도해주세요.")

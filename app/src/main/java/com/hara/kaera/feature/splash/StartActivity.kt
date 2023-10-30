@@ -14,6 +14,7 @@ import com.hara.kaera.databinding.ActivitySplashBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginActivity
+import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
         super.onCreate(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
             splashAnimated()
-        },800) // 애니메이션 시작전 800ms 대기
+        }, 800) // 애니메이션 시작전 800ms 대기
     }
 
     private fun splashAnimated() {
@@ -68,7 +69,7 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
             is TokenState.Empty -> {
                 // 데이터스토어에 토큰이 비어있는 상태
                 // 카카오로그인을 위해서 로그인 액티비티로 이동
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, OnboardingActivity::class.java))
                 finishAffinity()
             }
 
