@@ -12,8 +12,8 @@ import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
-import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
@@ -144,6 +144,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
             is UiState.Loading -> {
                 binding.loadingBar.visible(true)
+                binding.layoutNetworkError.rootNetwork.visible(false)
+                binding.layoutInternalError.rootInternal.visible(false)
             }
 
             is UiState.Success -> {
@@ -168,8 +170,14 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                //TODO 에러뷰 표시
-                binding.root.makeToast(uiState.error)
+                when(uiState.error){
+                    Constant.networkError -> {
+                        binding.layoutNetworkError.rootNetwork.visible(true)
+                    }
+                    Constant.internalError ->{
+                        binding.layoutInternalError.rootInternal.visible(true)
+                    }
+                }
             }
         }
     }

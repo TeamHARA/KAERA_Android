@@ -32,3 +32,11 @@ fun errorToMessage(error: ErrorType) = when (error) {
     is ErrorType.IoException -> "알수없는 오류입니다."
     is ErrorType.Unknown -> "알수없는 오류입니다."
 }
+
+/*
+앱/웹 에러 혹은 인터넷 에러 레이아웃로 대체되어야 하는 화면의 경우 해당 함수 사용
+ */
+fun errorToLayout(error: ErrorType) = when(error){
+    is ErrorType.Api -> Constant.networkError
+    else -> Constant.internalError
+}

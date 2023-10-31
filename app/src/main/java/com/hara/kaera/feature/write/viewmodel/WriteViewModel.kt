@@ -6,6 +6,7 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,7 +55,7 @@ class WriteViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _templateDetailFlow.value = UiState.Error(collect.error.toString())
+                            _templateDetailFlow.value = UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }
