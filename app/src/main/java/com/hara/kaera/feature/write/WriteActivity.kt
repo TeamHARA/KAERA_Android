@@ -48,8 +48,46 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         edittextTitle = binding.etTitle
 
         setTextWatcher()
+        connectDialog()
         setClickListeners()
         collectFlows()
+    }
+
+    private fun connectDialog() {
+        binding.clChoice.onSingleClick {
+            if (checkText()) { // 한글자라도 써놨을 경우
+                DialogSaveWarning {
+                    TemplateChoiceBottomSheet({
+                        viewModel.setTemplateId(it)
+                    }, viewModel.templateIdFlow.value).show(
+                        supportFragmentManager,
+                        "template_choice"
+                    )
+                }.show(supportFragmentManager, "warning")
+            } else {
+                TemplateChoiceBottomSheet({
+                    viewModel.setTemplateId(it)
+                }, viewModel.templateIdFlow.value).show(
+                    supportFragmentManager,
+                    "template_choice"
+                )
+            }
+        }
+
+        binding.btnComplete.onSingleClick {
+            if (!titleCondition) KaeraSnackBar.make(
+                binding.root, baseContext.stringOf(R.string.write_snackbar_title),
+                KaeraSnackBar.DURATION.LONG
+            ).show()
+            else if (!contentCondition) KaeraSnackBar.make(
+                binding.root,
+                baseContext.stringOf(R.string.write_snackbar_content),
+                KaeraSnackBar.DURATION.LONG
+            ).show()
+            else {
+                DialogWriteComplete() {}.show(supportFragmentManager, "complete")
+            }
+        }
     }
 
     private fun setClickListeners() {
@@ -57,39 +95,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             appbarDetail.setNavigationOnClickListener {
                 finish()
             }
-            clChoice.onSingleClick {
-                if (checkText()) { // 한글자라도 써놨을 경우
-                    DialogSaveWarning {
-                        TemplateChoiceBottomSheet({
-                            viewModel.setTemplateId(it)
-                        }, viewModel.templateIdFlow.value).show(
-                            supportFragmentManager,
-                            "template_choice"
-                        )
-                    }.show(supportFragmentManager, "warning")
-                } else {
-                    TemplateChoiceBottomSheet({
-                        viewModel.setTemplateId(it)
-                    }, viewModel.templateIdFlow.value).show(
-                        supportFragmentManager,
-                        "template_choice"
-                    )
-                }
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getTemplateDetailData()
             }
-
-            btnComplete.onSingleClick(1000) {
-                if (!titleCondition) KaeraSnackBar.make(
-                    binding.root, baseContext.stringOf(R.string.write_snackbar_title),
-                    KaeraSnackBar.DURATION.LONG
-                ).show()
-                else if (!contentCondition) KaeraSnackBar.make(
-                    binding.root,
-                    baseContext.stringOf(R.string.write_snackbar_content),
-                    KaeraSnackBar.DURATION.LONG
-                ).show()
-                else {
-                    DialogWriteComplete() {}.show(supportFragmentManager, "complete")
-                }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getTemplateDetailData()
             }
         }
     }
@@ -170,11 +180,14 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                when(uiState.error){
+                binding.clEmpty.root.visible(false)
+                binding.tvTemplateTitle.text = "다시 선택 해주세요"
+                when (uiState.error) {
                     Constant.networkError -> {
                         binding.layoutNetworkError.rootNetwork.visible(true)
                     }
-                    Constant.internalError ->{
+
+                    Constant.internalError -> {
                         binding.layoutInternalError.rootInternal.visible(true)
                     }
                 }
