@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_network"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/gray_1"
-    android:visibility="gone"
-    tools:visibility="visible">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/iv_network"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/error_network_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        android:background="@color/gray_1"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/error_network"
-        android:textAppearance="@style/h_body2_r16"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_network" />
+        <ImageView
+            android:id="@+id/iv_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/error_network_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
 
-    <TextView
-        android:id="@+id/tv_guide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/error_network_guide"
-        android:textAppearance="@style/h_body4_r14"
-        android:textColor="@color/gray_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_network"
+            android:textAppearance="@style/h_body2_r16"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_network" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_network_error"
-        android:layout_width="180dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/shape_rect_gray1_stroke_gray4_30"
-        android:paddingVertical="0dp"
-        android:text="@string/refresh"
-        android:textColor="@color/gray_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_guide" />
+        <TextView
+            android:id="@+id/tv_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/error_network_guide"
+            android:textAppearance="@style/h_body4_r14"
+            android:textColor="@color/gray_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_network_error"
+            android:layout_width="180dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/shape_rect_gray1_stroke_gray4_30"
+            android:paddingVertical="0dp"
+            android:text="@string/refresh"
+            android:textColor="@color/gray_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guide" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

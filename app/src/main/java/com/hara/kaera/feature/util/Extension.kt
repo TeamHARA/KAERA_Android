@@ -37,6 +37,6 @@ fun errorToMessage(error: ErrorType) = when (error) {
 앱/웹 에러 혹은 인터넷 에러 레이아웃로 대체되어야 하는 화면의 경우 해당 함수 사용
  */
 fun errorToLayout(error: ErrorType) = when(error){
-    is ErrorType.Api -> Constant.networkError
-    else -> Constant.internalError
+    is ErrorType.Api -> Constant.internalError
+    else -> Constant.networkError
 }

@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWriteBinding
+import com.hara.kaera.databinding.LayoutErrorInternalBinding
+import com.hara.kaera.databinding.LayoutErrorNetworkBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
@@ -34,7 +36,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var titleCondition = false
     private var contentCondition = false
 
-    private val viewModel by viewModels<WriteViewModel>()
+    private val writeViewModel by viewModels<WriteViewModel>()
+
+    //include layout들에 clickListener를 달기 위한 변수
+    private lateinit var networkBinding: LayoutErrorNetworkBinding
+    private lateinit var internalBinding: LayoutErrorInternalBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,16 +64,16 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             if (checkText()) { // 한글자라도 써놨을 경우
                 DialogSaveWarning {
                     TemplateChoiceBottomSheet({
-                        viewModel.setTemplateId(it)
-                    }, viewModel.templateIdFlow.value).show(
+                        writeViewModel.setTemplateId(it)
+                    }, writeViewModel.templateIdFlow.value).show(
                         supportFragmentManager,
                         "template_choice"
                     )
                 }.show(supportFragmentManager, "warning")
             } else {
                 TemplateChoiceBottomSheet({
-                    viewModel.setTemplateId(it)
-                }, viewModel.templateIdFlow.value).show(
+                    writeViewModel.setTemplateId(it)
+                }, writeViewModel.templateIdFlow.value).show(
                     supportFragmentManager,
                     "template_choice"
                 )
@@ -95,11 +101,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             appbarDetail.setNavigationOnClickListener {
                 finish()
             }
-            layoutNetworkError.btnNetworkError.onSingleClick {
-                viewModel.getTemplateDetailData()
+            layoutNetworkError.btnNetworkError.setOnClickListener {
+                writeViewModel.getTemplateDetailData()
             }
-            layoutInternalError.btnInternalError.onSingleClick {
-                viewModel.getTemplateDetailData()
+            layoutInternalError.btnInternalError.setOnClickListener {
+                writeViewModel.getTemplateDetailData()
             }
         }
     }
@@ -108,7 +114,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         edittextTitle.addTextChangedListener {
             binding.tvTitleCount.text =
                 String.format(this.stringOf(R.string.write_title_count), it!!.length)
-            if (viewModel.templateIdFlow.value == 1) checkFreeFlow()
+            if (writeViewModel.templateIdFlow.value == 1) checkFreeFlow()
             else checkTemplate()
         }
         editTextFreeNote.addTextChangedListener {
@@ -127,15 +133,15 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.templateIdFlow.collect {
-                        if (it in 1..6 && it != viewModel.curTemplateIdFlow.value) {
-                            viewModel.getTemplateDetailData()
+                    writeViewModel.templateIdFlow.collect {
+                        if (it in 1..6 && it != writeViewModel.curTemplateIdFlow.value) {
+                            writeViewModel.getTemplateDetailData()
                         }
                     }
                 }
                 launch {
-                    viewModel.templateDetailFlow.collect {
-                        if (viewModel.templateIdFlow.value != viewModel.curTemplateIdFlow.value)
+                    writeViewModel.templateDetailFlow.collect {
+                        if (writeViewModel.templateIdFlow.value != writeViewModel.curTemplateIdFlow.value)
                             render(it)
                     }
                 }
@@ -161,17 +167,18 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             is UiState.Success -> {
                 binding.loadingBar.visible(false)
                 binding.clTitle.visible(true)
-                if (viewModel.templateIdFlow.value == 1) { // freenote
+                binding.scrollView.visible(true)
+                if (writeViewModel.templateIdFlow.value == 1) { // freenote
                     binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
                     binding.clFreenote.root.visible(true)
-                } else if (viewModel.templateIdFlow.value in 2..6) { // freenote 제외 나머지
+                } else if (writeViewModel.templateIdFlow.value in 2..6) { // freenote 제외 나머지
                     binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
-                    if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visible(
+                    if (writeViewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visible(
                         true
                     ) //thanksTo 템플릿
                     else binding.clTemplate.tvThanks.visible(false)
@@ -181,6 +188,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
             is UiState.Error -> {
                 binding.clEmpty.root.visible(false)
+                binding.loadingBar.visible(false)
+                binding.scrollView.visible(false)
                 binding.tvTemplateTitle.text = "다시 선택 해주세요"
                 when (uiState.error) {
                     Constant.networkError -> {
@@ -221,7 +230,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     override fun onStop() {
         super.onStop()
-        viewModel.setCurTemplateId(viewModel.templateIdFlow.value)
+        writeViewModel.setCurTemplateId(writeViewModel.templateIdFlow.value)
         // 백그라운드 전환시 render 재실행으로 인한 텍스트초기화를 막기위해 flow에 현재 id 저장
     }
 
