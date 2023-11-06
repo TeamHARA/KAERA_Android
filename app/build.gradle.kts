@@ -77,6 +77,7 @@ dependencies {
 
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.AndroidTest.JUNIT)
+    androidTestImplementation(Dependency.AndroidTest.KTX_JUNIT)
     androidTestImplementation(Dependency.AndroidTest.ESPRESSO)
 
     implementation(platform(Dependency.Firebase.FIREBASE_BOM))

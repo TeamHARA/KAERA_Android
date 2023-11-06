@@ -40,7 +40,8 @@ object Dependency {
     }
 
     object AndroidTest {
-        const val JUNIT = "androidx.test.ext:${Versions.ANDROIDX_JUNIT}"
+        const val JUNIT = "androidx.test.ext:junit:${Versions.ANDROIDX_JUNIT}"
+        const val KTX_JUNIT = "androidx.test.ext:junit-ktx:${Versions.ANDROIDX_JUNIT}"
         const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
     }
 
