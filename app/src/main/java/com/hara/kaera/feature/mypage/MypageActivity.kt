@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.custom.CustomWebViewClient
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
@@ -103,9 +104,9 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             clPrivacy.setOnClickListener {
                 startActivity(
                     Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1?pvs=4")
-                    ), null
+                        this@MypageActivity, WebViewActivity::class.java).apply {
+                        putExtra("url","https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1?pvs=4")
+                    }
                 )
             }
             tvLogout.setOnClickListener {

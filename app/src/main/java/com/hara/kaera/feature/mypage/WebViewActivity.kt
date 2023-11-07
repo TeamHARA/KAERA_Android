@@ -21,9 +21,10 @@ class WebViewActivity : BindingActivity<ActivityWebviewBinding>(R.layout.activit
             webChromeClient = WebChromeClient() // 안정성을 위해서 크로미움 클라이언트도 적용
             with(settings) {
                 loadsImagesAutomatically = true // 이미지 자동 로드
+                domStorageEnabled = true
+                // 노션페이지가 정상적으로 웹뷰에 나오게 하기 위해서 활성화 해주어야함
                 javaScriptEnabled = true
-                // 만개의 레시피 웹페이자 내부가 javaScript를 통한
-                //동작 동적이 있음 따라서 ture로 설정
+                //웹페이지 내부가 javaScript를 통한 동작 동적이 있을수 있음 따라서 ture로 설정
                 allowContentAccess = true
                 // content URI 사용을 위함
                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
