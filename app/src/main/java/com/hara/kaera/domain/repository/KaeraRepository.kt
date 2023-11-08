@@ -33,6 +33,8 @@ interface KaeraRepository {
 
     fun updateReview(reviewReqDTO: ReviewReqDTO): Flow<ApiResult<ReviewResEntity>>
 
+    fun serviceLogout(): Flow<ApiResult<Boolean>>
+
     fun editWorry(editWorryReqDTO: EditWorryReqDTO): Flow<ApiResult<String>>
 
     fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<String>>

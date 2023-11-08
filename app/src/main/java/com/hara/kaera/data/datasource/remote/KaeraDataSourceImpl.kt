@@ -16,6 +16,7 @@ import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
+import com.hara.kaera.data.dto.login.KakaoLogoutResDTO
 import com.hara.kaera.data.util.safeCallApi
 import com.hara.kaera.di.ServiceModule
 import kotlinx.coroutines.flow.Flow
@@ -97,5 +98,11 @@ class KaeraDataSourceImpl @Inject constructor(
         return flow {
             emit(kaeraApi.decideFinal(decideFinalReqDTO))
         }
+    }
+
+    override fun serviceLogout(): Flow<KakaoLogoutResDTO> {
+        return flow {
+            emit(kaeraApi.serviceLogout())
+        }.safeCallApi()
     }
 }

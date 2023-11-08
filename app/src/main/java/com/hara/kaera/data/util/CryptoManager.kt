@@ -2,7 +2,6 @@ package com.hara.kaera.data.util
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -32,7 +31,6 @@ class CryptoManager {
 
     private fun getKey(): SecretKey {
         val existingKey = keyStore.getEntry(ALIAS, null) as? KeyStore.SecretKeyEntry
-        Timber.e(existingKey.toString())
         return existingKey?.secretKey ?: createKey()
     }
 

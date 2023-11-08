@@ -90,4 +90,8 @@ interface KaeraApi {
     suspend fun decideFinal(
         @Body decideFinalReqDTO: DecideFinalReqDTO
     ): DecideFinalResDTO
+
+    @POST("auth/logout")
+    suspend fun serviceLogout(): KakaoLogoutResDTO
+
 }

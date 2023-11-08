@@ -96,28 +96,29 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             clService.setOnClickListener {
                 startActivity(
                     Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4")
-                    ), null
+                        this@MypageActivity, WebViewActivity::class.java).apply {
+                        putExtra("url","https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4")
+                    }
                 )
             }
             clPrivacy.setOnClickListener {
                 startActivity(
                     Intent(
                         this@MypageActivity, WebViewActivity::class.java).apply {
-                        putExtra("url","https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1?pvs=4")
+                        putExtra("url","https://chartreuse-kookaburra-a53.notion.site/57a310e48bf3411aae82f123255d7926?pvs=4")
                     }
                 )
             }
-            tvLogout.setOnClickListener {
+
+            btnLogout.setOnClickListener {
                 DialogMypage("logout") {
                     lifecycleScope.launch {
                         kotlin.runCatching {
-                            kaKaoLoginClient.logout()
+                            myPageViewModel.serviceLogout()
                         }.onSuccess {
                             // 데이터스토어 비우기
                             Timber.e("logout")
-                            myPageViewModel.clearDataStore()
+                            kaKaoLoginClient.logout()
                             startActivity(Intent(baseContext, LoginActivity::class.java))
                             finishAffinity()
                         }.onFailure {
@@ -127,6 +128,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                     }
                 }.show(supportFragmentManager, "logout")
             }
+
             tvSignout.setOnClickListener {
                 DialogMypage("signout") {
                     lifecycleScope.launch {

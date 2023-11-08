@@ -31,8 +31,9 @@ class WebViewActivity : BindingActivity<ActivityWebviewBinding>(R.layout.activit
                 // 쿠팡링크등 Dynamic link 허용을 위함
                 cacheMode = WebSettings.LOAD_DEFAULT
             }
+            this.loadUrl(url!!)
         }
-        binding.webview.loadUrl(url!!)
+        //binding.webview.loadUrl(url!!)
 
         binding.appbarDetail.setNavigationOnClickListener {
             finish()

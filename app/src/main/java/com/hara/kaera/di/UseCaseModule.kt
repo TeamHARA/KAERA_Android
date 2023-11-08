@@ -18,6 +18,8 @@ import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCase
 import com.hara.kaera.domain.usecase.GetWorryByTemplateUseCaseImpl
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCaseImpl
+import com.hara.kaera.domain.usecase.LogoutUseCase
+import com.hara.kaera.domain.usecase.LogoutUseCaseImpl
 import com.hara.kaera.domain.usecase.PutReviewUseCase
 import com.hara.kaera.domain.usecase.PutReviewUseCaseImpl
 import com.hara.kaera.domain.usecase.WriteWorryUseCase
@@ -80,4 +82,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToDecideFinal(decideFinalUseCase: DecideFinalUseCaseImpl): DecideFinalUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToLogout(logoutUseCase: LogoutUseCaseImpl): LogoutUseCase
 }

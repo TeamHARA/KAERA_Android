@@ -4,6 +4,7 @@ import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.data.dto.login.JWTRefreshResDTO
 import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
+import com.hara.kaera.data.dto.login.KakaoLogoutResDTO
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -16,6 +17,5 @@ interface LoginApi {
     @POST("auth/token/refresh")
     suspend fun getAccessToken(
         @Body jwtRefreshReqDTO: JWTRefreshReqDTO
-    ):JWTRefreshResDTO
-
+    ): JWTRefreshResDTO
 }
