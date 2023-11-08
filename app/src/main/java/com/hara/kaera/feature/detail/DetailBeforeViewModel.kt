@@ -54,6 +54,7 @@ class DetailBeforeViewModel @Inject constructor(
                             _detailStateFlow.value = UiState.Success(collect.data)
                             detailToEditData = EditWorryReqDTO(
                                 worryId = worryId,
+                                templateId = collect.data.templateId,
                                 title = collect.data.title,
                                 answers = collect.data.answers
                             )

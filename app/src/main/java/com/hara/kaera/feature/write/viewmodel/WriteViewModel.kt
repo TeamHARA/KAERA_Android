@@ -53,7 +53,7 @@ class WriteViewModel @Inject constructor(
         _templateIdFlow.value = choiceId
     }
 
-    fun setCurTemplateId(choiceId: Int){
+    fun setCurTemplateId(choiceId: Int) {
         _curTemplateIdFlow.value = choiceId
     }
 
@@ -92,6 +92,7 @@ class WriteViewModel @Inject constructor(
                         is ApiResult.Success -> {
                             _writeWorryFlow.value = UiState.Success(collect.data)
                         }
+
                         is ApiResult.Error -> {
                             _writeWorryFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
@@ -115,6 +116,7 @@ class WriteViewModel @Inject constructor(
                         is ApiResult.Success -> {
                             _editWorryFlow.value = UiState.Success(collect.data)
                         }
+
                         is ApiResult.Error -> {
                             _editWorryFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
@@ -127,7 +129,7 @@ class WriteViewModel @Inject constructor(
         }
     }
 
-    enum class CurId(val value : Int) {
+    enum class CurId(val value: Int) {
         INIT(-1)
     }
 

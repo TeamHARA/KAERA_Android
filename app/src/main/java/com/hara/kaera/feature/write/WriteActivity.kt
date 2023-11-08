@@ -135,6 +135,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     else { // 글 수정 서버 통신
                         var editWorryReqDTO = EditWorryReqDTO(
                             worryId = detailToEditData!!.worryId,
+                            templateId = viewModel.templateIdFlow.value,
                             title = binding.etTitle.text.toString(),
                             answers =
                                 if (templateId == 1) // free note
