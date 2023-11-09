@@ -1,6 +1,8 @@
 package com.hara.kaera.domain.repository
 
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.data.dto.DecideFinalReqDTO
+import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
@@ -36,4 +38,6 @@ interface KaeraRepository {
     fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<String>>
 
     fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>>
+
+    fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<ApiResult<String>>
 }

@@ -1,5 +1,7 @@
 package com.hara.kaera.data.datasource.remote
 
+import com.hara.kaera.data.dto.DecideFinalReqDTO
+import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditDeadlineResDTO
@@ -88,6 +90,12 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<WriteWorryResDTO> {
         return flow {
             emit(kaeraApi.writeWorry(writeWorryReqDTO))
+        }
+    }
+
+    override fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<DecideFinalResDTO> {
+        return flow {
+            emit(kaeraApi.decideFinal(decideFinalReqDTO))
         }
     }
 }

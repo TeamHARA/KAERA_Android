@@ -116,17 +116,29 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                         DialogWriteComplete(
                             fun (day: Int) {
                                 // Timber.e("[ABCD] 가져온 value는 ${day}")
-                                writeWorryReqDTO = WriteWorryReqDTO(
-                                    templateId = viewModel.templateIdFlow.value,
-                                    title = binding.etTitle.text.toString(),
-                                    answers = listOf(
-                                        binding.clTemplate.etAnswer1.text.toString(),
-                                        binding.clTemplate.etAnswer2.text.toString(),
-                                        binding.clTemplate.etAnswer3.text.toString(),
-                                        binding.clTemplate.etAnswer4.text.toString(),
-                                    ),
-                                    deadline = day
-                                )
+
+                                if (viewModel.templateIdFlow.value == 1) { // free flow
+                                    writeWorryReqDTO = WriteWorryReqDTO(
+                                        templateId = 1,
+                                        title = binding.etTitle.text.toString(),
+                                        answers = listOf(
+                                            binding.clFreenote.etFreenote.text.toString()
+                                        ),
+                                        deadline = day
+                                    )
+                                } else { // 나머지 template
+                                    writeWorryReqDTO = WriteWorryReqDTO(
+                                        templateId = viewModel.templateIdFlow.value,
+                                        title = binding.etTitle.text.toString(),
+                                        answers = listOf(
+                                            binding.clTemplate.etAnswer1.text.toString(),
+                                            binding.clTemplate.etAnswer2.text.toString(),
+                                            binding.clTemplate.etAnswer3.text.toString(),
+                                            binding.clTemplate.etAnswer4.text.toString(),
+                                        ),
+                                        deadline = day
+                                    )
+                                }
                                 Timber.e("글 작성 끝나서 서버통신 시작: $writeWorryReqDTO")
                                 viewModel.writeWorry(writeWorryReqDTO)
                             }
@@ -298,6 +310,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     private fun goToDetailBeforeActivity() {
         val worryDetailEntity = setWorryDetailEntity()
+        // Timber.e("[ABC] $worryDetailEntity 이거 쓴 거당 이제 고민상세로")
         val json = Json.encodeToString(worryDetailEntity) // convert the object to a JSON string
 
         var bundle = Bundle()
@@ -330,7 +343,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
         return WorryDetailEntity(
             templateId = templateId,
-            d_day = writeWorryReqDTO.deadline,
+            d_day = writeWorryReqDTO.deadline * -1,
             deadline = days[1],
             finalAnswer = null,
             period = "${days[0]}~${days[1]}",

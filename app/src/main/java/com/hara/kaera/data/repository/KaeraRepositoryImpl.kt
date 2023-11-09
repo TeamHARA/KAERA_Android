@@ -2,6 +2,8 @@ package com.hara.kaera.data.repository
 
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.KaeraDataSource
+import com.hara.kaera.data.dto.DecideFinalReqDTO
+import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
@@ -143,6 +145,16 @@ class KaeraRepositoryImpl @Inject constructor(
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
                 emit(ApiResult.Success(it.message))
+            }
+        }
+    }
+
+    override fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<ApiResult<String>> {
+        return flow {
+            kaeraDataSource.decideFinal(decideFinalReqDTO).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(it.data.quote))
             }
         }
     }

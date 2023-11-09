@@ -1,5 +1,7 @@
 package com.hara.kaera.data.datasource.remote
 
+import com.hara.kaera.data.dto.DecideFinalReqDTO
+import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditDeadlineResDTO
@@ -64,7 +66,7 @@ interface KaeraApi {
         @Path("worryId") worryId: Int,
     ): DeleteWorryDTO
 
-    @PUT("review")
+    @PATCH("review")
     suspend fun updateReview(
         @Body reviewReqDto: ReviewReqDTO,
     ): ReviewResDTO
@@ -83,4 +85,9 @@ interface KaeraApi {
     suspend fun writeWorry(
         @Body writeWorryReqDTO: WriteWorryReqDTO
     ): WriteWorryResDTO
+
+    @PATCH("worry/finalAnswer")
+    suspend fun decideFinal(
+        @Body decideFinalReqDTO: DecideFinalReqDTO
+    ): DecideFinalResDTO
 }

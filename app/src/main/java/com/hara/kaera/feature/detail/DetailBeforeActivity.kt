@@ -2,12 +2,15 @@ package com.hara.kaera.feature.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
+import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.databinding.ActivityDetailBeforeBinding
@@ -17,6 +20,7 @@ import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
 import com.hara.kaera.feature.dialog.DialogEditFragment
+import com.hara.kaera.feature.dialog.DialogMineFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
@@ -63,21 +67,22 @@ class DetailBeforeActivity :
                     binding.root, "작성 완료!",
                     KaeraSnackBar.DURATION.LONG
                 ).show() // TODO: 서버에 잘 날아갔으면 (customized) ToastMessage 띄우기
-                return
             }
 
             // 2-1) HomeStoneFragment -> DetailBeforeActivity
             // 2-2) DetailBeforeActivity -> WriteActivity(글수정 중) -> DetailBeforeActivity
-            val worryId = intent.getIntExtra("worryId", 0)
-            viewModel.getWorryDetail(worryId)
+            else {
+                val worryId = intent.getIntExtra("worryId", 0)
+                viewModel.getWorryDetail(worryId)
 
-            // 2-2
-            val from = intent.getStringExtra("from")
-            if ("edit" == from) {
-                KaeraSnackBar.make(
-                    binding.root, "수정 완료!",
-                    KaeraSnackBar.DURATION.LONG
-                ).show()
+                // 2-2
+                val from = intent.getStringExtra("from")
+                if ("edit" == from) {
+                    KaeraSnackBar.make(
+                        binding.root, "수정 완료!",
+                        KaeraSnackBar.DURATION.LONG
+                    ).show()
+                }
             }
         }
     }
@@ -92,16 +97,30 @@ class DetailBeforeActivity :
                 }
                 launch {
                     viewModel.editDeadlineStateFlow.collect {
-                        binding.tvAppbarDay.text = "D+$editDayCount"
-                        KaeraSnackBar.make(
-                            binding.root, "데드라인 수정 완료!",
-                            KaeraSnackBar.DURATION.LONG
-                        ).show()
+                        Timber.e("[ABC] editDeadlineStateFlow - collect! ${it}")
+
+                        // [23.11.09] 데드라인 수정하면 왜 여기 안 걸려? ㅠㅠ
+                        if (it is UiState.Success) { // UiState.init 때도 호출되면 안 돼서
+                            Timber.e("[ABC] editDeadlineStateFlow - UiState.Success ${it}")
+                            binding.tvAppbarDay.text = "D-$editDayCount"
+                            KaeraSnackBar.make(
+                                binding.root, "데드라인 수정 완료!",
+                                KaeraSnackBar.DURATION.LONG
+                            ).show()
+                        }
                     }
                 }
                 launch {
                     viewModel.deleteWorryFlow.collect {
                         renderDelete(it)
+                    }
+                }
+                launch {
+                    viewModel.decideFinalFlow.collect {
+                        if (it is UiState.Success<String>) {
+                            Timber.e("[ABC] 최종 결정 성공!")
+                            // TODO: quote 띄우기
+                        }
                     }
                 }
             }
@@ -183,7 +202,16 @@ class DetailBeforeActivity :
                 ).show(supportFragmentManager, "edit")
             }
             btnSubmit.setOnClickListener { // 하단 "고민 보석 캐기" 버튼
-
+                DialogMineFragment(
+                    fun (finalAnswer: Editable) {
+                        val decideFinalReqDTO = DecideFinalReqDTO(
+                            worryId = viewModel.getWorryId(),
+                            finalAnswer = finalAnswer.toString()
+                        )
+                        Timber.e("[ABC] 최종 결정 하러 가자 - $decideFinalReqDTO")
+                        viewModel.decideFinal(decideFinalReqDTO)
+                    }
+                ).show(supportFragmentManager, "mine")
             }
         }
     }

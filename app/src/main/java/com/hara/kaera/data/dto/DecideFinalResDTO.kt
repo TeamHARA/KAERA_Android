@@ -1,11 +1,10 @@
 package com.hara.kaera.data.dto
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EditDeadlineResDTO(
+data class DecideFinalResDTO(
     @SerialName("status")
     val status: Int,
     @SerialName("success")
@@ -17,9 +16,7 @@ data class EditDeadlineResDTO(
 ) {
     @Serializable
     data class Data(
-        @SerialName("deadline")
-        val deadline: String,
-        @SerialName("d-day")
-        val dday: Int
+        @SerialName("quote")
+        val quote: String
     )
 }

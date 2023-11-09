@@ -1,5 +1,7 @@
 package com.hara.kaera.di
 
+import com.hara.kaera.domain.usecase.DecideFinalUseCase
+import com.hara.kaera.domain.usecase.DecideFinalUseCaseImpl
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCaseImpl
 import com.hara.kaera.domain.usecase.EditDeadlineUseCase
@@ -74,4 +76,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToWriteWorry(writeWorryUseCase: WriteWorryUseCaseImpl): WriteWorryUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToDecideFinal(decideFinalUseCase: DecideFinalUseCaseImpl): DecideFinalUseCase
 }

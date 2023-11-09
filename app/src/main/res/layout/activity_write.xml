@@ -247,7 +247,7 @@
                     <!-- 2) free note 템플릿 -->
                     <include
                         android:id="@+id/cl_freenote"
-                        binds:templatedata="@{templatedata}"
+                        bind:templatedata="@{templatedata}"
                         layout="@layout/layout_free_note_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
