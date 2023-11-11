@@ -8,7 +8,7 @@ import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
-import com.hara.kaera.data.dto.login.KakaoLogoutResDTO
+import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.ReviewResEntity
@@ -128,5 +128,5 @@ object Mapper {
         return ReviewResEntity(updateDate = dto.data.updatedAt)
     }
 
-    fun mapperToSuccess(dto: KakaoLogoutResDTO): Boolean = dto.success
+    fun mapperToSuccess(dto: ServiceDisConnectResDTO): Boolean = dto.success
 }

@@ -18,6 +18,7 @@ import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
+import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -92,6 +93,9 @@ interface KaeraApi {
     ): DecideFinalResDTO
 
     @POST("auth/logout")
-    suspend fun serviceLogout(): KakaoLogoutResDTO
+    suspend fun serviceLogout(): ServiceDisConnectResDTO
+
+    @POST("auth/unregister")
+    suspend fun serviceUnRegister(): ServiceDisConnectResDTO
 
 }

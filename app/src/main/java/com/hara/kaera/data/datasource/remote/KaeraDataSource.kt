@@ -17,6 +17,7 @@ import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.data.dto.login.KakaoLogoutResDTO
+import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.http.Body
@@ -51,5 +52,7 @@ interface KaeraDataSource {
 
     fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<DecideFinalResDTO>
 
-    fun serviceLogout(): Flow<KakaoLogoutResDTO>
+    fun serviceLogout(): Flow<ServiceDisConnectResDTO>
+
+    fun serviceUnRegister(): Flow<ServiceDisConnectResDTO>
 }
