@@ -108,7 +108,7 @@ class KaeraDataSourceImpl @Inject constructor(
 
     override fun serviceUnRegister(): Flow<ServiceDisConnectResDTO> {
         return flow {
-            emit(kaeraApi.serviceLogout())
+            emit(kaeraApi.serviceUnRegister())
         }.safeCallApi()
     }
 }

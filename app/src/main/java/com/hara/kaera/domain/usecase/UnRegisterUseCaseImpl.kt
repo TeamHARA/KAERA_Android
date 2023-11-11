@@ -8,6 +8,6 @@ import javax.inject.Inject
 class UnRegisterUseCaseImpl @Inject constructor(private val repository: KaeraRepository) :
     UnRegisterUseCase {
     override fun invoke(): Flow<ApiResult<Boolean>> {
-        return repository.serviceLogout()
+        return repository.serviceUnRegister()
     }
 }

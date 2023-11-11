@@ -173,7 +173,7 @@ class KaeraRepositoryImpl @Inject constructor(
 
     override fun serviceUnRegister(): Flow<ApiResult<Boolean>> {
         return flow {
-            kaeraDataSource.serviceLogout().catch {
+            kaeraDataSource.serviceUnRegister().catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
                 emit(ApiResult.Success(mapperToSuccess(it)))
