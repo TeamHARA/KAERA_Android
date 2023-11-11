@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.application.Constant
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.usecase.LogoutUseCase
+import com.hara.kaera.domain.usecase.UnRegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MypageViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val serviceLogoutUseCase: LogoutUseCase
+    private val serviceLogoutUseCase: LogoutUseCase,
+    private val serviceUnRegisterUseCase: UnRegisterUseCase
 ) : ViewModel() {
     private val _savedName = MutableStateFlow(Constant.EMPTY_NAME)
     val savedName get() = _savedName.asStateFlow()
@@ -54,6 +56,22 @@ class MypageViewModel @Inject constructor(
             }.onSuccess {
                 it.collect {
                     Timber.e("logout : $it")
+                }
+                clearDataStore()
+            }.onFailure {
+                Timber.e(it)
+                throw it
+            }
+        }
+    }
+
+    fun serviceUnRegister() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                serviceUnRegisterUseCase.invoke()
+            }.onSuccess {
+                it.collect {
+                    Timber.e("unregister : $it")
                 }
                 clearDataStore()
             }.onFailure {

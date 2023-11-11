@@ -24,6 +24,8 @@ import com.hara.kaera.domain.usecase.PutReviewUseCase
 import com.hara.kaera.domain.usecase.PutReviewUseCaseImpl
 import com.hara.kaera.domain.usecase.WriteWorryUseCase
 import com.hara.kaera.domain.usecase.WriteWorryUseCaseImpl
+import com.hara.kaera.domain.usecase.UnRegisterUseCase
+import com.hara.kaera.domain.usecase.UnRegisterUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -86,4 +88,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToLogout(logoutUseCase: LogoutUseCaseImpl): LogoutUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToUnRegister(unRegisterUseCase: UnRegisterUseCaseImpl): UnRegisterUseCase
 }

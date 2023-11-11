@@ -96,16 +96,24 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             clService.setOnClickListener {
                 startActivity(
                     Intent(
-                        this@MypageActivity, WebViewActivity::class.java).apply {
-                        putExtra("url","https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4")
+                        this@MypageActivity, WebViewActivity::class.java
+                    ).apply {
+                        putExtra(
+                            "url",
+                            "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4"
+                        )
                     }
                 )
             }
             clPrivacy.setOnClickListener {
                 startActivity(
                     Intent(
-                        this@MypageActivity, WebViewActivity::class.java).apply {
-                        putExtra("url","https://chartreuse-kookaburra-a53.notion.site/57a310e48bf3411aae82f123255d7926?pvs=4")
+                        this@MypageActivity, WebViewActivity::class.java
+                    ).apply {
+                        putExtra(
+                            "url",
+                            "https://chartreuse-kookaburra-a53.notion.site/57a310e48bf3411aae82f123255d7926?pvs=4"
+                        )
                     }
                 )
             }
@@ -116,7 +124,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                         kotlin.runCatching {
                             myPageViewModel.serviceLogout()
                         }.onSuccess {
-                            // 데이터스토어 비우기
+                            // 알림 비활성화
                             Timber.e("logout")
                             kaKaoLoginClient.logout()
                             startActivity(Intent(baseContext, LoginActivity::class.java))
@@ -130,14 +138,14 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             }
 
             tvSignout.setOnClickListener {
-                DialogMypage("signout") {
+                DialogMypage("unregister") {
                     lifecycleScope.launch {
                         kotlin.runCatching {
-                            kaKaoLoginClient.unLink()
+                            myPageViewModel.serviceUnRegister()
                         }.onSuccess {
-                            // 데이터스토어 비우기
+                            // 알림 비활성화
                             Timber.e("unlink")
-                            myPageViewModel.clearDataStore()
+                            kaKaoLoginClient.unLink()
                             startActivity(Intent(baseContext, OnboardingActivity::class.java))
                             finishAffinity()
                         }.onFailure {
