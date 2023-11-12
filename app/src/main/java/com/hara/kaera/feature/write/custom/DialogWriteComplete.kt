@@ -3,7 +3,7 @@ package com.hara.kaera.feature.write.custom
 import android.os.Bundle
 import android.view.View
 import com.hara.kaera.R
-import com.hara.kaera.databinding.DialogFragmentWirteCompleteBinding
+import com.hara.kaera.databinding.DialogFragmentDeadlineBinding
 import com.hara.kaera.feature.base.BindingDialogFragment
 import com.hara.kaera.feature.util.onSingleClick
 import dagger.hilt.android.AndroidEntryPoint
@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DialogWriteComplete(
     private val onBtnCompleteListener: (day: Int) -> Unit
-) : BindingDialogFragment<DialogFragmentWirteCompleteBinding>(R.layout.dialog_fragment_wirte_complete,16)
+) : BindingDialogFragment<DialogFragmentDeadlineBinding>(R.layout.dialog_fragment_deadline,16)
 {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
