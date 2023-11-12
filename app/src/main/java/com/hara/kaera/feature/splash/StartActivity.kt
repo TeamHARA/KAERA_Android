@@ -1,6 +1,9 @@
 package com.hara.kaera.feature.splash
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,9 +16,11 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivitySplashBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.login.LoginActivity
+import com.hara.kaera.feature.dialog.DialogRestartFragment
+import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
+import com.hara.kaera.feature.util.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -31,9 +36,22 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({
-            splashAnimated()
-        },800) // 애니메이션 시작전 800ms 대기
+        checkNetwork()
+    }
+
+    private fun checkNetwork() {
+        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connMgr.activeNetworkInfo
+        if (networkInfo?.isConnected != true) {
+            DialogRestartFragment(
+                clickListener = { checkNetwork() }
+            ).show(supportFragmentManager, "restart")
+        } else {
+            startViewModel.getSavedRefreshToken()
+            Handler(Looper.getMainLooper()).postDelayed({
+                splashAnimated()
+            }, 800) // 애니메이션 시작전 800ms 대기
+        }
     }
 
     private fun splashAnimated() {
@@ -68,7 +86,7 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
             is TokenState.Empty -> {
                 // 데이터스토어에 토큰이 비어있는 상태
                 // 카카오로그인을 위해서 로그인 액티비티로 이동
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, OnboardingActivity::class.java))
                 finishAffinity()
             }
 
@@ -88,6 +106,10 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
                 // 이전에 카카오로그인은 했다는 의미이므로
                 // 카카오 로그인을 다시 거쳐서 JWT (리프레시/액세스) 모두 갱신해야 한다
                 kakaoLogin()
+            }
+
+            is TokenState.Error -> {
+                binding.root.makeToast("잠시후 다시 시도해주세요.")
             }
         }
     }

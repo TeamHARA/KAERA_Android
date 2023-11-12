@@ -32,6 +32,7 @@ object Dependency {
     object ThirdParty {
         const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
         const val DOT_INDICATOR = "com.tbuonomo:dotsindicator:${Versions.DOTSINDICATOR}"
+        const val LOTTIE = "com.airbnb.android:lottie:${Versions.LOTTIE}"
     }
 
     object Test {
@@ -39,7 +40,8 @@ object Dependency {
     }
 
     object AndroidTest {
-        const val JUNIT = "androidx.test.ext:${Versions.ANDROIDX_JUNIT}"
+        const val JUNIT = "androidx.test.ext:junit:${Versions.ANDROIDX_JUNIT}"
+        const val KTX_JUNIT = "androidx.test.ext:junit-ktx:${Versions.ANDROIDX_JUNIT}"
         const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
     }
 

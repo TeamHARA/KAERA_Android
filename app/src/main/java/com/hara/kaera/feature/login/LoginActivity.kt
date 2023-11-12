@@ -2,6 +2,7 @@ package com.hara.kaera.feature.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +14,7 @@ import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.makeSnackBar
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
@@ -30,15 +32,29 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     @Inject
     lateinit var kaKaoLoginClient: KaKaoLoginClient
 
+    private var time: Long = 0
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (System.currentTimeMillis() - time >= 2000) {
+                time = System.currentTimeMillis()
+                binding.root.makeSnackBar("'뒤로'버튼을 한번더 누르면 종료됩니다.")
+            } else if (System.currentTimeMillis() - time < 2000) {
+                finish()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.onBackPressedDispatcher.addCallback(this, callback)
         collectFlow()
         binding.btnKakaoLogin.onSingleClick(300) { // 최초로그인 로직을 탐
             kakaoLogin()
         }
 
     }
-    private fun collectFlow(){
+
+    private fun collectFlow() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -100,6 +116,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java))
             }
+
             else -> Unit
         }
     }

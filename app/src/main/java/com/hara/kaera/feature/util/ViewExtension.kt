@@ -26,7 +26,7 @@ fun View.makeToast(message: String) {
     ).show()
 }
 
-fun View.onSingleClick(clickInterval: Int = 1000, click: (View) -> Unit) {
+fun View.onSingleClick(clickInterval: Int = 300, click: (View) -> Unit) {
     setOnClickListener(SingleClickListener(clickInterval) { click(it) })
 }
 

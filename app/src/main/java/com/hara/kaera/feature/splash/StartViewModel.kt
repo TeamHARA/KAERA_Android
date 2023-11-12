@@ -33,14 +33,10 @@ class StartViewModel @Inject constructor(
 
     private val _localAccessToken = MutableStateFlow("")
 
-    init {
-        getSavedRefreshToken()
-    }
-
     /*
     데이터스토어에 저장되어있는 리프레시 토큰을 가져오는 함수
      */
-    private fun getSavedRefreshToken() {
+    fun getSavedRefreshToken() {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.getSavedRefreshToken().first() // 함수 호출당 딱 한번만 수집
@@ -81,7 +77,7 @@ class StartViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            //TODO UI 에러처리
+                            _tokenState.value = TokenState.Error
                         }
 
                     }
@@ -145,7 +141,8 @@ class StartViewModel @Inject constructor(
                                 else -> {
                                     // 토큰관련 아님
                                     Timber.e("not token error")
-                                    errorToMessage(apiResult.error)
+                                    _tokenState.value = TokenState.Error
+                                    //errorToMessage(apiResult.error)
                                 }
                             }
                         }
@@ -172,18 +169,6 @@ class StartViewModel @Inject constructor(
             }.onSuccess {
                 Timber.e("datastore update success!!")
                 _tokenState.value = TokenState.Valid
-            }.onFailure {
-                throw it
-            }
-        }
-    }
-
-    fun kakaoLogOut() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                loginRepository.clearDataStore()
-            }.onSuccess {
-                Timber.e("clear")
             }.onFailure {
                 throw it
             }

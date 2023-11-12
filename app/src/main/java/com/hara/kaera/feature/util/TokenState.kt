@@ -6,4 +6,5 @@ sealed class TokenState<out T> {
     object Exist : TokenState<Nothing>()
     object Valid : TokenState<Nothing>()
     object Expired : TokenState<Nothing>()
+    object Error : TokenState<Nothing>()
 }

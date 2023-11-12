@@ -6,6 +6,7 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,6 @@ class WriteViewModel @Inject constructor(
     private val detailUseCase: GetTemplateDetailUseCase
 ) : ViewModel() {
 
-
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
 
@@ -26,6 +26,7 @@ class WriteViewModel @Inject constructor(
 
     private val _curTemplateIdFlow = MutableStateFlow(CurId.INIT.value)
     val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
+
     //repeatOnLifeCycle에 따라서 백그라운드로 나갔다 다시 create되면
     //onStarted에서 tmplateIdFlow를 다시 collect함 그에 따라서
     // getTemplateDetailData함수를 재호출함
@@ -36,7 +37,7 @@ class WriteViewModel @Inject constructor(
         _templateIdFlow.value = choiceId
     }
 
-    fun setCurTemplateId(choiceId: Int){
+    fun setCurTemplateId(choiceId: Int) {
         _curTemplateIdFlow.value = choiceId
     }
 
@@ -54,7 +55,7 @@ class WriteViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _templateDetailFlow.value = UiState.Error(collect.error.toString())
+                            _templateDetailFlow.value = UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }
@@ -64,7 +65,7 @@ class WriteViewModel @Inject constructor(
         }
     }
 
-    enum class CurId(val value : Int) {
+    enum class CurId(val value: Int) {
         INIT(-1)
     }
 

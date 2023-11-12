@@ -77,6 +77,7 @@ dependencies {
 
     testImplementation(Dependency.Test.JUNIT)
     androidTestImplementation(Dependency.AndroidTest.JUNIT)
+    androidTestImplementation(Dependency.AndroidTest.KTX_JUNIT)
     androidTestImplementation(Dependency.AndroidTest.ESPRESSO)
 
     implementation(platform(Dependency.Firebase.FIREBASE_BOM))
@@ -86,8 +87,10 @@ dependencies {
 
     //Timber
     implementation(Dependency.ThirdParty.TIMBER)
-    // home viewpager2 dot indicator
+    //viewpager2 dot indicator
     implementation(Dependency.ThirdParty.DOT_INDICATOR)
+    //Lottie
+    implementation(Dependency.ThirdParty.LOTTIE)
 
     implementation(Dependency.Kotlin.COIL)
     implementation(Dependency.Kotlin.KOTLIN_SERIALIZATION)

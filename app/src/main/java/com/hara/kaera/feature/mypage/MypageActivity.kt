@@ -3,6 +3,7 @@ package com.hara.kaera.feature.mypage
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -13,8 +14,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.custom.CustomWebViewClient
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
+import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.PermissionRequestDelegator
 import com.hara.kaera.feature.util.makeToast
@@ -27,7 +30,8 @@ import javax.inject.Inject
 class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_mypage) {
 
     private val myPageViewModel by viewModels<MypageViewModel>()
-    private lateinit var permissionRequestDelegator :  PermissionRequestDelegator
+    private lateinit var permissionRequestDelegator: PermissionRequestDelegator
+
     @Inject
     lateinit var kaKaoLoginClient: KaKaoLoginClient
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +61,15 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 //            revokeSelfPermissionOnKill(Manifest.permission.POST_NOTIFICATIONS)
 //        }
     }
-    private fun grantPermission(){
+
+    private fun grantPermission() {
 
         binding.tbAlertToggle.setOnClickListener {
-            if(ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(
+                    baseContext,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 // 여기서 서버에 fcm 토큰을 삭제하고 체크하고 등록하는 로직이 필요함!
                 // 안드로이드에서 즉시 프로그래밍적으로 알림권한을 삭제하거나 비활성화 시키는 방법은 없음(앱의 재시작이 필요)
                 // 따라서 알림권한이 잇는가 -> 그다음 fcm 토큰이서버에 등록되어 있는가? 둘다 true이면 토클이 isChecked true
@@ -72,7 +81,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 //                        ContextCompat.checkSelfPermission(baseContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
 //                    )
 //                }
-            }else{
+            } else {
                 Timber.e("false_check")
                 permissionRequestDelegator.checkPermissions()
             }
@@ -81,20 +90,23 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
     private fun setClickListener() {
         with(binding) {
+            appbarDetail.setNavigationOnClickListener {
+                finish()
+            }
             clService.setOnClickListener {
-                // TODO: notion 링크 변경
                 startActivity(
-                    Intent(this@MypageActivity, WebViewActivity::class.java).apply {
-                        putExtra("url", "https://www.naver.com/")
-                    },
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4")
+                    ), null
                 )
             }
             clPrivacy.setOnClickListener {
-                // TODO: notion 링크 변경
                 startActivity(
-                    Intent(this@MypageActivity, WebViewActivity::class.java).apply {
-                        putExtra("url", "https://github.com/TeamHARA/KAERA_Android")
-                    },
+                    Intent(
+                        this@MypageActivity, WebViewActivity::class.java).apply {
+                        putExtra("url","https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1?pvs=4")
+                    }
                 )
             }
             tvLogout.setOnClickListener {
@@ -124,7 +136,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             // 데이터스토어 비우기
                             Timber.e("unlink")
                             myPageViewModel.clearDataStore()
-                            startActivity(Intent(baseContext, LoginActivity::class.java))
+                            startActivity(Intent(baseContext, OnboardingActivity::class.java))
                             finishAffinity()
                         }.onFailure {
                             binding.root.makeToast("잠시후 다시 시도해주세요.")
