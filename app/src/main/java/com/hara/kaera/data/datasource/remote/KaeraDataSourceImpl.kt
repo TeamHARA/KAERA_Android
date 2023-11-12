@@ -1,6 +1,12 @@
 package com.hara.kaera.data.datasource.remote
 
+import com.hara.kaera.data.dto.DecideFinalReqDTO
+import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.DeleteWorryDTO
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
+import com.hara.kaera.data.dto.EditWorryReqDTO
+import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
@@ -8,6 +14,8 @@ import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
+import com.hara.kaera.data.dto.WriteWorryReqDTO
+import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.data.util.safeCallApi
 import com.hara.kaera.di.ServiceModule
 import kotlinx.coroutines.flow.Flow
@@ -64,5 +72,30 @@ class KaeraDataSourceImpl @Inject constructor(
         return flow {
             emit(kaeraApi.updateReview(reviewReqDTO))
         }.safeCallApi()
+    }
+
+    override fun editWorry(editWorryReqDTO: EditWorryReqDTO): Flow<EditWorryResDTO> {
+        return flow {
+            emit(kaeraApi.editWorry(editWorryReqDTO))
+        }.safeCallApi()
+    }
+
+    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<EditDeadlineResDTO> {
+        return flow {
+            emit(kaeraApi.editDeadline(editDeadlineReqDTO))
+        }.safeCallApi()
+    }
+
+
+    override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<WriteWorryResDTO> {
+        return flow {
+            emit(kaeraApi.writeWorry(writeWorryReqDTO))
+        }
+    }
+
+    override fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<DecideFinalResDTO> {
+        return flow {
+            emit(kaeraApi.decideFinal(decideFinalReqDTO))
+        }
     }
 }

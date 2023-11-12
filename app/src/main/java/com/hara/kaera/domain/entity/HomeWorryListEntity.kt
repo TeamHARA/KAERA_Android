@@ -11,5 +11,14 @@ data class HomeWorryListEntity(
         val worryId: Int,
         val templateId: Int,
         val title: String
-    )
+    ) {
+        override fun hashCode(): Int {
+            return worryId
+        }
+
+        override fun equals(other: Any?): Boolean {
+            val casted = other as HomeWorry
+            return this.worryId == casted.worryId
+        }
+    }
 }

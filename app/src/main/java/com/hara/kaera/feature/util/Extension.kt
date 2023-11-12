@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.hara.kaera.core.ErrorType
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
 // activity에서 fragment 바꾸기
 inline fun <reified T : Fragment> AppCompatActivity.navigateTo(
@@ -31,6 +34,20 @@ fun errorToMessage(error: ErrorType) = when (error) {
     is ErrorType.Socket -> "인터넷 연결이 불안정합니다."
     is ErrorType.IoException -> "알수없는 오류입니다."
     is ErrorType.Unknown -> "알수없는 오류입니다."
+}
+
+// 0) 오늘 날짜(고민 시작한 날짜, from day)
+// 1) fromDay + days = toDay(고민 끝낼 날짜)
+// 를 반환한다
+fun getDeadline(days: Int): List<String> {
+    val calendar = Calendar.getInstance()
+    val dateFormat = SimpleDateFormat("yyyy.MM.dd")
+    val fromDate = Date(System.currentTimeMillis())
+    val fromDf = dateFormat.format(fromDate) // [fromDateFormat] 고민기간 中 고민 생성 날짜, 오늘 날짜
+    calendar.time = fromDate
+    calendar.add(Calendar.DATE, days)
+    val toDf = dateFormat.format(calendar.time) // [toDateFormat] 고민기간 中 고민 끝낼 날짜
+    return listOf(fromDf, toDf)
 }
 
 /*

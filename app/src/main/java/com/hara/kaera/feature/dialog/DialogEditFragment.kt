@@ -6,26 +6,33 @@ import androidx.fragment.app.FragmentManager
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogFragmentEditBinding
 import com.hara.kaera.feature.base.BindingDialogFragment
+import timber.log.Timber
 
-class DialogEditFragment :
-    BindingDialogFragment<DialogFragmentEditBinding>(R.layout.dialog_fragment_edit, 26) {
+class DialogEditFragment(
+    private val onClickEdit: () -> Unit,
+    private val onClickEditDeadline: () -> Unit,
+    private val onClickDelete: () -> Unit
+) : BindingDialogFragment<DialogFragmentEditBinding>(R.layout.dialog_fragment_edit, 26) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickListener()
     }
 
-    // TODO: touch target 더 크게 해야 하나?
+    // TODO: touch target 더 크게 해야 함!!!!!!!!!!!!!!!
     private fun setClickListener() {
         with(binding) {
             tvEdit.setOnClickListener { // 수정하기
-
+                onClickEdit()
+                dismiss()
             }
             tvDeadlineEdit.setOnClickListener { // 데드라인 수정하기
-
+                onClickEditDeadline()
+                dismiss()
             }
             tvDelete.setOnClickListener { // 삭제하기
-
+                dismiss()
+                onClickDelete.invoke()
             }
             tvCancel.setOnClickListener { // 취소
                 val fragmentManager = activity?.getSupportFragmentManager()

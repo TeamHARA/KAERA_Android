@@ -1,6 +1,12 @@
 package com.hara.kaera.data.datasource.remote
 
+import com.hara.kaera.data.dto.DecideFinalReqDTO
+import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.DeleteWorryDTO
+import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
+import com.hara.kaera.data.dto.EditWorryReqDTO
+import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
@@ -10,9 +16,12 @@ import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
+import com.hara.kaera.data.dto.WriteWorryReqDTO
+import com.hara.kaera.data.dto.WriteWorryResDTO
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -57,8 +66,28 @@ interface KaeraApi {
         @Path("worryId") worryId: Int,
     ): DeleteWorryDTO
 
-    @PUT("review")
+    @PATCH("review")
     suspend fun updateReview(
         @Body reviewReqDto: ReviewReqDTO,
     ): ReviewResDTO
+
+    @PATCH("worry")
+    suspend fun editWorry(
+        @Body editWorryReqDTO: EditWorryReqDTO
+    ): EditWorryResDTO
+
+    @PATCH("worry/deadline")
+    suspend fun editDeadline(
+        @Body editDeadlineReqDTO: EditDeadlineReqDTO
+    ): EditDeadlineResDTO
+
+    @POST("worry")
+    suspend fun writeWorry(
+        @Body writeWorryReqDTO: WriteWorryReqDTO
+    ): WriteWorryResDTO
+
+    @PATCH("worry/finalAnswer")
+    suspend fun decideFinal(
+        @Body decideFinalReqDTO: DecideFinalReqDTO
+    ): DecideFinalResDTO
 }

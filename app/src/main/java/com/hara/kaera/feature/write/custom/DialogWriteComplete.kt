@@ -10,13 +10,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DialogWriteComplete(
-    private val completeClickListener: () -> Unit,
-) :
-    BindingDialogFragment<DialogFragmentDeadlineBinding>(
-        R.layout.dialog_fragment_deadline,
-        16
-    ) {
-
+    private val onBtnCompleteListener: (day: Int) -> Unit
+) : BindingDialogFragment<DialogFragmentDeadlineBinding>(R.layout.dialog_fragment_deadline,16)
+{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListener()
@@ -25,10 +21,12 @@ class DialogWriteComplete(
 
     private fun setOnClickListener() {
         binding.btnComplete.onSingleClick(1000) {
-            completeClickListener
+            onBtnCompleteListener(binding.pickerDeadlines.value)
+            dismiss()
         }
         binding.btnNoDeadline.onSingleClick(1000) {
-            completeClickListener
+            onBtnCompleteListener(-1)
+            dismiss()
         }
         //TODO POST 서버통신
     }
