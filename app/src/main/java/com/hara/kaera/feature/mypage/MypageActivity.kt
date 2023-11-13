@@ -3,8 +3,6 @@ package com.hara.kaera.feature.mypage
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -14,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.custom.CustomWebViewClient
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
@@ -127,6 +124,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             // 알림 비활성화
                             Timber.e("logout")
                             kaKaoLoginClient.logout()
+                            binding.root.makeToast("로그아웃이 완료되었습니다.")
                             startActivity(Intent(baseContext, LoginActivity::class.java))
                             finishAffinity()
                         }.onFailure {
@@ -146,6 +144,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             // 알림 비활성화
                             Timber.e("unlink")
                             kaKaoLoginClient.unLink()
+                            binding.root.makeToast("회원탈퇴가 완료되었습니다.")
                             startActivity(Intent(baseContext, OnboardingActivity::class.java))
                             finishAffinity()
                         }.onFailure {
@@ -153,7 +152,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             throw it
                         }
                     }
-                }.show(supportFragmentManager, "signout")
+                }.show(supportFragmentManager, "unregister")
             }
         }
     }

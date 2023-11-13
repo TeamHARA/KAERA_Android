@@ -8,8 +8,6 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
-import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
-import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
@@ -18,13 +16,14 @@ import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
+import com.hara.kaera.data.dto.login.KaKaoLoginResDTO
 import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
+import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 

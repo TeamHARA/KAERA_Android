@@ -47,8 +47,8 @@ object ServiceModule {
             with(chain) {
                 val request = request().newBuilder()
                     .addHeader("Accept", Constant.APPLICATION_JSON)
-                    //.addHeader("Authorization", authToken ?: "nothing")
-                    .addHeader("Authorization", BuildConfig.BEARER_TOKEN)
+                    .addHeader("Authorization", authToken)
+                    //.addHeader("Authorization", BuildConfig.BEARER_TOKEN)
                     .build()
                 proceed(request)
             }
