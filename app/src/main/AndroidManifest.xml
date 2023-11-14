@@ -24,7 +24,7 @@
         tools:targetApi="33">
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/icn_kaera_logo" />
+            android:resource="@drawable/typography_kaera" />
         <service
             android:name=".application.FirebaseMessagingService"
             android:enabled="true"
