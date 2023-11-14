@@ -13,8 +13,8 @@ import com.hara.kaera.feature.custom.CustomWebViewClient
 class WebViewActivity : BindingActivity<ActivityWebviewBinding>(R.layout.activity_webview) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val url = intent.getStringExtra("url")
 
+        val url = intent.getStringExtra(MypageActivity.WebViewConstant.urlIntent)
 
         with(binding.webview) {
             webViewClient = CustomWebViewClient(this.context)

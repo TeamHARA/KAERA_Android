@@ -96,8 +96,8 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                         this@MypageActivity, WebViewActivity::class.java
                     ).apply {
                         putExtra(
-                            "url",
-                            "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4"
+                            WebViewConstant.urlIntent,
+                            WebViewConstant.useOfTerms
                         )
                     }
                 )
@@ -108,8 +108,8 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                         this@MypageActivity, WebViewActivity::class.java
                     ).apply {
                         putExtra(
-                            "url",
-                            "https://chartreuse-kookaburra-a53.notion.site/57a310e48bf3411aae82f123255d7926?pvs=4"
+                            WebViewConstant.urlIntent,
+                            WebViewConstant.privacyTerms
                         )
                     }
                 )
@@ -156,4 +156,13 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             }
         }
     }
+
+    object WebViewConstant {
+        const val urlIntent = "url"
+        const val useOfTerms =
+            "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5"
+        const val privacyTerms =
+            "https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1"
+    }
+
 }
