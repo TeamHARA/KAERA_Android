@@ -146,15 +146,19 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ProgressBar
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loading_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
 
             <ScrollView
                 android:id="@+id/scroll_view"
@@ -205,23 +209,22 @@
                             android:background="@drawable/shape_rect_gray3_0"
                             app:layout_constraintTop_toBottomOf="@+id/et_title" />
 
-                    <TextView
-                        android:id="@+id/tv_title_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:text="@{@string/write_title_count(0)}"
-                        android:textAppearance="@style/h_body2_r16"
-                        android:textColor="@color/gray_5"
-                        app:layout_constraintBottom_toBottomOf="@+id/et_title"
-                        app:layout_constraintEnd_toEndOf="@+id/et_title"
-                        app:layout_constraintTop_toTopOf="@+id/et_title" />
+                        <TextView
+                            android:id="@+id/tv_title_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:text="@{@string/write_title_count(0)}"
+                            android:textAppearance="@style/h_body2_r16"
+                            android:textColor="@color/gray_5"
+                            app:layout_constraintBottom_toBottomOf="@+id/et_title"
+                            app:layout_constraintEnd_toEndOf="@+id/et_title"
+                            app:layout_constraintTop_toTopOf="@+id/et_title" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <include
                         android:id="@+id/cl_template"
-                        bind:templatedata="@{templatedata}"
                         layout="@layout/layout_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -229,12 +232,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cl_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/cl_title"
+                        bind:templatedata="@{templatedata}" />
 
                     <!-- 2) free note 템플릿 -->
                     <include
                         android:id="@+id/cl_freenote"
-                        bind:templatedata="@{templatedata}"
                         layout="@layout/layout_free_note_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -242,7 +245,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cl_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/cl_title"
+                        bind:templatedata="@{templatedata}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
