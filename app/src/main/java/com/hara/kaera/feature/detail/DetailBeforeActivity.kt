@@ -22,8 +22,10 @@ import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
 import com.hara.kaera.feature.dialog.DialogEditFragment
 import com.hara.kaera.feature.dialog.DialogMineFragment
 import com.hara.kaera.feature.home.HomeViewModel
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
 import com.hara.kaera.feature.write.custom.DialogWriteComplete
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,8 +132,9 @@ class DetailBeforeActivity :
     private fun render(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Success<WorryDetailEntity> -> {
+                binding.loadingBar.visible(false)
                 renderData(uiState.data)
             }
 
@@ -146,9 +149,10 @@ class DetailBeforeActivity :
     private fun renderDelete(uiState: UiState<DeleteWorryEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Success -> {
                 Timber.e("[ABC] 삭제 되었습니다!")
+                binding.loadingBar.visible(false)
                 finish()
             }
 
@@ -163,7 +167,7 @@ class DetailBeforeActivity :
     private fun renderData(worryDetail: WorryDetailEntity) {
         binding.worryDetail = worryDetail
 
-        if (worryDetail.templateId == 1) { // free flow
+        if (worryDetail.templateId == Constant.freeNoteId) { // free flow
             binding.cvContent.visibility = View.GONE
             binding.frCvContent.visibility = View.VISIBLE
         } else {
