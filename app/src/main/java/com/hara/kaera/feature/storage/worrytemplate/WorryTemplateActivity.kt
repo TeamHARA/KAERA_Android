@@ -1,5 +1,6 @@
 package com.hara.kaera.feature.storage.worrytemplate
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -10,6 +11,7 @@ import com.hara.kaera.databinding.ActivityWorryTemplateBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -34,7 +36,13 @@ class WorryTemplateActivity :
     }
 
     private fun initAdapter() {
-        worryTemplateAdapter = WorryTemplateAdapter()
+        worryTemplateAdapter = WorryTemplateAdapter { templateId ->
+            startActivity(
+                Intent(this, WriteActivity::class.java).apply {
+                    putExtra("templateId", templateId)
+                },
+            )
+        }
         binding.rcvWorryTemplate.adapter = worryTemplateAdapter
     }
 
