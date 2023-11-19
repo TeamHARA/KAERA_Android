@@ -44,9 +44,9 @@ class KaeraDataSourceImpl @Inject constructor(
         }.safeCallApi()
     }
 
-    override fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListDTO> {
+    override fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<HomeWorryListDTO> {
         return flow {
-            emit(kaeraApi.getHomeWorryList(isSolved))
+            emit(kaeraApi.getHomeWorryList(isSolved, page, limit))
         }.safeCallApi()
     }
 

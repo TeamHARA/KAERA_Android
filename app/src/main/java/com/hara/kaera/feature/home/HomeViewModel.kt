@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
         flow.value = UiState.Loading
         viewModelScope.launch {
             kotlin.runCatching {
-                homeUseCase(if (!isSolved) 0 else 1)
+                homeUseCase(if (!isSolved) 0 else 1, 1, 12)
             }.onSuccess {
                 it.collect { collect ->
                     Timber.e("[ABC] HomeViewModel/getHomeWorryList - 통신1")

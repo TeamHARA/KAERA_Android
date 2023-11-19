@@ -65,9 +65,9 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getHomeWorryList(isSolved: Int): Flow<ApiResult<HomeWorryListEntity>> {
+    override fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<ApiResult<HomeWorryListEntity>> {
         return flow {
-            kaeraDataSource.getHomeWorryList(isSolved).catch {
+            kaeraDataSource.getHomeWorryList(isSolved, page, limit).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
                 emit(ApiResult.Success(mapperToHomeWorryList(it)))

@@ -33,7 +33,7 @@ interface KaeraDataSource {
 
     fun getTemplateDetail(templateId: Int): Flow<TemplateDetailDTO>
 
-    fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListDTO>
+    fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<HomeWorryListDTO>
 
     fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateDTO>
 
