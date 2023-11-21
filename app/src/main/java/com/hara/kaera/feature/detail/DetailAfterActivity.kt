@@ -2,6 +2,7 @@ package com.hara.kaera.feature.detail
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,6 +17,7 @@ import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
 import com.hara.kaera.feature.detail.custom.DialogUpdateWarning
 import com.hara.kaera.feature.dialog.DialogWriteSuccess
+import com.hara.kaera.feature.util.SetKeyboard
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -38,6 +40,13 @@ class DetailAfterActivity :
 
     override fun onBackPressed() {
         onClickBackPressed()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean { // 현재 포커싱 이외의 영역 클릭 시 키보드 제거
+        if (currentFocus != null) {
+            SetKeyboard.hideSoftKeyboard(this, currentFocus!!.windowToken)
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     private fun getWorryById() {
@@ -79,6 +88,11 @@ class DetailAfterActivity :
             }
             tvSaveBtn.onSingleClick {
                 viewModel.updateReview(binding.etRecordContent.text.toString())
+                SetKeyboard.hideSoftKeyboard(applicationContext, tvSaveBtn.windowToken)
+            }
+            clRecord.onSingleClick {
+                etRecordContent.requestFocus()
+                SetKeyboard.showSoftKeyboard(applicationContext, etRecordContent)
             }
         }
     }
@@ -112,9 +126,7 @@ class DetailAfterActivity :
     private fun renderUpdateReview(uiState: UiState<ReviewResEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> {
-                binding.root.makeToast("로딩중")
-            }
+            is UiState.Loading -> Unit
 
             is UiState.Success -> {
                 // update review date
