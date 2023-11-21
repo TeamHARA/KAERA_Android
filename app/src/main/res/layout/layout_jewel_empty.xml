@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/storage_empty"
-        android:textAppearance="@style/h_head2_r20"
+        android:textAppearance="@style/h_head2_b18"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,13 +32,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:paddingBottom="100dp"
+        android:lineSpacingExtra="7sp"
         android:text="@string/storage_empty_induction"
         android:textAlignment="center"
         android:textAppearance="@style/h_body4_r14"
-        android:textColor="@color/gray_5"
+        android:textColor="@color/gray_4"
         app:layout_constraintEnd_toEndOf="@+id/tv_choice_empty"
         app:layout_constraintStart_toStartOf="@+id/tv_choice_empty"
         app:layout_constraintTop_toBottomOf="@+id/tv_choice_empty" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_go_mining"
+        android:background="@drawable/shape_rect_gray1_stroke_gray4_30"
+        android:textColor="@color/gray_5"
+        android:text="@string/storage_empty_mining_button"
+        android:textAppearance="@style/h_body4_r14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:layout_marginTop="32dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_choice_empty"
+        app:layout_constraintStart_toStartOf="@+id/tv_choice_empty"
+        app:layout_constraintTop_toBottomOf="@+id/tv_choice_induction"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

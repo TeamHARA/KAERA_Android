@@ -7,11 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentStorageBinding
 import com.hara.kaera.domain.entity.WorryByTemplateEntity
 import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.detail.DetailAfterActivity
+import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.mypage.MypageActivity
 import com.hara.kaera.feature.storage.adapter.StorageGridAdapter
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
@@ -75,7 +77,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     private fun initLayout() {
         storageAdapter = StorageGridAdapter { worryId ->
-            startActivity(
+            startActivity( // TODO: 삭제 완료 후 다시 보관함으로 돌아갔을 때 삭제한 내역이 반영 안 되는 이슈
                 Intent(context, DetailAfterActivity::class.java).apply {
                     putExtra("worryId", worryId)
                 },
@@ -106,6 +108,15 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
             btnMypage.onSingleClick {
                 startActivity(Intent(context, MypageActivity::class.java))
+            }
+
+            clEmpty.btnGoMining.onSingleClick {
+                val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+                bottomNavigationView.selectedItemId = R.id.nav_home
+
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.cl_fragment_container, HomeFragment())
+                    .commit()
             }
         }
     }
