@@ -110,20 +110,6 @@
                             tools:text="졸업 후 나는" />
 
                         <TextView
-                            android:id="@+id/tv_worry_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:layout_marginEnd="2dp"
-                            android:text="@string/detail_worry_date"
-                            android:textAppearance="@style/h_sub1_r12"
-                            android:textColor="@color/gray_4"
-                            app:layout_constraintEnd_toStartOf="@+id/tv_date"
-                            app:layout_constraintHorizontal_chainStyle="packed"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-
-                        <TextView
                             android:id="@+id/tv_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -132,7 +118,7 @@
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_4"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tv_worry_date"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_title"
                             tools:text="19.08.29 ~ 19.09.01" />
 
@@ -291,7 +277,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_save_layout"
             android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_height="48dp"
             android:background="@color/gray_2"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -301,9 +287,10 @@
             <TextView
                 android:id="@+id/tv_save_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_height="0dp"
+                android:paddingHorizontal="20dp"
                 android:text="저장"
+                android:gravity="center"
                 android:textAppearance="@style/h_body2_r16"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
