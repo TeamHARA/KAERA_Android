@@ -43,8 +43,16 @@ class DetailAfterActivity :
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean { // 현재 포커싱 이외의 영역 클릭 시 키보드 제거
-        if (currentFocus != null) {
-            SetKeyboard.hideSoftKeyboard(this, currentFocus!!.windowToken)
+        if (ev.action == MotionEvent.ACTION_UP) {
+            val view = currentFocus
+            if (view != null && view != binding.tvSaveBtn) { // 저장 버튼을 클릭한 경우는 제외
+                val rect = Rect()
+                view.getGlobalVisibleRect(rect)
+                if (!rect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    SetKeyboard.hideSoftKeyboard(this, view.windowToken)
+                    view.clearFocus()
+                }
+            }
         }
         return super.dispatchTouchEvent(ev)
     }
@@ -88,10 +96,11 @@ class DetailAfterActivity :
             }
             tvSaveBtn.onSingleClick {
                 viewModel.updateReview(binding.etRecordContent.text.toString())
+                etRecordContent.clearFocus()
                 SetKeyboard.hideSoftKeyboard(applicationContext, tvSaveBtn.windowToken)
             }
             clRecord.onSingleClick {
-                etRecordContent.requestFocus()
+                etRecordContent.setSelection(etRecordContent.text.length)
                 SetKeyboard.showSoftKeyboard(applicationContext, etRecordContent)
             }
         }
