@@ -5,8 +5,8 @@ import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.remote.KaeraApi
 import com.hara.kaera.data.datasource.remote.LoginApi
 import com.hara.kaera.data.datasource.remote.LoginDataSource
+import com.hara.kaera.data.util.BaseInterceptor
 import com.hara.kaera.data.util.ErrorHandlerImpl
-import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.util.ErrorHandler
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -14,11 +14,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -43,56 +38,8 @@ object ServiceModule {
     @KAREARetrofit
     fun providesKaeraHeaderInterceptor(
         loginRepository: LoginRepository,
-        loginDataStore: LoginDataSource
-    ): Interceptor {
-
-        val authToken: String = runBlocking {
-            loginRepository.getSavedAccessToken().first()
-        }
-
-        return Interceptor { chain ->
-            var request = chain.request().newBuilder()
-                .addHeader("Accept", Constant.APPLICATION_JSON)
-                //.addHeader("Authorization", authToken ?: "nothing")
-                .addHeader("Authorization", BuildConfig.BEARER_TOKEN)
-                .build()
-
-            if (chain.proceed(request).code == 401) {
-                val refreshToken: String = runBlocking {
-                    loginRepository.getSavedRefreshToken().first()
-                }
-                CoroutineScope(Dispatchers.IO).launch {
-                    kotlin.runCatching {
-                        loginDataStore.getAccessToken(
-                            JWTRefreshReqDTO(
-                                accessToken = authToken,
-                                refreshToken = refreshToken
-                            )
-                        )
-                    }
-                        .onSuccess {
-                            it.collect {
-                                loginRepository.updateAccessToken(accessToken = it.data.accessToken)
-                            }
-                        }.onFailure {
-                            throw it
-                        }
-                }
-
-                val newAuthToken: String = runBlocking {
-                    loginRepository.getSavedAccessToken().first()
-                }
-
-                val newRequest = chain.request().newBuilder()
-                    .addHeader("Accept", Constant.APPLICATION_JSON)
-                    .addHeader("Authorization", newAuthToken ?: "nothing")
-                    .build()
-                chain.proceed(newRequest)
-            }else{
-                chain.proceed(request)
-            }
-        }
-    }
+        loginDataSource: LoginDataSource
+    ): Interceptor = BaseInterceptor(loginRepository, loginDataSource)
 
 
     @Provides
