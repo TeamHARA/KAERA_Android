@@ -1,6 +1,5 @@
 package com.hara.kaera.data.util
 
-import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO
@@ -12,11 +11,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
-class BaseInterceptor (
+class BaseInterceptor(
     private val loginRepository: LoginRepository,
     private val loginDataStore: LoginDataSource
 ) : Interceptor {
