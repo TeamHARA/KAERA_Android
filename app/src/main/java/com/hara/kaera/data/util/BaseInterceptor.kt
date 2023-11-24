@@ -18,54 +18,61 @@ class BaseInterceptor(
     private val loginDataStore: LoginDataSource
 ) : Interceptor {
 
-    val authToken: String = runBlocking {
-        loginRepository.getSavedAccessToken().first()
-    }
+    @Volatile
+    private var authToken: String? = null // 변경된 토큰을 안전하게 관리하기 위해 nullable로 변경
 
     override fun intercept(chain: Interceptor.Chain): Response {
-
-        val request = chain.request().newBuilder()
-            .addHeader("Accept", Constant.APPLICATION_JSON)
-            .addHeader("Authorization", authToken ?: "nothing")
-            //.addHeader("Authorization", BuildConfig.BEARER_TOKEN)
-            .build()
-
-        var response = chain.proceed(request)
-
-        if (response.code == 401) {
-            val refreshToken: String = runBlocking {
-                loginRepository.getSavedRefreshToken().first()
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                kotlin.runCatching {
-                    loginDataStore.getAccessToken(
-                        JWTRefreshReqDTO(
-                            accessToken = authToken,
-                            refreshToken = refreshToken
-                        )
-                    )
-                }
-                    .onSuccess {
-                        it.collect {
-                            loginRepository.updateAccessToken(accessToken = it.data.accessToken)
-                        }
-                    }.onFailure {
-                        throw it
-                    }
-            }
-
-            val newAuthToken: String = runBlocking {
+        synchronized(this) {
+            val currentToken = authToken ?: runBlocking {
                 loginRepository.getSavedAccessToken().first()
             }
 
-            val newRequest = chain.request().newBuilder()
+            val request = chain.request().newBuilder()
                 .addHeader("Accept", Constant.APPLICATION_JSON)
-                .addHeader("Authorization", newAuthToken ?: "nothing")
+                .addHeader("Authorization", authToken ?: "null")
                 .build()
-            response = chain.proceed(newRequest)
+
+            var response = chain.proceed(request)
+            // 401 코드 반환의 경우에만 토큰 갱신 후 데이터스토어에 저장 로직 수행
+            if (response.code == 401) {
+                val refreshToken = runBlocking {
+                    loginRepository.getSavedRefreshToken().first()
+                }
+
+                val newToken = runBlocking {
+                    refreshTokenIfNeeded(currentToken, refreshToken)
+                }
+                newToken?.let {
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader("Accept", Constant.APPLICATION_JSON)
+                        .addHeader("Authorization", it)
+                        .build()
+
+                    response = chain.proceed(newRequest)
+                }
+            }
+
+            return response
         }
+    }
 
-        return response
+    private suspend fun refreshTokenIfNeeded(currentToken: String, refreshToken: String): String? {
 
+        return try {
+            val newToken = loginDataStore.getAccessToken(
+                JWTRefreshReqDTO(
+                    accessToken = currentToken,
+                    refreshToken = refreshToken
+                )
+            ).first().data.accessToken
+
+            newToken.let {
+                loginRepository.updateAccessToken(accessToken = it)
+                authToken = it // 토큰 갱신
+                it
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 }
