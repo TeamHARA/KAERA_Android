@@ -4,10 +4,7 @@ import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO
 import com.hara.kaera.domain.repository.LoginRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,18 +15,16 @@ class BaseInterceptor(
     private val loginDataStore: LoginDataSource
 ) : Interceptor {
 
-    @Volatile
-    private var authToken: String? = null // 변경된 토큰을 안전하게 관리하기 위해 nullable로 변경
 
     override fun intercept(chain: Interceptor.Chain): Response {
         synchronized(this) {
-            val currentToken = authToken ?: runBlocking {
+            val currentToken = runBlocking {
                 loginRepository.getSavedAccessToken().first()
             }
 
             val request = chain.request().newBuilder()
                 .addHeader("Accept", Constant.APPLICATION_JSON)
-                .addHeader("Authorization", authToken ?: "null")
+                .addHeader("Authorization", currentToken)
                 .build()
 
             var response = chain.proceed(request)
@@ -68,7 +63,6 @@ class BaseInterceptor(
 
             newToken.let {
                 loginRepository.updateAccessToken(accessToken = it)
-                authToken = it // 토큰 갱신
                 it
             }
         } catch (e: Exception) {
