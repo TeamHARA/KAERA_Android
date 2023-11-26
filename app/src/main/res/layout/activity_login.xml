@@ -71,7 +71,7 @@
             android:layout_height="48dp"
             android:layout_marginHorizontal="23dp"
             android:background="@drawable/shape_rect_kakaoyellow_12"
-            android:drawableStart="@drawable/icn_kakao"
+            android:drawableStart="@drawable/icn_black_kakao"
             android:paddingHorizontal="23dp"
             android:text="@string/login_kakao_button"
             android:textAlignment="center"

@@ -13,8 +13,8 @@ import com.hara.kaera.feature.custom.CustomWebViewClient
 class WebViewActivity : BindingActivity<ActivityWebviewBinding>(R.layout.activity_webview) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val url = intent.getStringExtra("url")
 
+        val url = intent.getStringExtra(MypageActivity.WebViewConstant.urlIntent)
 
         with(binding.webview) {
             webViewClient = CustomWebViewClient(this.context)
@@ -31,8 +31,9 @@ class WebViewActivity : BindingActivity<ActivityWebviewBinding>(R.layout.activit
                 // 쿠팡링크등 Dynamic link 허용을 위함
                 cacheMode = WebSettings.LOAD_DEFAULT
             }
+            this.loadUrl(url!!)
         }
-        binding.webview.loadUrl(url!!)
+        //binding.webview.loadUrl(url!!)
 
         binding.appbarDetail.setNavigationOnClickListener {
             finish()

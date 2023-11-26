@@ -3,8 +3,6 @@ package com.hara.kaera.feature.mypage
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -14,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.custom.CustomWebViewClient
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
@@ -96,28 +93,38 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             clService.setOnClickListener {
                 startActivity(
                     Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4")
-                    ), null
+                        this@MypageActivity, WebViewActivity::class.java
+                    ).apply {
+                        putExtra(
+                            WebViewConstant.urlIntent,
+                            WebViewConstant.useOfTerms
+                        )
+                    }
                 )
             }
             clPrivacy.setOnClickListener {
                 startActivity(
                     Intent(
-                        this@MypageActivity, WebViewActivity::class.java).apply {
-                        putExtra("url","https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1?pvs=4")
+                        this@MypageActivity, WebViewActivity::class.java
+                    ).apply {
+                        putExtra(
+                            WebViewConstant.urlIntent,
+                            WebViewConstant.privacyTerms
+                        )
                     }
                 )
             }
-            tvLogout.setOnClickListener {
+
+            btnLogout.setOnClickListener {
                 DialogMypage("logout") {
                     lifecycleScope.launch {
                         kotlin.runCatching {
-                            kaKaoLoginClient.logout()
+                            myPageViewModel.serviceLogout()
                         }.onSuccess {
-                            // 데이터스토어 비우기
+                            // 알림 비활성화
                             Timber.e("logout")
-                            myPageViewModel.clearDataStore()
+                            kaKaoLoginClient.logout()
+                            binding.root.makeToast("로그아웃이 완료되었습니다.")
                             startActivity(Intent(baseContext, LoginActivity::class.java))
                             finishAffinity()
                         }.onFailure {
@@ -127,15 +134,17 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                     }
                 }.show(supportFragmentManager, "logout")
             }
+
             tvSignout.setOnClickListener {
-                DialogMypage("signout") {
+                DialogMypage("unregister") {
                     lifecycleScope.launch {
                         kotlin.runCatching {
-                            kaKaoLoginClient.unLink()
+                            myPageViewModel.serviceUnRegister()
                         }.onSuccess {
-                            // 데이터스토어 비우기
+                            // 알림 비활성화
                             Timber.e("unlink")
-                            myPageViewModel.clearDataStore()
+                            kaKaoLoginClient.unLink()
+                            binding.root.makeToast("회원탈퇴가 완료되었습니다.")
                             startActivity(Intent(baseContext, OnboardingActivity::class.java))
                             finishAffinity()
                         }.onFailure {
@@ -143,8 +152,17 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             throw it
                         }
                     }
-                }.show(supportFragmentManager, "signout")
+                }.show(supportFragmentManager, "unregister")
             }
         }
     }
+
+    object WebViewConstant {
+        const val urlIntent = "url"
+        const val useOfTerms =
+            "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5"
+        const val privacyTerms =
+            "https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1"
+    }
+
 }

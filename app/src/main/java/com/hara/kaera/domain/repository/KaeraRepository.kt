@@ -40,4 +40,8 @@ interface KaeraRepository {
     fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>>
 
     fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<ApiResult<String>>
+
+    fun serviceLogout(): Flow<ApiResult<Boolean>>
+
+    fun serviceUnRegister(): Flow<ApiResult<Boolean>>
 }
