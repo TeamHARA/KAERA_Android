@@ -96,7 +96,7 @@ interface KaeraApi {
     @POST("auth/logout")
     suspend fun serviceLogout(): ServiceDisConnectResDTO
 
-    @POST("auth/unregister")
+    @DELETE("auth/unregister")
     suspend fun serviceUnRegister(): ServiceDisConnectResDTO
 
 }
