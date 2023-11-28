@@ -113,12 +113,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             btnComplete.onSingleClick {
                 if (!titleCondition) KaeraSnackBar.make(
                     binding.root, baseContext.stringOf(R.string.write_snackbar_title),
-                    KaeraSnackBar.DURATION.LONG
+                    KaeraSnackBar.DURATION.SHORT
                 ).show()
                 else if (!contentCondition) KaeraSnackBar.make(
                     binding.root,
                     baseContext.stringOf(R.string.write_snackbar_content),
-                    KaeraSnackBar.DURATION.LONG
+                    KaeraSnackBar.DURATION.SHORT
                 ).show()
                 else {
                     if (detailToEditData == null) { // 글 작성 서버 통신

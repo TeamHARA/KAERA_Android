@@ -6,4 +6,5 @@ object Constant {
     const val internalError = "앱/웹 에러"
     const val freeNoteId = 1
     const val thanksToId = 5
+    const val completeSnackBarLocationY = -160.0
 }

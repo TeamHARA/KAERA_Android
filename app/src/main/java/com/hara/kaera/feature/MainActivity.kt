@@ -2,18 +2,19 @@ package com.hara.kaera.feature
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.storage.StorageFragment
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.PermissionRequestDelegator
-import com.hara.kaera.feature.util.makeSnackBar
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.navigateTo
+import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -28,7 +29,14 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         override fun handleOnBackPressed() {
             if (System.currentTimeMillis() - time >= 2000) {
                 time = System.currentTimeMillis()
-                binding.root.makeSnackBar("'뒤로'버튼을 한번더 누르면 종료됩니다.")
+                Timber.e("home backpress")
+                KaeraSnackBar.make(
+                    view = binding.root,
+                    message = baseContext.stringOf(R.string.main_backpress),
+                    duration = KaeraSnackBar.DURATION.SHORT,
+                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                    locationY = Constant.completeSnackBarLocationY
+                ).show()
             } else if (System.currentTimeMillis() - time < 2000) {
                 finish()
             }
