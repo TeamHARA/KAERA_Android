@@ -63,7 +63,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         this.onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
@@ -265,14 +265,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 binding.loadingBar.visible(false)
                 binding.clTitle.visible(true)
                 binding.scrollView.visible(true)
+                binding.clEmpty.root.visible(false)
+                binding.tvTemplateShortInfo.text = viewModel.templateShortInfo.value // shortInfo
+                binding.templatedata = uiState.data
                 if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
-                    binding.templatedata = uiState.data
-                    binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
                     binding.clFreenote.root.visible(true)
                 } else if (viewModel.templateIdFlow.value in 2..6) { // free flow 제외 나머지
-                    binding.templatedata = uiState.data
-                    binding.clEmpty.root.visible(false)
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
                     if (viewModel.templateIdFlow.value == Constant.thanksToId) binding.clTemplate.tvThanks.visible(
@@ -400,8 +399,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     }
 
     private fun showTemplateChoiceBottomSheet() {
-        TemplateChoiceBottomSheet({
-            viewModel.setTemplateId(it)
+        TemplateChoiceBottomSheet({ id, shortInfo ->
+            viewModel.setTemplateData(id, shortInfo)
         }, viewModel.templateIdFlow.value).show(
             supportFragmentManager,
             "template_choice"

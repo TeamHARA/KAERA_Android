@@ -29,11 +29,16 @@ class WriteViewModel @Inject constructor(
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
 
+    // 템플릿 선택 바텀시트로 부터 가져오는 ShortInfo
+    private val _templateShortInfo = MutableStateFlow("")
+    val templateShortInfo = _templateShortInfo.asStateFlow()
+
     // templateId : 서버통신 하는 게 아니라 LiveData 대용으로 쓴 것
     private val _templateIdFlow = MutableStateFlow(-1)
     val templateIdFlow = _templateIdFlow.asStateFlow()
     private val _curTemplateIdFlow = MutableStateFlow(CurId.INIT.value)
     val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
+
 
     // 글 작성 결과
     private val _writeWorryFlow = MutableStateFlow<UiState<String>>(UiState.Init)
@@ -56,6 +61,11 @@ class WriteViewModel @Inject constructor(
 
     fun setCurTemplateId(choiceId: Int) {
         _curTemplateIdFlow.value = choiceId
+    }
+
+    fun setTemplateData(choiceId: Int, shortInfo:String){
+        _templateIdFlow.value = choiceId
+        _templateShortInfo.value = shortInfo
     }
 
     fun getTemplateDetailData() {
