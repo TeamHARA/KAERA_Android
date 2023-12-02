@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetHomeWorryListUseCaseImpl @Inject constructor(private val repository: KaeraRepository): GetHomeWorryListUseCase {
-    override fun invoke(isSolved: Int): Flow<ApiResult<HomeWorryListEntity>> {
-        return repository.getHomeWorryList(isSolved)
+    override fun invoke(isSolved: Int, page: Int, limit: Int): Flow<ApiResult<HomeWorryListEntity>> {
+        return repository.getHomeWorryList(isSolved, page, limit)
     }
 }

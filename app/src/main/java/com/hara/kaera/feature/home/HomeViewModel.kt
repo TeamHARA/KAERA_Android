@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
         flow.value = UiState.Loading
         viewModelScope.launch {
             kotlin.runCatching {
-                homeUseCase(if (!isSolved) 0 else 1)
+                homeUseCase(if (!isSolved) 0 else 1, firstPage, itemLimit)
             }.onSuccess {
                 it.collect { collect ->
                     Timber.e("[ABC] HomeViewModel/getHomeWorryList - 통신1")
@@ -77,6 +77,11 @@ class HomeViewModel @Inject constructor(
                 UiState.Error("[홈 화면/원석 display] 서버가 불안정합니다.")
             }
         }
+    }
+
+    companion object {
+        const val firstPage = 1
+        const val itemLimit = 12
     }
 
 //    init {

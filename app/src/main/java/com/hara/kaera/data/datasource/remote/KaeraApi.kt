@@ -41,9 +41,11 @@ interface KaeraApi {
         @Path("templateId") templateId: Int,
     ): TemplateDetailDTO
 
-    @GET("worry/list/{isSolved}")
+    @GET("worry/{isSolved}/list")
     suspend fun getHomeWorryList(
         @Path("isSolved") isSolved: Int,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
     ): HomeWorryListDTO
 
     @GET("worry/")
