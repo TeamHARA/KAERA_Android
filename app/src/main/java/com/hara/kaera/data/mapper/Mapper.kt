@@ -88,7 +88,7 @@ object Mapper {
                 totalNum = it.totalNum,
                 worryList = it.worry.map { worryDto ->
                     WorryByTemplateEntity.Worry(
-                        period = worryDto.period,
+                        period = worryDto.period.substring(2,13) + worryDto.period.substring(15),
                         templateId = worryDto.templateId,
                         title = worryDto.title,
                         worryId = worryDto.worryId,
