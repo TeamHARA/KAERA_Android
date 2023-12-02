@@ -52,6 +52,31 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/layout_errorwithloading"
+            layout="@layout/layout_errors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ScrollView
             android:id="@+id/sv_content"
             android:layout_width="match_parent"
@@ -247,10 +272,10 @@
                         android:layout_marginTop="12dp"
                         android:background="@android:color/transparent"
                         android:hint="@string/detail_after_record_hint"
+                        android:lineSpacingExtra="7sp"
                         android:text="@{worryDetail.review.content}"
                         android:textAppearance="@style/h_body4_r14"
                         android:textColor="@color/white"
-                        android:lineSpacingExtra="7sp"
                         android:textColorHint="@color/gray_3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tv_record_title"

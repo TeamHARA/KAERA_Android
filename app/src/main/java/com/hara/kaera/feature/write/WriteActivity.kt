@@ -17,6 +17,7 @@ import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.detail.DetailBeforeActivity
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.getDeadline
 import com.hara.kaera.feature.util.makeToast
@@ -33,9 +34,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
 
 // bundle에서 가져온 detailToEditData가 null인지에 따라
 // 1) [글작성] 글쓰기 위해 온 것인지
@@ -76,6 +74,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         setTextWatcher()
         setClickListeners()
         collectFlows()
+        setTemplate()
+    }
+
+    private fun setTemplate() {
+        if (intent.hasExtra("templateId")) {
+            viewModel.setTemplateId(intent.getIntExtra("templateId", -1))
+        }
     }
 
     private fun setClickListeners() {
@@ -105,7 +110,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 }
             }
 
-            btnComplete.onSingleClick(1000) {
+            btnComplete.onSingleClick {
                 if (!titleCondition) KaeraSnackBar.make(
                     binding.root, baseContext.stringOf(R.string.write_snackbar_title),
                     KaeraSnackBar.DURATION.LONG
@@ -118,12 +123,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 else {
                     if (detailToEditData == null) { // 글 작성 서버 통신
                         DialogWriteComplete(
-                            fun (day: Int) {
+                            fun(day: Int) {
                                 // Timber.e("[ABCD] 가져온 value는 ${day}")
 
-                                if (viewModel.templateIdFlow.value == 1) { // free flow
+                                if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
                                     writeWorryReqDTO = WriteWorryReqDTO(
-                                        templateId = 1,
+                                        templateId = Constant.freeNoteId,
                                         title = binding.etTitle.text.toString(),
                                         answers = listOf(
                                             binding.clFreenote.etFreenote.text.toString()
@@ -147,28 +152,33 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                                 viewModel.writeWorry(writeWorryReqDTO)
                             }
                         ).show(supportFragmentManager, "complete")
-                    }
-                    else { // 글 수정 서버 통신
+                    } else { // 글 수정 서버 통신
                         var editWorryReqDTO = EditWorryReqDTO(
                             worryId = detailToEditData!!.worryId,
                             templateId = viewModel.templateIdFlow.value,
                             title = binding.etTitle.text.toString(),
                             answers =
-                                if (templateId == 1) // free note
-                                    listOf( binding.clFreenote.etFreenote.text.toString() )
-                                else
-                                    listOf(
-                                        binding.clTemplate.etAnswer1.text.toString(),
-                                        binding.clTemplate.etAnswer2.text.toString(),
-                                        binding.clTemplate.etAnswer3.text.toString(),
-                                        binding.clTemplate.etAnswer4.text.toString(),
-                                    )
+                            if (templateId == Constant.freeNoteId) // free note
+                                listOf(binding.clFreenote.etFreenote.text.toString())
+                            else
+                                listOf(
+                                    binding.clTemplate.etAnswer1.text.toString(),
+                                    binding.clTemplate.etAnswer2.text.toString(),
+                                    binding.clTemplate.etAnswer3.text.toString(),
+                                    binding.clTemplate.etAnswer4.text.toString(),
+                                )
                         )
 
                         Timber.e("[ABC] 수정할 data 세팅 완료: $editWorryReqDTO")
                         viewModel.editWorry(editWorryReqDTO)
                     }
                 }
+            }
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getTemplateDetailData()
+            }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getTemplateDetailData()
             }
         }
     }
@@ -177,7 +187,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         edittextTitle.addTextChangedListener {
             binding.tvTitleCount.text =
                 String.format(this.stringOf(R.string.write_title_count), it!!.length)
-            if (viewModel.templateIdFlow.value == 1) checkFreeFlow()
+            if (viewModel.templateIdFlow.value == Constant.freeNoteId) checkFreeFlow()
             else checkTemplate()
         }
         editTextFreeNote.addTextChangedListener {
@@ -251,7 +261,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             is UiState.Success -> {
                 binding.loadingBar.visible(false)
                 binding.clTitle.visible(true)
-                if (viewModel.templateIdFlow.value == 1) { // free flow
+                binding.scrollView.visible(true)
+                if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
                     binding.templatedata = uiState.data
                     binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
@@ -261,7 +272,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     binding.clEmpty.root.visible(false)
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
-                    if (viewModel.templateIdFlow.value == 5) binding.clTemplate.tvThanks.visible(
+                    if (viewModel.templateIdFlow.value == Constant.thanksToId) binding.clTemplate.tvThanks.visible(
                         true
                     ) //thanksTo 템플릿
                     else binding.clTemplate.tvThanks.visible(false)
@@ -270,7 +281,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 if (detailToEditData == null) clearEditText()
                 else {
                     binding.etTitle.setText(detailToEditData!!.title)
-                    if (templateId == 1) { // free flow
+                    if (templateId == Constant.freeNoteId) { // free flow
                         binding.clFreenote.etFreenote.setText(detailToEditData!!.answers.get(0))
                     } else {
                         binding.clTemplate.etAnswer1.setText(detailToEditData!!.answers.get(0))
@@ -282,7 +293,19 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                //TODO 에러뷰 표시
+                binding.clEmpty.root.visible(false)
+                binding.loadingBar.visible(false)
+                binding.scrollView.visible(false)
+                binding.clTitle.visible(true)
+                when (uiState.error) {
+                    Constant.networkError -> {
+                        binding.layoutNetworkError.root.visible(true)
+                    }
+
+                    Constant.internalError -> {
+                        binding.layoutInternalError.root.visible(true)
+                    }
+                }
                 binding.root.makeToast(uiState.error)
             }
         }
@@ -332,7 +355,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         val answerList: List<String>
 
         // 2) answers, subtitles 세팅
-        if (templateId == 1) { // free flow
+        if (templateId == Constant.freeNoteId) { // free flow
             subtitleList = listOf(binding.clFreenote.templatedata!!.questions[0])
             answerList = listOf(binding.clFreenote.etFreenote.text.toString())
         } else { // 일반 template
@@ -362,7 +385,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun getDetailToEditData() {
         val bundle = intent.extras
         if (bundle != null) { // DetailBeforeActivity -> WriteActivity 넘어온 것
-            val json = bundle.getString("detailToEditData") // Retrieve the JSON string from the Bundle
+            val json =
+                bundle.getString("detailToEditData") // Retrieve the JSON string from the Bundle
             if (json != null) {
                 detailToEditData = Json.decodeFromString<EditWorryReqDTO>(json)
                 templateId = bundle.getInt("templateId")

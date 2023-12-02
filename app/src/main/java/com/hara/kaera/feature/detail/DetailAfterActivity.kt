@@ -18,6 +18,7 @@ import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
 import com.hara.kaera.feature.detail.custom.DialogUpdateWarning
 import com.hara.kaera.feature.dialog.DialogWriteSuccess
 import com.hara.kaera.feature.util.SetKeyboard
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -32,8 +33,8 @@ class DetailAfterActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWorryById()
         collectFlows()
+        getWorryById()
         setClickListener()
         setKeyboardListener()
     }
@@ -60,6 +61,15 @@ class DetailAfterActivity :
     private fun getWorryById() {
         val worryId = intent.getIntExtra("worryId", 0)
         viewModel.getWorryDetail(worryId)
+
+        // 에러레이아웃에서 쓰일 버튼
+        binding.layoutErrorwithloading.layoutNetworkError.btnNetworkError.onSingleClick {
+            viewModel.getWorryDetail(worryId)
+        }
+        binding.layoutErrorwithloading.layoutInternalError.btnInternalError.onSingleClick {
+            viewModel.getWorryDetail(worryId)
+        }
+
     }
 
     private fun collectFlows() {
@@ -117,9 +127,13 @@ class DetailAfterActivity :
     }
 
     private fun renderDeleteWorry(uiState: UiState<DeleteWorryEntity>) {
+        binding.loadingBar.visible(false)
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> {
+                binding.loadingBar.visible(true)
+            }
+
             is UiState.Success -> {
                 finish()
             }
@@ -135,9 +149,11 @@ class DetailAfterActivity :
     private fun renderUpdateReview(uiState: UiState<ReviewResEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> binding.loadingBar.visible(true)
 
             is UiState.Success -> {
+                binding.loadingBar.visible(false)
+
                 // update review date
                 binding.tvRecordDate.text = uiState.data.updateDate
                 DialogWriteSuccess().show(supportFragmentManager, "review")
@@ -146,6 +162,7 @@ class DetailAfterActivity :
             }
 
             is UiState.Error -> {
+                binding.loadingBar.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
@@ -156,8 +173,14 @@ class DetailAfterActivity :
     private fun renderGetWorry(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> {
+                binding.loadingBar.visible(true)
+                binding.svContent.visible(false)
+            }
+
             is UiState.Success<WorryDetailEntity> -> {
+                controlErrorLayout(success = true)
+
                 val worryDetail = uiState.data
                 binding.worryDetail = worryDetail
 
@@ -181,11 +204,29 @@ class DetailAfterActivity :
                 viewModel.reviewContent = worryDetail.review?.content.toString()
             }
 
-            is UiState.Error -> {
-                binding.root.makeToast(uiState.error)
-            }
+            is UiState.Error -> controlErrorLayout(uiState.error, false)
 
             UiState.Empty -> TODO()
+        }
+    }
+
+    private fun controlErrorLayout(error: String = "success", success: Boolean) {
+        binding.loadingBar.visible(false)
+        if (success) {
+            binding.svContent.visible(true)
+            binding.layoutErrorwithloading.layoutNetworkError.root.visible(false)
+            binding.layoutErrorwithloading.layoutInternalError.root.visible(false)
+        } else {
+            binding.svContent.visible(false)
+            when (error) {
+                Constant.networkError -> {
+                    binding.layoutErrorwithloading.layoutNetworkError.root.visible(true)
+                }
+
+                Constant.internalError -> {
+                    binding.layoutErrorwithloading.layoutInternalError.root.visible(true)
+                }
+            }
         }
     }
 

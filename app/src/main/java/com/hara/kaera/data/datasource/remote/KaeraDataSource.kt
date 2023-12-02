@@ -16,10 +16,8 @@ import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
-import com.hara.kaera.data.util.safeCallApi
+import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.http.Body
 
 /*
     실제로 데이터를 받아오는곳 여기서 status코드로 현재 서버상태를 판별하는게 정석적이지만
@@ -33,7 +31,7 @@ interface KaeraDataSource {
 
     fun getTemplateDetail(templateId: Int): Flow<TemplateDetailDTO>
 
-    fun getHomeWorryList(isSolved: Int): Flow<HomeWorryListDTO>
+    fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<HomeWorryListDTO>
 
     fun getWorryByTemplate(templateId: Int): Flow<WorryByTemplateDTO>
 
@@ -50,4 +48,8 @@ interface KaeraDataSource {
     fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<WriteWorryResDTO>
 
     fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<DecideFinalResDTO>
+
+    fun serviceLogout(): Flow<ServiceDisConnectResDTO>
+
+    fun serviceUnRegister(): Flow<ServiceDisConnectResDTO>
 }

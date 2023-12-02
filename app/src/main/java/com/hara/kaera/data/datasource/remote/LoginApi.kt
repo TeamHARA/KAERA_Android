@@ -16,6 +16,5 @@ interface LoginApi {
     @POST("auth/token/refresh")
     suspend fun getAccessToken(
         @Body jwtRefreshReqDTO: JWTRefreshReqDTO
-    ):JWTRefreshResDTO
-
+    ): JWTRefreshResDTO
 }

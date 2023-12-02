@@ -10,7 +10,6 @@ import com.hara.kaera.domain.dto.KaKaoLoginReqDTO
 import com.hara.kaera.domain.entity.login.KakaoLoginJWTEntity
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.feature.util.TokenState
-import com.hara.kaera.feature.util.errorToMessage
 import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

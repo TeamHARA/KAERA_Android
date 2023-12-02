@@ -23,7 +23,7 @@ interface KaeraRepository {
 
     fun getTemplateDetailInfo(templateId: Int): Flow<ApiResult<TemplateDetailEntity>>
 
-    fun getHomeWorryList(isSolved: Int): Flow<ApiResult<HomeWorryListEntity>>
+    fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<ApiResult<HomeWorryListEntity>>
 
     fun getWorryByTemplate(templateId: Int): Flow<ApiResult<WorryByTemplateEntity>>
 
@@ -40,4 +40,8 @@ interface KaeraRepository {
     fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>>
 
     fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<ApiResult<String>>
+
+    fun serviceLogout(): Flow<ApiResult<Boolean>>
+
+    fun serviceUnRegister(): Flow<ApiResult<Boolean>>
 }

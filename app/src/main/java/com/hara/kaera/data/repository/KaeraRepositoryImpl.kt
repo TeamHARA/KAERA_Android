@@ -9,10 +9,12 @@ import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
+import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
 import com.hara.kaera.data.mapper.Mapper.mapperToReview
 import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
+import com.hara.kaera.data.mapper.Mapper.mapperToSuccess
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
 import com.hara.kaera.data.mapper.Mapper.mapperToWorryDetail
@@ -65,9 +67,9 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getHomeWorryList(isSolved: Int): Flow<ApiResult<HomeWorryListEntity>> {
+    override fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<ApiResult<HomeWorryListEntity>> {
         return flow {
-            kaeraDataSource.getHomeWorryList(isSolved).catch {
+            kaeraDataSource.getHomeWorryList(isSolved, page, limit).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
                 emit(ApiResult.Success(mapperToHomeWorryList(it)))
@@ -155,6 +157,26 @@ class KaeraRepositoryImpl @Inject constructor(
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
                 emit(ApiResult.Success(it.data.quote))
+            }
+        }
+    }
+
+    override fun serviceLogout(): Flow<ApiResult<Boolean>> {
+        return flow {
+            kaeraDataSource.serviceLogout().catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToSuccess(it)))
+            }
+        }
+    }
+
+    override fun serviceUnRegister(): Flow<ApiResult<Boolean>> {
+        return flow {
+            kaeraDataSource.serviceUnRegister().catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToSuccess(it)))
             }
         }
     }
