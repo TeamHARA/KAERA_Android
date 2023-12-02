@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -24,7 +23,7 @@
                 android:id="@+id/iv_banner_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/gem_pink_m"
+                android:src="@drawable/instagram_gems"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -34,8 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:text="인스타그램 스토리에 고민보석을 빛내보세요!"
+                android:layout_marginTop="13dp"
+                android:text="@string/template_banner_title"
                 android:textAppearance="@style/h_body3_b14"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +51,7 @@
                 android:minHeight="0dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
-                android:text="공유하기"
+                android:text="@string/template_banner_button"
                 android:textAppearance="@style/h_body3_b14"
                 android:textColor="@color/gray_1"
                 app:layout_constraintEnd_toEndOf="parent"

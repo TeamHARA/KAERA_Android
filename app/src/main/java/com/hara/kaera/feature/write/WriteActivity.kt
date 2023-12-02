@@ -74,6 +74,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         setTextWatcher()
         setClickListeners()
         collectFlows()
+        setTemplate()
+    }
+
+    private fun setTemplate() {
+        if (intent.hasExtra("templateId")) {
+            viewModel.setTemplateId(intent.getIntExtra("templateId", -1))
+        }
     }
 
     private fun setClickListeners() {
