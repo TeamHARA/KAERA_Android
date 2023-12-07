@@ -3,6 +3,7 @@ package com.hara.kaera.feature.write
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -24,6 +25,7 @@ import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
+import com.hara.kaera.feature.write.custom.DialogBackpressWarning
 import com.hara.kaera.feature.write.custom.DialogSaveWarning
 import com.hara.kaera.feature.write.custom.DialogWriteComplete
 import com.hara.kaera.feature.write.custom.TemplateChoiceBottomSheet
@@ -58,8 +60,17 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var detailToEditData: EditWorryReqDTO? = null
 
     private val viewModel by viewModels<WriteViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        this.onBackPressedDispatcher.addCallback(this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    checkBackPressWarning()
+                }
+            }
+        )
 
         editTextList = listOf<EditText>(
             binding.clTemplate.etAnswer1,
@@ -70,6 +81,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         editTextFreeNote = binding.clFreenote.etFreenote
         edittextTitle = binding.etTitle
 
+        showTemplateChoiceBottomSheet() // 고민작성 진입하자마자 바텀시트가 나오게 되도록
         getDetailToEditData() // DetailBeforeActivity -> WriteActivity 넘어온 것인지 확인
         setTextWatcher()
         setClickListeners()
@@ -86,26 +98,17 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun setClickListeners() {
         binding.apply {
             appbarDetail.setNavigationOnClickListener {
-                finish()
+                checkBackPressWarning()
             }
             clChoice.onSingleClick {
                 if (detailToEditData == null) { // 글쓰기 일 때만
                     if (checkText()) { // 한글자라도 써놨을 경우
-                        DialogSaveWarning {
-                            TemplateChoiceBottomSheet({
-                                viewModel.setTemplateId(it)
-                            }, viewModel.templateIdFlow.value).show(
-                                supportFragmentManager,
-                                "template_choice"
-                            )
-                        }.show(supportFragmentManager, "warning")
-                    } else {
-                        TemplateChoiceBottomSheet({
-                            viewModel.setTemplateId(it)
-                        }, viewModel.templateIdFlow.value).show(
+                        DialogSaveWarning { showTemplateChoiceBottomSheet() }.show(
                             supportFragmentManager,
-                            "template_choice"
+                            "warning"
                         )
+                    } else {
+                        showTemplateChoiceBottomSheet()
                     }
                 }
             }
@@ -113,12 +116,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             btnComplete.onSingleClick {
                 if (!titleCondition) KaeraSnackBar.make(
                     binding.root, baseContext.stringOf(R.string.write_snackbar_title),
-                    KaeraSnackBar.DURATION.LONG
+                    KaeraSnackBar.DURATION.SHORT
                 ).show()
                 else if (!contentCondition) KaeraSnackBar.make(
                     binding.root,
                     baseContext.stringOf(R.string.write_snackbar_content),
-                    KaeraSnackBar.DURATION.LONG
+                    KaeraSnackBar.DURATION.SHORT
                 ).show()
                 else {
                     if (detailToEditData == null) { // 글 작성 서버 통신
@@ -262,14 +265,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 binding.loadingBar.visible(false)
                 binding.clTitle.visible(true)
                 binding.scrollView.visible(true)
+                binding.clEmpty.root.visible(false)
+                binding.tvTemplateShortInfo.text = viewModel.templateShortInfo.value // shortInfo
+                binding.templatedata = uiState.data
                 if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
-                    binding.templatedata = uiState.data
-                    binding.clEmpty.root.visible(false)
                     binding.clTemplate.root.visible(false)
                     binding.clFreenote.root.visible(true)
                 } else if (viewModel.templateIdFlow.value in 2..6) { // free flow 제외 나머지
-                    binding.templatedata = uiState.data
-                    binding.clEmpty.root.visible(false)
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
                     if (viewModel.templateIdFlow.value == Constant.thanksToId) binding.clTemplate.tvThanks.visible(
@@ -393,6 +395,25 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 Timber.e("[ABC] 받은 data: $detailToEditData")
                 viewModel.setTemplateId(templateId)
             }
+        }
+    }
+
+    private fun showTemplateChoiceBottomSheet() {
+        TemplateChoiceBottomSheet({ id, shortInfo ->
+            viewModel.setTemplateData(id, shortInfo)
+        }, viewModel.templateIdFlow.value).show(
+            supportFragmentManager,
+            "template_choice"
+        )
+    }
+
+    private fun checkBackPressWarning() {
+        if (checkText()) {
+            DialogBackpressWarning {
+                finish()
+            }.show(supportFragmentManager, "backpress_warning")
+        } else {
+            finish()
         }
     }
 

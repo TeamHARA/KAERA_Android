@@ -11,7 +11,7 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.util.GlobalDiffCallBack
 
 class TemplateBottomSheetChoiceAdapter(
-    private val itemClickListener: (Int) -> Unit,
+    private val itemClickListener: (Int, String) -> Unit,
     selectedId: Int
 ) :
     ListAdapter<TemplateTypesEntity.Template, TemplateBottomSheetChoiceAdapter.ItemViewHolder>(
@@ -52,7 +52,7 @@ class TemplateBottomSheetChoiceAdapter(
 
             this.root.setOnClickListener {
                 selectedPosition = position
-                itemClickListener(curItem.templateId ?: -1)
+                itemClickListener(curItem.templateId, curItem.shortInfo)
                 lastItemSelectedPosition = if (lastItemSelectedPosition == -1) {
                     selectedPosition
                 } else {

@@ -60,7 +60,6 @@ object Mapper {
         return dto.data.let {
             TemplateDetailEntity(
                 title = it.title,
-                info = it.info,
                 guideline = it.guideline,
                 questions = it.questions,
                 hints = it.hints,
