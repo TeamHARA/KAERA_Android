@@ -7,4 +7,5 @@ object Constant {
     const val freeNoteId = 1
     const val thanksToId = 5
     const val completeSnackBarLocationY = -160.0
+    const val infiniteDeadLine = 888
 }

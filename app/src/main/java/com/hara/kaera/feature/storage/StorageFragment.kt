@@ -54,7 +54,10 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun render(uiState: UiState<WorryByTemplateEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> binding.loadingBar.visible(true)
+            is UiState.Loading -> {
+                binding.clEmpty.root.visible(false)
+                binding.loadingBar.visible(true)
+            }
             is UiState.Success<WorryByTemplateEntity> -> {
                 binding.loadingBar.visible(false)
                 val worryByTemplate = uiState.data
