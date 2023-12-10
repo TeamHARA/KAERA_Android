@@ -59,10 +59,14 @@ class HomeViewModel @Inject constructor(
                                 flow.value = UiState.Empty
                             }
                             else {
-
-                                collect.data.homeWorryList.forEach { gem ->
+                                collect.data.homeWorryList.forEachIndexed { index, gem ->
                                     // TODO: 서버에 원석이 12개 넘게 있을 때
-                                    if (resultSize < 12) result[Constant.homeGemsSequence[resultSize++]] = gem
+                                    if(isSolved){ // 해결된 고민(보석함)의 경우 순서대로 배치되도록 수정
+                                        if (resultSize < 12) result[index] = gem
+                                    }else{
+                                        if (resultSize < 12) result[Constant.homeGemsSequence[resultSize++]] = gem
+                                    }
+                                    
                                 }
                                 flow.value = UiState.Success(HomeWorryListEntity(result))
                             }
