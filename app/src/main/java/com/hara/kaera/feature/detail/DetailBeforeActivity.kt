@@ -111,7 +111,11 @@ class DetailBeforeActivity :
                         // [23.11.09] 데드라인 수정하면 왜 여기 안 걸려? ㅠㅠ
                         if (it is UiState.Success) { // UiState.init 때도 호출되면 안 돼서
                             Timber.e("[ABC] editDeadlineStateFlow - UiState.Success ${it}")
-                            binding.tvAppbarDay.text = "D-$editDayCount"
+
+                            binding.tvAppbarDay.text =
+                                if (editDayCount == Constant.infiniteDeadLine) "D-∞"
+                                else "D-$editDayCount"
+
                             KaeraSnackBar.make(
                                 binding.root, "데드라인 수정 완료!",
                                 KaeraSnackBar.DURATION.LONG

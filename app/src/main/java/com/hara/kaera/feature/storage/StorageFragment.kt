@@ -20,6 +20,7 @@ import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
+import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.StorageTemplateChoiceBottomSheet
 import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,8 +54,12 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun render(uiState: UiState<WorryByTemplateEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> Unit
+            is UiState.Loading -> {
+                binding.clEmpty.root.visible(false)
+                binding.loadingBar.visible(true)
+            }
             is UiState.Success<WorryByTemplateEntity> -> {
+                binding.loadingBar.visible(false)
                 val worryByTemplate = uiState.data
                 if (!isEmpty(worryByTemplate.totalNum)) {
                     storageAdapter.submitList(worryByTemplate.worryList)
@@ -68,6 +73,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             }
 
             is UiState.Error -> {
+                binding.loadingBar.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
@@ -77,7 +83,8 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     private fun initLayout() {
         storageAdapter = StorageGridAdapter { worryId ->
-            startActivity( // TODO: 삭제 완료 후 다시 보관함으로 돌아갔을 때 삭제한 내역이 반영 안 되는 이슈
+            startActivity(
+                // TODO: 삭제 완료 후 다시 보관함으로 돌아갔을 때 삭제한 내역이 반영 안 되는 이슈
                 Intent(context, DetailAfterActivity::class.java).apply {
                     putExtra("worryId", worryId)
                 },
@@ -111,7 +118,8 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             }
 
             clEmpty.btnGoMining.onSingleClick {
-                val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+                val bottomNavigationView =
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
                 bottomNavigationView.selectedItemId = R.id.nav_home
 
                 requireActivity().supportFragmentManager.beginTransaction()
