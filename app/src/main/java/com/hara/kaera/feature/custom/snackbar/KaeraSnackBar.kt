@@ -8,11 +8,29 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.SnackbarLayoutBinding
 import com.hara.kaera.feature.util.colorOf
 
-class KaeraSnackBar(view: View, private val message: String, duration: DURATION) {
+class KaeraSnackBar(
+    view: View,
+    private val message: String,
+    duration: DURATION,
+    private val backgroundColor: BACKGROUNDCOLOR,
+    private val locationY: Double,
+) {
 
     companion object {
-        fun make(view: View, message: String, duration: DURATION) =
-            KaeraSnackBar(view, message, duration)
+        /*
+        기본값으로 스낵바의 배경색은 GRAY2입니다.
+        GRAY5를 원하면 파라미터로 GRAY5를 넘겨주면 됩니다.
+        위치값은 기본적으로 -16.0 이며 더 중앙에 배치하고 싶다면 더 낮은 값 ex)-100.0
+        을 넘겨주면 됩니다.
+         */
+        fun make(
+            view: View,
+            message: String,
+            duration: DURATION,
+            backgroundColor: BACKGROUNDCOLOR = BACKGROUNDCOLOR.GRAY_2,
+            locationY: Double = -16.0,
+        ) =
+            KaeraSnackBar(view, message, duration, backgroundColor, locationY)
     }
 
     private val context = view.context
@@ -41,10 +59,13 @@ class KaeraSnackBar(view: View, private val message: String, duration: DURATION)
 
         with(snackBarLayout) {
             removeAllViews()
-            translationY = (-16.0).toFloat()
+            translationY = (locationY).toFloat()
             setBackgroundColor(context.colorOf(R.color.transparent))
             addView(binding.root, 0)
-
+            if (backgroundColor == BACKGROUNDCOLOR.GRAY_5) {
+                binding.clSnackbar.setBackgroundResource(R.drawable.shape_rect_gray5_4)
+                binding.tvMessage.setTextColor(context.getColor(R.color.gray_1))
+            }
         }
     }
 
@@ -59,5 +80,10 @@ class KaeraSnackBar(view: View, private val message: String, duration: DURATION)
     enum class DURATION(val duration: Int) {
         LONG(1),
         SHORT(-1)
+    }
+
+    enum class BACKGROUNDCOLOR {
+        GRAY_2,
+        GRAY_5
     }
 }

@@ -4,6 +4,8 @@ import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.remote.KaeraApi
 import com.hara.kaera.data.datasource.remote.LoginApi
+import com.hara.kaera.data.datasource.remote.LoginDataSource
+import com.hara.kaera.data.util.BaseInterceptor
 import com.hara.kaera.data.util.ErrorHandlerImpl
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.util.ErrorHandler
@@ -12,8 +14,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -21,7 +21,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import timber.log.Timber
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -38,22 +37,9 @@ object ServiceModule {
     @Singleton
     @KAREARetrofit
     fun providesKaeraHeaderInterceptor(
-        loginRepositroy: LoginRepository
-    ): Interceptor {
-        val authToken: String = runBlocking {
-            loginRepositroy.getSavedAccessToken().first()
-        }
-        return Interceptor { chain ->
-            with(chain) {
-                val request = request().newBuilder()
-                    .addHeader("Accept", Constant.APPLICATION_JSON)
-                    .addHeader("Authorization", authToken)
-                    //.addHeader("Authorization", BuildConfig.BEARER_TOKEN)
-                    .build()
-                proceed(request)
-            }
-        }
-    }
+        loginRepository: LoginRepository,
+        loginDataSource: LoginDataSource
+    ): Interceptor = BaseInterceptor(loginRepository, loginDataSource)
 
 
     @Provides

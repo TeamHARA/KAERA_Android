@@ -25,6 +25,7 @@ import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
 import com.hara.kaera.feature.write.custom.DialogWriteComplete
@@ -66,8 +67,11 @@ class DetailBeforeActivity :
                 // TODO: 이 activity에서 뒤로가기 누르면 서버 통신 다시 하도록 해야 하나..
 
                 KaeraSnackBar.make(
-                    binding.root, "작성 완료!",
-                    KaeraSnackBar.DURATION.LONG
+                    view = binding.root,
+                    message = baseContext.stringOf(R.string.complete_write_snackbar),
+                    duration = KaeraSnackBar.DURATION.SHORT,
+                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                    locationY = Constant.completeSnackBarLocationY
                 ).show() // TODO: 서버에 잘 날아갔으면 (customized) ToastMessage 띄우기
             }
 
@@ -81,8 +85,11 @@ class DetailBeforeActivity :
                 val from = intent.getStringExtra("from")
                 if ("edit" == from) {
                     KaeraSnackBar.make(
-                        binding.root, "수정 완료!",
-                        KaeraSnackBar.DURATION.LONG
+                        view = binding.root,
+                        message = baseContext.stringOf(R.string.complete_edit_snackbar),
+                        duration = KaeraSnackBar.DURATION.SHORT,
+                        backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                        locationY = Constant.completeSnackBarLocationY
                     ).show()
                 }
             }
@@ -188,26 +195,30 @@ class DetailBeforeActivity :
                     // 1) 수정하기 -> activity_write으로 이동(시 데이터 전달)
                     { goToWriteActivity() },
                     // 2) 데드라인 수정하기
-                    { DialogWriteComplete(
-                        fun (day: Int) {
-                            editDayCount = day
-                            val editDeadlineReqDTO = EditDeadlineReqDTO(
-                                worryId = viewModel.detailToEditData.worryId,
-                                dayCount = day
-                            )
-                            Timber.e("[ABC] 데드라인 수정하기: $editDeadlineReqDTO")
-                            viewModel.editDeadline(editDeadlineReqDTO)
-                        }
-                    ).show(supportFragmentManager, "complete") },
+                    {
+                        DialogWriteComplete(
+                            fun(day: Int) {
+                                editDayCount = day
+                                val editDeadlineReqDTO = EditDeadlineReqDTO(
+                                    worryId = viewModel.detailToEditData.worryId,
+                                    dayCount = day
+                                )
+                                Timber.e("[ABC] 데드라인 수정하기: $editDeadlineReqDTO")
+                                viewModel.editDeadline(editDeadlineReqDTO)
+                            }
+                        ).show(supportFragmentManager, "complete")
+                    },
                     // 3) 삭제하기
-                    { DialogDeleteWarning {
+                    {
+                        DialogDeleteWarning {
                             viewModel.deleteWorry()
-                        }.show(supportFragmentManager, "delete") }
+                        }.show(supportFragmentManager, "delete")
+                    }
                 ).show(supportFragmentManager, "edit")
             }
             btnSubmit.setOnClickListener { // 하단 "고민 보석 캐기" 버튼
                 DialogMineFragment(
-                    fun (finalAnswer: Editable) {
+                    fun(finalAnswer: Editable) {
                         val decideFinalReqDTO = DecideFinalReqDTO(
                             worryId = viewModel.getWorryId(),
                             finalAnswer = finalAnswer.toString()
