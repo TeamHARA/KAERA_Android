@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@{viewPager.currentItem == 2 ? @drawable/shape_rect_yellow1_12 : @drawable/shape_rect_gray5_12}"
+            android:background="@drawable/shape_rect_yellow1_12"
             android:paddingVertical="21dp"
             android:layout_marginBottom="50dp"
             android:text="@{viewPager.currentItem == 2 ? @string/start : @string/next}"
