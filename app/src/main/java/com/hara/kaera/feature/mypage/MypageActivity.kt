@@ -163,6 +163,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5"
         const val privacyTerms =
             "https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1"
+        const val instagram = "https://www.instagram.com/" // TODO: 캐라 인스타 url 업데이트
     }
 
 }
