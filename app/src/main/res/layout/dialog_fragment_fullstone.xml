@@ -17,7 +17,7 @@
             android:layout_width="78dp"
             android:layout_height="89dp"
             android:layout_marginTop="29dp"
-            android:src="@drawable/stone_full"
+            android:src="@drawable/icn_full_stone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

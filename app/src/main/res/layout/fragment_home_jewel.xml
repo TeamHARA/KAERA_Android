@@ -28,10 +28,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="120dp"
                 android:layout_marginTop="114dp"
+                android:src="@drawable/empty_gem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/empty_jewel" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_empty_title"
