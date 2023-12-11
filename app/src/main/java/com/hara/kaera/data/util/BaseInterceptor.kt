@@ -25,8 +25,7 @@ class BaseInterceptor(
 
             val request = chain.request().newBuilder()
                 .addHeader("Accept", Constant.APPLICATION_JSON)
-                .addHeader("Authorization", BuildConfig.BEARER_TOKEN)
-                //.addHeader("Authorization", currentToken)
+                .addHeader("Authorization", currentToken)
                 .build()
 
             var response = chain.proceed(request)
