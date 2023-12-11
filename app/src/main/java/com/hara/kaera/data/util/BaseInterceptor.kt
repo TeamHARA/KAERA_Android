@@ -1,5 +1,6 @@
 package com.hara.kaera.data.util
 
+import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO
@@ -24,7 +25,8 @@ class BaseInterceptor(
 
             val request = chain.request().newBuilder()
                 .addHeader("Accept", Constant.APPLICATION_JSON)
-                .addHeader("Authorization", currentToken)
+                .addHeader("Authorization", BuildConfig.BEARER_TOKEN)
+                //.addHeader("Authorization", currentToken)
                 .build()
 
             var response = chain.proceed(request)
