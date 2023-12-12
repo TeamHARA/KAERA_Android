@@ -16,8 +16,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val viewModel by viewModels<HomeViewModel>()
-
     private lateinit var adapter: HomeFragmentStateAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
