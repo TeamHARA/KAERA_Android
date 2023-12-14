@@ -63,10 +63,10 @@ class DetailAfterActivity :
         viewModel.getWorryDetail(worryId)
 
         // 에러레이아웃에서 쓰일 버튼
-        binding.layoutErrorwithloading.layoutNetworkError.btnNetworkError.onSingleClick {
+        binding.layoutError.layoutNetworkError.btnNetworkError.onSingleClick {
             viewModel.getWorryDetail(worryId)
         }
-        binding.layoutErrorwithloading.layoutInternalError.btnInternalError.onSingleClick {
+        binding.layoutError.layoutInternalError.btnInternalError.onSingleClick {
             viewModel.getWorryDetail(worryId)
         }
 
@@ -127,11 +127,10 @@ class DetailAfterActivity :
     }
 
     private fun renderDeleteWorry(uiState: UiState<DeleteWorryEntity>) {
-        binding.loadingBar.visible(false)
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> {
-                binding.loadingBar.visible(true)
+                binding.layoutLoading.root.visible(true)
             }
 
             is UiState.Success -> {
@@ -139,6 +138,7 @@ class DetailAfterActivity :
             }
 
             is UiState.Error -> {
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
@@ -149,10 +149,10 @@ class DetailAfterActivity :
     private fun renderUpdateReview(uiState: UiState<ReviewResEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> binding.loadingBar.visible(true)
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
-                binding.loadingBar.visible(false)
+                binding.layoutLoading.root.visible(false)
 
                 // update review date
                 binding.tvRecordDate.text = uiState.data.updateDate
@@ -162,7 +162,7 @@ class DetailAfterActivity :
             }
 
             is UiState.Error -> {
-                binding.loadingBar.visible(false)
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
@@ -173,10 +173,8 @@ class DetailAfterActivity :
     private fun renderGetWorry(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> {
-                binding.loadingBar.visible(true)
-                binding.svContent.visible(false)
-            }
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+
 
             is UiState.Success<WorryDetailEntity> -> {
                 controlErrorLayout(success = true)
@@ -210,21 +208,20 @@ class DetailAfterActivity :
         }
     }
 
-    private fun controlErrorLayout(error: String = "success", success: Boolean) {
-        binding.loadingBar.visible(false)
+    private fun controlErrorLayout(error: String? = null, success: Boolean) {
+        binding.layoutLoading.root.visible(false)
         if (success) {
-            binding.svContent.visible(true)
-            binding.layoutErrorwithloading.layoutNetworkError.root.visible(false)
-            binding.layoutErrorwithloading.layoutInternalError.root.visible(false)
+            binding.layoutError.layoutNetworkError.root.visible(false)
+            binding.layoutError.layoutInternalError.root.visible(false)
         } else {
             binding.svContent.visible(false)
             when (error) {
                 Constant.networkError -> {
-                    binding.layoutErrorwithloading.layoutNetworkError.root.visible(true)
+                    binding.layoutError.layoutNetworkError.root.visible(true)
                 }
 
                 Constant.internalError -> {
-                    binding.layoutErrorwithloading.layoutInternalError.root.visible(true)
+                    binding.layoutError.layoutInternalError.root.visible(true)
                 }
             }
         }

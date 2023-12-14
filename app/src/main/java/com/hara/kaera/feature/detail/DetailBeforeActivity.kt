@@ -143,13 +143,14 @@ class DetailBeforeActivity :
     private fun render(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> binding.loadingBar.visible(true)
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success<WorryDetailEntity> -> {
-                binding.loadingBar.visible(false)
+                binding.layoutLoading.root.visible(false)
                 renderData(uiState.data)
             }
 
             is UiState.Error -> {
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
@@ -160,14 +161,15 @@ class DetailBeforeActivity :
     private fun renderDelete(uiState: UiState<DeleteWorryEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> binding.loadingBar.visible(true)
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success -> {
                 Timber.e("[ABC] 삭제 되었습니다!")
-                binding.loadingBar.visible(false)
+                binding.layoutLoading.root.visible(false)
                 finish()
             }
 
             is UiState.Error -> {
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
@@ -177,13 +179,13 @@ class DetailBeforeActivity :
 
     private fun renderData(worryDetail: WorryDetailEntity) {
         binding.worryDetail = worryDetail
-
+        binding.btnSubmit.visible(true)
         if (worryDetail.templateId == Constant.freeNoteId) { // free flow
-            binding.cvContent.visibility = View.GONE
-            binding.frCvContent.visibility = View.VISIBLE
+            binding.cvContent.visible(false)
+            binding.frCvContent.visible(true)
         } else {
-            binding.cvContent.visibility = View.VISIBLE
-            binding.frCvContent.visibility = View.GONE
+            binding.cvContent.visible(true)
+            binding.frCvContent.visible(false)
         }
     }
 
