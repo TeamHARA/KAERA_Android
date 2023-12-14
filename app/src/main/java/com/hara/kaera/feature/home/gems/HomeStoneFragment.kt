@@ -112,19 +112,11 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
             is UiState.Init -> Timber.e("[ABC] [홈 화면/원석 뷰] UiState.init")
             is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Empty -> {
-                binding.loadingBar.visible(false)
-                binding.clEmpty.visibility = View.VISIBLE
-                binding.rvHomeStones.visibility = View.GONE
+                showContent(true)
             }
 
             is UiState.Success<HomeWorryListEntity> -> {
-                binding.loadingBar.visible(false)
-                binding.clEmpty.visibility = View.GONE
-                binding.rvHomeStones.visibility = View.VISIBLE
-                uiState.data.homeWorryList.forEachIndexed { idx, stone ->
-                    Timber.e("[ABC] [홈 화면/원석 뷰] list [${idx}] ${stone}\n")
-                }
-
+                showContent(false)
                 homeStoneAdapter.submitList(uiState.data.homeWorryList.toMutableList())
             }
 
@@ -134,4 +126,11 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
             }
         }
     }
+
+    private fun showContent(empty: Boolean) {
+        binding.loadingBar.visible(false)
+        binding.clEmpty.visible(empty)
+        binding.rvHomeStones.visible(!empty)
+    }
+
 }

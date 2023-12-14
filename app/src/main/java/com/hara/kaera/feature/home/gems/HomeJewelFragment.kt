@@ -78,15 +78,11 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
             is UiState.Init -> Timber.e("[홈 화면/보석 뷰] UiState.init")
             is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Empty -> {
-                binding.loadingBar.visible(false)
-                binding.clEmpty.visibility = View.VISIBLE
-                binding.rvHomeJewels.visibility = View.GONE
+                showContent(true)
             }
 
             is UiState.Success<HomeWorryListEntity> -> {
-                binding.loadingBar.visible(false)
-                binding.clEmpty.visibility = View.GONE
-                binding.rvHomeJewels.visibility = View.VISIBLE
+                showContent(false)
                 homeJewelAdapter.submitList(uiState.data.homeWorryList)
             }
 
@@ -95,5 +91,11 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
                 binding.root.makeToast(uiState.error)
             }
         }
+    }
+
+    private fun showContent(empty: Boolean) {
+        binding.loadingBar.visible(false)
+        binding.clEmpty.visible(empty)
+        binding.rvHomeJewels.visible(!empty)
     }
 }
