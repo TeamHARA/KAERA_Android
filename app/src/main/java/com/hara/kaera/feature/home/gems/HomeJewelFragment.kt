@@ -17,6 +17,8 @@ import com.hara.kaera.feature.home.adapter.HomeJewelAdapter
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.dpToPx
+import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -30,6 +32,7 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
         super.onStart()
         viewModel.getHomeWorryList(true)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -73,19 +76,24 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
     private fun render(uiState: UiState<HomeWorryListEntity>) {
         when (uiState) {
             is UiState.Init -> Timber.e("[홈 화면/보석 뷰] UiState.init")
-            is UiState.Loading -> Timber.e("[홈 화면/보석 뷰] UiState.Loading")
+            is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Empty -> {
+                binding.loadingBar.visible(false)
                 binding.clEmpty.visibility = View.VISIBLE
                 binding.rvHomeJewels.visibility = View.GONE
             }
 
             is UiState.Success<HomeWorryListEntity> -> {
+                binding.loadingBar.visible(false)
                 binding.clEmpty.visibility = View.GONE
                 binding.rvHomeJewels.visibility = View.VISIBLE
                 homeJewelAdapter.submitList(uiState.data.homeWorryList)
             }
 
-            is UiState.Error -> Timber.e("[홈 화면/보석 뷰] UiState.Error")
+            is UiState.Error -> {
+                binding.loadingBar.visible(false)
+                binding.root.makeToast(uiState.error)
+            }
         }
     }
 }
