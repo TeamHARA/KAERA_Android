@@ -61,19 +61,16 @@ class WorryTemplateActivity :
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
             is UiState.Loading -> {
-                binding.loadingBar.visible(true)
-                binding.rcvWorryTemplate.visible(false)
+                binding.layoutLoading.root.visible(true)
             }
 
             is UiState.Success<TemplateTypesEntity> -> {
-                Timber.e("Collect Success")
-                binding.loadingBar.visible(false)
-                binding.rcvWorryTemplate.visible(true)
+                binding.layoutLoading.root.visible(false)
                 worryTemplateAdapter.submitList(uiState.data.templateTypeList)
             }
 
             is UiState.Error -> {
-                binding.loadingBar.visible(false)
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(message = uiState.error)
             }
 

@@ -25,7 +25,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
-            android:layout_height="84dp"
+            android:layout_height="@dimen/main_navigator_height"
             android:background="@drawable/shape_rect_gray2_30"
             android:paddingHorizontal="79dp"
             app:labelVisibilityMode="unlabeled"

@@ -54,12 +54,9 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun render(uiState: UiState<WorryByTemplateEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> {
-                binding.clEmpty.root.visible(false)
-                binding.loadingBar.visible(true)
-            }
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+
             is UiState.Success<WorryByTemplateEntity> -> {
-                binding.loadingBar.visible(false)
                 val worryByTemplate = uiState.data
                 if (!isEmpty(worryByTemplate.totalNum)) {
                     storageAdapter.submitList(worryByTemplate.worryList)
@@ -73,11 +70,11 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             }
 
             is UiState.Error -> {
-                binding.loadingBar.visible(false)
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
 
-            UiState.Empty -> TODO()
+            is UiState.Empty -> TODO()
         }
     }
 
@@ -136,6 +133,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     }
 
     private fun isEmpty(totalNum: Int): Boolean {
+        binding.layoutLoading.root.visible(false)
         return if (totalNum == 0) {
             binding.clEmpty.root.visibility = View.VISIBLE
             binding.tvSumJewelNum.visibility = View.GONE
