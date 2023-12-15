@@ -126,7 +126,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is UiState.Init -> Unit
             is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Success -> binding.loadingBar.visible(false)
-            is UiState.Error -> binding.root.makeToast(uiState.error)
+            is UiState.Error -> {
+                binding.loadingBar.visible(false)
+                binding.root.makeToast(uiState.error)
+            }
+
             is UiState.Empty -> Unit
         }
     }
