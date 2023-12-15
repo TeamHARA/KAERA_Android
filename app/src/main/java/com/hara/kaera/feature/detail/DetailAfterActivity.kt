@@ -129,9 +129,7 @@ class DetailAfterActivity :
     private fun renderDeleteWorry(uiState: UiState<DeleteWorryEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> {
-                binding.layoutLoading.root.visible(true)
-            }
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
                 finish()

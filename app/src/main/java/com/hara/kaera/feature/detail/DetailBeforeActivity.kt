@@ -163,8 +163,6 @@ class DetailBeforeActivity :
             is UiState.Init -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success -> {
-                Timber.e("[ABC] 삭제 되었습니다!")
-                binding.layoutLoading.root.visible(false)
                 finish()
             }
 

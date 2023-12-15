@@ -60,9 +60,8 @@ class WorryTemplateActivity :
 
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
-            is UiState.Loading -> {
-                binding.layoutLoading.root.visible(true)
-            }
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+
 
             is UiState.Success<TemplateTypesEntity> -> {
                 binding.layoutLoading.root.visible(false)
