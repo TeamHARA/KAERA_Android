@@ -8,4 +8,5 @@ object Constant {
     const val thanksToId = 5
     const val completeSnackBarLocationY = -160.0
     const val infiniteDeadLine = 888
+    const val dummyGemStoneId = -1
 }

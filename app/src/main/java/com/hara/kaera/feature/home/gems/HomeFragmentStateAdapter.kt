@@ -34,11 +34,4 @@ class HomeFragmentStateAdapter(
         }
     }
 
-//    override fun getItemId(position: Int): Long {
-//        return fragmentList[position].id.toLong()
-//    }
-//
-//    override fun containsItem(itemId: Long): Boolean {
-//        return fragmentList.any { it.id.toLong() == itemId }
-//    }
 }
