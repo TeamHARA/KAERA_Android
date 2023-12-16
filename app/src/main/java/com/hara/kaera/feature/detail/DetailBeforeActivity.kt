@@ -24,6 +24,7 @@ import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
 import com.hara.kaera.feature.dialog.DialogEditFragment
 import com.hara.kaera.feature.dialog.DialogMineFragment
+import com.hara.kaera.feature.dialog.DialogSayingFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
@@ -98,7 +99,10 @@ class DetailBeforeActivity :
                 launch {
                     viewModel.decideFinalFlow.collect {
                         if (it is UiState.Success<String>) {
-                            // TODO: quote 띄우기
+                            DialogSayingFragment(
+                                templateId = viewModel.templateId,
+                                saying = it.data
+                            ).show(supportFragmentManager, "saying")
                         }
                     }
                 }
@@ -226,5 +230,17 @@ class DetailBeforeActivity :
                 ).show(supportFragmentManager, "mine")
             }
         }
+    }
+
+    // 수정하기 -> activity_write으로 이동 시 데이터 전달
+    private fun goToWriteActivity() {
+        val json = Json.encodeToString(viewModel.detailToEditData)
+        var bundle = Bundle()
+        bundle.putString("detailToEditData", json)
+        bundle.putInt("templateId", viewModel.templateId)
+        val intent = Intent(this, WriteActivity::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
+        finish()
     }
 }
