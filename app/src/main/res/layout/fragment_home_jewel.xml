@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.home.HomeJewelFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,28 +9,40 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_1">
+
+        <ProgressBar
+            android:id="@+id/loading_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- empty 보석 view -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="120dp"
-                android:layout_marginTop="114dp"
+                android:layout_marginBottom="31dp"
                 android:src="@drawable/empty_gem"
+                app:layout_constraintBottom_toTopOf="@+id/tv_empty_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tv_empty_title"
@@ -41,9 +52,10 @@
                 android:layout_marginTop="31dp"
                 android:text="@string/home_jewel_empty_title"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="@id/iv_empty"
-                app:layout_constraintStart_toStartOf="@id/iv_empty"
-                app:layout_constraintTop_toBottomOf="@id/iv_empty" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_empty_content"

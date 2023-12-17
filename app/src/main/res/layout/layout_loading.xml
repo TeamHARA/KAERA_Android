@@ -3,36 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/root_internal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_1"
+        android:elevation="0.1dp"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <ImageView
-            android:id="@+id/iv_internal"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/error_internal_content"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35" />
-
-        <ImageView
-            android:id="@+id/btn_internal_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/error_internal_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_internal"
-            app:layout_constraintVertical_bias="0.05" />
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

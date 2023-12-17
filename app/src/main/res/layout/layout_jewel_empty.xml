@@ -10,22 +10,23 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:src="@drawable/empty_stone"
+        app:layout_constraintBottom_toTopOf="@+id/tv_choice_empty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_choice_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="@string/storage_empty"
         android:textAppearance="@style/h_head2_b18"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_choice_induction"
@@ -43,19 +44,18 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_go_mining"
-        android:background="@drawable/shape_rect_gray1_stroke_gray4_30"
-        android:textColor="@color/gray_5"
-        android:text="@string/storage_empty_mining_button"
-        android:textAppearance="@style/h_body4_r14"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape_rect_gray1_stroke_gray4_30"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:layout_marginTop="32dp"
         android:paddingVertical="10dp"
+        android:text="@string/storage_empty_mining_button"
+        android:textAppearance="@style/h_body4_r14"
+        android:textColor="@color/gray_5"
         app:layout_constraintEnd_toEndOf="@+id/tv_choice_empty"
         app:layout_constraintStart_toStartOf="@+id/tv_choice_empty"
-        app:layout_constraintTop_toBottomOf="@+id/tv_choice_induction"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_choice_induction" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

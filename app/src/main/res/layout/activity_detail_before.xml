@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="고민 작성 "
+                    android:text="@string/detail_before_date"
                     android:textAppearance="@style/h_head3_b18"
                     android:textColor="@color/white" />
 
@@ -64,30 +64,25 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
+        <include
+            android:id="@+id/layout_loading"
+            layout="@layout/layout_loading"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <include
-            android:id="@+id/layout_errorwithloading"
+            android:id="@+id/layout_error"
             layout="@layout/layout_errors"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <!-- 스크롤 가능 영역 -->
         <ScrollView
@@ -299,12 +294,14 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/shape_rect_gray3_8"
             android:padding="20dp"
-            android:text="🔨 고민 보석 캐기"
+            android:text="@string/detail_before_complete_button"
             android:textAppearance="@style/h_body1_b16"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
