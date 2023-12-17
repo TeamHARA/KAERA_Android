@@ -35,10 +35,14 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initLayout()
         setClickListeners()
         addObserve()
         collectFlows()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initLayout()
     }
 
     private fun collectFlows() {
@@ -84,7 +88,6 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun initLayout() {
         storageAdapter = StorageGridAdapter { worryId ->
             startActivity(
-                // TODO: 삭제 완료 후 다시 보관함으로 돌아갔을 때 삭제한 내역이 반영 안 되는 이슈
                 Intent(context, DetailAfterActivity::class.java).apply {
                     putExtra("worryId", worryId)
                 },
