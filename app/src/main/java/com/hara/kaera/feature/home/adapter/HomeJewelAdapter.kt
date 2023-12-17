@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemHomeGemBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.feature.home.FloatingAnimation
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.GlobalDiffCallBack
 
 class HomeJewelAdapter(
@@ -43,8 +44,10 @@ class HomeJewelAdapter(
             ).start()
 
             // 고민 후 상세보기로 이동
-            root.setOnClickListener { jewel ->
-                goToDetailAfterActivity(curItem.worryId)
+            if (curItem.worryId != Constant.dummyGemStoneId) {
+                root.setOnClickListener { jewel ->
+                    goToDetailAfterActivity(curItem.worryId)
+                }
             }
         }
     }

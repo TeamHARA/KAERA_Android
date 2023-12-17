@@ -1,15 +1,13 @@
 package com.hara.kaera.feature.home.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemHomeGemBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
-import com.hara.kaera.feature.detail.DetailAfterActivity
 import com.hara.kaera.feature.home.FloatingAnimation
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.GlobalDiffCallBack
 import timber.log.Timber
 
@@ -48,9 +46,10 @@ class HomeStoneAdapter(
             ).start()
 
             // 고민 전 상세보기로 이동
-            root.setOnClickListener { stone ->
-                goToDetailBeforeActivity(curItem.worryId)
-            }
+            if (curItem.worryId != Constant.dummyGemStoneId)
+                root.setOnClickListener { stone ->
+                    goToDetailBeforeActivity(curItem.worryId)
+                }
         }
     }
 }
