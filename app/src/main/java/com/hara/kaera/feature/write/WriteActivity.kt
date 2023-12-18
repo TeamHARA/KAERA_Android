@@ -42,6 +42,13 @@ import timber.log.Timber
 // 2) [글수정] DetailBeforeActivity에서 글 수정하러 온 것인지
 // 구분한다!
 
+/*
+ * 진입 flow (구분 기준 : intent 내 StringExtra('action')
+ * 1-1) [작성] 홈화면 -> 원석/보석 클릭
+ * 1-2) [작성] 보관함 -> 좌상단 -> 템플릿 눌러서 '작성하러 가기'
+ * 2) 수정 : DetailBeforeActivity -> WriteActivity(글 수정 중) -> DetailBeforeActivity
+*/
+
 @AndroidEntryPoint
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
 
@@ -81,7 +88,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         editTextFreeNote = binding.clFreenote.etFreenote
         edittextTitle = binding.etTitle
 
-        showTemplateChoiceBottomSheet() // 고민작성 진입하자마자 바텀시트가 나오게 되도록
+
         getDetailToEditData() // DetailBeforeActivity -> WriteActivity 넘어온 것인지 확인
         setTextWatcher()
         setClickListeners()
@@ -124,12 +131,14 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     KaeraSnackBar.DURATION.SHORT
                 ).show()
                 else {
-                    if (detailToEditData == null) { // 글 작성 서버 통신
+                    // 1) 글 작성 서버 통신
+                    if (detailToEditData == null) {
                         DialogWriteComplete(
                             fun(day: Int) {
                                 // Timber.e("[ABCD] 가져온 value는 ${day}")
 
-                                if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
+                                // 1-1) free flow
+                                if (viewModel.templateIdFlow.value == Constant.freeNoteId) {
                                     writeWorryReqDTO = WriteWorryReqDTO(
                                         templateId = Constant.freeNoteId,
                                         title = binding.etTitle.text.toString(),
@@ -138,7 +147,9 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                                         ),
                                         deadline = day
                                     )
-                                } else { // 나머지 template
+                                }
+                                // 1-2) 나머지 template
+                                else {
                                     writeWorryReqDTO = WriteWorryReqDTO(
                                         templateId = viewModel.templateIdFlow.value,
                                         title = binding.etTitle.text.toString(),
@@ -151,11 +162,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                                         deadline = day
                                     )
                                 }
-                                Timber.e("글 작성 끝나서 서버통신 시작: $writeWorryReqDTO")
+                                Timber.e("[ABC] 글 작성 끝나서 서버통신 시작: $writeWorryReqDTO")
                                 viewModel.writeWorry(writeWorryReqDTO)
                             }
                         ).show(supportFragmentManager, "complete")
-                    } else { // 글 수정 서버 통신
+                    }
+                    // 2) 글 수정 서버 통신
+                    else {
                         var editWorryReqDTO = EditWorryReqDTO(
                             worryId = detailToEditData!!.worryId,
                             templateId = viewModel.templateIdFlow.value,
@@ -225,7 +238,15 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     viewModel.writeWorryFlow.collect {
                         Timber.e("[ABC] 글작성 $it")
                         if (it is UiState.Success) { // TODO: 이렇게 하는 게.. 맞나
-                            goToDetailBeforeActivity()
+//                            goToDetailBeforeActivity()
+
+                            startActivity(
+                                Intent(applicationContext, DetailBeforeActivity::class.java).apply {
+                                    putExtra("worryId", detailToEditData!!.worryId)
+                                    putExtra("from", "write")
+                                }
+                            )
+
                             finish()
                         }
                     }
@@ -385,17 +406,28 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     }
 
     private fun getDetailToEditData() {
-        val bundle = intent.extras
-        if (bundle != null) { // DetailBeforeActivity -> WriteActivity 넘어온 것
-            val json =
-                bundle.getString("detailToEditData") // Retrieve the JSON string from the Bundle
-            if (json != null) {
-                detailToEditData = Json.decodeFromString<EditWorryReqDTO>(json)
-                templateId = bundle.getInt("templateId")
-                Timber.e("[ABC] 받은 data: $detailToEditData")
-                viewModel.setTemplateId(templateId)
+
+        when (intent.getStringExtra("action")) {
+            "write" -> { // 글 작성
+                showTemplateChoiceBottomSheet() // activity 진입하자마자 바텀시트가 나온다
+            }
+            "edit" -> { // 글 수정
+                val worryId = intent.getIntExtra("worryId", 0)
+//                viewModel.getWorryDetail(worryId) // [231217] 예린언니가 API 바꿔주면 변경사항 반영할 예정
             }
         }
+
+//        val bundle = intent.extras
+//        if (bundle != null) { // DetailBeforeActivity -> WriteActivity 넘어온 것
+//            val json =
+//                bundle.getString("detailToEditData") // Retrieve the JSON string from the Bundle
+//            if (json != null) {
+//                detailToEditData = Json.decodeFromString<EditWorryReqDTO>(json)
+//                templateId = bundle.getInt("templateId")
+//                Timber.e("[ABC] 받은 data: $detailToEditData")
+//                viewModel.setTemplateId(templateId)
+//            }
+//        }
     }
 
     private fun showTemplateChoiceBottomSheet() {

@@ -36,6 +36,15 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 
+// [23.12.17] DetailBeforeActivity가 create 되면
+// 일단 무조건, intent로 온 worryId를 바탕으로 고민의 detail을 가져오는 서버통신 수행한다.
+
+/*
+ * 진입 flow (구분 기준 : intent 내 StringExtra('from'))
+ * 1) 작성 : WriteActivity -> DetailBeforeActivity
+ * 2) 조회 : HomeStoneFragment -> DetailBeforeActivity
+ * 3) 수정 : DetailBeforeActivity -> WriteActivity(글 수정 중) -> DetailBeforeActivity
+*/
 
 @AndroidEntryPoint
 class DetailBeforeActivity :
@@ -52,6 +61,21 @@ class DetailBeforeActivity :
     }
 
     private fun getWorryById() {
+        val worryId = intent.getIntExtra("worryId", 0)
+        viewModel.getWorryDetail(worryId)
+
+        val from = intent.getStringExtra("from")
+        if ("edit" == from) {
+            KaeraSnackBar.make(
+                view = binding.root,
+                message = baseContext.stringOf(R.string.complete_edit_snackbar),
+                duration = KaeraSnackBar.DURATION.SHORT,
+                backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                locationY = Constant.completeSnackBarLocationY
+            ).show()
+        }
+
+        /*
         val bundle = intent.extras
         if (bundle != null) {
             val json =
@@ -94,6 +118,7 @@ class DetailBeforeActivity :
                 }
             }
         }
+        */
     }
 
     private fun collectFlows() {

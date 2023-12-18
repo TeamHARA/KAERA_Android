@@ -66,7 +66,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
                     R.id.nav_write -> {
                         startActivity(Intent(context, WriteActivity::class.java))
-                        return@setOnItemSelectedListener true
+                        return@setOnItemSelectedListener false
                     }
 
                     R.id.nav_storage -> {

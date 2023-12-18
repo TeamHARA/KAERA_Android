@@ -201,13 +201,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="54dp"
                             android:layout_marginBottom="48dp"
-                            android:text="@{`작성일 ` + worryDetail.updatedAt}"
+                            android:text="@{worryDetail.updatedAt}"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_5"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/layout_answer_4"
-                            tools:text="작성일 2023.08.15" />
+                            tools:text="2023.08.15" />
+
+                        <!-- android:text="@{`작성일 ` + worryDetail.updatedAt}" -->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

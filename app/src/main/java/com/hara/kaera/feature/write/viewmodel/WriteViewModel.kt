@@ -25,11 +25,10 @@ class WriteViewModel @Inject constructor(
     private val editWorryUseCase: EditWorryUseCase
 ) : ViewModel() {
 
-
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
 
-    // 템플릿 선택 바텀시트로 부터 가져오는 ShortInfo
+    // 템플릿 선택 바텀시트로부터 가져오는 ShortInfo
     private val _templateShortInfo = MutableStateFlow("")
     val templateShortInfo = _templateShortInfo.asStateFlow()
 
@@ -39,7 +38,6 @@ class WriteViewModel @Inject constructor(
     private val _curTemplateIdFlow = MutableStateFlow(CurId.INIT.value)
     val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
 
-
     // 글 작성 결과
     private val _writeWorryFlow = MutableStateFlow<UiState<String>>(UiState.Init)
     val writeWorryFlow = _writeWorryFlow.asStateFlow()
@@ -48,12 +46,22 @@ class WriteViewModel @Inject constructor(
     private val _editWorryFlow = MutableStateFlow<UiState<String>>(UiState.Init)
     val editWorryFlow = _editWorryFlow.asStateFlow()
 
+    private var worryId = -1 // 글 수정 시에만 사용
+
     //repeatOnLifeCycle에 따라서 백그라운드로 나갔다 다시 create되면
     //onStarted에서 tmplateIdFlow를 다시 collect함 그에 따라서
     // getTemplateDetailData함수를 재호출함
     // 그에따라 새로 render함수도 호출 되고 이전에 작성한 글이 render가 다시 되어서 작성했던 글들이 삭제되어 버림
     // 이를 방지하기 위해서 나갔다 들어와도 재호출되지 않도록 singleSelecteAdapter 처럼 이전 선택한
     // id를 저장해두었다가 조건검사에 써준다
+
+    fun setWorryId(worryId: Int) {
+        this.worryId = worryId
+    }
+
+    fun getWorryId(): Int {
+        return worryId
+    }
 
     fun setTemplateId(choiceId: Int) {
         _templateIdFlow.value = choiceId
