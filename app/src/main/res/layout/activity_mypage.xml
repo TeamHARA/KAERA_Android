@@ -242,7 +242,7 @@
                     android:layout_marginHorizontal="50dp"
                     android:layout_marginVertical="24dp"
                     android:layout_marginTop="44dp"
-                    android:background="@drawable/shape_rect_gray2_8"
+                    android:background="@drawable/ripple_rect_gray2_8"
                     android:paddingVertical="17dp"
                     android:text="@string/logout"
                     android:textAlignment="center"

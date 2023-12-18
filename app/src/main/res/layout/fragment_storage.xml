@@ -62,8 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_rect_gray2_10"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/ripple_rect_gray2_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
