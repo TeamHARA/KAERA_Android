@@ -190,10 +190,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     }
                 }
             }
-            layoutNetworkError.btnNetworkError.onSingleClick {
+            layoutError.layoutNetworkError.btnNetworkError.onSingleClick {
                 viewModel.getTemplateDetailData()
             }
-            layoutInternalError.btnInternalError.onSingleClick {
+            layoutError.layoutInternalError.btnInternalError.onSingleClick {
                 viewModel.getTemplateDetailData()
             }
         }
@@ -278,15 +278,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
-            is UiState.Loading -> {
-                binding.loadingBar.visible(true)
-            }
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+
 
             is UiState.Success -> {
-                binding.loadingBar.visible(false)
-                binding.clTitle.visible(true)
-                binding.scrollView.visible(true)
-                binding.clEmpty.root.visible(false)
+                renderTemplate(true)
                 binding.tvTemplateShortInfo.text = viewModel.templateShortInfo.value // shortInfo
                 binding.templatedata = uiState.data
                 if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
@@ -316,22 +312,26 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                binding.clEmpty.root.visible(false)
-                binding.loadingBar.visible(false)
-                binding.scrollView.visible(false)
-                binding.clTitle.visible(true)
+                renderTemplate(false)
                 when (uiState.error) {
                     Constant.networkError -> {
-                        binding.layoutNetworkError.root.visible(true)
+                        binding.layoutError.layoutNetworkError.root.visible(true)
                     }
 
                     Constant.internalError -> {
-                        binding.layoutInternalError.root.visible(true)
+                        binding.layoutError.layoutInternalError.root.visible(true)
                     }
                 }
                 binding.root.makeToast(uiState.error)
             }
         }
+    }
+
+    private fun renderTemplate(success: Boolean) {
+        binding.layoutLoading.root.visible(false)
+        binding.clEmpty.root.visible(false)
+        binding.scrollView.visible(success)
+        binding.layoutError.root.visible(!success)
     }
 
     private fun clearEditText() {

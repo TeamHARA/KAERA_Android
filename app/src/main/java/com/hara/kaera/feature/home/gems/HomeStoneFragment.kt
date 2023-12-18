@@ -18,6 +18,8 @@ import com.hara.kaera.feature.home.adapter.HomeStoneAdapter
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.dpToPx
+import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -108,22 +110,27 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
     private fun render(uiState: UiState<HomeWorryListEntity>) {
         when (uiState) {
             is UiState.Init -> Timber.e("[ABC] [홈 화면/원석 뷰] UiState.init")
-            is UiState.Loading -> Timber.e("[ABC] [홈 화면/원석 뷰] UiState.Loading")
+            is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Empty -> {
-                binding.clEmpty.visibility = View.VISIBLE
-                binding.rvHomeStones.visibility = View.GONE
+                showContent(true)
             }
+
             is UiState.Success<HomeWorryListEntity> -> {
-                binding.clEmpty.visibility = View.GONE
-                binding.rvHomeStones.visibility = View.VISIBLE
-
-                uiState.data.homeWorryList.forEachIndexed { idx, stone ->
-                    Timber.e("[ABC] [홈 화면/원석 뷰] list [${idx}] ${stone}\n")
-                }
-
+                showContent(false)
                 homeStoneAdapter.submitList(uiState.data.homeWorryList.toMutableList())
             }
-            is UiState.Error -> Timber.e("[ABC] [홈 화면/원석 뷰] UiState.Error")
+
+            is UiState.Error -> {
+                binding.loadingBar.visible(false)
+                binding.root.makeToast(uiState.error)
+            }
         }
     }
+
+    private fun showContent(empty: Boolean) {
+        binding.loadingBar.visible(false)
+        binding.clEmpty.visible(empty)
+        binding.rvHomeStones.visible(!empty)
+    }
+
 }

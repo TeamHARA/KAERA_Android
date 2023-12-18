@@ -54,9 +54,8 @@ class TemplateChoiceBottomSheet(
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
-            is UiState.Loading -> {
-                binding.loadingBar.visible(true)
-            }
+            is UiState.Loading -> binding.loadingBar.visible(true)
+
 
             is UiState.Success<TemplateTypesEntity> -> {
                 binding.loadingBar.visible(false)
@@ -64,6 +63,7 @@ class TemplateChoiceBottomSheet(
             }
 
             is UiState.Error -> {
+                binding.loadingBar.visible(false)
                 binding.root.makeToast(uiState.error)
             }
         }

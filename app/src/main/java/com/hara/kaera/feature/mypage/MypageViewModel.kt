@@ -37,7 +37,7 @@ class MypageViewModel @Inject constructor(
         }
     }
 
-    fun clearDataStore() {
+    private fun clearDataStore() {
         viewModelScope.launch {
             kotlin.runCatching {
                 loginRepository.clearDataStore()
