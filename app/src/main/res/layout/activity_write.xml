@@ -83,13 +83,17 @@
 
                 <TextView
                     android:id="@+id/tv_template_short_info"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
+                    android:text="@{templatedata.guideline}"
                     android:textAppearance="@style/h_sub1_r12"
                     android:textColor="@color/gray_5"
                     app:layout_constraintBottom_toTopOf="@id/divider_gray3"
+                    app:layout_constraintEnd_toStartOf="@+id/imv_drop_down"
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="@+id/tv_template_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_template_title" />
 

@@ -262,7 +262,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
             is UiState.Success -> {
                 renderTemplate(true)
-                binding.tvTemplateShortInfo.text = viewModel.templateShortInfo.value // shortInfo
                 binding.templatedata = uiState.data
                 if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
                     binding.clTemplate.root.visible(false)
@@ -399,8 +398,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     }
 
     private fun showTemplateChoiceBottomSheet() {
-        TemplateChoiceBottomSheet({ id, shortInfo ->
-            viewModel.setTemplateData(id, shortInfo)
+        TemplateChoiceBottomSheet({ id ->
+            viewModel.setTemplateId(id)
         }, viewModel.templateIdFlow.value).show(
             supportFragmentManager,
             "template_choice"

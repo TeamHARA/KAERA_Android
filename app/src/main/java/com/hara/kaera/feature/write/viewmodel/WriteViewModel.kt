@@ -63,11 +63,6 @@ class WriteViewModel @Inject constructor(
         _curTemplateIdFlow.value = choiceId
     }
 
-    fun setTemplateData(choiceId: Int, shortInfo:String){
-        _templateIdFlow.value = choiceId
-        _templateShortInfo.value = shortInfo
-    }
-
     fun getTemplateDetailData() {
         _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
