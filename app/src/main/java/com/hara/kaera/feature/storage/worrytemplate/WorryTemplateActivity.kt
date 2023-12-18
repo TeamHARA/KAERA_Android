@@ -11,6 +11,7 @@ import com.hara.kaera.databinding.ActivityWorryTemplateBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
@@ -32,8 +33,9 @@ class WorryTemplateActivity :
     }
 
     private fun setOnClickListeners() {
-        binding.appbarDetail.setNavigationOnClickListener {
-            finish()
+        with(binding.btnClose) {
+            increaseTouchSize(baseContext)
+            setOnClickListener { finish() }
         }
     }
 

@@ -74,7 +74,10 @@ fun Int.spToDp(context: Context): Int {
     }
 }
 
-fun ImageButton.increaseTouchSize(expandSize: Int = 24, context: Context) {
+/*
+    View크기는 유지한채 터치영역만 늘리는 함수, 기폰으로 12dp 증가
+ */
+fun ImageButton.increaseTouchSize(context: Context, expandSize: Int = 12) {
     val addHitSize = expandSize.dpToPx(context) // 추가로 Hit하려는 크기
     val targetView = this
     val parentView = targetView.parent as View

@@ -20,6 +20,7 @@ import com.hara.kaera.feature.dialog.DialogWriteSuccess
 import com.hara.kaera.feature.util.SetKeyboard
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
@@ -96,13 +97,19 @@ class DetailAfterActivity :
 
     private fun setClickListener() {
         with(binding) {
-            appbarDetail.setNavigationOnClickListener { // 앱바 'X' 버튼 클릭
-                onClickBackPressed()
+            with(btnClose) {
+                increaseTouchSize(baseContext)
+                setOnClickListener { // 앱바 'X' 버튼 클릭
+                    onClickBackPressed()
+                }
             }
-            btnDelete.onSingleClick {
-                DialogDeleteWarning {
-                    viewModel.deleteWorry()
-                }.show(supportFragmentManager, "delete_worry")
+            with(btnDelete) {
+                increaseTouchSize(baseContext)
+                onSingleClick {
+                    DialogDeleteWarning {
+                        viewModel.deleteWorry()
+                    }.show(supportFragmentManager, "delete_worry")
+                }
             }
             tvSaveBtn.onSingleClick {
                 viewModel.updateReview(binding.etRecordContent.text.toString())
