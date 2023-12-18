@@ -12,12 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_rect_gray2_8">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_close"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
+            android:background="@drawable/image_ripple_effect"
             android:src="@drawable/icn_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,11 +68,11 @@
             android:gravity="top"
             android:hint="@string/complete_hint"
             android:inputType="none"
+            android:lines="3"
             android:maxLength="80"
             android:padding="12dp"
-            android:lines="3"
-            android:scrollbars="vertical"
             android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
             android:textColor="@color/black"
             android:textColorHint="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +87,7 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/selector_rect_gray4_yellow1_8"
             android:enabled="false"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/complete"
             android:textAppearance="@style/h_body4_r14"
             android:textColor="@drawable/selector_text_white_black"
