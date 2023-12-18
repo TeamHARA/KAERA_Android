@@ -43,10 +43,10 @@ class TemplateBottomSheetChoiceAdapter(
         with(holder.binding) {
             this.templatedata = curItem
             if (position == selectedPosition) { // 선택유무에 따라서 배경이 바뀐다.
-                this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_yellow1_8)
+                this.root.setBackgroundResource(R.drawable.ripple_rect_gray1_stroke_yellow1_8)
                 this.select = true // 체크버튼이 나오도록
             } else {
-                this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_gray5_8)
+                this.root.setBackgroundResource(R.drawable.ripple_rect_gray1_stroke_gray5_8)
                 this.select = false
             }
 
