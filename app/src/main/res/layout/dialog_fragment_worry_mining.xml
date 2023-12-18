@@ -63,6 +63,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="21dp"
             android:autofillHints="no"
+            android:textAppearance="@style/h_body4_r14"
             android:background="@drawable/shape_rect_gray4_8"
             android:gravity="top"
             android:hint="@string/complete_hint"
