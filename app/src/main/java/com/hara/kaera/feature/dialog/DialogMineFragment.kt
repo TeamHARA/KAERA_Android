@@ -7,6 +7,7 @@ import androidx.core.widget.addTextChangedListener
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogFragmentWorryMiningBinding
 import com.hara.kaera.feature.base.BindingDialogFragment
+import com.hara.kaera.feature.util.onSingleClick
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -19,7 +20,7 @@ class DialogMineFragment(
         super.onViewCreated(view, savedInstanceState)
 
         // 완료 버튼 클릭
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.onSingleClick {
             onClickComplete(binding.etComplete.text)
             Timber.e("[ABC] DialogMineFragment - 완료 버튼 클릭")
             dismiss()

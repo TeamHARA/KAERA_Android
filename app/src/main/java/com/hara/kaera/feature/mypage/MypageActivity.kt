@@ -19,6 +19,7 @@ import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.PermissionRequestDelegator
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -62,7 +63,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
     private fun grantPermission() {
 
-        binding.tbAlertToggle.setOnClickListener {
+        binding.tbAlertToggle.onSingleClick {
             if (ContextCompat.checkSelfPermission(
                     baseContext,
                     Manifest.permission.POST_NOTIFICATIONS
