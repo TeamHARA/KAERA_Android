@@ -6,8 +6,10 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.domain.entity.TemplateDetailEntity
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.domain.usecase.EditWorryUseCase
 import com.hara.kaera.domain.usecase.GetTemplateDetailUseCase
+import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.domain.usecase.WriteWorryUseCase
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToLayout
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class WriteViewModel @Inject constructor(
     private val detailUseCase: GetTemplateDetailUseCase,
     private val writeWorryUseCase: WriteWorryUseCase,
-    private val editWorryUseCase: EditWorryUseCase
+    private val editWorryUseCase: EditWorryUseCase,
+    private val worryUseCase: GetWorryDetailUseCase,
 ) : ViewModel() {
 
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
@@ -46,7 +49,10 @@ class WriteViewModel @Inject constructor(
     private val _editWorryFlow = MutableStateFlow<UiState<String>>(UiState.Init)
     val editWorryFlow = _editWorryFlow.asStateFlow()
 
-    private var worryId = -1 // 글 수정 시에만 사용
+    /* 글 수정 시에만 사용 */
+    private var worryId = -1
+    private val _detailStateFlow = MutableStateFlow<UiState<WorryDetailEntity>>(UiState.Init)
+    val detailStateFlow = _detailStateFlow.asStateFlow()
 
     //repeatOnLifeCycle에 따라서 백그라운드로 나갔다 다시 create되면
     //onStarted에서 tmplateIdFlow를 다시 collect함 그에 따라서
@@ -71,7 +77,7 @@ class WriteViewModel @Inject constructor(
         _curTemplateIdFlow.value = choiceId
     }
 
-    fun setTemplateData(choiceId: Int, shortInfo:String){
+    fun setTemplateData(choiceId: Int, shortInfo: String){
         _templateIdFlow.value = choiceId
         _templateShortInfo.value = shortInfo
     }
@@ -138,6 +144,31 @@ class WriteViewModel @Inject constructor(
 
                         is ApiResult.Error -> {
                             _editWorryFlow.value = UiState.Error(errorToMessage(collect.error))
+                        }
+                    }
+                }
+            }.onFailure {
+                throw (it)
+                UiState.Error("서버가 불안정합니다.")
+            }
+        }
+    }
+
+    // [글 수정 시에만 사용] 글 detail 조회
+    fun getWorryDetail() {
+        viewModelScope.launch {
+            _detailStateFlow.value = UiState.Loading
+            kotlin.runCatching {
+                worryUseCase(worryId)
+            }.onSuccess {
+                it.collect { collect ->
+                    when (collect) {
+                        is ApiResult.Success -> {
+                            _detailStateFlow.value = UiState.Success(collect.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _detailStateFlow.value = UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }

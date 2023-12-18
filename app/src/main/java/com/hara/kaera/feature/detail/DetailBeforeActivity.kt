@@ -40,7 +40,7 @@ import timber.log.Timber
 // 일단 무조건, intent로 온 worryId를 바탕으로 고민의 detail을 가져오는 서버통신 수행한다.
 
 /*
- * 진입 flow (구분 기준 : intent 내 StringExtra('from'))
+ * 진입 flow (구분 기준 : intent 내 StringExtra('action'))
  * 1) 작성 : WriteActivity -> DetailBeforeActivity
  * 2) 조회 : HomeStoneFragment -> DetailBeforeActivity
  * 3) 수정 : DetailBeforeActivity -> WriteActivity(글 수정 중) -> DetailBeforeActivity
@@ -64,15 +64,28 @@ class DetailBeforeActivity :
         val worryId = intent.getIntExtra("worryId", 0)
         viewModel.getWorryDetail(worryId)
 
-        val from = intent.getStringExtra("from")
-        if ("edit" == from) {
-            KaeraSnackBar.make(
-                view = binding.root,
-                message = baseContext.stringOf(R.string.complete_edit_snackbar),
-                duration = KaeraSnackBar.DURATION.SHORT,
-                backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                locationY = Constant.completeSnackBarLocationY
-            ).show()
+        when (intent.getStringExtra("action")) {
+            "write" -> { // [작성]
+                KaeraSnackBar.make(
+                    view = binding.root,
+                    message = baseContext.stringOf(R.string.complete_write_snackbar),
+                    duration = KaeraSnackBar.DURATION.SHORT,
+                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                    locationY = Constant.completeSnackBarLocationY
+                ).show()
+            }
+            "edit" -> { // [수정]
+                KaeraSnackBar.make(
+                    view = binding.root,
+                    message = baseContext.stringOf(R.string.complete_edit_snackbar),
+                    duration = KaeraSnackBar.DURATION.SHORT,
+                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                    locationY = Constant.completeSnackBarLocationY
+                ).show()
+            }
+            "view" -> { // [조회]
+
+            }
         }
 
         /*
@@ -221,9 +234,17 @@ class DetailBeforeActivity :
             }
             btnEdit.setOnClickListener {// 햄버거 버튼
                 DialogEditFragment(
-                    // 1) 수정하기 -> activity_write으로 이동(시 데이터 전달)
-                    { goToWriteActivity() },
-                    // 2) 데드라인 수정하기
+                    // 1) [글 수정] WriteActivity로 이동
+                    {
+                        startActivity(
+                            Intent(applicationContext, WriteActivity::class.java).apply {
+                                putExtra("worryId", viewModel.getWorryId())
+                                putExtra("action", "edit")
+                            }
+                        )
+                        finish()
+                    },
+                    // 2) [데드라인 수정]
                     {
                         DialogWriteComplete(
                             fun(day: Int) {
@@ -237,7 +258,7 @@ class DetailBeforeActivity :
                             }
                         ).show(supportFragmentManager, "complete")
                     },
-                    // 3) 삭제하기
+                    // 3) [삭제]
                     {
                         DialogDeleteWarning {
                             viewModel.deleteWorry()

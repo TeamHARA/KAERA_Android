@@ -13,6 +13,10 @@
         <variable
             name="templatedata"
             type="com.hara.kaera.domain.entity.TemplateDetailEntity" />
+
+        <variable
+            name="userInput"
+            type="com.hara.kaera.domain.entity.WorryDetailEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,13 +65,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
+            <!-- template 선택 bottom sheet -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_choice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:clickable="@{userInput == null}">
 
                 <TextView
                     android:id="@+id/tv_template_title"
@@ -89,6 +95,7 @@
                     android:layout_marginBottom="10dp"
                     android:textAppearance="@style/h_sub1_r12"
                     android:textColor="@color/gray_5"
+                    android:text="@{templatedata.guideline}"
                     app:layout_constraintBottom_toTopOf="@id/divider_gray3"
                     app:layout_constraintStart_toStartOf="@+id/tv_template_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_template_title" />
@@ -163,12 +170,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <!-- 글 제목 -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_content"
                         android:layout_width="match_parent"
                         android:layout_height="0dp">
 
+                        <!-- 글 제목 -->
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/cl_title"
                             android:layout_width="match_parent"
@@ -184,6 +191,7 @@
                                 android:autofillHints="no"
                                 android:background="@color/transparent"
                                 android:hint="@string/write_naming_hint"
+                                android:text="@{userInput.title}"
                                 android:inputType="text"
                                 android:maxLength="7"
                                 android:padding="16dp"
@@ -192,7 +200,7 @@
                                 android:textColorHint="@color/gray_4"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <View
                                 android:id="@+id/divider_gray2"
@@ -215,6 +223,7 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <!-- 1) 일반 템플릿 -->
                         <include
                             android:id="@+id/cl_template"
                             layout="@layout/layout_template"
@@ -225,7 +234,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cl_title"
-                            bind:templatedata="@{templatedata}" />
+                            bind:templatedata="@{templatedata}"
+                            bind:userInput="@{userInput}"/>
 
                         <!-- 2) free note 템플릿 -->
                         <include
@@ -238,7 +248,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cl_title"
-                            bind:templatedata="@{templatedata}" />
+                            bind:templatedata="@{templatedata}"
+                            bind:userInput="@{userInput}" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </ScrollView>
