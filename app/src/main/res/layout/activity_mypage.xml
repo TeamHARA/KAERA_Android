@@ -235,7 +235,7 @@
                     android:background="@color/gray_2"
                     app:layout_constraintTop_toBottomOf="@+id/layout_privacy" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_logout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
