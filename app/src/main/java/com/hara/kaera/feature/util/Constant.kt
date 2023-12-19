@@ -11,4 +11,5 @@ object Constant {
     const val completeSnackBarLocationY = -240.0
     const val infiniteDeadLine = -888
     const val dummyGemStoneId = -1
+    const val worryIdIntent = "worryId"
 }

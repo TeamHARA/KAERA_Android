@@ -3,7 +3,10 @@ package com.hara.kaera.feature.detail
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
@@ -99,10 +102,21 @@ class DetailBeforeActivity :
                 launch {
                     viewModel.decideFinalFlow.collect {
                         if (it is UiState.Success<String>) {
-                            DialogSayingFragment(
+                            val sayingFragment = DialogSayingFragment(
                                 templateId = viewModel.templateId,
                                 saying = it.data
-                            ).show(supportFragmentManager, "saying")
+                            )
+                            sayingFragment.show(supportFragmentManager, "saying")
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                sayingFragment.dismiss()
+                                finish()
+                                startActivity(
+                                    Intent(baseContext, DetailAfterActivity::class.java).apply {
+                                        putExtra(Constant.worryIdIntent, viewModel.getWorryId())
+                                    },
+                                )
+                            }, 2000) // 애니메이션 시작전 2000ms 후 자동종료
+
                         }
                     }
                 }
