@@ -11,6 +11,8 @@ import com.hara.kaera.databinding.ActivityWorryTemplateBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -58,17 +60,17 @@ class WorryTemplateActivity :
 
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
-            is UiState.Loading -> {
-                Timber.e("Loading")
-            }
+            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+
 
             is UiState.Success<TemplateTypesEntity> -> {
-                Timber.e("Collect Success")
+                binding.layoutLoading.root.visible(false)
                 worryTemplateAdapter.submitList(uiState.data.templateTypeList)
             }
 
             is UiState.Error -> {
-                Timber.e(uiState.error)
+                binding.layoutLoading.root.visible(false)
+                binding.root.makeToast(message = uiState.error)
             }
 
             else -> {

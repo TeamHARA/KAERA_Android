@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Kaera</string>
     <string name="main_backpress">\'뒤로\'버튼을 한번더 누르면 종료됩니다.</string>
+    <string name="save">저장</string>
     <!-- 에러 화면 -->
     <string name="error_network">네트워크 오류</string>
     <string name="error_network_guide">인터넷 연결 후 다시 시도해주세요</string>
@@ -36,6 +37,9 @@
     <string name="detail_delete">삭제하기</string>
     <string name="detail_cancel">취소</string>
     <string name="detail_warning">수정이 불가능하니 잘 확인해서 입력해주세요</string>
+    <string name="detail_before_date">고민 작성 </string>
+    <string name="detail_before_complete_button">🔨 고민 보석 캐기</string>
+
     <string name="complete_write_snackbar">작성 완료!</string>
     <string name="complete_edit_snackbar">수정 완료!</string>
 
