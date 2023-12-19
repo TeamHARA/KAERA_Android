@@ -3,12 +3,15 @@ package com.hara.kaera.feature
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
+import com.hara.kaera.feature.dialog.DialogFullStoneFragment
 import com.hara.kaera.feature.home.HomeFragment
+import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.storage.StorageFragment
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.PermissionRequestDelegator
@@ -23,6 +26,8 @@ import timber.log.Timber
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val homeFragment = HomeFragment()
     private val storageFragment = StorageFragment()
+    private val viewModel by viewModels<HomeViewModel>()
+
 
     private var time: Long = 0
     private val callback = object : OnBackPressedCallback(true) {
@@ -65,11 +70,14 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
 
                     R.id.nav_write -> {
-                        startActivity(
-                            Intent(applicationContext, WriteActivity::class.java).apply {
-                                putExtra("action", "write")
-                            }
-                        )
+                        if (viewModel.isFullStone()) {
+                            DialogFullStoneFragment().show(supportFragmentManager, "fullstone")
+                        } else {
+                            startActivity(
+                                Intent(applicationContext, WriteActivity::class.java).apply {
+                                    putExtra("action", "write")
+                                }
+                            )                        }
                         return@setOnItemSelectedListener false
                     }
 
