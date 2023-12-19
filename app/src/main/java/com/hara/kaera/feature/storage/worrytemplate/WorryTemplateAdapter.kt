@@ -51,14 +51,14 @@ class WorryTemplateAdapter(private val itemClickListener: (Int) -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is BannerViewHolder -> {
-                holder.binding.ibConnectInstagramBtn.setOnClickListener {
+                holder.binding.clBanner.setOnClickListener {
                     holder.itemView.context.startActivity(
                         Intent(
                             holder.itemView.context, WebViewActivity::class.java
                         ).apply {
                             putExtra(
                                 MypageActivity.WebViewConstant.urlIntent,
-                                MypageActivity.WebViewConstant.useOfTerms
+                                MypageActivity.WebViewConstant.instagram
                             )
                         }
                     )
