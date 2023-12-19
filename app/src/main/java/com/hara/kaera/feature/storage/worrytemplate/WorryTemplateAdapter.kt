@@ -1,5 +1,6 @@
 package com.hara.kaera.feature.storage.worrytemplate
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -7,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hara.kaera.databinding.ItemWorryTemplateBinding
 import com.hara.kaera.databinding.LayoutWorryTemplateBannerBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
+import com.hara.kaera.feature.mypage.MypageActivity
+import com.hara.kaera.feature.mypage.WebViewActivity
 import com.hara.kaera.feature.util.GlobalDiffCallBack
 import timber.log.Timber
 
@@ -48,9 +51,17 @@ class WorryTemplateAdapter(private val itemClickListener: (Int) -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is BannerViewHolder -> {
-                holder.binding.btnShare.setOnClickListener {
-                    Timber.e("Click Share Button")
-                    // TODO: 인스타그램 공유
+                holder.binding.clBanner.setOnClickListener {
+                    holder.itemView.context.startActivity(
+                        Intent(
+                            holder.itemView.context, WebViewActivity::class.java
+                        ).apply {
+                            putExtra(
+                                MypageActivity.WebViewConstant.urlIntent,
+                                MypageActivity.WebViewConstant.instagram
+                            )
+                        }
+                    )
                 }
             }
 
