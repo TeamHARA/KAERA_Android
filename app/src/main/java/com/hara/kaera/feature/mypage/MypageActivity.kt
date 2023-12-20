@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
@@ -90,29 +91,22 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             appbarDetail.setNavigationOnClickListener {
                 finish()
             }
-            clService.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@MypageActivity, WebViewActivity::class.java
-                    ).apply {
-                        putExtra(
-                            WebViewConstant.urlIntent,
-                            WebViewConstant.useOfTerms
-                        )
-                    }
-                )
+            layoutKaeraGuide.root.setOnClickListener {
+                connectWebView(WebViewConstant.kaeraGuide)
             }
-            clPrivacy.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@MypageActivity, WebViewActivity::class.java
-                    ).apply {
-                        putExtra(
-                            WebViewConstant.urlIntent,
-                            WebViewConstant.privacyTerms
-                        )
-                    }
-                )
+            layoutKaeraInstagram.root.setOnClickListener {
+                connectWebView(WebViewConstant.instagram)
+            }
+            layoutOpenSource.root.setOnClickListener {
+                //TODO 릴리즈 버전에서 라이선스 확인하기
+                OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스 목록")
+                startActivity(Intent(this@MypageActivity, OssLicensesMenuActivity::class.java))
+            }
+            layoutService.root.setOnClickListener {
+                connectWebView(WebViewConstant.useOfTerms)
+            }
+            layoutPrivacy.root.setOnClickListener {
+                connectWebView(WebViewConstant.privacyTerms)
             }
 
             btnLogout.setOnClickListener {
@@ -157,13 +151,29 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
         }
     }
 
+    private fun connectWebView(targetUrl: String) {
+        startActivity(
+            Intent(
+                this@MypageActivity, WebViewActivity::class.java
+            ).apply {
+                putExtra(
+                    WebViewConstant.urlIntent,
+                    targetUrl
+                )
+            }
+        )
+    }
+
     object WebViewConstant {
         const val urlIntent = "url"
+        const val kaeraGuide =
+            "https://daffy-lawyer-1b8.notion.site/Kaera-bd1d79798c2542728761fa628e49ada6?pvs=4"
         const val useOfTerms =
             "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5"
         const val privacyTerms =
             "https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1"
-        const val instagram = "https://www.instagram.com/kaera.app/?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr"
+        const val instagram =
+            "https://www.instagram.com/kaera.app/?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr"
     }
 
 }
