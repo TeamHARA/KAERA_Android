@@ -16,6 +16,8 @@ object Dependency {
 
     object Android {
         const val MATERIAL = "com.google.android.material:material:${Versions.ANDROID_MATERIAL}"
+        const val OSS_LICENSES_PLUGIN = "com.google.android.gms:oss-licenses-plugin:${Versions.OSS_LICENSES_PLUGIN}"
+        const val OSS_LICENSES_LIBRARY = "com.google.android.gms:play-services-oss-licenses:${Versions.OSS_LICENSES_LIBRARY}"
     }
 
     object Google{
