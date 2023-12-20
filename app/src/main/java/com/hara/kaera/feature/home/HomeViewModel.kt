@@ -34,19 +34,17 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<UiState<HomeWorryListEntity>>(UiState.Init)
     val homeWorryListJewelFlow = _homeWorryListJewelFlow.asStateFlow()
 
-    private val stoneList =
-        MutableList(12) { HomeWorryListEntity.HomeWorry(worryId = -1, templateId = -1, title = "") }
-    private var stoneListSize = 0
-    private val jewelList =
-        MutableList(12) { HomeWorryListEntity.HomeWorry(worryId = -1, templateId = -1, title = "") }
-    private var jewelListSize = 0
-
     private var fullStone = false
 
     fun getHomeWorryList(isSolved: Boolean) {
         val flow = if (!isSolved) _homeWorryListStoneFlow else _homeWorryListJewelFlow
-        val result = if (!isSolved) stoneList else jewelList
-        var resultSize = if (!isSolved) stoneListSize else jewelListSize
+        val result = MutableList(12) {
+            HomeWorryListEntity.HomeWorry(
+                worryId = -1,
+                templateId = -1,
+                title = ""
+            )
+        }
 
         flow.value = UiState.Loading
         viewModelScope.launch {
