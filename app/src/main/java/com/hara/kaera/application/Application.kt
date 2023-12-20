@@ -20,16 +20,6 @@ class Application : Application() {
         val keyHash = Utility.getKeyHash(this)
         Timber.e("keyhash : $keyHash")
         KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                return@OnCompleteListener
-            }
-            // Get new FCM registration token
-            val token = task.result
-            Timber.e(token)
-        })
-
     }
 
 }

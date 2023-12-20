@@ -1,7 +1,9 @@
 package com.hara.kaera.application
 
+import android.content.Context
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+
 
 class FirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
@@ -18,5 +20,15 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+        val sharedPref = getSharedPreferences(Constant.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString(Constant.SHARED_PREFERENCE_KEY, token)
+        editor.apply()
     }
+
+    fun getDeviceToken(context: Context): String? {
+        return context.getSharedPreferences(Constant.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
+            .getString(Constant.SHARED_PREFERENCE_KEY, "empty")
+    }
+
 }
