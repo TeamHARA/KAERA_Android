@@ -121,6 +121,7 @@
                     android:id="@+id/cl_push_alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:paddingVertical="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -146,9 +147,11 @@
                         android:text="@string/mypage_noti_allow"
                         android:textAppearance="@style/h_body2_r16"
                         android:textColor="@color/blue"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_alert"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_alert" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/tb_alert_toggle"
