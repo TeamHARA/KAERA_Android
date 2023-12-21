@@ -36,7 +36,7 @@
 
         <activity
             android:name=".feature.login.LoginActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -65,33 +65,29 @@
 
         <activity
             android:name=".feature.MainActivity"
-            android:exported="true">
-
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".feature.onboarding.OnboardingActivity"
-            android:exported="true" />
-
+            android:exported="false" />
         <activity
             android:name=".feature.detail.DetailBeforeActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".feature.write.WriteActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".feature.storage.worrytemplate.WorryTemplateActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".feature.detail.DetailAfterActivity"
-            android:exported="true"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".feature.mypage.MypageActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".feature.mypage.WebViewActivity"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>
