@@ -105,6 +105,7 @@
     <string name="mypage_title">마이페이지</string>
     <string name="mypage_alert_setting">알림설정</string>
     <string name="mypage_push_alert">Push 알림</string>
+    <string name="mypage_noti_allow">권한 허용</string>
     <string name="mypage_tos">이용 약관</string>
     <string name="mypage_info">정보</string>
     <string name="mypage_kaera_guide">캐라 사용설명서</string>

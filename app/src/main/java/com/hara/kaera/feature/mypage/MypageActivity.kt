@@ -21,6 +21,7 @@ import com.hara.kaera.feature.util.PermissionRequestDelegator
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
+import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -64,6 +65,18 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
     private fun grantPermission() {
 
+        if (ContextCompat.checkSelfPermission(
+                baseContext,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            binding.tvAllow.visible(false)
+            binding.tbAlertToggle.visible(true)
+        } else {
+            binding.tvAllow.visible(true)
+            binding.tbAlertToggle.visible(false)
+        }
+
         binding.tbAlertToggle.onSingleClick {
             if (ContextCompat.checkSelfPermission(
                     baseContext,
@@ -82,9 +95,12 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 //                    )
 //                }
             } else {
-                Timber.e("false_check")
-                permissionRequestDelegator.checkPermissions()
+                // FCM 비활성화
             }
+        }
+        binding.tvAllow.setOnClickListener {
+            Timber.e("allow")
+            permissionRequestDelegator.checkPermissions()
         }
     }
 
