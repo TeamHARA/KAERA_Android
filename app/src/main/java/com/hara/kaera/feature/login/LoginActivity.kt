@@ -8,9 +8,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
+import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivityLoginBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.UiState
@@ -21,6 +23,7 @@ import com.hara.kaera.feature.util.visible
 import com.kakao.sdk.auth.AuthApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -78,6 +81,14 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             }.onSuccess {
                 // OAuthToken 뜯어서 서버에 리퀘스트바디로 전달
                 // DataStore에 저장
+                // fcm 토큰도 받아온후 서버에 전송
+                runBlocking {
+                    loginViewModel.setDeviceToken(
+                        FirebaseMessagingService().getDeviceToken(
+                            baseContext
+                        ) ?: "Null"
+                    )
+                }
                 if (it.isSuccess) {
                     it.onSuccess { oAuthToken ->
                         loginViewModel.callKakaoLoginJWT(oAuthToken = oAuthToken)
@@ -117,7 +128,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 startActivity(Intent(this, MainActivity::class.java))
             }
 
-            else -> Unit
+            is TokenState.Expired -> Unit
+
+            is TokenState.Error -> {
+                binding.root.makeToast("잠시후 다시 시도해주세요.")
+            }
         }
     }
 

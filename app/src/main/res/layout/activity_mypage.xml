@@ -146,79 +146,68 @@
                     app:layout_constraintTop_toBottomOf="@+id/cl_push_alert" />
 
                 <TextView
-                    android:id="@+id/tv_tos"
+                    android:id="@+id/tv_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="24dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="42dp"
-                    android:text="@string/mypage_tos"
+                    android:text="@string/mypage_info"
                     android:textAppearance="@style/h_head2_b18"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/alert_divider" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_service"
+                <include
+                    android:id="@+id/layout_kaera_guide"
+                    layout="@layout/layout_mypage_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:paddingVertical="24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_tos">
+                    app:layout_constraintTop_toBottomOf="@id/tv_info"
+                    app:name="@{@string/mypage_kaera_guide}" />
 
-                    <TextView
-                        android:id="@+id/tv_service"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="@string/mypage_tos_service"
-                        android:textAppearance="@style/h_body2_r16"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/iv_service_next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/icn_next"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_service"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_service" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_privacy"
+                <include
+                    android:id="@+id/layout_kaera_instagram"
+                    layout="@layout/layout_mypage_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_service">
+                    app:layout_constraintTop_toBottomOf="@id/layout_kaera_guide"
+                    app:name="@{@string/instagram}" />
 
-                    <TextView
-                        android:id="@+id/tv_privacy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="@string/mypage_tos_privacy"
-                        android:textAppearance="@style/h_body2_r16"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <include
+                    android:id="@+id/layout_open_source"
+                    layout="@layout/layout_mypage_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_kaera_instagram"
+                    app:name="@{@string/mypage_open_source}" />
 
-                    <ImageView
-                        android:id="@+id/iv_privacy_next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/icn_next"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_privacy"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_privacy" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <include
+                    android:id="@+id/layout_service"
+                    layout="@layout/layout_mypage_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_open_source"
+                    app:name="@{@string/mypage_tos_service}" />
+
+                <include
+                    android:id="@+id/layout_privacy"
+                    layout="@layout/layout_mypage_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_service"
+                    app:name="@{@string/mypage_tos_privacy}" />
+
 
                 <View
                     android:id="@+id/tos_divider"
@@ -226,7 +215,7 @@
                     android:layout_height="13dp"
                     android:layout_marginTop="32dp"
                     android:background="@color/gray_2"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_privacy" />
+                    app:layout_constraintTop_toBottomOf="@+id/layout_privacy" />
 
                 <TextView
                     android:id="@+id/btn_logout"
