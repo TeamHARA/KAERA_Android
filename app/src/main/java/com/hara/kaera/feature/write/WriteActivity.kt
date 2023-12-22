@@ -1,10 +1,12 @@
 package com.hara.kaera.feature.write
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -58,10 +60,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var titleCondition = false
     private var contentCondition = false
 
-    private lateinit var writeWorryReqDTO: WriteWorryReqDTO
-
+    private lateinit var action: String
     private val viewModel by viewModels<WriteViewModel>()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -89,6 +91,19 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         setTemplate()
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun getDetailToEditData() {
+        action = intent.getStringExtra("action")!!
+        viewModel.setWorryId(intent.getIntExtra("worryId", -1))
+
+        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)?.let { intentWorryDetail -> // 수정
+            binding.userInput = intentWorryDetail
+            viewModel.setTemplateId(intentWorryDetail.templateId)
+        } ?: run { // 작성
+            showTemplateChoiceBottomSheet() // activity 진입하자마자 bottom sheet 등장
+        }
+    }
+
     private fun setTemplate() {
         if (intent.hasExtra("templateId")) {
             viewModel.setTemplateId(intent.getIntExtra("templateId", -1))
@@ -112,69 +127,39 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             btnComplete.onSingleClick {
-                if (!titleCondition) KaeraSnackBar.make(
-                    binding.root, baseContext.stringOf(R.string.write_snackbar_title),
-                    KaeraSnackBar.DURATION.SHORT
-                ).show()
-                else if (!contentCondition) KaeraSnackBar.make(
-                    binding.root,
-                    baseContext.stringOf(R.string.write_snackbar_content),
-                    KaeraSnackBar.DURATION.SHORT
-                ).show()
-                else {
-                    // 1) 글 작성
-                    if (viewModel.getWorryId() <= 0) {
+                if (!titleCondition) {
+                    KaeraSnackBar.make(
+                        binding.root, baseContext.stringOf(R.string.write_snackbar_title),
+                        KaeraSnackBar.DURATION.SHORT
+                    ).show()
+                    return@onSingleClick
+                }
+                if (!contentCondition) {
+                    KaeraSnackBar.make(
+                        binding.root,
+                        baseContext.stringOf(R.string.write_snackbar_content),
+                        KaeraSnackBar.DURATION.SHORT
+                    ).show()
+                    return@onSingleClick
+                }
+
+                when(action) {
+                    "write" -> { // [글 작성]
                         DialogWriteComplete(
                             fun(day: Int) {
-                                // Timber.e("[ABCD] 가져온 value는 ${day}")
-
-                                // 1-1) free flow
-                                if (viewModel.templateIdFlow.value == Constant.freeNoteId) {
-                                    writeWorryReqDTO = WriteWorryReqDTO(
-                                        templateId = Constant.freeNoteId,
-                                        title = binding.etTitle.text.toString(),
-                                        answers = listOf(
-                                            binding.clFreenote.etFreenote.text.toString()
-                                        ),
-                                        deadline = day
-                                    )
-                                }
-                                // 1-2) 나머지 template
-                                else {
-                                    writeWorryReqDTO = WriteWorryReqDTO(
-                                        templateId = viewModel.templateIdFlow.value,
-                                        title = binding.etTitle.text.toString(),
-                                        answers = listOf(
-                                            binding.clTemplate.etAnswer1.text.toString(),
-                                            binding.clTemplate.etAnswer2.text.toString(),
-                                            binding.clTemplate.etAnswer3.text.toString(),
-                                            binding.clTemplate.etAnswer4.text.toString(),
-                                        ),
-                                        deadline = day
-                                    )
-                                }
-                                viewModel.writeWorry(writeWorryReqDTO)
-                            }
+                                viewModel.writeWorry(
+                                    title = binding.etTitle.text.toString(),
+                                    answers = getAnswers(),
+                                    dDay = day
+                                )
+                            }, "write", -1
                         ).show(supportFragmentManager, "complete")
                     }
-                    // 2) 글 수정
-                    else {
-                        var editWorryReqDTO = EditWorryReqDTO(
-                            worryId = viewModel.getWorryId(),
-                            templateId = viewModel.templateIdFlow.value,
+                    "edit" -> { // [글 수정]
+                        viewModel.editWorry(
                             title = binding.etTitle.text.toString(),
-                            answers =
-                            if (viewModel.templateIdFlow.value == Constant.freeNoteId) // free flow
-                                listOf(binding.clFreenote.etFreenote.text.toString())
-                            else
-                                listOf(
-                                    binding.clTemplate.etAnswer1.text.toString(),
-                                    binding.clTemplate.etAnswer2.text.toString(),
-                                    binding.clTemplate.etAnswer3.text.toString(),
-                                    binding.clTemplate.etAnswer4.text.toString(),
-                                )
+                            answers = getAnswers(),
                         )
-                        viewModel.editWorry(editWorryReqDTO)
                     }
                 }
             }
@@ -226,9 +211,19 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     viewModel.writeWorryFlow.collect {
                         Timber.e("[ABC] 글작성 $it")
                         if (it is UiState.Success) {
+                            viewModel.setWorryId(it.data.data.worryId)
                             startActivity(
                                 Intent(applicationContext, DetailBeforeActivity::class.java).apply {
-                                    putExtra("worryId", 409) // TODO: 예린언니가 API 수정해주면 바꿀 예정
+                                    putExtra("worryId", viewModel.getWorryId())
+                                    putExtra("worryDetail", viewModel.createWorryDetail(
+                                        title = binding.etTitle.text.toString(),
+                                        subtitles = binding.templatedata!!.questions,
+                                        answers = getAnswers(),
+                                        createdAt = it.data.data.createdAt,
+                                        deadline = it.data.data.deadline,
+                                        dDay = it.data.data.dDay
+                                    ))
+//                                    putExtra("worryId", 409) // TODO: 예린언니가 API 수정해주면 바꿀 예정
                                     putExtra("action", "write")
                                 }
                             )
@@ -243,6 +238,14 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                             startActivity(
                                 Intent(applicationContext, DetailBeforeActivity::class.java).apply {
                                     putExtra("worryId", viewModel.getWorryId())
+                                    putExtra("worryDetail", viewModel.createWorryDetail(
+                                        title = binding.etTitle.text.toString(),
+                                        subtitles = binding.userInput!!.subtitles,
+                                        answers = getAnswers(),
+                                        createdAt = binding.userInput!!.updatedAt,
+                                        deadline = binding.userInput!!.deadline,
+                                        dDay = binding.userInput!!.dDay
+                                    ))
                                     putExtra("action", "edit")
                                 }
                             )
@@ -349,18 +352,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun checkText(): Boolean =
         (titleCondition) || (editTextList.any { it.text.isNotEmpty() && it.text.isNotBlank() }) || (editTextFreeNote.text.isNotEmpty() || editTextFreeNote.text.isNotEmpty() && editTextFreeNote.text.isNotBlank())
 
-    private fun getDetailToEditData() {
 
-        when (intent.getStringExtra("action")) {
-            "write" -> { // 글 작성
-                showTemplateChoiceBottomSheet() // activity 진입하자마자 bottom sheet 등장
-            }
-            "edit" -> { // 글 수정
-                viewModel.setWorryId(intent.getIntExtra("worryId", 0))
-                viewModel.getWorryDetail()
-            }
-        }
-    }
 
     private fun showTemplateChoiceBottomSheet() {
         TemplateChoiceBottomSheet({ id, shortInfo ->
@@ -379,6 +371,18 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         } else {
             finish()
         }
+    }
+
+    private fun getAnswers(): List<String> {
+        return if (viewModel.templateIdFlow.value == Constant.freeNoteId)
+                listOf(binding.clFreenote.etFreenote.text.toString())
+            else
+                listOf(
+                    binding.clTemplate.etAnswer1.text.toString(),
+                    binding.clTemplate.etAnswer2.text.toString(),
+                    binding.clTemplate.etAnswer3.text.toString(),
+                    binding.clTemplate.etAnswer4.text.toString(),
+                )
     }
 
     override fun onStop() {

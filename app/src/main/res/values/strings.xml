@@ -13,9 +13,9 @@
     <!-- 고민작성화면 -->
     <string name="write_deadline_title">이 고민, 언제까지 끝낼까요?</string>
     <string name="write_this">이 고민을</string>
-    <string name="write_deadline">일 후 까지 끝낼게요</string>
+    <string name="write_deadline">일 후까지 끝낼게요</string>
     <string name="write_complete">작성 완료하기</string>
-    <string name="write_no_deadline"><u>기간없이 고민하기</u></string>
+    <string name="write_no_deadline"><u>기간 없이 고민 하기</u></string>
     <string name="write">고민작성</string>
     <string name="complete">완료</string>
     <string name="write_choice">고민 템플릿을 선택해주세요</string>
@@ -130,5 +130,9 @@
     <string name="template_banner_title">인스타그램 스토리에 고민보석을 빛내보세요!</string>
     <string name="template_banner_button">공유하기</string>
     <string name="template_go_write_button">작성하러 가기</string>
+
+    <!-- action flag -->
+    <string name="af_write">write</string>
+    <string name="af_edit">edit</string>
 
 </resources>

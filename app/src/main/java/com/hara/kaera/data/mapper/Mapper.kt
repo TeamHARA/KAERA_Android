@@ -8,6 +8,7 @@ import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
 import com.hara.kaera.data.dto.WorryByTemplateDTO
 import com.hara.kaera.data.dto.WorryDetailDTO
+import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
@@ -100,19 +101,19 @@ object Mapper {
     fun mapperToWorryDetail(dto: WorryDetailDTO): WorryDetailEntity {
         return dto.data.let {
             WorryDetailEntity(
+                title = it.title,
+                templateId = it.templateId,
+                subtitles = it.subtitles,
                 answers = it.answers,
-                d_day = it.`d-day`,
-                deadline = it.deadline,
-                finalAnswer = it.finalAnswer,
                 period = it.period,
+                updatedAt = it.updatedAt,
+                deadline = it.deadline,
+                dDay = it.dDay,
+                finalAnswer = it.finalAnswer,
                 review = WorryDetailEntity.Review(
                     content = it.review?.content ?: "",
                     updatedAt = it.review?.updatedAt ?: "",
                 ),
-                subtitles = it.subtitles,
-                templateId = it.templateId,
-                title = it.title,
-                updatedAt = it.updatedAt,
             )
         }
     }
@@ -128,4 +129,5 @@ object Mapper {
     }
 
     fun mapperToSuccess(dto: ServiceDisConnectResDTO): Boolean = dto.success
+
 }

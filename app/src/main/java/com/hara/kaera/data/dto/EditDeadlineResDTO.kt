@@ -19,7 +19,7 @@ data class EditDeadlineResDTO(
     data class Data(
         @SerialName("deadline")
         val deadline: String,
-        @SerialName("d-day")
-        val dday: Int
+        @SerialName("dDay")
+        val dDay: Int
     )
 }

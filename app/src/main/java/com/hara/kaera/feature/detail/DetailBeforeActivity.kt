@@ -1,10 +1,12 @@
 package com.hara.kaera.feature.detail
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.databinding.ActivityDetailBeforeBinding
 import com.hara.kaera.domain.entity.DeleteWorryEntity
@@ -52,7 +55,7 @@ class DetailBeforeActivity :
     private val viewModel by viewModels<DetailBeforeViewModel>()
     private val homeVm by viewModels<HomeViewModel>()
 
-    private var editDayCount = -1
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWorryById()
@@ -60,78 +63,30 @@ class DetailBeforeActivity :
         setClickListener()
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun getWorryById() {
-        val worryId = intent.getIntExtra("worryId", 0)
-        viewModel.getWorryDetail(worryId)
+        viewModel.setWorryId(intent.getIntExtra("worryId", -1))
 
-        when (intent.getStringExtra("action")) {
-            "write" -> { // [작성]
-                KaeraSnackBar.make(
-                    view = binding.root,
-                    message = baseContext.stringOf(R.string.complete_write_snackbar),
-                    duration = KaeraSnackBar.DURATION.SHORT,
-                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                    locationY = Constant.completeSnackBarLocationY
-                ).show()
-            }
-            "edit" -> { // [수정]
-                KaeraSnackBar.make(
-                    view = binding.root,
-                    message = baseContext.stringOf(R.string.complete_edit_snackbar),
-                    duration = KaeraSnackBar.DURATION.SHORT,
-                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                    locationY = Constant.completeSnackBarLocationY
-                ).show()
-            }
-            "view" -> { // [조회]
+        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)?.let { intentWorryDetail -> // 1, 2) 작성, 수정
+            binding.worryDetail = intentWorryDetail
 
+            val action = intent.getStringExtra("action")
+            val message = if (action == "write") { // 작성 후 결과
+                baseContext.getString(R.string.complete_write_snackbar)
+            } else { // 수정 후 결과
+                baseContext.getString(R.string.complete_edit_snackbar)
             }
+
+            KaeraSnackBar.make(
+                view = binding.root,
+                message = message,
+                duration = KaeraSnackBar.DURATION.SHORT,
+                backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                locationY = Constant.completeSnackBarLocationY
+            ).show()
+        } ?: run { // 3) 조회
+            viewModel.getWorryDetail()
         }
-
-        /*
-        val bundle = intent.extras
-        if (bundle != null) {
-            val json =
-                bundle.getString("worryDetailEntity") // Retrieve the JSON string from the Bundle
-
-            // 1) WriteActivity(글작성) -> DetailBeforeActivity
-            if (json != null) {
-                // Convert the JSON string back to a WriteWorryReqDTO object
-                val worryDetail = Json.decodeFromString<WorryDetailEntity>(json)
-                renderData(worryDetail)
-                // TODO: 이렇게 서버 통신 안 할 거면, 뒤로 가기 == 홈화면 일 때 서버 통신 다시 해서(?) 추가된 보석이 반영돼야 하는데..
-                // TODO: 정말 로그 찍어보니 서버 통신을 다시 안 한다! MainActivity 내 HomeFragment 내 HomeStoneFragment가 살아있어서 그런 듯..
-                // TODO: 이 activity에서 뒤로가기 누르면 서버 통신 다시 하도록 해야 하나..
-
-                KaeraSnackBar.make(
-                    view = binding.root,
-                    message = baseContext.stringOf(R.string.complete_write_snackbar),
-                    duration = KaeraSnackBar.DURATION.SHORT,
-                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                    locationY = Constant.completeSnackBarLocationY
-                ).show() // TODO: 서버에 잘 날아갔으면 (customized) ToastMessage 띄우기
-            }
-
-            // 2-1) HomeStoneFragment -> DetailBeforeActivity
-            // 2-2) DetailBeforeActivity -> WriteActivity(글수정 중) -> DetailBeforeActivity
-            else {
-                val worryId = intent.getIntExtra("worryId", 0)
-                viewModel.getWorryDetail(worryId)
-
-                // 2-2
-                val from = intent.getStringExtra("from")
-                if ("edit" == from) {
-                    KaeraSnackBar.make(
-                        view = binding.root,
-                        message = baseContext.stringOf(R.string.complete_edit_snackbar),
-                        duration = KaeraSnackBar.DURATION.SHORT,
-                        backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                        locationY = Constant.completeSnackBarLocationY
-                    ).show()
-                }
-            }
-        }
-        */
     }
 
     private fun collectFlows() {
@@ -144,19 +99,15 @@ class DetailBeforeActivity :
                 }
                 launch {
                     viewModel.editDeadlineStateFlow.collect {
-                        Timber.e("[ABC] editDeadlineStateFlow - collect! ${it}")
-
-                        // [23.11.09] 데드라인 수정하면 왜 여기 안 걸려? ㅠㅠ
-                        if (it is UiState.Success) { // UiState.init 때도 호출되면 안 돼서
-                            Timber.e("[ABC] editDeadlineStateFlow - UiState.Success ${it}")
-
-                            binding.tvAppbarDay.text =
-                                if (editDayCount == Constant.infiniteDeadLine) "D-∞"
-                                else "D-$editDayCount"
+                        if (it is UiState.Success) { // UiState.init 때도 호출되면 안 돼
+                            binding.worryDetail = createWorryDetail(it.data)
 
                             KaeraSnackBar.make(
-                                binding.root, "데드라인 수정 완료!",
-                                KaeraSnackBar.DURATION.LONG
+                                view = binding.root,
+                                message = "데드라인 수정 완료!",
+                                duration = KaeraSnackBar.DURATION.SHORT,
+                                backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                                locationY = Constant.completeSnackBarLocationY
                             ).show()
                         }
                     }
@@ -215,6 +166,7 @@ class DetailBeforeActivity :
 
     private fun renderData(worryDetail: WorryDetailEntity) {
         binding.worryDetail = worryDetail
+
         binding.btnSubmit.visible(true)
         if (worryDetail.templateId == Constant.freeNoteId) { // free flow
             binding.cvContent.visible(false)
@@ -239,6 +191,7 @@ class DetailBeforeActivity :
                         startActivity(
                             Intent(applicationContext, WriteActivity::class.java).apply {
                                 putExtra("worryId", viewModel.getWorryId())
+                                putExtra("worryDetail", binding.worryDetail)
                                 putExtra("action", "edit")
                             }
                         )
@@ -248,14 +201,8 @@ class DetailBeforeActivity :
                     {
                         DialogWriteComplete(
                             fun(day: Int) {
-                                editDayCount = day
-                                val editDeadlineReqDTO = EditDeadlineReqDTO(
-                                    worryId = viewModel.detailToEditData.worryId,
-                                    dayCount = day
-                                )
-                                Timber.e("[ABC] 데드라인 수정하기: $editDeadlineReqDTO")
-                                viewModel.editDeadline(editDeadlineReqDTO)
-                            }
+                                viewModel.editDeadline(day)
+                            }, "edit", binding.worryDetail!!.dDay
                         ).show(supportFragmentManager, "complete")
                     },
                     // 3) [삭제]
@@ -278,6 +225,26 @@ class DetailBeforeActivity :
                     }
                 ).show(supportFragmentManager, "mine")
             }
+        }
+    }
+
+    private fun createWorryDetail(editDeadlineResDTO: EditDeadlineResDTO): WorryDetailEntity {
+        return with(binding.worryDetail!!) {
+            WorryDetailEntity(
+                title = title,
+                templateId = templateId,
+                subtitles = subtitles,
+                answers = answers,
+                period = period,
+                updatedAt = updatedAt,
+                deadline = editDeadlineResDTO.data.deadline,
+                dDay = editDeadlineResDTO.data.dDay,
+                finalAnswer = finalAnswer,
+                review = WorryDetailEntity.Review(
+                    content = review.content,
+                    updatedAt = review.updatedAt
+                )
+            )
         }
     }
 

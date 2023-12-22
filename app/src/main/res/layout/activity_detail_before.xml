@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:text="@{worryDetail.d_day >= 0 ? (worryDetail.d_day == 0 ? `D-day` : `D+` + worryDetail.d_day) : (worryDetail.d_day == -888 ? `D-∞` : `D` + worryDetail.d_day)}"
+                    android:text="@{worryDetail.dDay >= 0 ? (worryDetail.dDay == 0 ? `D-day` : `D+` + worryDetail.dDay) : (worryDetail.dDay == -888 ? `D-∞` : `D` + worryDetail.dDay)}"
                     android:textAppearance="@style/h_head3_b18"
                     android:textColor="@color/yellow1"
                     tools:text="D-2" />
@@ -113,7 +113,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/gray_1_1"
-                    app:strokeWidth="1dp">
+                    app:strokeWidth="1dp"
+                    android:visibility="@{worryDetail.templateId == 1 ? 8 : 0}">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_content"
@@ -224,6 +225,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/gray_1_1"
                     app:strokeWidth="1dp"
+                    android:visibility="@{worryDetail.templateId == 1 ? 0 : 8}"
                     tools:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,28 +4,28 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WorryDetailDTO(
-    val `data`: Data,
-    val message: String,
     val status: Int,
     val success: Boolean,
+    val message: String,
+    val `data`: Data,
 ) {
     @Serializable
     data class Data(
-        val answers: List<String>,
-        val `d-day`: Int,
-        val deadline: String,
-        val finalAnswer: String?, // 고민 해결 전이면 서버에서 null로 온다
-        val period: String,
-        val review: Review?, // 고민 해결 전이면 서버에서 null로 온다
-        val subtitles: List<String>,
-        val templateId: Int,
         val title: String,
+        val templateId: Int,
+        val subtitles: List<String>,
+        val answers: List<String>,
+        val period: String,
         val updatedAt: String,
+        val deadline: String,
+        val dDay: Int,
+        val finalAnswer: String?, // 고민 해결 전이면 ""
+        val review: Review, // 고민 해결 전이면 서버에서 null로 온다
     ) {
         @Serializable
         data class Review(
-            val content: String,
-            val updatedAt: String,
+            val content: String?, // 고민 해결 전이면 ""
+            val updatedAt: String?, // 고민 해결 전이면 ""
         )
     }
 }

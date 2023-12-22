@@ -65,7 +65,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                     }
 
                     R.id.nav_write -> {
-                        startActivity(Intent(context, WriteActivity::class.java))
+                        startActivity(
+                            Intent(applicationContext, WriteActivity::class.java).apply {
+                                putExtra("action", "write")
+                            }
+                        )
                         return@setOnItemSelectedListener false
                     }
 

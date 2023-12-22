@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
@@ -37,7 +38,7 @@ class DetailBeforeViewModel @Inject constructor(
     private val _detailStateFlow = MutableStateFlow<UiState<WorryDetailEntity>>(UiState.Init)
     val detailStateFlow = _detailStateFlow.asStateFlow()
 
-    private val _editDeadlineStateFlow = MutableStateFlow<UiState<String>>(UiState.Init)
+    private val _editDeadlineStateFlow = MutableStateFlow<UiState<EditDeadlineResDTO>>(UiState.Init)
     val editDeadlineStateFlow = _editDeadlineStateFlow.asStateFlow()
 
     private val _deleteWorryFlow = MutableStateFlow<UiState<DeleteWorryEntity>>(UiState.Init)
@@ -52,8 +53,11 @@ class DetailBeforeViewModel @Inject constructor(
         return worryId
     }
 
-    fun getWorryDetail(worryId: Int) {
+    fun setWorryId(worryId: Int) {
         this.worryId = worryId
+    }
+
+    fun getWorryDetail() {
         viewModelScope.launch {
             _detailStateFlow.value = UiState.Loading
             kotlin.runCatching {
@@ -84,7 +88,12 @@ class DetailBeforeViewModel @Inject constructor(
         }
     }
 
-    fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO) {
+    fun editDeadline(editDayCount: Int) {
+        Timber.e("[ABC] editDayCount가 바뀌었당 ${editDayCount}")
+        val editDeadlineReqDTO = EditDeadlineReqDTO(
+            worryId = worryId,
+            dayCount = editDayCount
+        )
         viewModelScope.launch {
             kotlin.runCatching {
                 editDeadlineUseCase(editDeadlineReqDTO)

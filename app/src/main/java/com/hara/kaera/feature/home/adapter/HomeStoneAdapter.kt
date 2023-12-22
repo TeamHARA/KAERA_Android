@@ -45,7 +45,7 @@ class HomeStoneAdapter(
                 -30F
             ).start()
 
-            // 고민 전 상세보기로 이동
+            // 해결 전 상세보기로 이동
             if (curItem.worryId != Constant.dummyGemStoneId)
                 root.setOnClickListener { stone ->
                     goToDetailBeforeActivity(curItem.worryId)

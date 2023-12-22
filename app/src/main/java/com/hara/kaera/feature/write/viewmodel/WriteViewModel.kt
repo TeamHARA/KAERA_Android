@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
+import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.domain.usecase.EditWorryUseCase
@@ -18,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,7 +44,7 @@ class WriteViewModel @Inject constructor(
     val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
 
     // 글 작성 결과
-    private val _writeWorryFlow = MutableStateFlow<UiState<String>>(UiState.Init)
+    private val _writeWorryFlow = MutableStateFlow<UiState<WriteWorryResDTO>>(UiState.Init)
     val writeWorryFlow = _writeWorryFlow.asStateFlow()
 
     // 글 수정 결과
@@ -106,8 +108,38 @@ class WriteViewModel @Inject constructor(
         }
     }
 
-    fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO) {
+    fun createWorryDetail(
+        title: String,
+        subtitles: List<String>,
+        answers: List<String>,
+        createdAt: String,
+        deadline: String,
+        dDay: Int
+    ): WorryDetailEntity {
+        return WorryDetailEntity(
+            title = title,
+            templateId = _templateIdFlow.value,
+            subtitles = subtitles,
+            answers = answers,
+            period = "",
+            updatedAt = createdAt,
+            deadline = deadline,
+            dDay = dDay,
+            finalAnswer = "",
+            review = WorryDetailEntity.Review(content = "", updatedAt = "")
+        )
+    }
+
+    fun writeWorry(title: String, answers: List<String>, dDay: Int) {
         _writeWorryFlow.value = UiState.Loading
+
+        val writeWorryReqDTO = WriteWorryReqDTO(
+            templateId = _templateIdFlow.value,
+            title = title,
+            answers = answers,
+            deadline = dDay
+        )
+
         viewModelScope.launch {
             kotlin.runCatching {
                 writeWorryUseCase(writeWorryReqDTO)
@@ -130,8 +162,16 @@ class WriteViewModel @Inject constructor(
         }
     }
 
-    fun editWorry(editWorryReqDTO: EditWorryReqDTO) {
+    fun editWorry(title: String, answers: List<String>) {
         _editWorryFlow.value = UiState.Loading
+
+        val editWorryReqDTO = EditWorryReqDTO(
+            worryId = worryId,
+            templateId = _templateIdFlow.value,
+            title = title,
+            answers = answers
+        )
+
         viewModelScope.launch {
             kotlin.runCatching {
                 editWorryUseCase(editWorryReqDTO)
