@@ -3,16 +3,13 @@ package com.hara.kaera.feature.detail
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
-import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.databinding.ActivityDetailBeforeBinding
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
@@ -24,6 +21,7 @@ import com.hara.kaera.feature.dialog.DialogMineFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
@@ -188,37 +186,42 @@ class DetailBeforeActivity :
     }
 
     private fun setClickListener() {
-        with(binding) { // 앱바 'X' 버튼 클릭
-            appbarDetail.setNavigationOnClickListener {
-                Timber.e("[ABC] DetailBeforeActivity에서 x버튼 눌렀사와요")
-                homeVm.getHomeWorryList(false)
-                finish()
+        with(binding) {
+            with(btnClose) {
+                increaseTouchSize(baseContext)
+                setOnClickListener { // 앱바 'X' 버튼 클릭
+                    homeVm.getHomeWorryList(false)
+                    finish()
+                }
             }
-            btnEdit.setOnClickListener {// 햄버거 버튼
-                DialogEditFragment(
-                    // 1) 수정하기 -> activity_write으로 이동(시 데이터 전달)
-                    { goToWriteActivity() },
-                    // 2) 데드라인 수정하기
-                    {
-                        DialogWriteComplete(
-                            fun(day: Int) {
-                                editDayCount = day
-                                val editDeadlineReqDTO = EditDeadlineReqDTO(
-                                    worryId = viewModel.detailToEditData.worryId,
-                                    dayCount = day
-                                )
-                                Timber.e("[ABC] 데드라인 수정하기: $editDeadlineReqDTO")
-                                viewModel.editDeadline(editDeadlineReqDTO)
-                            }
-                        ).show(supportFragmentManager, "complete")
-                    },
-                    // 3) 삭제하기
-                    {
-                        DialogDeleteWarning {
-                            viewModel.deleteWorry()
-                        }.show(supportFragmentManager, "delete")
-                    }
-                ).show(supportFragmentManager, "edit")
+            with(btnEdit) {
+                increaseTouchSize(baseContext)
+                setOnClickListener {// 햄버거 버튼
+                    DialogEditFragment(
+                        // 1) 수정하기 -> activity_write으로 이동(시 데이터 전달)
+                        { goToWriteActivity() },
+                        // 2) 데드라인 수정하기
+                        {
+                            DialogWriteComplete(
+                                fun(day: Int) {
+                                    editDayCount = day
+                                    val editDeadlineReqDTO = EditDeadlineReqDTO(
+                                        worryId = viewModel.detailToEditData.worryId,
+                                        dayCount = day
+                                    )
+                                    Timber.e("[ABC] 데드라인 수정하기: $editDeadlineReqDTO")
+                                    viewModel.editDeadline(editDeadlineReqDTO)
+                                }
+                            ).show(supportFragmentManager, "complete")
+                        },
+                        // 3) 삭제하기
+                        {
+                            DialogDeleteWarning {
+                                viewModel.deleteWorry()
+                            }.show(supportFragmentManager, "delete")
+                        }
+                    ).show(supportFragmentManager, "edit")
+                }
             }
             btnSubmit.setOnClickListener { // 하단 "고민 보석 캐기" 버튼
                 DialogMineFragment(

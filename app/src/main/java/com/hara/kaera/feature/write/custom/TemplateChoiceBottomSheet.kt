@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TemplateChoiceBottomSheet(
-    private val templateClickListener: (Int, String) -> Unit,
+    private val templateClickListener: (Int) -> Unit,
     private val selectedId: Int
 ) : BindingDraggableBottomSheet<BottomsheetTemplateChoiceBinding>(R.layout.bottomsheet_template_choice) {
 
@@ -32,8 +32,8 @@ class TemplateChoiceBottomSheet(
         super.onViewCreated(view, savedInstanceState)
 
 
-        templateAdapter = TemplateBottomSheetChoiceAdapter({ id, shortInfo ->
-            templateClickListener(id, shortInfo)
+        templateAdapter = TemplateBottomSheetChoiceAdapter({ id ->
+            templateClickListener(id)
             dismiss()
         }, selectedId)
         binding.rcvTemplate.apply {

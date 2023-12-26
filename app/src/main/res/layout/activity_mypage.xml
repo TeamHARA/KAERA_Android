@@ -31,10 +31,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_1"
-                app:navigationIcon="@drawable/icn_back"
-                app:title="@string/mypage_title"
-                app:titleTextAppearance="@style/h_head1_b20"
-                app:titleTextColor="@color/white" />
+                app:titleTextColor="@color/white">
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/image_ripple_effect"
+                    android:src="@drawable/icn_back" />
+
+                <TextView
+                    android:id="@+id/tv_appbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mypage_title"
+                    android:textAppearance="@style/h_head2_b18"
+                    android:textColor="@color/white" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
@@ -217,14 +235,14 @@
                     android:background="@color/gray_2"
                     app:layout_constraintTop_toBottomOf="@+id/layout_privacy" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_logout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="50dp"
                     android:layout_marginVertical="24dp"
                     android:layout_marginTop="44dp"
-                    android:background="@drawable/shape_rect_gray2_8"
+                    android:background="@drawable/ripple_rect_gray2_8"
                     android:paddingVertical="17dp"
                     android:text="@string/logout"
                     android:textAlignment="center"

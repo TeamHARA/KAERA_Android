@@ -18,7 +18,9 @@ import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.PermissionRequestDelegator
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -62,7 +64,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
     private fun grantPermission() {
 
-        binding.tbAlertToggle.setOnClickListener {
+        binding.tbAlertToggle.onSingleClick {
             if (ContextCompat.checkSelfPermission(
                     baseContext,
                     Manifest.permission.POST_NOTIFICATIONS
@@ -88,8 +90,11 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
     private fun setClickListener() {
         with(binding) {
-            appbarDetail.setNavigationOnClickListener {
-                finish()
+            with(btnClose) {
+                increaseTouchSize(baseContext)
+                setOnClickListener {
+                    finish()
+                }
             }
             layoutKaeraGuide.root.setOnClickListener {
                 connectWebView(WebViewConstant.kaeraGuide)

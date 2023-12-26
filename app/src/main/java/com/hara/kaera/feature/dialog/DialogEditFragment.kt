@@ -19,7 +19,6 @@ class DialogEditFragment(
         setClickListener()
     }
 
-    // TODO: touch target 더 크게 해야 함!!!!!!!!!!!!!!!
     private fun setClickListener() {
         with(binding) {
             tvEdit.setOnClickListener { // 수정하기
