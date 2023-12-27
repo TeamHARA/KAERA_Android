@@ -5,12 +5,15 @@ import com.hara.kaera.data.datasource.remote.KaeraDataSource
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
+import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
+import com.hara.kaera.data.mapper.Mapper.mapperToEditDeadline
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
 import com.hara.kaera.data.mapper.Mapper.mapperToReview
 import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
@@ -18,7 +21,9 @@ import com.hara.kaera.data.mapper.Mapper.mapperToSuccess
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
 import com.hara.kaera.data.mapper.Mapper.mapperToWorryDetail
+import com.hara.kaera.data.mapper.Mapper.mapperToWriteWorry
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
@@ -128,25 +133,22 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    // TODO: Nothing으로 바꾸어서 넘겨줘야 할 듯.. 현재는 그냥 (임시적으로) deadline(날짜/String) 넘겨줘
-    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<String>> {
+    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<EditDeadlineEntity>> {
         return flow {
             kaeraDataSource.editDeadline(editDeadlineReqDTO).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
-                emit(ApiResult.Success(it.data.deadline))
+                emit(ApiResult.Success(mapperToEditDeadline(it)))
             }
         }
     }
 
-
-    // TODO: Nothing으로 바꾸어서 넘겨줘야 할 듯.. 현재는 그냥 (임시적으로) message 넘겨줘
-    override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>> {
+    override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WorryDetailEntity>> {
         return flow {
             kaeraDataSource.writeWorry(writeWorryReqDTO).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
-                emit(ApiResult.Success(it.message))
+                emit(ApiResult.Success(mapperToWriteWorry(it)))
             }
         }
     }

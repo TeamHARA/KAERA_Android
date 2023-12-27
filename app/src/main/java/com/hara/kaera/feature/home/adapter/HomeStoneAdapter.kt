@@ -32,7 +32,6 @@ class HomeStoneAdapter(
 
     override fun onBindViewHolder(holder: HomeStoneViewHolder, position: Int) {
         val curItem = getItem(position)
-        Timber.e("[ABC] [HomeStoneAdapter/onBindViewHolder()] hash ${curItem.hashCode()} / pos ${position} / curItem ${curItem}")
         with(holder.binding) {
             isSolved = false // 원석
             gemData = curItem
@@ -45,7 +44,7 @@ class HomeStoneAdapter(
                 -30F
             ).start()
 
-            // 고민 전 상세보기로 이동
+            // 해결 전 상세보기로 이동
             if (curItem.worryId != Constant.dummyGemStoneId)
                 root.setOnClickListener { stone ->
                     goToDetailBeforeActivity(curItem.worryId)

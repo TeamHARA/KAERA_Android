@@ -1,23 +1,25 @@
 package com.hara.kaera.domain.entity
 
-import kotlinx.serialization.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Serializable
+@Parcelize
 data class WorryDetailEntity(
-    val answers: List<String>,
-    val d_day: Int,
-    val deadline: String,
-    val finalAnswer: String?,
-    val period: String,
-    val review: Review?,
-    val subtitles: List<String>,
-    val templateId: Int,
-    val title: String,
-    val updatedAt: String,
-) {
-    @Serializable
+    var worryId: Int,
+    var title: String,
+    var templateId: Int,
+    var subtitles: List<String>,
+    var answers: List<String>,
+    var period: String,
+    var updatedAt: String,
+    var deadline: String,
+    var dDay: Int,
+    var finalAnswer: String?,
+    var review: Review,
+) : Parcelable {
+    @Parcelize
     data class Review(
-        val content: String,
-        val updatedAt: String,
-    )
+        var content: String?,
+        var updatedAt: String?,
+    ) : Parcelable
 }

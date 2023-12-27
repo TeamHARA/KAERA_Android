@@ -4,11 +4,14 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
+import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
@@ -35,9 +38,9 @@ interface KaeraRepository {
 
     fun editWorry(editWorryReqDTO: EditWorryReqDTO): Flow<ApiResult<String>>
 
-    fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<String>>
+    fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<EditDeadlineEntity>>
 
-    fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<String>>
+    fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WorryDetailEntity>>
 
     fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<ApiResult<String>>
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeStoneBinding
 import com.hara.kaera.domain.entity.HomeWorryListEntity
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.home.HomeViewModel
@@ -32,39 +33,15 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.e("[ABC] HomeStoneFragment - onCreate()")
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        Timber.e("[ABC] HomeStoneFragment - onViewStateRestored()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.e("[ABC] HomeStoneFragment - onResume()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.e("[ABC] HomeStoneFragment - onPause()")
     }
 
     override fun onStart() {
         super.onStart()
-
         viewModel.getHomeWorryList(false)
-        Timber.e("[ABC] HomeStoneFragment - onStart()")
-    }
-
-    override fun onDestroy() {
-        Timber.e("[ABC] HomeStoneFragment - onDestroy()")
-        super.onDestroy()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.e("[ABC] HomeStoneFragment - onViewCreated()")
 
         setRecyclerView()
         collectFlows()
@@ -75,7 +52,23 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
             fun(worryId: Int) {
                 startActivity(
                     Intent(context, DetailBeforeActivity::class.java).apply {
-                        putExtra("worryId", worryId)
+                        putExtra("action", "view")
+                        putExtra("worryDetail", WorryDetailEntity(
+                            worryId = worryId,
+                            title = "",
+                            templateId = 0,
+                            subtitles = emptyList(),
+                            answers = emptyList(),
+                            period = "",
+                            updatedAt = "",
+                            deadline = "",
+                            dDay = -1,
+                            finalAnswer = "",
+                            review = WorryDetailEntity.Review(
+                                content = "",
+                                updatedAt = ""
+                            )
+                        ))
                     }
                 )
             }
@@ -99,7 +92,7 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.homeWorryListStoneFlow.collect {
-                    Timber.e("[ABC] [홈 화면/원석 뷰] 수집 ${it.toString()}") // TODO: [231009] 글쓰기에서 X누르면 왜 안 와?
+//                    Timber.e("[ABC] [홈 화면/원석 뷰] 수집 ${it.toString()}") // TODO: [231009] 글쓰기에서 X누르면 왜 안 와?
                     render(it)
                 }
 
@@ -109,7 +102,7 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
 
     private fun render(uiState: UiState<HomeWorryListEntity>) {
         when (uiState) {
-            is UiState.Init -> Timber.e("[ABC] [홈 화면/원석 뷰] UiState.init")
+            is UiState.Init -> Unit
             is UiState.Loading -> binding.loadingBar.visible(true)
             is UiState.Empty -> {
                 showContent(true)
@@ -132,5 +125,27 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
         binding.clEmpty.visible(empty)
         binding.rvHomeStones.visible(!empty)
     }
+
+    /*-------------------------------------------------------------------------*/
+
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//        Timber.e("[ABC] HomeStoneFragment - onViewStateRestored()")
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        Timber.e("[ABC] HomeStoneFragment - onResume()")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        Timber.e("[ABC] HomeStoneFragment - onPause()")
+//    }
+//
+//    override fun onDestroy() {
+//        Timber.e("[ABC] HomeStoneFragment - onDestroy()")
+//        super.onDestroy()
+//    }
 
 }

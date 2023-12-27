@@ -9,6 +9,10 @@
         <variable
             name="templatedata"
             type="com.hara.kaera.domain.entity.TemplateDetailEntity" />
+
+        <variable
+            name="userInput"
+            type="com.hara.kaera.domain.entity.WorryDetailEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +42,7 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[0]}"
+            android:text="@{userInput.answers[0]}"
             android:lineSpacingExtra="6sp"
             android:maxLength="5000"
             android:minHeight="340dp"

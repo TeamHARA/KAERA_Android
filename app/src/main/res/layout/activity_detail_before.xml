@@ -55,8 +55,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{(worryDetail.d_day &lt; 0 ? `D` : `D+`) + worryDetail.d_day}"
-                    android:textAppearance="@style/h_head2_b18"
+                    android:layout_marginLeft="5dp"
+                    android:text="@{worryDetail.dDay >= 0 ? (worryDetail.dDay == 0 ? `D-day` : `D+` + worryDetail.dDay) : (worryDetail.dDay == -888 ? `D-∞` : `D` + worryDetail.dDay)}"
+                    android:textAppearance="@style/h_head3_b18"
                     android:textColor="@color/yellow1"
                     tools:text="D-2" />
 
@@ -120,7 +121,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/gray_1_1"
-                    app:strokeWidth="1dp">
+                    app:strokeWidth="1dp"
+                    android:visibility="@{worryDetail.templateId == 1 ? 8 : 0}">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_content"
@@ -204,13 +206,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="54dp"
                             android:layout_marginBottom="48dp"
-                            android:text="@{`작성일 ` + worryDetail.updatedAt}"
+                            android:text="@{worryDetail.updatedAt}"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_5"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/layout_answer_4"
-                            tools:text="작성일 2023.08.15" />
+                            tools:text="2023.08.15" />
+
+                        <!-- android:text="@{`작성일 ` + worryDetail.updatedAt}" -->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -229,6 +233,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/gray_1_1"
                     app:strokeWidth="1dp"
+                    android:visibility="@{worryDetail.templateId == 1 ? 0 : 8}"
                     tools:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -277,13 +282,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="54dp"
                             android:layout_marginBottom="48dp"
-                            android:text="@{`작성일 ` + worryDetail.updatedAt}"
+                            android:text="@{worryDetail.updatedAt}"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_5"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/fr_layout_answer_1"
-                            tools:text="작성일 2023.10.01" />
+                            tools:text="작성일(이 글자 빠짐) 2023.10.01" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

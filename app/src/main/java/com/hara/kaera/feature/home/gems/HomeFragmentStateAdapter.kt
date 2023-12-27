@@ -27,7 +27,7 @@ class HomeFragmentStateAdapter(
 
     // 3. ViewPager2의 각 페이지에서 노출할 Fragment 설정
     override fun createFragment(position: Int): Fragment {
-        Timber.e("[ABC] HomeFragmentStateAdapter - createFragment(${position})")
+//        Timber.e("[ABC] HomeFragmentStateAdapter - createFragment(${position})")
         return when (position) {
             0 -> homeStoneFragment
             else -> homeJewelFragment
