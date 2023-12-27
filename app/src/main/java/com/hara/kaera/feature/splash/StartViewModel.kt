@@ -118,7 +118,6 @@ class StartViewModel @Inject constructor(
                 it.collect { apiResult ->
                     when (apiResult) {
                         is ApiResult.Success -> {
-                            Timber.e("callUpdatedAccessToken : ${apiResult.data}")
                             kotlin.runCatching {
                                 loginRepository.updateAccessToken(accessToken = apiResult.data)
                             }.onSuccess {
@@ -129,9 +128,8 @@ class StartViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            Timber.e("callUpdatedAccessToken : ${apiResult.error}")
                             // 토큰이 유효하지 않거나 만료된 경우
-                            // TODO 스플래시일 경우 로그인 액티비티를 이동하지 않으면서
+                            // 스플래시일 경우 로그인 액티비티를 이동하지 않으면서
                             // kakaoclient를 이용하여 로그인 후 OAuth토큰을 기반으로 JWT를 새로 받아와야함
                             when (apiResult.error) {
                                 is ErrorType.Api.BadRequest -> {
