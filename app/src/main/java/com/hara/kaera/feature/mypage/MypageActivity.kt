@@ -22,10 +22,8 @@ import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
-import com.hara.kaera.feature.util.PermissionRequestDelegator
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
-import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -66,7 +64,31 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
         notificationView()
     }
 
-    private fun grantPermission() {
+    private fun setNotification() {
+        launcher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+                val deniedPermissionList = permissions.filter { !it.value }.map { it.key }
+                when {
+                    deniedPermissionList.isNotEmpty() -> {
+                        val map = deniedPermissionList.groupBy { permission ->
+                            if (shouldShowRequestPermissionRationale(permission)) "denied" else "explained"
+                        }
+                        map["denied"]?.let {
+                            Timber.e("first")
+                            // 최초거절 케이스 (앱 최초 설치이후 한번만 타게 됨)
+                            binding.root.makeToast("원활한 서비스 이용을 위해서 알림권한을 허용해주세요!")
+                        }
+                        map["explained"]?.let {
+                            //권한 영구 거절( 2번째 거절 이후 ) 이때부터는 사용자가 직접 시스템 설정창에서 권한을 주어야 하므로 시스템 설정창으로 이동
+                            Timber.e("hi")
+                            this.startActivity(
+                                Intent().setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                    .putExtra(
+                                        Settings.EXTRA_APP_PACKAGE, this.baseContext.packageName
+                                    )
+                            )
+                        }
+                    }
 
                     else -> {
                         //권한이 허가 되었을때
@@ -75,7 +97,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                 }
             }
 
-        binding.tbAlertToggle.onSingleClick {
+        binding.tbAlertToggle.setOnClickListener {
             // 토글 온 오프는 서버에서의 FCM 활성화 유무에 달림
             if (false) {
                 // 여기서 서버에 fcm 토큰을 삭제하고 체크하고 등록하는 로직이 필요함!
@@ -122,7 +144,6 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                 connectWebView(WebViewConstant.instagram)
             }
             layoutOpenSource.root.setOnClickListener {
-                //TODO 릴리즈 버전에서 라이선스 확인하기
                 OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스 목록")
                 startActivity(Intent(this@MypageActivity, OssLicensesMenuActivity::class.java))
             }
