@@ -3,7 +3,7 @@ package com.hara.kaera.feature.home.gems
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -26,7 +26,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fragment_home_jewel) {
     private lateinit var homeJewelAdapter: HomeJewelAdapter
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
 
     override fun onStart() {
         super.onStart()

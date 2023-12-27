@@ -1,10 +1,9 @@
 package com.hara.kaera.feature.home.gems
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,14 +21,12 @@ import com.hara.kaera.feature.util.dpToPx
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fragment_home_stone) {
     private lateinit var homeStoneAdapter: HomeStoneAdapter
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,22 +50,24 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
                 startActivity(
                     Intent(context, DetailBeforeActivity::class.java).apply {
                         putExtra("action", "view")
-                        putExtra("worryDetail", WorryDetailEntity(
-                            worryId = worryId,
-                            title = "",
-                            templateId = 0,
-                            subtitles = emptyList(),
-                            answers = emptyList(),
-                            period = "",
-                            updatedAt = "",
-                            deadline = "",
-                            dDay = -1,
-                            finalAnswer = "",
-                            review = WorryDetailEntity.Review(
-                                content = "",
-                                updatedAt = ""
+                        putExtra(
+                            "worryDetail", WorryDetailEntity(
+                                worryId = worryId,
+                                title = "",
+                                templateId = 0,
+                                subtitles = emptyList(),
+                                answers = emptyList(),
+                                period = "",
+                                updatedAt = "",
+                                deadline = "",
+                                dDay = -1,
+                                finalAnswer = "",
+                                review = WorryDetailEntity.Review(
+                                    content = "",
+                                    updatedAt = ""
+                                )
                             )
-                        ))
+                        )
                     }
                 )
             }

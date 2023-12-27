@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="templateId"
+            type="Integer" />
     </data>
 
     <!-- TODO  배경 바꾸기 -->
@@ -13,26 +17,28 @@
         android:background="@drawable/shape_rect_gray2_8">
 
         <ImageView
-            android:id="@+id/iv_jewel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:src="@drawable/gem_red_l"
+            android:id="@+id/iv_gem"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:templateHasUsed="@{true}"
+            app:templateId="@{templateId}"
+            tools:src="@drawable/gem_orange_s_off" />
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/saying_shining"
             android:textAppearance="@style/h_head3_b18"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_jewel" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_gem" />
 
         <TextView
             android:id="@+id/tv_saying"

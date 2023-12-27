@@ -60,7 +60,7 @@ class DetailAfterActivity :
     }
 
     private fun getWorryById() {
-        val worryId = intent.getIntExtra("worryId", 0)
+        val worryId = intent.getIntExtra(Constant.worryIdIntent, 0)
         viewModel.getWorryDetail(worryId)
 
         // 에러레이아웃에서 쓰일 버튼

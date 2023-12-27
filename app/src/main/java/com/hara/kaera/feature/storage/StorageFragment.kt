@@ -17,6 +17,7 @@ import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.mypage.MypageActivity
 import com.hara.kaera.feature.storage.adapter.StorageGridAdapter
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
@@ -36,6 +37,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initLayout()
         setClickListeners()
         addObserve()
         collectFlows()
@@ -62,6 +64,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success<WorryByTemplateEntity> -> {
+                binding.layoutLoading.root.visible(false)
                 val worryByTemplate = uiState.data
                 if (!isEmpty(worryByTemplate.totalNum)) {
                     storageAdapter.submitList(worryByTemplate.worryList)
@@ -87,7 +90,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
         storageAdapter = StorageGridAdapter { worryId ->
             startActivity(
                 Intent(context, DetailAfterActivity::class.java).apply {
-                    putExtra("worryId", worryId)
+                    putExtra(Constant.worryIdIntent, worryId)
                 },
             )
         }

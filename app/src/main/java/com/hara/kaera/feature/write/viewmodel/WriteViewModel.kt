@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
-import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.domain.usecase.EditWorryUseCase
@@ -19,7 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,10 +30,6 @@ class WriteViewModel @Inject constructor(
 
     private val _templateDetailFlow = MutableStateFlow<UiState<TemplateDetailEntity>>(UiState.Init)
     val templateDetailFlow = _templateDetailFlow.asStateFlow()
-
-    // 템플릿 선택 바텀시트로부터 가져오는 ShortInfo
-    private val _templateShortInfo = MutableStateFlow("")
-    val templateShortInfo = _templateShortInfo.asStateFlow()
 
     // templateId : 서버통신 하는 게 아니라 LiveData 대용으로 쓴 것
     private val _templateIdFlow = MutableStateFlow(-1)
@@ -69,12 +63,6 @@ class WriteViewModel @Inject constructor(
     fun setCurTemplateId(choiceId: Int) {
         _curTemplateIdFlow.value = choiceId
     }
-
-    fun setTemplateData(choiceId: Int, shortInfo: String){
-        _templateIdFlow.value = choiceId
-        _templateShortInfo.value = shortInfo
-    }
-
     fun getTemplateDetailData() {
         _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
