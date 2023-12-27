@@ -20,7 +20,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.e("[ABC] HomeFragment - OnViewCreated()")
 
         adapter = HomeFragmentStateAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
         binding.vpContainer.adapter = adapter
@@ -45,7 +44,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
     override fun onResume() {
         super.onResume()
-        Timber.e("[ABC] HomeFragment - OnResume()")
 
         // TODO: [231009] WriteActivity -> DetailBeforeActivity -> 뒤로가기 눌러서 HomeFragment 돌아갈 때 때문에 일케 한 건데
         // TODO: 갱장히 찜찜하다.. 홈 원석화면 나올 때마다 render 되고, 서버 통신도 되니까..
@@ -56,17 +54,16 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
     override fun onPause() {
         super.onPause()
-        Timber.e("[ABC] HomeFragment - OnPause()")
         binding.vpContainer.adapter = null
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.e("[ABC] HomeFragment - OnDestroyView()")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.e("[ABC] HomeFragment - OnDestroy()")
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        Timber.e("[ABC] HomeFragment - OnDestroyView()")
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        Timber.e("[ABC] HomeFragment - OnDestroy()")
+//    }
 }

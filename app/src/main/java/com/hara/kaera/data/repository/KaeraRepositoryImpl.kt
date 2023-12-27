@@ -13,6 +13,7 @@ import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
+import com.hara.kaera.data.mapper.Mapper.mapperToEditDeadline
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
 import com.hara.kaera.data.mapper.Mapper.mapperToReview
 import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
@@ -20,7 +21,9 @@ import com.hara.kaera.data.mapper.Mapper.mapperToSuccess
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateDetail
 import com.hara.kaera.data.mapper.Mapper.mapperToTemplateType
 import com.hara.kaera.data.mapper.Mapper.mapperToWorryDetail
+import com.hara.kaera.data.mapper.Mapper.mapperToWriteWorry
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
@@ -130,22 +133,22 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<EditDeadlineResDTO>> {
+    override fun editDeadline(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<EditDeadlineEntity>> {
         return flow {
             kaeraDataSource.editDeadline(editDeadlineReqDTO).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
-                emit(ApiResult.Success(it))
+                emit(ApiResult.Success(mapperToEditDeadline(it)))
             }
         }
     }
 
-    override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WriteWorryResDTO>> {
+    override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WorryDetailEntity>> {
         return flow {
             kaeraDataSource.writeWorry(writeWorryReqDTO).catch {
                 emit(ApiResult.Error(errorHandler(it)))
             }.collect {
-                emit(ApiResult.Success(it))
+                emit(ApiResult.Success(mapperToWriteWorry(it)))
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.hara.kaera.data.mapper
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
+import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
 import com.hara.kaera.data.dto.ReviewResDTO
@@ -11,6 +12,7 @@ import com.hara.kaera.data.dto.WorryDetailDTO
 import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.data.dto.login.ServiceDisConnectResDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.entity.ReviewResEntity
 import com.hara.kaera.domain.entity.TemplateDetailEntity
@@ -101,6 +103,7 @@ object Mapper {
     fun mapperToWorryDetail(dto: WorryDetailDTO): WorryDetailEntity {
         return dto.data.let {
             WorryDetailEntity(
+                worryId = -1,
                 title = it.title,
                 templateId = it.templateId,
                 subtitles = it.subtitles,
@@ -114,6 +117,36 @@ object Mapper {
                     content = it.review?.content ?: "",
                     updatedAt = it.review?.updatedAt ?: "",
                 ),
+            )
+        }
+    }
+
+    fun mapperToWriteWorry(dto: WriteWorryResDTO): WorryDetailEntity {
+        return dto.data.let {
+            WorryDetailEntity(
+                worryId = it.worryId,
+                title = it.title,
+                templateId = it.templateId,
+                subtitles = emptyList(),
+                answers = it.answers,
+                period = "",
+                updatedAt = it.createdAt,
+                deadline = it.deadline,
+                dDay = it.dDay,
+                finalAnswer = "",
+                review = WorryDetailEntity.Review(
+                    content = "",
+                    updatedAt = "",
+                ),
+            )
+        }
+    }
+
+    fun mapperToEditDeadline(dto: EditDeadlineResDTO): EditDeadlineEntity {
+        return dto.data.let {
+            EditDeadlineEntity(
+                deadline = it.deadline,
+                dDay = it.dDay
             )
         }
     }

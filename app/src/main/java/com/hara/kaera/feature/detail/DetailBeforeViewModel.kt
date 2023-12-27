@@ -9,6 +9,7 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.domain.usecase.DecideFinalUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
@@ -32,13 +33,12 @@ class DetailBeforeViewModel @Inject constructor(
     private val deleteUseCase: DeleteWorryUseCase,
     private val decideFinalUseCase: DecideFinalUseCase
 ) : ViewModel() {
-    private var worryId = -1
     var templateId = -1
 
     private val _detailStateFlow = MutableStateFlow<UiState<WorryDetailEntity>>(UiState.Init)
     val detailStateFlow = _detailStateFlow.asStateFlow()
 
-    private val _editDeadlineStateFlow = MutableStateFlow<UiState<EditDeadlineResDTO>>(UiState.Init)
+    private val _editDeadlineStateFlow = MutableStateFlow<UiState<EditDeadlineEntity>>(UiState.Init)
     val editDeadlineStateFlow = _editDeadlineStateFlow.asStateFlow()
 
     private val _deleteWorryFlow = MutableStateFlow<UiState<DeleteWorryEntity>>(UiState.Init)
@@ -47,17 +47,7 @@ class DetailBeforeViewModel @Inject constructor(
     private val _decideFinalFlow = MutableStateFlow<UiState<String>>(UiState.Init)
     val decideFinalFlow = _decideFinalFlow.asStateFlow()
 
-    lateinit var detailToEditData: EditWorryReqDTO // edit 위해 WriteActivity로 넘길 data
-
-    fun getWorryId(): Int {
-        return worryId
-    }
-
-    fun setWorryId(worryId: Int) {
-        this.worryId = worryId
-    }
-
-    fun getWorryDetail() {
+    fun getWorryDetail(worryId: Int) {
         viewModelScope.launch {
             _detailStateFlow.value = UiState.Loading
             kotlin.runCatching {
@@ -67,12 +57,6 @@ class DetailBeforeViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _detailStateFlow.value = UiState.Success(collect.data)
-                            detailToEditData = EditWorryReqDTO(
-                                worryId = worryId,
-                                templateId = collect.data.templateId,
-                                title = collect.data.title,
-                                answers = collect.data.answers
-                            )
                             templateId = collect.data.templateId
                         }
 
@@ -88,8 +72,7 @@ class DetailBeforeViewModel @Inject constructor(
         }
     }
 
-    fun editDeadline(editDayCount: Int) {
-        Timber.e("[ABC] editDayCount가 바뀌었당 ${editDayCount}")
+    fun editDeadline(worryId: Int, editDayCount: Int) {
         val editDeadlineReqDTO = EditDeadlineReqDTO(
             worryId = worryId,
             dayCount = editDayCount
@@ -117,7 +100,7 @@ class DetailBeforeViewModel @Inject constructor(
         }
     }
 
-    fun deleteWorry() {
+    fun deleteWorry(worryId: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
                 deleteUseCase(worryId)

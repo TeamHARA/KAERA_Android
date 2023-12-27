@@ -5,20 +5,21 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class WorryDetailEntity(
-    val title: String,
-    val templateId: Int,
-    val subtitles: List<String>,
-    val answers: List<String>,
-    val period: String,
-    val updatedAt: String,
-    val deadline: String,
-    val dDay: Int,
-    val finalAnswer: String?,
-    val review: Review,
+    var worryId: Int,
+    var title: String,
+    var templateId: Int,
+    var subtitles: List<String>,
+    var answers: List<String>,
+    var period: String,
+    var updatedAt: String,
+    var deadline: String,
+    var dDay: Int,
+    var finalAnswer: String?,
+    var review: Review,
 ) : Parcelable {
     @Parcelize
     data class Review(
-        val content: String?,
-        val updatedAt: String?,
+        var content: String?,
+        var updatedAt: String?,
     ) : Parcelable
 }

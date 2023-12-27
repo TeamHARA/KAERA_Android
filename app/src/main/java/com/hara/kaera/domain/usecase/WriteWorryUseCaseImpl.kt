@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class WriteWorryUseCaseImpl @Inject constructor(private val repository: KaeraRepository) :
     WriteWorryUseCase {
-    override fun invoke(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WriteWorryResDTO>> {
+    override fun invoke(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WorryDetailEntity>> {
         return repository.writeWorry(writeWorryReqDTO)
     }
 }

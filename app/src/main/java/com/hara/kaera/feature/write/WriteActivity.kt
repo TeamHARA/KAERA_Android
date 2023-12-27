@@ -39,15 +39,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 
-/*
- * 진입 flow (구분 기준 : intent 내 StringExtra('action')
- * 1-1) [작성] 홈화면 -> 원석/보석 클릭
- * 1-2) [작성] 보관함 -> 좌상단 -> 템플릿 눌러서 '작성하러 가기'
- * 2) 수정 : DetailBeforeActivity -> WriteActivity(글 수정 중) -> DetailBeforeActivity
-*/
-
-// 진입 시점 구분 기준 : viewModel 내 worryId > 0
-
 // TODO: 전반적으로 shortInfo -> guideline으로 네이밍 바꿔야한다
 
 @AndroidEntryPoint
@@ -60,7 +51,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var titleCondition = false
     private var contentCondition = false
 
-    private lateinit var action: String
+    private lateinit var action: String // write | edit
     private val viewModel by viewModels<WriteViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -94,7 +85,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun getDetailToEditData() {
         action = intent.getStringExtra("action")!!
-        viewModel.setWorryId(intent.getIntExtra("worryId", -1))
 
         intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)?.let { intentWorryDetail -> // 수정
             binding.userInput = intentWorryDetail
@@ -157,6 +147,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     }
                     "edit" -> { // [글 수정]
                         viewModel.editWorry(
+                            worryId = binding.userInput!!.worryId,
                             title = binding.etTitle.text.toString(),
                             answers = getAnswers(),
                         )
@@ -211,20 +202,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     viewModel.writeWorryFlow.collect {
                         Timber.e("[ABC] 글작성 $it")
                         if (it is UiState.Success) {
-                            viewModel.setWorryId(it.data.data.worryId)
                             startActivity(
                                 Intent(applicationContext, DetailBeforeActivity::class.java).apply {
-                                    putExtra("worryId", viewModel.getWorryId())
-                                    putExtra("worryDetail", viewModel.createWorryDetail(
-                                        title = binding.etTitle.text.toString(),
-                                        subtitles = binding.templatedata!!.questions,
-                                        answers = getAnswers(),
-                                        createdAt = it.data.data.createdAt,
-                                        deadline = it.data.data.deadline,
-                                        dDay = it.data.data.dDay
-                                    ))
-//                                    putExtra("worryId", 409) // TODO: 예린언니가 API 수정해주면 바꿀 예정
                                     putExtra("action", "write")
+                                    it.data.subtitles = binding.templatedata!!.questions // [고민작성 API - response]에 subtitles는 안 넘어와서..
+                                    putExtra("worryDetail", it.data)
                                 }
                             )
                             finish()
@@ -237,16 +219,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                         if (it is UiState.Success) {
                             startActivity(
                                 Intent(applicationContext, DetailBeforeActivity::class.java).apply {
-                                    putExtra("worryId", viewModel.getWorryId())
-                                    putExtra("worryDetail", viewModel.createWorryDetail(
-                                        title = binding.etTitle.text.toString(),
-                                        subtitles = binding.userInput!!.subtitles,
-                                        answers = getAnswers(),
-                                        createdAt = binding.userInput!!.updatedAt,
-                                        deadline = binding.userInput!!.deadline,
-                                        dDay = binding.userInput!!.dDay
-                                    ))
                                     putExtra("action", "edit")
+                                    with(binding.userInput!!) {
+                                        // TODO: template 변경 가능하면 templateId, subtitles 등도 바뀌어야..?
+                                        title = binding.etTitle.text.toString()
+                                        answers = getAnswers()
+                                    }
+                                    putExtra("worryDetail", binding.userInput)
                                 }
                             )
                             finish()

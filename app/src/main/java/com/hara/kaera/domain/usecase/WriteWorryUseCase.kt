@@ -9,5 +9,5 @@ import com.hara.kaera.domain.entity.WorryDetailEntity
 import kotlinx.coroutines.flow.Flow
 
 interface WriteWorryUseCase {
-    operator fun invoke(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WriteWorryResDTO>>
+    operator fun invoke(writeWorryReqDTO: WriteWorryReqDTO): Flow<ApiResult<WorryDetailEntity>>
 }

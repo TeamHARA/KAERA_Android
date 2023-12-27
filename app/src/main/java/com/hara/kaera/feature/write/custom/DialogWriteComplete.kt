@@ -48,13 +48,6 @@ class DialogWriteComplete(
                 maxValue = 30
             }
 
-            // not working...
-//            val typeface = resources.getFont(R.font.nanum_squareneo_regaular)
-//            for (i in 0 until pickerDeadlines.childCount) {
-//                val child = pickerDeadlines.getChildAt(i)
-//                if (child is TextView) child.typeface = typeface
-//            }
-
             when(action) {
                 "write" -> {
                     btnTitleFinish = "작성 완료"

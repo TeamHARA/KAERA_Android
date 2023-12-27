@@ -32,7 +32,6 @@ class HomeStoneAdapter(
 
     override fun onBindViewHolder(holder: HomeStoneViewHolder, position: Int) {
         val curItem = getItem(position)
-        Timber.e("[ABC] [HomeStoneAdapter/onBindViewHolder()] hash ${curItem.hashCode()} / pos ${position} / curItem ${curItem}")
         with(holder.binding) {
             isSolved = false // 원석
             gemData = curItem

@@ -37,7 +37,7 @@
     <string name="detail_delete">삭제하기</string>
     <string name="detail_cancel">취소</string>
     <string name="detail_warning">수정이 불가능하니 잘 확인해서 입력해주세요</string>
-    <string name="detail_before_date">고민 작성</string>
+    <string name="detail_before_date">고민 캐기</string>
     <string name="detail_before_complete_button">🔨 고민 보석 캐기</string>
 
     <string name="complete_write_snackbar">작성 완료!</string>

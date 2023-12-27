@@ -18,6 +18,7 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.databinding.ActivityDetailBeforeBinding
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
@@ -39,16 +40,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 
-// [23.12.17] DetailBeforeActivity가 create 되면
-// 일단 무조건, intent로 온 worryId를 바탕으로 고민의 detail을 가져오는 서버통신 수행한다.
-
-/*
- * 진입 flow (구분 기준 : intent 내 StringExtra('action'))
- * 1) 작성 : WriteActivity -> DetailBeforeActivity
- * 2) 조회 : HomeStoneFragment -> DetailBeforeActivity
- * 3) 수정 : DetailBeforeActivity -> WriteActivity(글 수정 중) -> DetailBeforeActivity
-*/
-
 @AndroidEntryPoint
 class DetailBeforeActivity :
     BindingActivity<ActivityDetailBeforeBinding>(R.layout.activity_detail_before) {
@@ -65,27 +56,24 @@ class DetailBeforeActivity :
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun getWorryById() {
-        viewModel.setWorryId(intent.getIntExtra("worryId", -1))
-
-        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)?.let { intentWorryDetail -> // 1, 2) 작성, 수정
+        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)?.let { intentWorryDetail ->
             binding.worryDetail = intentWorryDetail
 
             val action = intent.getStringExtra("action")
-            val message = if (action == "write") { // 작성 후 결과
-                baseContext.getString(R.string.complete_write_snackbar)
-            } else { // 수정 후 결과
-                baseContext.getString(R.string.complete_edit_snackbar)
+            if (action == "view") { // view
+                viewModel.getWorryDetail(binding.worryDetail!!.worryId)
+                return
             }
 
+            // write result | edit result
             KaeraSnackBar.make(
                 view = binding.root,
-                message = message,
+                message = if (action == "write") baseContext.getString(R.string.complete_write_snackbar)
+                    else baseContext.getString(R.string.complete_edit_snackbar),
                 duration = KaeraSnackBar.DURATION.SHORT,
                 backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
                 locationY = Constant.completeSnackBarLocationY
             ).show()
-        } ?: run { // 3) 조회
-            viewModel.getWorryDetail()
         }
     }
 
@@ -99,17 +87,7 @@ class DetailBeforeActivity :
                 }
                 launch {
                     viewModel.editDeadlineStateFlow.collect {
-                        if (it is UiState.Success) { // UiState.init 때도 호출되면 안 돼
-                            binding.worryDetail = createWorryDetail(it.data)
-
-                            KaeraSnackBar.make(
-                                view = binding.root,
-                                message = "데드라인 수정 완료!",
-                                duration = KaeraSnackBar.DURATION.SHORT,
-                                backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                                locationY = Constant.completeSnackBarLocationY
-                            ).show()
-                        }
+                        renderEditDeadline(it)
                     }
                 }
                 launch {
@@ -120,7 +98,6 @@ class DetailBeforeActivity :
                 launch {
                     viewModel.decideFinalFlow.collect {
                         if (it is UiState.Success<String>) {
-                            Timber.e("[ABC] 최종 결정 성공!")
                             // TODO: quote 띄우기
                         }
                     }
@@ -129,21 +106,54 @@ class DetailBeforeActivity :
         }
     }
 
+    // view
     private fun render(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
+            is UiState.Empty -> Unit // TODO
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success<WorryDetailEntity> -> {
+                uiState.data.worryId = binding.worryDetail!!.worryId
+                binding.worryDetail = uiState.data
+                Timber.e("[ABC] 서버 통신으로 가져온 worryDetail ${binding.worryDetail}")
+
                 binding.layoutLoading.root.visible(false)
-                renderData(uiState.data)
+                binding.btnSubmit.visible(true)
             }
 
             is UiState.Error -> {
                 binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
+        }
+    }
 
-            UiState.Empty -> TODO()
+    // 데드라인 수정
+    private fun renderEditDeadline(uiState: UiState<EditDeadlineEntity>) {
+        binding.layoutLoading.root.visible(false)
+        when (uiState) {
+            is UiState.Success<EditDeadlineEntity> -> {
+                with(binding.worryDetail!!) {
+                    deadline = uiState.data.deadline
+                    dDay = uiState.data.dDay
+                } // bidning.worryDetail을 갈아끼는 게 아니기에 'd-?' text는 따로 바꿔줘야 한다(UI)
+                binding.tvAppbarDay.text = when (uiState.data.dDay) {
+                    -888 -> { "D-∞" }
+                    else -> "D" + uiState.data.dDay
+                }
+
+                KaeraSnackBar.make(
+                    view = binding.root,
+                    message = "데드라인 수정 완료!",
+                    duration = KaeraSnackBar.DURATION.SHORT,
+                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                    locationY = Constant.completeSnackBarLocationY
+                ).show()
+            }
+            is UiState.Error -> {
+                binding.root.makeToast(uiState.error)
+            }
+            else -> Unit
         }
     }
 
@@ -164,19 +174,6 @@ class DetailBeforeActivity :
         }
     }
 
-    private fun renderData(worryDetail: WorryDetailEntity) {
-        binding.worryDetail = worryDetail
-
-        binding.btnSubmit.visible(true)
-        if (worryDetail.templateId == Constant.freeNoteId) { // free flow
-            binding.cvContent.visible(false)
-            binding.frCvContent.visible(true)
-        } else {
-            binding.cvContent.visible(true)
-            binding.frCvContent.visible(false)
-        }
-    }
-
     private fun setClickListener() {
         with(binding) { // 앱바 'X' 버튼 클릭
             appbarDetail.setNavigationOnClickListener {
@@ -190,9 +187,8 @@ class DetailBeforeActivity :
                     {
                         startActivity(
                             Intent(applicationContext, WriteActivity::class.java).apply {
-                                putExtra("worryId", viewModel.getWorryId())
-                                putExtra("worryDetail", binding.worryDetail)
                                 putExtra("action", "edit")
+                                putExtra("worryDetail", binding.worryDetail)
                             }
                         )
                         finish()
@@ -201,14 +197,14 @@ class DetailBeforeActivity :
                     {
                         DialogWriteComplete(
                             fun(day: Int) {
-                                viewModel.editDeadline(day)
+                                viewModel.editDeadline(binding.worryDetail!!.worryId, day)
                             }, "edit", binding.worryDetail!!.dDay
                         ).show(supportFragmentManager, "complete")
                     },
                     // 3) [삭제]
                     {
                         DialogDeleteWarning {
-                            viewModel.deleteWorry()
+                            viewModel.deleteWorry(binding.worryDetail!!.worryId)
                         }.show(supportFragmentManager, "delete")
                     }
                 ).show(supportFragmentManager, "edit")
@@ -217,46 +213,13 @@ class DetailBeforeActivity :
                 DialogMineFragment(
                     fun(finalAnswer: Editable) {
                         val decideFinalReqDTO = DecideFinalReqDTO(
-                            worryId = viewModel.getWorryId(),
+                            worryId = binding.worryDetail!!.worryId,
                             finalAnswer = finalAnswer.toString()
                         )
-                        Timber.e("[ABC] 최종 결정 하러 가자 - $decideFinalReqDTO")
                         viewModel.decideFinal(decideFinalReqDTO)
                     }
                 ).show(supportFragmentManager, "mine")
             }
         }
-    }
-
-    private fun createWorryDetail(editDeadlineResDTO: EditDeadlineResDTO): WorryDetailEntity {
-        return with(binding.worryDetail!!) {
-            WorryDetailEntity(
-                title = title,
-                templateId = templateId,
-                subtitles = subtitles,
-                answers = answers,
-                period = period,
-                updatedAt = updatedAt,
-                deadline = editDeadlineResDTO.data.deadline,
-                dDay = editDeadlineResDTO.data.dDay,
-                finalAnswer = finalAnswer,
-                review = WorryDetailEntity.Review(
-                    content = review.content,
-                    updatedAt = review.updatedAt
-                )
-            )
-        }
-    }
-
-    // 수정하기 -> activity_write으로 이동 시 데이터 전달
-    private fun goToWriteActivity() {
-        val json = Json.encodeToString(viewModel.detailToEditData)
-        var bundle = Bundle()
-        bundle.putString("detailToEditData", json)
-        bundle.putInt("templateId", viewModel.templateId)
-        val intent = Intent(this, WriteActivity::class.java)
-        intent.putExtras(bundle)
-        startActivity(intent)
-        finish()
     }
 }

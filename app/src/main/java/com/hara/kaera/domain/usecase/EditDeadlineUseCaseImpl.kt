@@ -4,6 +4,7 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
+import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.repository.KaeraRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -11,7 +12,7 @@ import javax.inject.Inject
 class EditDeadlineUseCaseImpl @Inject constructor(private val repository: KaeraRepository)
 : EditDeadlineUseCase {
 
-    override fun invoke(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<EditDeadlineResDTO>> {
+    override fun invoke(editDeadlineReqDTO: EditDeadlineReqDTO): Flow<ApiResult<EditDeadlineEntity>> {
         return repository.editDeadline(editDeadlineReqDTO)
     }
 }
