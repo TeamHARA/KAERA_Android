@@ -5,6 +5,7 @@ buildscript {
         classpath(Dependency.Hilt.HILT_PLUGIN)
         classpath(Dependency.Google.GOOGLE_SERVICE)
         classpath(Dependency.SecertsGradle.SECERETS_GRADLE_CLASSPATH)
+        classpath(Dependency.Android.OSS_LICENSES_PLUGIN)
     }
 }
 

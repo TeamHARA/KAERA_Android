@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
@@ -28,6 +29,8 @@ class LoginViewModel @Inject constructor(
     private val _tokenState = MutableStateFlow<TokenState<Nothing>>(TokenState.Init)
     val tokenState = _tokenState.asStateFlow()
 
+    private var deviceToken = ""
+
     /*
     카카오로그인 이후 OAuth토큰을 기반으로 JWT를 요청하는 함수
      */
@@ -35,10 +38,14 @@ class LoginViewModel @Inject constructor(
         _kakaoRemoteJWT.value = UiState.Loading
         viewModelScope.launch {
             kotlin.runCatching {
-                loginRepository.getKakaoLoginJTW(accessToken = KaKaoLoginReqDTO(accessToken = oAuthToken.accessToken))
+                loginRepository.getKakaoLoginJTW(
+                    accessToken = KaKaoLoginReqDTO(
+                        accessToken = oAuthToken.accessToken,
+                        deviceToken = deviceToken
+                    )
+                )
             }.onSuccess {
                 it.collect { apiresult ->
-                    Timber.e("callKakaoLoginJWT : $apiresult")
 
                     when (apiresult) {
                         is ApiResult.Success -> {
@@ -72,12 +79,16 @@ class LoginViewModel @Inject constructor(
                     userId = jwt.userId,
                 )
             }.onSuccess {
-                Timber.e("datastore update success!!")
                 _tokenState.value = TokenState.Valid
+                Timber.e("datastore u   pdate success!!")
             }.onFailure {
                 throw it
             }
         }
+    }
+
+    fun setDeviceToken(fcmToken: String) {
+        deviceToken = fcmToken
     }
 
 }

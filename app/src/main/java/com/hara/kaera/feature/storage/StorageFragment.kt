@@ -18,6 +18,7 @@ import com.hara.kaera.feature.mypage.MypageActivity
 import com.hara.kaera.feature.storage.adapter.StorageGridAdapter
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
@@ -35,10 +36,14 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initLayout()
         setClickListeners()
         addObserve()
         collectFlows()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initLayout()
     }
 
     private fun collectFlows() {
@@ -81,7 +86,6 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun initLayout() {
         storageAdapter = StorageGridAdapter { worryId ->
             startActivity(
-                // TODO: 삭제 완료 후 다시 보관함으로 돌아갔을 때 삭제한 내역이 반영 안 되는 이슈
                 Intent(context, DetailAfterActivity::class.java).apply {
                     putExtra("worryId", worryId)
                 },
@@ -93,7 +97,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
     private fun setClickListeners() {
         binding.apply {
-            clChoice.onSingleClick(1000) {
+            clChoice.setOnClickListener {
                 StorageTemplateChoiceBottomSheet({ templateId, title ->
                     viewModel.setSelectedId(templateId)
                     tvTemplateTitle.text = title
@@ -105,9 +109,11 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                     }
                 }).show(parentFragmentManager, "template_choice")
             }
-
-            appbarDetail.setNavigationOnClickListener {
-                startActivity(Intent(context, WorryTemplateActivity::class.java))
+            with(btnHelp) {
+                increaseTouchSize(requireContext())
+                setOnClickListener {
+                    startActivity(Intent(context, WorryTemplateActivity::class.java))
+                }
             }
 
             btnMypage.onSingleClick {

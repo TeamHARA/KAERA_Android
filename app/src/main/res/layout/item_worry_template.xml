@@ -33,6 +33,7 @@
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:id="@+id/iv_jewel"
                 android:layout_width="46dp"
@@ -40,7 +41,7 @@
                 android:src="@drawable/gem_blue_l"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:templateHasUsed="@{true}"
+                app:templateHasUsed="@{template.hasUsed}"
                 app:templateId="@{template.templateId}" />
 
             <TextView
@@ -100,7 +101,7 @@
                 android:layout_marginHorizontal="57dp"
                 android:layout_marginTop="23dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/shape_rect_gray3_8"
+                android:background="@drawable/ripple_rect_gray3_8"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:paddingVertical="11dp"

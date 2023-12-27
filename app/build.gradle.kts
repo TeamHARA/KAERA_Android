@@ -10,6 +10,7 @@ plugins {
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 val properties = Properties()
@@ -108,4 +109,7 @@ dependencies {
     implementation(Dependency.KaKaoSDK.KAKAO_MODULE)
     implementation(Dependency.KaKaoSDK.KAKAO_LOGIN)
     implementation(Dependency.KaKaoSDK.KAKAO_USER)
+
+    //oss-licenses
+    implementation(Dependency.Android.OSS_LICENSES_LIBRARY)
 }

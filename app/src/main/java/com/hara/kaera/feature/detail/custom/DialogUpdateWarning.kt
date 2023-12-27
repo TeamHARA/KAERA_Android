@@ -18,7 +18,7 @@ class DialogUpdateWarning(
     }
 
     private fun setListeners() {
-        binding.btnYes.setOnClickListener {
+        binding.btnYes.onSingleClick {
             this.dismiss()
             yesClickListener.invoke()
         }

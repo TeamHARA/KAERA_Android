@@ -26,20 +26,32 @@
                 android:id="@+id/appbar_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray_1"
-                app:navigationIcon="@drawable/icn_help"
-                app:title="@string/storage_title"
-                app:titleCentered="true"
-                app:titleTextAppearance="@style/h_head1_b20"
-                app:titleTextColor="@color/white">
+                android:background="@color/gray_1">
+
+                <ImageButton
+                    android:id="@+id/btn_help"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="start"
+                    android:background="@drawable/image_ripple_effect"
+                    android:src="@drawable/icn_help" />
+
+                <TextView
+                    android:id="@+id/tv_appbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/storage_title"
+                    android:textAppearance="@style/h_head1_b20"
+                    android:textColor="@color/white" />
 
                 <ImageButton
                     android:id="@+id/btn_mypage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="16dp"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/image_ripple_effect"
                     android:src="@drawable/icn_mypage" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -50,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/shape_rect_gray2_10"
+            android:background="@drawable/ripple_rect_gray2_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout">

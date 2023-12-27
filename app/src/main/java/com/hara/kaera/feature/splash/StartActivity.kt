@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
+import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivitySplashBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
@@ -23,6 +24,7 @@ import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -133,7 +135,13 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
             }.onSuccess {
                 // OAuthToken 뜯어서 서버에 리퀘스트바디로 전달
                 // DataStore에 저장
-                Timber.e(it.isSuccess.toString())
+                runBlocking {
+                    startViewModel.setDeviceToken(
+                        FirebaseMessagingService().getDeviceToken(
+                            baseContext
+                        ) ?: "Null"
+                    )
+                }
                 if (it.isSuccess) {
                     it.onSuccess { oAuthToken ->
                         Timber.e(oAuthToken.toString())

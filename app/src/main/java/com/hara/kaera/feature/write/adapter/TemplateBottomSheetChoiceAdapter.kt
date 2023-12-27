@@ -11,7 +11,7 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.util.GlobalDiffCallBack
 
 class TemplateBottomSheetChoiceAdapter(
-    private val itemClickListener: (Int, String) -> Unit,
+    private val itemClickListener: (Int) -> Unit,
     selectedId: Int
 ) :
     ListAdapter<TemplateTypesEntity.Template, TemplateBottomSheetChoiceAdapter.ItemViewHolder>(
@@ -43,16 +43,16 @@ class TemplateBottomSheetChoiceAdapter(
         with(holder.binding) {
             this.templatedata = curItem
             if (position == selectedPosition) { // 선택유무에 따라서 배경이 바뀐다.
-                this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_yellow1_8)
+                this.root.setBackgroundResource(R.drawable.ripple_rect_gray1_stroke_yellow1_8)
                 this.select = true // 체크버튼이 나오도록
             } else {
-                this.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_gray5_8)
+                this.root.setBackgroundResource(R.drawable.ripple_rect_gray1_stroke_gray5_8)
                 this.select = false
             }
 
             this.root.setOnClickListener {
                 selectedPosition = position
-                itemClickListener(curItem.templateId, curItem.shortInfo)
+                itemClickListener(curItem.templateId)
                 lastItemSelectedPosition = if (lastItemSelectedPosition == -1) {
                     selectedPosition
                 } else {

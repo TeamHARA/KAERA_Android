@@ -50,7 +50,7 @@ class StorageTemplateChoiceAdapter(
             }
 
             if (position == selectedPosition) {
-                holder.binding.root.setBackgroundResource(R.drawable.shape_rect_gray4_10)
+                holder.binding.root.setBackgroundResource(R.drawable.ripple_rect_gray4_10)
                 holder.binding.tvTitle.setTextColor(
                     ContextCompat.getColor(
                         holder.binding.root.context,
@@ -64,7 +64,7 @@ class StorageTemplateChoiceAdapter(
                     ),
                 )
             } else { // 배경 및 글자 색상 변경
-                holder.binding.root.setBackgroundResource(R.drawable.shape_rect_gray1_stroke_gray5_8)
+                holder.binding.root.setBackgroundResource(R.drawable.ripple_rect_gray1_stroke_gray5_8)
                 holder.binding.tvTitle.setTextColor(
                     ContextCompat.getColor(
                         holder.binding.root.context,

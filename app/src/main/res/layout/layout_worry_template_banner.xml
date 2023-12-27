@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_1_1">
 
     <data>
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="20dp"
             android:background="@drawable/shape_rect_gradient_10_stroke_gray3_1"
-            android:paddingVertical="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,8 +25,18 @@
                 android:id="@+id/iv_banner_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/instagram_gems"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/template_banner_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_banner_typography"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:src="@drawable/typography_kaera"
+                app:layout_constraintBaseline_toTopOf="@id/iv_banner_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,30 +45,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="13dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginBottom="20dp"
+                android:lineSpacingExtra="7sp"
                 android:text="@string/template_banner_title"
-                android:textAppearance="@style/h_body3_b14"
+                android:textAppearance="@style/h_body4_r14_wide"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_banner_img" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_banner_typography" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_share"
+            <ImageButton
+                android:id="@+id/ib_connect_instagram_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:background="@drawable/shape_rect_yellow1_8"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp"
-                android:text="@string/template_banner_button"
-                android:textAppearance="@style/h_body3_b14"
-                android:textColor="@color/gray_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_banner_title" />
+                android:layout_marginStart="14dp"
+                android:background="@color/transparent"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="6dp"
+                android:src="@drawable/icn_next"
+                app:layout_constraintBottom_toBottomOf="@id/tv_banner_title"
+                app:layout_constraintStart_toEndOf="@id/tv_banner_title"
+                app:layout_constraintTop_toTopOf="@id/tv_banner_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

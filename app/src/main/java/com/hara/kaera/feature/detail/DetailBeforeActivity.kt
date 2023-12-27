@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
@@ -28,6 +27,7 @@ import com.hara.kaera.feature.dialog.DialogMineFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
@@ -175,13 +175,17 @@ class DetailBeforeActivity :
     }
 
     private fun setClickListener() {
-        with(binding) { // 앱바 'X' 버튼 클릭
-            appbarDetail.setNavigationOnClickListener {
-                Timber.e("[ABC] DetailBeforeActivity에서 x버튼 눌렀사와요")
-                homeVm.getHomeWorryList(false)
-                finish()
+        with(binding) {
+            with(btnClose) {
+                increaseTouchSize(baseContext)
+                setOnClickListener { // 앱바 'X' 버튼 클릭
+                    homeVm.getHomeWorryList(false)
+                    finish()
+                }
             }
-            btnEdit.setOnClickListener {// 햄버거 버튼
+         with(btnEdit) {
+           increaseTouchSize(baseContext)
+            setOnClickListener {// 햄버거 버튼
                 DialogEditFragment(
                     // 1) [글 수정] WriteActivity로 이동
                     {
@@ -209,6 +213,7 @@ class DetailBeforeActivity :
                     }
                 ).show(supportFragmentManager, "edit")
             }
+           }
             btnSubmit.setOnClickListener { // 하단 "고민 보석 캐기" 버튼
                 DialogMineFragment(
                     fun(finalAnswer: Editable) {

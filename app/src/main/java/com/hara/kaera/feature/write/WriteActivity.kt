@@ -23,6 +23,7 @@ import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.getDeadline
+import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.stringOf
@@ -102,9 +103,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     private fun setClickListeners() {
         binding.apply {
-            appbarDetail.setNavigationOnClickListener {
-                checkBackPressWarning()
+            with(btnClose) {
+                increaseTouchSize(baseContext)
+                setOnClickListener {
+                    checkBackPressWarning()
+                }
             }
+
             clChoice.onSingleClick {
                 if (checkText()) { // 한 글자라도 써놨을 경우
                     DialogSaveWarning { showTemplateChoiceBottomSheet() }.show(
@@ -334,8 +339,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
 
     private fun showTemplateChoiceBottomSheet() {
-        TemplateChoiceBottomSheet({ id, shortInfo ->
-            viewModel.setTemplateData(id, shortInfo)
+        TemplateChoiceBottomSheet({ id ->
+            viewModel.setTemplateId(id)
         }, viewModel.templateIdFlow.value).show(
             supportFragmentManager,
             "template_choice"

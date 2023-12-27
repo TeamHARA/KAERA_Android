@@ -15,6 +15,7 @@
             android:id="@+id/tv_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingTop="24dp"
             android:paddingBottom="24dp"
             android:text="@string/detail_edit"
@@ -36,6 +37,7 @@
             android:id="@+id/tv_deadline_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingTop="24dp"
             android:paddingBottom="24dp"
             android:text="@string/detail_deadline_edit"
@@ -57,6 +59,7 @@
             android:id="@+id/tv_delete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingTop="24dp"
             android:paddingBottom="24dp"
             android:text="@string/detail_delete"
@@ -78,6 +81,7 @@
             android:id="@+id/tv_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingTop="24dp"
             android:paddingBottom="24dp"
             android:text="@string/detail_cancel"
@@ -87,13 +91,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider3" />
-
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/shape_rect_gray2_0"
-            app:layout_constraintTop_toBottomOf="@id/tv_cancel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -25,11 +25,24 @@
                 android:id="@+id/appbar_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray_1"
-                app:navigationIcon="@drawable/icn_back"
-                app:title="@string/worry_template_title"
-                app:titleTextAppearance="@style/h_head1_b20"
-                app:titleTextColor="@color/white">
+                android:background="@color/gray_1">
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/image_ripple_effect"
+                    android:src="@drawable/icn_back" />
+
+                <TextView
+                    android:id="@+id/tv_appbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/worry_template_title"
+                    android:textAppearance="@style/h_head2_b18"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>

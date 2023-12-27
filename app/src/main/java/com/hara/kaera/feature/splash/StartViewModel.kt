@@ -2,6 +2,8 @@ package com.hara.kaera.feature.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.core.ErrorType
@@ -32,6 +34,9 @@ class StartViewModel @Inject constructor(
 
     private val _localAccessToken = MutableStateFlow("")
 
+    private var deviceToken = ""
+
+
     /*
     데이터스토어에 저장되어있는 리프레시 토큰을 가져오는 함수
      */
@@ -40,7 +45,6 @@ class StartViewModel @Inject constructor(
             kotlin.runCatching {
                 loginRepository.getSavedRefreshToken().first() // 함수 호출당 딱 한번만 수집
             }.onSuccess { token ->
-                Timber.e("getSavedRefreshToken: $token")
                 when (token) {
                     EMPTY_TOKEN -> {
                         _tokenState.value = TokenState.Empty
@@ -65,7 +69,12 @@ class StartViewModel @Inject constructor(
     fun callKakaoLoginJWT(oAuthToken: OAuthToken) {
         viewModelScope.launch {
             kotlin.runCatching {
-                loginRepository.getKakaoLoginJTW(accessToken = KaKaoLoginReqDTO(accessToken = oAuthToken.accessToken))
+                loginRepository.getKakaoLoginJTW(
+                    accessToken = KaKaoLoginReqDTO(
+                        accessToken = oAuthToken.accessToken,
+                        deviceToken = deviceToken
+                    )
+                )
             }.onSuccess {
                 it.collect { apiresult ->
                     Timber.e("callKakaoLoginJWT : $apiresult")
@@ -172,6 +181,10 @@ class StartViewModel @Inject constructor(
                 throw it
             }
         }
+    }
+
+    fun setDeviceToken(fcmToken: String) {
+        deviceToken = fcmToken
     }
 
 }

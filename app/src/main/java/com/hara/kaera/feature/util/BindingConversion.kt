@@ -73,10 +73,10 @@ fun ImageView.setGemSrc(templateId: Int, isSolved: Boolean) {
 @BindingAdapter("app:completebutton")
 fun AppCompatButton.setBackground(activate: Boolean){
     if(activate){
-        this.background = this.context.getDrawable(R.drawable.shape_rect_yellow1_10)
+        this.background = this.context.getDrawable(R.drawable.ripple_rect_yellow1_10)
         this.setTextColor(this.context.getColor(R.color.black))
     }else{
-        this.background = this.context.getDrawable(R.drawable.shape_rect_gray4_10)
+        this.background = this.context.getDrawable(R.drawable.ripple_rect_gray4_10)
         this.setTextColor(this.context.getColor(R.color.white))
     }
 }
