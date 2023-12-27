@@ -5,18 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
-import com.hara.kaera.data.dto.EditDeadlineResDTO
-import com.hara.kaera.data.dto.EditWorryReqDTO
-import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.domain.usecase.DecideFinalUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.EditDeadlineUseCase
-import com.hara.kaera.domain.usecase.EditWorryUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
-import com.hara.kaera.domain.usecase.PutReviewUseCase
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -89,7 +84,8 @@ class DetailBeforeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _editDeadlineStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                            _editDeadlineStateFlow.value =
+                                UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }

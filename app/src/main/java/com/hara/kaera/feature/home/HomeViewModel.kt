@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,7 +63,7 @@ class HomeViewModel @Inject constructor(
                                     if (isSolved) { // 해결된 고민(보석함)의 경우 순서대로 배치되도록 수정
                                         result[index] = gem
                                     } else {
-                                        result[Constant.homeGemsSequence[resultSize++]] = gem
+                                        result[Constant.homeGemsSequence[index]] = gem
                                         fullStone = !(result.any { it.worryId == -1 })
                                     }
 

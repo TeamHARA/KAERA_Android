@@ -77,10 +77,10 @@
                 android:id="@+id/cl_choice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="@{userInput == null}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:clickable="@{userInput == null}">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_template_title"
@@ -104,7 +104,6 @@
                     android:text="@{templatedata.guideline}"
                     android:textAppearance="@style/h_sub1_r12"
                     android:textColor="@color/gray_5"
-                    android:text="@{templatedata.guideline}"
                     app:layout_constraintBottom_toTopOf="@id/divider_gray3"
                     app:layout_constraintEnd_toStartOf="@+id/imv_drop_down"
                     app:layout_constraintHorizontal_bias="0"
@@ -203,16 +202,16 @@
                                 android:autofillHints="no"
                                 android:background="@color/transparent"
                                 android:hint="@string/write_naming_hint"
-                                android:text="@{userInput.title}"
                                 android:inputType="text"
                                 android:maxLength="7"
                                 android:padding="16dp"
+                                android:text="@{userInput.title}"
                                 android:textAppearance="@style/h_body2_r16"
                                 android:textColor="@color/white"
                                 android:textColorHint="@color/gray_4"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <View
                                 android:id="@+id/divider_gray2"
@@ -247,7 +246,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cl_title"
                             bind:templatedata="@{templatedata}"
-                            bind:userInput="@{userInput}"/>
+                            bind:userInput="@{userInput}" />
 
                         <!-- 2) free note 템플릿 -->
                         <include

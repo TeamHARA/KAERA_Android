@@ -22,7 +22,6 @@ import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fragment_home_stone) {
@@ -51,22 +50,24 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
                 startActivity(
                     Intent(context, DetailBeforeActivity::class.java).apply {
                         putExtra("action", "view")
-                        putExtra("worryDetail", WorryDetailEntity(
-                            worryId = worryId,
-                            title = "",
-                            templateId = 0,
-                            subtitles = emptyList(),
-                            answers = emptyList(),
-                            period = "",
-                            updatedAt = "",
-                            deadline = "",
-                            dDay = -1,
-                            finalAnswer = "",
-                            review = WorryDetailEntity.Review(
-                                content = "",
-                                updatedAt = ""
+                        putExtra(
+                            "worryDetail", WorryDetailEntity(
+                                worryId = worryId,
+                                title = "",
+                                templateId = 0,
+                                subtitles = emptyList(),
+                                answers = emptyList(),
+                                period = "",
+                                updatedAt = "",
+                                deadline = "",
+                                dDay = -1,
+                                finalAnswer = "",
+                                review = WorryDetailEntity.Review(
+                                    content = "",
+                                    updatedAt = ""
+                                )
                             )
-                        ))
+                        )
                     }
                 )
             }

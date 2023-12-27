@@ -2,16 +2,12 @@ package com.hara.kaera.feature.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.hara.kaera.R
 import com.hara.kaera.databinding.FragmentHomeBinding
 import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.home.gems.HomeFragmentStateAdapter
-import com.hara.kaera.feature.home.gems.HomeJewelFragment
-import com.hara.kaera.feature.home.gems.HomeStoneFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
