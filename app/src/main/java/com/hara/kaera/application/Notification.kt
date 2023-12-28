@@ -32,8 +32,7 @@ class Notification(
 
         return with(context) {
             NotificationCompat.Builder(this, getString(R.string.project_id))
-                //TODO 아이콘 교체
-                .setSmallIcon(R.drawable.gem_blue_l)
+                .setSmallIcon(R.drawable.typography_kaera)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setStyle(
