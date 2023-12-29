@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="isSolved"
             type="Boolean" />
@@ -23,28 +24,33 @@
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:scaleType="fitXY"
+            app:isSolved="@{isSolved}"
             app:layout_constraintBottom_toTopOf="@id/tv_gem_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isSolved="@{isSolved}"
             app:templateId="@{gemData.templateId}"
-            tools:src="@drawable/gemstone_yellow"/>
+            tools:src="@drawable/gemstone_yellow" />
 
         <TextView
             android:id="@+id/tv_gem_label"
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:includeFontPadding="true"
+            android:text="@{gemData.title}"
             android:textAppearance="@style/h_body2_r16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/iv_gem"
             app:layout_constraintStart_toStartOf="@id/iv_gem"
             app:layout_constraintTop_toBottomOf="@id/iv_gem"
-            android:layout_marginTop="8dp"
-            android:text="@{gemData.title}"
-            tools:text="gjqy"
-            android:includeFontPadding="true"/>
+            tools:text="가가가가가가가가가" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
