@@ -180,7 +180,6 @@ class DetailAfterActivity :
             is UiState.Init -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
-
             is UiState.Success<WorryDetailEntity> -> {
                 controlErrorLayout(success = true)
 
@@ -207,29 +206,27 @@ class DetailAfterActivity :
                 viewModel.reviewContent = worryDetail.review?.content.toString()
             }
 
-            is UiState.Error -> controlErrorLayout(uiState.error, false)
+            is UiState.Error -> {
+                controlErrorLayout(false)
+                when (uiState.error) {
+                    Constant.networkError -> {
+                        binding.layoutError.layoutNetworkError.root.visible(true)
+                    }
+
+                    Constant.internalError -> {
+                        binding.layoutError.layoutInternalError.root.visible(true)
+                    }
+                }
+            }
 
             UiState.Empty -> TODO()
         }
     }
 
-    private fun controlErrorLayout(error: String? = null, success: Boolean) {
+    private fun controlErrorLayout(success: Boolean) {
         binding.layoutLoading.root.visible(false)
-        if (success) {
-            binding.layoutError.layoutNetworkError.root.visible(false)
-            binding.layoutError.layoutInternalError.root.visible(false)
-        } else {
-            binding.svContent.visible(false)
-            when (error) {
-                Constant.networkError -> {
-                    binding.layoutError.layoutNetworkError.root.visible(true)
-                }
-
-                Constant.internalError -> {
-                    binding.layoutError.layoutInternalError.root.visible(true)
-                }
-            }
-        }
+        binding.svContent.visible(success)
+        binding.layoutError.root.visible(!success)
     }
 
     private fun setKeyboardListener() {
