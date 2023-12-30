@@ -10,9 +10,10 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWorryTemplateBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.increaseTouchSize
-import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,15 @@ class WorryTemplateActivity :
             increaseTouchSize(baseContext)
             setOnClickListener { finish() }
         }
+        with(binding.layoutError) {
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getWorryTemplates()
+            }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getWorryTemplates()
+            }
+        }
+
     }
 
     private fun initAdapter() {
@@ -64,20 +74,33 @@ class WorryTemplateActivity :
         when (uiState) {
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
-
             is UiState.Success<TemplateTypesEntity> -> {
-                binding.layoutLoading.root.visible(false)
+                renderLayout(true)
                 worryTemplateAdapter.submitList(uiState.data.templateTypeList)
             }
 
             is UiState.Error -> {
-                binding.layoutLoading.root.visible(false)
-                binding.root.makeToast(message = uiState.error)
+                renderLayout(false)
+                when (uiState.error) {
+                    Constant.networkError -> {
+                        binding.layoutError.layoutNetworkError.root.visible(true)
+                    }
+
+                    Constant.internalError -> {
+                        binding.layoutError.layoutInternalError.root.visible(true)
+                    }
+                }
             }
 
             else -> {
                 Timber.e("else")
             }
         }
+    }
+
+    private fun renderLayout(success: Boolean) {
+        binding.layoutLoading.root.visible(false)
+        binding.layoutError.root.visible(!success)
+        binding.rcvWorryTemplate.visible(success)
     }
 }
