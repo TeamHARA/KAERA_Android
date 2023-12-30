@@ -75,12 +75,12 @@ class WorryTemplateActivity :
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success<TemplateTypesEntity> -> {
-                renderLayout(true)
+                controlErrorLayout(true)
                 worryTemplateAdapter.submitList(uiState.data.templateTypeList)
             }
 
             is UiState.Error -> {
-                renderLayout(false)
+                controlErrorLayout(false)
                 when (uiState.error) {
                     Constant.networkError -> {
                         binding.layoutError.layoutNetworkError.root.visible(true)
@@ -98,7 +98,7 @@ class WorryTemplateActivity :
         }
     }
 
-    private fun renderLayout(success: Boolean) {
+    private fun controlErrorLayout(success: Boolean) {
         binding.layoutLoading.root.visible(false)
         binding.layoutError.root.visible(!success)
         binding.rcvWorryTemplate.visible(success)

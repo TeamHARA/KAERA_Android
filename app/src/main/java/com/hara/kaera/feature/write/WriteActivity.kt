@@ -12,8 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hara.kaera.R
-import com.hara.kaera.data.dto.EditWorryReqDTO
-import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.databinding.ActivityWriteBinding
 import com.hara.kaera.domain.entity.TemplateDetailEntity
 import com.hara.kaera.domain.entity.WorryDetailEntity
@@ -22,7 +20,6 @@ import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
-import com.hara.kaera.feature.util.getDeadline
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -35,12 +32,7 @@ import com.hara.kaera.feature.write.custom.TemplateChoiceBottomSheet
 import com.hara.kaera.feature.write.viewmodel.WriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import timber.log.Timber
-
-// TODO: 전반적으로 shortInfo -> guideline으로 네이밍 바꿔야한다
 
 @AndroidEntryPoint
 class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_write) {
@@ -87,10 +79,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun getDetailToEditData() {
         action = intent.getStringExtra("action")!!
 
-        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)?.let { intentWorryDetail -> // 수정
-            binding.userInput = intentWorryDetail
-            viewModel.setTemplateId(intentWorryDetail.templateId)
-        } ?: run { // 작성
+        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)
+            ?.let { intentWorryDetail -> // 수정
+                binding.userInput = intentWorryDetail
+                viewModel.setTemplateId(intentWorryDetail.templateId)
+            } ?: run { // 작성
             showTemplateChoiceBottomSheet() // activity 진입하자마자 bottom sheet 등장
         }
     }
@@ -138,7 +131,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     return@onSingleClick
                 }
 
-                when(action) {
+                when (action) {
                     "write" -> { // [글 작성]
                         DialogWriteComplete(
                             fun(day: Int) {
@@ -150,6 +143,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                             }, "write", -1
                         ).show(supportFragmentManager, "complete")
                     }
+
                     "edit" -> { // [글 수정]
                         viewModel.editWorry(
                             worryId = binding.userInput!!.worryId,
@@ -210,7 +204,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                             startActivity(
                                 Intent(applicationContext, DetailBeforeActivity::class.java).apply {
                                     putExtra("action", "write")
-                                    it.data.subtitles = binding.templatedata!!.questions // [고민작성 API - response]에 subtitles는 안 넘어와서..
+                                    it.data.subtitles =
+                                        binding.templatedata!!.questions // [고민작성 API - response]에 subtitles는 안 넘어와서..
                                     putExtra("worryDetail", it.data)
                                 }
                             )
@@ -260,6 +255,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 viewModel.setTemplateId(uiState.data.templateId)
                 binding.userInput = uiState.data
             }
+
             is UiState.Error -> {
                 binding.root.makeToast(uiState.error)
             }
@@ -275,7 +271,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
-                renderTemplate(true)
+                controlErrorLayout(true)
                 binding.templatedata = uiState.data
                 if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
                     binding.clTemplate.root.visible(false)
@@ -290,7 +286,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                renderTemplate(false)
+                controlErrorLayout(false)
                 when (uiState.error) {
                     Constant.networkError -> {
                         binding.layoutError.layoutNetworkError.root.visible(true)
@@ -305,7 +301,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         }
     }
 
-    private fun renderTemplate(success: Boolean) {
+    private fun controlErrorLayout(success: Boolean) {
         binding.layoutLoading.root.visible(false)
         binding.clEmpty.root.visible(false)
         binding.scrollView.visible(success)
@@ -337,7 +333,6 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         (titleCondition) || (editTextList.any { it.text.isNotEmpty() && it.text.isNotBlank() }) || (editTextFreeNote.text.isNotEmpty() || editTextFreeNote.text.isNotEmpty() && editTextFreeNote.text.isNotBlank())
 
 
-
     private fun showTemplateChoiceBottomSheet() {
         TemplateChoiceBottomSheet({ id ->
             viewModel.setTemplateId(id)
@@ -359,14 +354,14 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
     private fun getAnswers(): List<String> {
         return if (viewModel.templateIdFlow.value == Constant.freeNoteId)
-                listOf(binding.clFreenote.etFreenote.text.toString())
-            else
-                listOf(
-                    binding.clTemplate.etAnswer1.text.toString(),
-                    binding.clTemplate.etAnswer2.text.toString(),
-                    binding.clTemplate.etAnswer3.text.toString(),
-                    binding.clTemplate.etAnswer4.text.toString(),
-                )
+            listOf(binding.clFreenote.etFreenote.text.toString())
+        else
+            listOf(
+                binding.clTemplate.etAnswer1.text.toString(),
+                binding.clTemplate.etAnswer2.text.toString(),
+                binding.clTemplate.etAnswer3.text.toString(),
+                binding.clTemplate.etAnswer4.text.toString(),
+            )
     }
 
     override fun onStop() {
