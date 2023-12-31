@@ -68,14 +68,14 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             is UiState.Loading -> binding.loadingBar.root.visible(true)
 
             is UiState.Success<WorryByTemplateEntity> -> {
-                controlErrorLayout(success = true)
+                controlLayout(success = true)
                 val worryByTemplate = uiState.data
                 storageAdapter.submitList(worryByTemplate.worryList)
                 binding.total = worryByTemplate.totalNum
             }
 
             is UiState.Error -> {
-                controlErrorLayout(success = false)
+                controlLayout(success = false)
                 when (uiState.error) {
                     Constant.networkError -> {
                         binding.layoutError.layoutNetworkError.root.visible(true)
@@ -88,7 +88,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
             }
 
             is UiState.Empty -> {
-                controlErrorLayout(success = true, empty = true)
+                controlLayout(success = true, empty = true)
             }
         }
     }
@@ -150,7 +150,7 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
         }
     }
 
-    private fun controlErrorLayout(success: Boolean, empty: Boolean = false) {
+    private fun controlLayout(success: Boolean, empty: Boolean = false) {
         binding.loadingBar.root.visible(false)
         binding.clEmpty.root.visible(success && empty)
         binding.clContent.visible(success && !empty)

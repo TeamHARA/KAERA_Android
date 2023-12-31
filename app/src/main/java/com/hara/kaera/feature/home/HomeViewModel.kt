@@ -7,7 +7,7 @@ import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
-import com.hara.kaera.feature.util.errorToMessage
+import com.hara.kaera.feature.util.errorToLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,7 +59,6 @@ class HomeViewModel @Inject constructor(
                                 flow.value = UiState.Empty
                             } else {
                                 collect.data.homeWorryList.forEachIndexed { index, gem ->
-                                    // TODO: 서버에 원석이 12개 넘게 있을 때
                                     if (isSolved) { // 해결된 고민(보석함)의 경우 순서대로 배치되도록 수정
                                         result[index] = gem
                                     } else {
@@ -73,7 +72,7 @@ class HomeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            flow.value = UiState.Error(errorToMessage(collect.error))
+                            flow.value = UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }

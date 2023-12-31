@@ -15,10 +15,11 @@ import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.home.adapter.HomeStoneAdapter
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.dpToPx
-import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()
+        setClickListeners()
         collectFlows()
     }
 
@@ -86,6 +88,17 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
         }
     }
 
+    private fun setClickListeners() {
+        with(binding.layoutError) {
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getHomeWorryList(false)
+            }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getHomeWorryList(false)
+            }
+        }
+    }
+
     // 서버 통신 1) 원석 (해결 전 고민들)
     private fun collectFlows() {
         lifecycleScope.launch {
@@ -103,26 +116,33 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Loading -> binding.loadingBar.visible(true)
-            is UiState.Empty -> {
-                showContent(true)
-            }
+            is UiState.Empty -> controlLayout(success = true, empty = true)
 
             is UiState.Success<HomeWorryListEntity> -> {
-                showContent(false)
+                controlLayout(success = true)
                 homeStoneAdapter.submitList(uiState.data.homeWorryList.toMutableList())
             }
 
             is UiState.Error -> {
-                binding.loadingBar.visible(false)
-                binding.root.makeToast(uiState.error)
+                controlLayout(success = false)
+                when (uiState.error) {
+                    Constant.networkError -> {
+                        binding.layoutError.layoutNetworkError.root.visible(true)
+                    }
+
+                    Constant.internalError -> {
+                        binding.layoutError.layoutInternalError.root.visible(true)
+                    }
+                }
             }
         }
     }
 
-    private fun showContent(empty: Boolean) {
+    private fun controlLayout(success: Boolean, empty: Boolean = false) {
         binding.loadingBar.visible(false)
-        binding.clEmpty.visible(empty)
-        binding.rvHomeStones.visible(!empty)
+        binding.rvHomeStones.visible(success && !empty)
+        binding.clEmpty.visible(success && empty)
+        binding.layoutError.root.visible(!success)
     }
 
     /*-------------------------------------------------------------------------*/
