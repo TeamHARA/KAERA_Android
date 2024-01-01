@@ -291,7 +291,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 controlErrorLayout(
                     error = uiState.error,
                     networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
                 )
                 binding.root.makeToast(uiState.error)
             }

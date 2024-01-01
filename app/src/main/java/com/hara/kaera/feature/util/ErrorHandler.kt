@@ -32,7 +32,8 @@ fun errorToLayout(error: ErrorType) = when (error) {
 fun controlErrorLayout(
     error: String,
     networkBinding: View,
-    internalBinding: View
+    internalBinding: View,
+    root: View
 ) {
     when (error) {
         Constant.networkError -> {
@@ -41,6 +42,10 @@ fun controlErrorLayout(
 
         Constant.internalError -> {
             internalBinding.visible(true)
+        }
+
+        else -> {
+            root.makeToast(error)
         }
     }
 }

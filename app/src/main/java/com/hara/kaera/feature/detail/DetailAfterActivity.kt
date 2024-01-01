@@ -211,7 +211,8 @@ class DetailAfterActivity :
                 controlErrorLayout(
                     error = uiState.error,
                     networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
                 )
             }
 

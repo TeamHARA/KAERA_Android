@@ -62,8 +62,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -91,8 +91,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -114,8 +114,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -137,8 +137,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }

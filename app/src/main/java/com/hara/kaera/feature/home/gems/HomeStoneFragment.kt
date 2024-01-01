@@ -15,7 +15,6 @@ import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.home.adapter.HomeStoneAdapter
-import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.controlErrorLayout
@@ -129,7 +128,8 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
                 controlErrorLayout(
                     error = uiState.error,
                     networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
                 )
             }
         }

@@ -100,7 +100,8 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
                 controlErrorLayout(
                     error = uiState.error,
                     networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
                 )
             }
         }

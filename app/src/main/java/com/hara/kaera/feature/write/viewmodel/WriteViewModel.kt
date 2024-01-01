@@ -63,6 +63,7 @@ class WriteViewModel @Inject constructor(
     fun setCurTemplateId(choiceId: Int) {
         _curTemplateIdFlow.value = choiceId
     }
+
     fun getTemplateDetailData() {
         _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
@@ -82,6 +83,7 @@ class WriteViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw it
             }
         }
@@ -135,8 +137,8 @@ class WriteViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -167,8 +169,8 @@ class WriteViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }

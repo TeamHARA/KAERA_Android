@@ -10,7 +10,6 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityWorryTemplateBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
@@ -87,7 +86,8 @@ class WorryTemplateActivity :
                 controlErrorLayout(
                     error = uiState.error,
                     networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
                 )
             }
 

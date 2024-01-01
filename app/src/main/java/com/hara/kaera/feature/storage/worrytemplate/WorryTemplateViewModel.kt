@@ -44,8 +44,8 @@ class WorryTemplateViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("알 수 없는 오류 입니다.")
             }
         }
     }

@@ -80,7 +80,8 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                 controlErrorLayout(
                     error = uiState.error,
                     networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    binding.root
                 )
             }
 
