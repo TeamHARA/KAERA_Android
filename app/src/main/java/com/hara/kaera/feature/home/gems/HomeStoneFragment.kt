@@ -18,6 +18,7 @@ import com.hara.kaera.feature.home.adapter.HomeStoneAdapter
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.dpToPx
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
@@ -125,15 +126,11 @@ class HomeStoneFragment : BindingFragment<FragmentHomeStoneBinding>(R.layout.fra
 
             is UiState.Error -> {
                 controlLayout(success = false)
-                when (uiState.error) {
-                    Constant.networkError -> {
-                        binding.layoutError.layoutNetworkError.root.visible(true)
-                    }
-
-                    Constant.internalError -> {
-                        binding.layoutError.layoutInternalError.root.visible(true)
-                    }
-                }
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root
+                )
             }
         }
     }

@@ -20,6 +20,7 @@ import com.hara.kaera.feature.storage.viewmodel.StorageViewModel
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
@@ -76,15 +77,11 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
 
             is UiState.Error -> {
                 controlLayout(success = false)
-                when (uiState.error) {
-                    Constant.networkError -> {
-                        binding.layoutError.layoutNetworkError.root.visible(true)
-                    }
-
-                    Constant.internalError -> {
-                        binding.layoutError.layoutInternalError.root.visible(true)
-                    }
-                }
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root
+                )
             }
 
             is UiState.Empty -> {

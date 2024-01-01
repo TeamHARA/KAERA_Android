@@ -20,6 +20,7 @@ import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -271,7 +272,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
-                controlErrorLayout(true)
+                controlLayout(true)
                 binding.templatedata = uiState.data
                 if (viewModel.templateIdFlow.value == Constant.freeNoteId) { // free flow
                     binding.clTemplate.root.visible(false)
@@ -286,22 +287,18 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
-                controlErrorLayout(false)
-                when (uiState.error) {
-                    Constant.networkError -> {
-                        binding.layoutError.layoutNetworkError.root.visible(true)
-                    }
-
-                    Constant.internalError -> {
-                        binding.layoutError.layoutInternalError.root.visible(true)
-                    }
-                }
+                controlLayout(false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root
+                )
                 binding.root.makeToast(uiState.error)
             }
         }
     }
 
-    private fun controlErrorLayout(success: Boolean) {
+    private fun controlLayout(success: Boolean) {
         binding.layoutLoading.root.visible(false)
         binding.clEmpty.root.visible(false)
         binding.scrollView.visible(success)

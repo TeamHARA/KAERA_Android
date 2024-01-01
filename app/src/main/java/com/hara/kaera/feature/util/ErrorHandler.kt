@@ -1,6 +1,9 @@
 package com.hara.kaera.feature.util
 
+import android.view.View
 import com.hara.kaera.core.ErrorType
+import com.hara.kaera.databinding.LayoutErrorInternalBinding
+import com.hara.kaera.databinding.LayoutErrorNetworkBinding
 
 
 fun errorToMessage(error: ErrorType) = when (error) {
@@ -24,4 +27,20 @@ fun errorToMessage(error: ErrorType) = when (error) {
 fun errorToLayout(error: ErrorType) = when (error) {
     is ErrorType.Api -> Constant.internalError
     else -> Constant.networkError
+}
+
+fun controlErrorLayout(
+    error: String,
+    networkBinding: View,
+    internalBinding: View
+) {
+    when (error) {
+        Constant.networkError -> {
+            networkBinding.visible(true)
+        }
+
+        Constant.internalError -> {
+            internalBinding.visible(true)
+        }
+    }
 }

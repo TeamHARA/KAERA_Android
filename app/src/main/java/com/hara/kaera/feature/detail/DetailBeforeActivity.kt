@@ -26,6 +26,7 @@ import com.hara.kaera.feature.dialog.DialogSayingFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -131,25 +132,21 @@ class DetailBeforeActivity :
                 binding.worryDetail = uiState.data
                 Timber.e("[ABC] 서버 통신으로 가져온 worryDetail ${binding.worryDetail}")
 
-                controlErrorLayout(true)
+                controlLayout(true)
             }
 
             is UiState.Error -> {
-                controlErrorLayout(false)
-                when (uiState.error) {
-                    Constant.networkError -> {
-                        binding.layoutError.layoutNetworkError.root.visible(true)
-                    }
-
-                    Constant.internalError -> {
-                        binding.layoutError.layoutInternalError.root.visible(true)
-                    }
-                }
+                controlLayout(false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root
+                )
             }
         }
     }
 
-    private fun controlErrorLayout(success: Boolean) {
+    private fun controlLayout(success: Boolean) {
         binding.layoutLoading.root.visible(false)
         binding.btnSubmit.visible(success)
         binding.svContent.visible(success)
