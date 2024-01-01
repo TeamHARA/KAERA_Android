@@ -230,7 +230,7 @@ class DetailBeforeActivity :
                         // 1) [글 수정] WriteActivity로 이동
                         {
                             startActivity(
-                                Intent(applicationContext, WriteActivity::class.java).apply {
+                                Intent(baseContext, WriteActivity::class.java).apply {
                                     putExtra("action", "edit")
                                     putExtra("worryDetail", binding.worryDetail)
                                 }

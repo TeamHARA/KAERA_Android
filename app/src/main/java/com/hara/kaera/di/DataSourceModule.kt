@@ -49,7 +49,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCrpytoManger(): CryptoManager = CryptoManager()
+    fun provideCryptoManger(): CryptoManager = CryptoManager()
 
     @Provides
     @Singleton

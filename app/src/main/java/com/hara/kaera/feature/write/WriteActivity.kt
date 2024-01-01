@@ -202,7 +202,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                         Timber.e("[ABC] 글작성 $it")
                         if (it is UiState.Success) {
                             startActivity(
-                                Intent(applicationContext, DetailBeforeActivity::class.java).apply {
+                                Intent(baseContext, DetailBeforeActivity::class.java).apply {
                                     putExtra("action", "write")
                                     it.data.subtitles =
                                         binding.templatedata!!.questions // [고민작성 API - response]에 subtitles는 안 넘어와서..
@@ -218,7 +218,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                         Timber.e("[ABC] 글수정 $it")
                         if (it is UiState.Success) {
                             startActivity(
-                                Intent(applicationContext, DetailBeforeActivity::class.java).apply {
+                                Intent(baseContext, DetailBeforeActivity::class.java).apply {
                                     putExtra("action", "edit")
                                     with(binding.userInput!!) {
                                         // TODO: template 변경 가능하면 templateId, subtitles 등도 바뀌어야..?
