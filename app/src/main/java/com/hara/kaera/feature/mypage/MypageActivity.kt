@@ -22,6 +22,7 @@ import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
+import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.visible
@@ -52,6 +53,23 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                 launch {
                     myPageViewModel.savedName.collect {
                         binding.vm = myPageViewModel
+                    }
+                }
+                launch {
+                    myPageViewModel.uiStateFlow.collect {
+                        when (it) {
+                            is UiState.Loading -> binding.clLoading.visible(true)
+
+                            is UiState.Success -> binding.clLoading.visible(false)
+
+                            is UiState.Error -> {
+                                binding.clLoading.visible(false)
+                                binding.root.makeToast(it.error)
+                            }
+
+                            else -> Unit
+                        }
+
                     }
                 }
             }
@@ -167,7 +185,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             startActivity(Intent(baseContext, LoginActivity::class.java))
                             finishAffinity()
                         }.onFailure {
-                            binding.root.makeToast("잠시후 다시 시도해주세요.")
+                            binding.root.makeToast("잠시 후 다시 시도해주세요.")
                             throw it
                         }
                     }
@@ -187,7 +205,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             startActivity(Intent(baseContext, OnboardingActivity::class.java))
                             finishAffinity()
                         }.onFailure {
-                            binding.root.makeToast("잠시후 다시 시도해주세요.")
+                            binding.root.makeToast("잠시 후 다시 시도해주세요.")
                             throw it
                         }
                     }
