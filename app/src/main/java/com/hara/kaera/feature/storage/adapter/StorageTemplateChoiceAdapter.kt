@@ -1,4 +1,4 @@
-package com.hara.kaera.feature.write.adapter
+package com.hara.kaera.feature.storage.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

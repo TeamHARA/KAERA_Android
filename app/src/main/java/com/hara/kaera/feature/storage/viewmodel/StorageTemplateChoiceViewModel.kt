@@ -6,6 +6,7 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToLayout
 import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +27,10 @@ class StorageTemplateChoiceViewModel @Inject constructor(
     // View에서 값을 읽어야 하므로 변경불가능 타입인 StateFlow로 준다.
 
     init {
+        getTemplateList()
+    }
+
+    fun getTemplateList(){
         viewModelScope.launch {
             _templateStateFlow.value = UiState.Loading
             kotlin.runCatching {
@@ -38,19 +43,19 @@ class StorageTemplateChoiceViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _templateStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                            _templateStateFlow.value = UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("진짜로 알 수 없는 오류입니다.")
             }
         }
     }
 
     private fun getAllTemplate(templateEntity: TemplateTypesEntity): TemplateTypesEntity {
-        var templateList = mutableListOf(
+        val templateList = mutableListOf(
             TemplateTypesEntity.Template(
                 templateId = 0,
                 title = "모든 보석 보기",
