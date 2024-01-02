@@ -45,8 +45,8 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        flow.value = UiState.Loading
         viewModelScope.launch {
+            flow.value = UiState.Loading
             kotlin.runCatching {
                 homeUseCase(if (!isSolved) 0 else 1, firstPage, itemLimit)
             }.onSuccess { it ->

@@ -65,8 +65,8 @@ class WriteViewModel @Inject constructor(
     }
 
     fun getTemplateDetailData() {
-        _templateDetailFlow.value = UiState.Loading
         viewModelScope.launch {
+            _templateDetailFlow.value = UiState.Loading
             kotlin.runCatching {
                 detailUseCase(templateIdFlow.value)
             }.onSuccess {
@@ -112,7 +112,6 @@ class WriteViewModel @Inject constructor(
 //    }
 
     fun writeWorry(title: String, answers: List<String>, dDay: Int) {
-        _writeWorryFlow.value = UiState.Loading
 
         val writeWorryReqDTO = WriteWorryReqDTO(
             templateId = _templateIdFlow.value,
@@ -122,6 +121,7 @@ class WriteViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
+            _writeWorryFlow.value = UiState.Loading
             kotlin.runCatching {
                 writeWorryUseCase(writeWorryReqDTO)
             }.onSuccess {
@@ -144,7 +144,6 @@ class WriteViewModel @Inject constructor(
     }
 
     fun editWorry(worryId: Int, title: String, answers: List<String>) {
-        _editWorryFlow.value = UiState.Loading
 
         val editWorryReqDTO = EditWorryReqDTO(
             worryId = worryId,
@@ -154,6 +153,7 @@ class WriteViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
+            _editWorryFlow.value = UiState.Loading
             kotlin.runCatching {
                 editWorryUseCase(editWorryReqDTO)
             }.onSuccess {

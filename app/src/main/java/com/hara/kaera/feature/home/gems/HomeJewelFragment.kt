@@ -87,7 +87,7 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
     private fun render(uiState: UiState<HomeWorryListEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> binding.loadingBar.visible(true)
+            is UiState.Loading -> binding.loadingBar.root.visible(true)
             is UiState.Empty -> controlLayout(success = true, empty = true)
 
             is UiState.Success<HomeWorryListEntity> -> {
@@ -108,7 +108,7 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
     }
 
     private fun controlLayout(success: Boolean, empty: Boolean = false) {
-        binding.loadingBar.visible(false)
+        binding.loadingBar.root.visible(false)
         binding.rvHomeJewels.visible(success && !empty)
         binding.clEmpty.visible(success && empty)
         binding.layoutError.root.visible(!success)
