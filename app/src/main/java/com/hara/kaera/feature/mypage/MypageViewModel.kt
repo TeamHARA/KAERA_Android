@@ -7,8 +7,8 @@ import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.usecase.LogoutUseCase
 import com.hara.kaera.domain.usecase.UnRegisterUseCase
+import com.hara.kaera.feature.mypage.MypageActivity.SignOutType
 import com.hara.kaera.feature.util.UiState
-import com.hara.kaera.feature.util.errorToLayout
 import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,8 @@ class MypageViewModel @Inject constructor(
     private val _savedName = MutableStateFlow(Constant.EMPTY_NAME)
     val savedName get() = _savedName.asStateFlow()
 
-    private val _uiStateFlow = MutableStateFlow<UiState<Unit>>(UiState.Init)
+    private val _uiStateFlow =
+        MutableStateFlow<UiState<SignOutType<Unit>>>(UiState.Init)
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
@@ -49,7 +50,7 @@ class MypageViewModel @Inject constructor(
                 loginRepository.clearDataStore()
             }.onSuccess {
                 Timber.e("clear")
-                _uiStateFlow.value = UiState.Success(Unit)
+                _uiStateFlow.value = UiState.Success(SignOutType.CLEAR)
             }.onFailure {
                 UiState.Error("잠시 후 다시 시도해주세요")
                 throw it
@@ -63,10 +64,10 @@ class MypageViewModel @Inject constructor(
             kotlin.runCatching {
                 serviceLogoutUseCase.invoke()
             }.onSuccess {
-                it.collect { collect->
+                it.collect { collect ->
                     when (collect) {
                         is ApiResult.Success -> {
-                            _uiStateFlow.value = UiState.Success(Unit)
+                            _uiStateFlow.value = UiState.Success(SignOutType.LOGOUT)
                             clearDataStore()
                         }
 
@@ -88,10 +89,10 @@ class MypageViewModel @Inject constructor(
             kotlin.runCatching {
                 serviceUnRegisterUseCase.invoke()
             }.onSuccess {
-                it.collect { collect->
+                it.collect { collect ->
                     when (collect) {
                         is ApiResult.Success -> {
-                            _uiStateFlow.value = UiState.Success(Unit)
+                            _uiStateFlow.value = UiState.Success(SignOutType.UNLINK)
                             clearDataStore()
                         }
 
@@ -100,7 +101,6 @@ class MypageViewModel @Inject constructor(
                         }
                     }
                 }
-                clearDataStore()
             }.onFailure {
                 UiState.Error("잠시 후 다시 시도해주세요")
                 throw it

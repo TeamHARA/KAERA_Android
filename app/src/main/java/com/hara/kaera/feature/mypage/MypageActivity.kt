@@ -18,7 +18,6 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
@@ -45,35 +44,6 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
         setClickListener()
         setNotification()
         collectFlow()
-    }
-
-    private fun collectFlow() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    myPageViewModel.savedName.collect {
-                        binding.vm = myPageViewModel
-                    }
-                }
-                launch {
-                    myPageViewModel.uiStateFlow.collect {
-                        when (it) {
-                            is UiState.Loading -> binding.clLoading.visible(true)
-
-                            is UiState.Success -> binding.clLoading.visible(false)
-
-                            is UiState.Error -> {
-                                binding.clLoading.visible(false)
-                                binding.root.makeToast(it.error)
-                            }
-
-                            else -> Unit
-                        }
-
-                    }
-                }
-            }
-        }
     }
 
     override fun onResume() {
@@ -174,43 +144,16 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
             btnLogout.setOnClickListener {
                 DialogMypage("logout") {
-                    lifecycleScope.launch {
-                        kotlin.runCatching {
-                            myPageViewModel.serviceLogout()
-                        }.onSuccess {
-                            // 알림 비활성화
-                            Timber.e("logout")
-                            kaKaoLoginClient.logout()
-                            binding.root.makeToast("로그아웃이 완료되었습니다.")
-                            startActivity(Intent(baseContext, LoginActivity::class.java))
-                            finishAffinity()
-                        }.onFailure {
-                            binding.root.makeToast("잠시 후 다시 시도해주세요.")
-                            throw it
-                        }
-                    }
+                    myPageViewModel.serviceLogout()
                 }.show(supportFragmentManager, "logout")
             }
 
             tvSignout.setOnClickListener {
                 DialogMypage("unregister") {
-                    lifecycleScope.launch {
-                        kotlin.runCatching {
-                            myPageViewModel.serviceUnRegister()
-                        }.onSuccess {
-                            // 알림 비활성화
-                            Timber.e("unlink")
-                            kaKaoLoginClient.unLink()
-                            binding.root.makeToast("회원탈퇴가 완료되었습니다.")
-                            startActivity(Intent(baseContext, OnboardingActivity::class.java))
-                            finishAffinity()
-                        }.onFailure {
-                            binding.root.makeToast("잠시 후 다시 시도해주세요.")
-                            throw it
-                        }
-                    }
+                    myPageViewModel.serviceUnRegister()
                 }.show(supportFragmentManager, "unregister")
             }
+
         }
     }
 
@@ -222,6 +165,59 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             ) == PackageManager.PERMISSION_GRANTED
             binding.tvAllow.visible(!granted)
             binding.tbAlertToggle.visible(granted)
+        }
+    }
+
+    private fun collectFlow() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    myPageViewModel.savedName.collect {
+                        binding.vm = myPageViewModel
+                    }
+                }
+                launch {
+                    myPageViewModel.uiStateFlow.collect {
+                        when (it) {
+                            is UiState.Loading -> binding.clLoading.visible(true)
+
+                            is UiState.Success -> {
+                                binding.clLoading.visible(false)
+                                when (it.data) {
+                                    is SignOutType.LOGOUT -> {
+                                        kaKaoLoginClient.logout()
+                                        binding.root.makeToast("로그아웃이 완료되었습니다.")
+                                    }
+
+                                    is SignOutType.UNLINK -> {
+                                        kaKaoLoginClient.unLink()
+                                        binding.root.makeToast("회원탈퇴가 완료되었습니다.")
+                                    }
+
+                                    is SignOutType.CLEAR -> {
+                                        startActivity(
+                                            Intent(
+                                                baseContext,
+                                                OnboardingActivity::class.java
+                                            )
+                                        )
+                                        finishAffinity()
+                                    }
+
+                                }
+                            }
+
+                            is UiState.Error -> {
+                                binding.clLoading.visible(false)
+                                binding.root.makeToast(it.error)
+                            }
+
+                            else -> Unit
+                        }
+
+                    }
+                }
+            }
         }
     }
 
@@ -248,6 +244,12 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             "https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1"
         const val instagram =
             "https://www.instagram.com/kaera.app/?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr"
+    }
+
+    sealed class SignOutType<Unit> {
+        object LOGOUT : SignOutType<Unit>()
+        object UNLINK : SignOutType<Unit>()
+        object CLEAR : SignOutType<Unit>()
     }
 
 }
