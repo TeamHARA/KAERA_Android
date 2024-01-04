@@ -27,6 +27,7 @@ import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailAfterActivity :
@@ -137,6 +138,7 @@ class DetailAfterActivity :
     private fun renderDeleteWorry(uiState: UiState<DeleteWorryEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
@@ -148,13 +150,13 @@ class DetailAfterActivity :
                 binding.root.makeToast(uiState.error)
             }
 
-            UiState.Empty -> TODO()
         }
     }
 
     private fun renderUpdateReview(uiState: UiState<ReviewResEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
@@ -169,10 +171,11 @@ class DetailAfterActivity :
 
             is UiState.Error -> {
                 binding.layoutLoading.root.visible(false)
+                viewModel.reviewContent = ""
                 binding.root.makeToast(uiState.error)
             }
 
-            UiState.Empty -> TODO()
+
         }
     }
 
@@ -186,7 +189,7 @@ class DetailAfterActivity :
                 val worryDetail = uiState.data
                 binding.worryDetail = worryDetail
 
-                if (worryDetail.templateId == 1) { // freeflow
+                if (worryDetail.templateId == Constant.freeNoteId) { // freeNote
                     with(binding) {
                         layoutAnswer2.root.visible(false)
                         layoutAnswer3.root.visible(false)
@@ -203,7 +206,7 @@ class DetailAfterActivity :
                     }
                 }
                 // update 된 review 반영
-                viewModel.reviewContent = worryDetail.review?.content.toString()
+                viewModel.reviewContent = worryDetail.review.content.toString()
             }
 
             is UiState.Error -> {
