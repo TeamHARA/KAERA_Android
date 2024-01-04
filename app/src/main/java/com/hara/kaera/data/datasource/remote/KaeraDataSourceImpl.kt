@@ -8,7 +8,6 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
-import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.data.dto.PushAlarmResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
@@ -116,7 +115,7 @@ class KaeraDataSourceImpl @Inject constructor(
 
     override fun pushAlarmEnabled(
         isTrued: Int,
-        pushAlarmReqDTO: PushAlarmReqDTO
+        pushAlarmReqDTO: String
     ): Flow<PushAlarmResDTO> {
         return flow {
             emit(kaeraApi.pushAlarmEnabled(isTrued, pushAlarmReqDTO))

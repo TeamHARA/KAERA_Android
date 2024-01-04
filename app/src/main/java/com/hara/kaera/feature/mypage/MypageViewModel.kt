@@ -6,6 +6,7 @@ import com.hara.kaera.application.Constant
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.usecase.LogoutUseCase
+import com.hara.kaera.domain.usecase.PushAlarmEnabledUseCase
 import com.hara.kaera.domain.usecase.UnRegisterUseCase
 import com.hara.kaera.feature.mypage.MypageActivity.SignOutType
 import com.hara.kaera.feature.util.UiState
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class MypageViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
     private val serviceLogoutUseCase: LogoutUseCase,
-    private val serviceUnRegisterUseCase: UnRegisterUseCase
+    private val serviceUnRegisterUseCase: UnRegisterUseCase,
+    private val pushAlarmEnabledUseCase: PushAlarmEnabledUseCase
 ) : ViewModel() {
 
     private val _savedName = MutableStateFlow(Constant.EMPTY_NAME)
@@ -31,6 +33,10 @@ class MypageViewModel @Inject constructor(
     private val _uiStateFlow =
         MutableStateFlow<UiState<SignOutType<Unit>>>(UiState.Init)
     val uiStateFlow = _uiStateFlow.asStateFlow()
+
+    private val _pushStateFlow = MutableStateFlow<UiState<String>>(UiState.Init)
+    val pushState = _pushStateFlow.asStateFlow()
+
 
     init {
         viewModelScope.launch {
@@ -106,6 +112,33 @@ class MypageViewModel @Inject constructor(
                 throw it
             }
         }
+    }
+
+    fun pushAlarmActivated(isTrued: Int, deviceToken: String) {
+        if (deviceToken == "null") return
+        Timber.e("deviceToken:$deviceToken")
+        viewModelScope.launch {
+            _uiStateFlow.value = UiState.Loading
+            kotlin.runCatching {
+                pushAlarmEnabledUseCase(isTrued, deviceToken)
+            }.onSuccess {
+                it.collect { collect ->
+                    when (collect) {
+                        is ApiResult.Success -> {
+                            _pushStateFlow.value = UiState.Success(collect.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _pushStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                        }
+                    }
+                }
+            }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
+                throw it
+            }
+        }
+
     }
 
 

@@ -8,7 +8,6 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
-import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.data.dto.PushAlarmResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
@@ -104,7 +103,7 @@ interface KaeraApi {
     @POST("pushAlarm/enable/:{isTrued}")
     suspend fun pushAlarmEnabled(
         @Path("isTrued") isTrued: Int,
-        @Body pushAlarmReqDTO: PushAlarmReqDTO
+        @Body pushAlarmReqDTO: String
     ): PushAlarmResDTO
 
 }

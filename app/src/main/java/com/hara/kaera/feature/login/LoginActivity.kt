@@ -12,7 +12,6 @@ import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivityLoginBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
-import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.UiState
@@ -20,7 +19,6 @@ import com.hara.kaera.feature.util.makeSnackBar
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
-import com.kakao.sdk.auth.AuthApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -112,12 +110,12 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             is TokenState.Init -> Unit
             is TokenState.Empty -> {
                 //데이터스토어에 토큰이 비어있는 상태
-                //TODO 스플래시에서 이루어진다면 카카오로그인을 위해서 로그인 액티비티로 이동
+                //스플래시에서 이루어진다면 카카오로그인을 위해서 로그인 액티비티로 이동
                 binding.root.makeToast("로그인 먼저 진행해주세요")
             }
 
             is TokenState.Exist -> {
-                // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로
+                // 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로
                 // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
                 //loginViewModel.callUpdatedAccessToken()
                 // 이때 만료상태라면 최초로그인 과정으로 진입

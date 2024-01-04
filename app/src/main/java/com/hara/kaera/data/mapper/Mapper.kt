@@ -163,6 +163,6 @@ object Mapper {
 
     fun mapperToSuccess(dto: ServiceDisConnectResDTO): Boolean = dto.success
 
-    fun mapperToEnabled(dto: PushAlarmResDTO): Boolean = dto.success
+    fun mapperToEnabled(dto: PushAlarmResDTO): String = dto.message
 
 }

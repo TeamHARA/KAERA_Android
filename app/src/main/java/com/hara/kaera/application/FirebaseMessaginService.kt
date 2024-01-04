@@ -22,13 +22,13 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         val sharedPref = getSharedPreferences(Constant.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putString(Constant.SHARED_PREFERENCE_KEY, token)
+        editor.putString(Constant.DEVICE_TOKEN_KEY, token)
         editor.apply()
     }
 
     fun getDeviceToken(context: Context): String? {
         return context.getSharedPreferences(Constant.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
-            .getString(Constant.SHARED_PREFERENCE_KEY, "empty")
+            .getString(Constant.DEVICE_TOKEN_KEY, "empty")
     }
 
 }
