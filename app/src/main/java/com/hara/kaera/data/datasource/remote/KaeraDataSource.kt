@@ -8,6 +8,8 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.PushAlarmReqDTO
+import com.hara.kaera.data.dto.PushAlarmResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
@@ -52,4 +54,6 @@ interface KaeraDataSource {
     fun serviceLogout(): Flow<ServiceDisConnectResDTO>
 
     fun serviceUnRegister(): Flow<ServiceDisConnectResDTO>
+
+    fun pushAlarmEnabled(isTrued: Int, pushAlarmReqDTO: PushAlarmReqDTO): Flow<PushAlarmResDTO>
 }

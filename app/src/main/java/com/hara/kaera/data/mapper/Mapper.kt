@@ -2,8 +2,8 @@ package com.hara.kaera.data.mapper
 
 import com.hara.kaera.data.dto.DeleteWorryDTO
 import com.hara.kaera.data.dto.EditDeadlineResDTO
-import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.PushAlarmResDTO
 import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
 import com.hara.kaera.data.dto.TemplateTypeDTO
@@ -90,7 +90,7 @@ object Mapper {
                 totalNum = it.totalNum,
                 worryList = it.worry.map { worryDto ->
                     WorryByTemplateEntity.Worry(
-                        period = worryDto.period.substring(2,13) + worryDto.period.substring(15),
+                        period = worryDto.period.substring(2, 13) + worryDto.period.substring(15),
                         templateId = worryDto.templateId,
                         title = worryDto.title,
                         worryId = worryDto.worryId,
@@ -162,5 +162,7 @@ object Mapper {
     }
 
     fun mapperToSuccess(dto: ServiceDisConnectResDTO): Boolean = dto.success
+
+    fun mapperToEnabled(dto: PushAlarmResDTO): Boolean = dto.success
 
 }

@@ -8,6 +8,8 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.PushAlarmReqDTO
+import com.hara.kaera.data.dto.PushAlarmResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
 import com.hara.kaera.data.dto.TemplateDetailDTO
@@ -91,13 +93,13 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun writeWorry(writeWorryReqDTO: WriteWorryReqDTO): Flow<WriteWorryResDTO> {
         return flow {
             emit(kaeraApi.writeWorry(writeWorryReqDTO))
-        }
+        }.safeCallApi()
     }
 
     override fun decideFinal(decideFinalReqDTO: DecideFinalReqDTO): Flow<DecideFinalResDTO> {
         return flow {
             emit(kaeraApi.decideFinal(decideFinalReqDTO))
-        }
+        }.safeCallApi()
     }
 
     override fun serviceLogout(): Flow<ServiceDisConnectResDTO> {
@@ -109,6 +111,15 @@ class KaeraDataSourceImpl @Inject constructor(
     override fun serviceUnRegister(): Flow<ServiceDisConnectResDTO> {
         return flow {
             emit(kaeraApi.serviceUnRegister())
+        }.safeCallApi()
+    }
+
+    override fun pushAlarmEnabled(
+        isTrued: Int,
+        pushAlarmReqDTO: PushAlarmReqDTO
+    ): Flow<PushAlarmResDTO> {
+        return flow {
+            emit(kaeraApi.pushAlarmEnabled(isTrued, pushAlarmReqDTO))
         }.safeCallApi()
     }
 }

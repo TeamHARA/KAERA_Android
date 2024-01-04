@@ -20,12 +20,14 @@ import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCaseImpl
 import com.hara.kaera.domain.usecase.LogoutUseCase
 import com.hara.kaera.domain.usecase.LogoutUseCaseImpl
+import com.hara.kaera.domain.usecase.PushAlarmEnabledUseCase
+import com.hara.kaera.domain.usecase.PushAlarmEnabledUseCaseImpl
 import com.hara.kaera.domain.usecase.PutReviewUseCase
 import com.hara.kaera.domain.usecase.PutReviewUseCaseImpl
-import com.hara.kaera.domain.usecase.WriteWorryUseCase
-import com.hara.kaera.domain.usecase.WriteWorryUseCaseImpl
 import com.hara.kaera.domain.usecase.UnRegisterUseCase
 import com.hara.kaera.domain.usecase.UnRegisterUseCaseImpl
+import com.hara.kaera.domain.usecase.WriteWorryUseCase
+import com.hara.kaera.domain.usecase.WriteWorryUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -92,4 +94,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindToUnRegister(unRegisterUseCase: UnRegisterUseCaseImpl): UnRegisterUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindToPushAlarmEnabled(pushAlarmEnabledUseCase: PushAlarmEnabledUseCaseImpl): PushAlarmEnabledUseCase
 }
