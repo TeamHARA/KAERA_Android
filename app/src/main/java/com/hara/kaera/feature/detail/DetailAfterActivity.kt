@@ -112,7 +112,10 @@ class DetailAfterActivity :
             with(btnDelete) {
                 increaseTouchSize(baseContext)
                 onSingleClick {
-                    DialogDeleteWarning {
+                    DialogDeleteWarning(
+                        title = R.string.dialog_after_delete_title,
+                        subtitle = R.string.dialog_after_delete_subtitle
+                    ) {
                         viewModel.deleteWorry()
                     }.show(supportFragmentManager, "delete_worry")
                 }

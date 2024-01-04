@@ -93,7 +93,7 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
             }
 
             is TokenState.Exist -> Unit
-            // TODO 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로
+            // 이 상태 진입은 미리 이전 토큰이 저장되어있는 상태이므로
             // 토큰 재발급 호출 후 그 결과에 따라 데이터 스토어에 액세스토큰 갱신
             // 이때 만료상태라면 최초로그인 과정으로 진입
 

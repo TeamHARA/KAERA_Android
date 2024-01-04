@@ -37,7 +37,6 @@ class DialogWriteComplete(
             onBtnCompleteListener(-1)
             dismiss()
         }
-        //TODO POST 서버통신
     }
 
     @SuppressLint("SoonBlockedPrivateApi")
