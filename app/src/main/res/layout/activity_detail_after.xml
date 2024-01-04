@@ -280,6 +280,8 @@
                         android:background="@android:color/transparent"
                         android:hint="@string/detail_after_record_hint"
                         android:lineSpacingExtra="7sp"
+                        android:maxLines="3"
+                        android:scrollbars="vertical"
                         android:text="@{worryDetail.review.content}"
                         android:textAppearance="@style/h_body4_r14"
                         android:textColor="@color/white"

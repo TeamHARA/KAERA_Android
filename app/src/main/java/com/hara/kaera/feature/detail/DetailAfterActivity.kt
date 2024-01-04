@@ -1,9 +1,11 @@
 package com.hara.kaera.feature.detail
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +29,7 @@ import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
+
 
 @AndroidEntryPoint
 class DetailAfterActivity :
@@ -39,6 +41,7 @@ class DetailAfterActivity :
         collectFlows()
         getWorryById()
         setClickListener()
+        editTextScrollable()
         setKeyboardListener()
     }
 
@@ -97,6 +100,7 @@ class DetailAfterActivity :
         }
     }
 
+
     private fun setClickListener() {
         with(binding) {
             with(btnClose) {
@@ -123,6 +127,19 @@ class DetailAfterActivity :
                 SetKeyboard.showSoftKeyboard(applicationContext, etRecordContent)
             }
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun editTextScrollable() {
+        binding.etRecordContent.setOnTouchListener(OnTouchListener { v, event ->
+            if (v.id == binding.etRecordContent.id) {
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        })
     }
 
     private fun onClickBackPressed() {
@@ -174,7 +191,6 @@ class DetailAfterActivity :
                 viewModel.reviewContent = ""
                 binding.root.makeToast(uiState.error)
             }
-
 
         }
     }
