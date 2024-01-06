@@ -8,6 +8,7 @@ import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
 import com.hara.kaera.data.dto.EditWorryResDTO
 import com.hara.kaera.data.dto.HomeWorryListDTO
+import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.data.dto.PushAlarmResDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.ReviewResDTO
@@ -100,10 +101,10 @@ interface KaeraApi {
     @DELETE("auth/unregister")
     suspend fun serviceUnRegister(): ServiceDisConnectResDTO
 
-    @POST("pushAlarm/enable/:{isTrued}")
+    @POST("alarm/enable/{isTrue}")
     suspend fun pushAlarmEnabled(
-        @Path("isTrued") isTrued: Int,
-        @Body pushAlarmReqDTO: String
+        @Path("isTrue") isTrued: Int,
+        @Body pushAlarmReqDTO: PushAlarmReqDTO
     ): PushAlarmResDTO
 
 }

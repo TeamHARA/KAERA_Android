@@ -5,6 +5,7 @@ import com.hara.kaera.data.datasource.remote.KaeraDataSource
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
+import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
 import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
@@ -185,7 +186,7 @@ class KaeraRepositoryImpl @Inject constructor(
 
     override fun pushAlarmEnabled(
         isTrued: Int,
-        pushAlarmReqDTO: String
+        pushAlarmReqDTO: PushAlarmReqDTO
     ): Flow<ApiResult<String>> {
         return flow {
             kaeraDataSource.pushAlarmEnabled(isTrued, pushAlarmReqDTO).catch {

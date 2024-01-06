@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.application.Constant
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.domain.repository.LoginRepository
 import com.hara.kaera.domain.usecase.LogoutUseCase
 import com.hara.kaera.domain.usecase.PushAlarmEnabledUseCase
@@ -120,7 +121,7 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _uiStateFlow.value = UiState.Loading
             kotlin.runCatching {
-                pushAlarmEnabledUseCase(isTrued, deviceToken)
+                pushAlarmEnabledUseCase(isTrued, PushAlarmReqDTO(deviceToken))
             }.onSuccess {
                 it.collect { collect ->
                     when (collect) {
