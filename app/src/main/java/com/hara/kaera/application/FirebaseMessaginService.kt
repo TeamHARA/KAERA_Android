@@ -13,7 +13,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 // 확장형 노티등등 세부적으로 설정을 위해 Notification 클래스 호출
                 applicationContext,
                 message.notification?.title.toString(), // 콘솔 기준 알림 제목
-                message.notification?.body.toString() // 콘솔 기준 알림 텍스트
+                message.notification?.body.toString(), // 콘솔 기준 알림 텍스트,
+                message.data["worryId"]
             )
         }
     }

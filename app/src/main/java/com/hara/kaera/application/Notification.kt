@@ -8,13 +8,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.hara.kaera.R
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.MainActivity
+import com.hara.kaera.feature.detail.DetailBeforeActivity
 
 
 class Notification(
     private val context: Context,
     private val title: String,
-    private val body: String
+    private val body: String,
+    private val data: String?
 ) {
     init {
         with(context) {
@@ -28,7 +31,12 @@ class Notification(
     }
 
     private fun setBuilder(): NotificationCompat.Builder {
-        val resultPendingIntent = setPendingIntent()
+        val resultPendingIntent: PendingIntent = if (data != null) {
+            setDetailActivityPendingIntent(data)
+        } else {
+            setHomePendingIntent()
+        }
+
 
         return with(context) {
             NotificationCompat.Builder(this, getString(R.string.project_id))
@@ -44,9 +52,37 @@ class Notification(
         }
     }
 
-    private fun setPendingIntent(): PendingIntent {
-        //TODO HOME으로 갈지 Splash로 갈지 고민 Splash가 가장 깔끔하다고 생각
+    private fun setHomePendingIntent(): PendingIntent {
         val resultIntent = Intent(context, MainActivity::class.java)
+
+        return TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(resultIntent)
+            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+        }
+    }
+
+    private fun setDetailActivityPendingIntent(worryId: String): PendingIntent {
+        val resultIntent = Intent(context, DetailBeforeActivity::class.java).apply {
+            putExtra("action", "view")
+            putExtra(
+                "worryDetail", WorryDetailEntity(
+                    worryId = worryId.toInt(),
+                    title = "",
+                    templateId = 0,
+                    subtitles = emptyList(),
+                    answers = emptyList(),
+                    period = "",
+                    updatedAt = "",
+                    deadline = "",
+                    dDay = -1,
+                    finalAnswer = "",
+                    review = WorryDetailEntity.Review(
+                        content = "",
+                        updatedAt = ""
+                    )
+                )
+            )
+        }
 
         return TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
