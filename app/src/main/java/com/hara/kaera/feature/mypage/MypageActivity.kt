@@ -27,10 +27,10 @@ import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -69,13 +69,11 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             if (shouldShowRequestPermissionRationale(permission)) "denied" else "explained"
                         }
                         map["denied"]?.let {
-                            Timber.e("first")
                             // 최초거절 케이스 (앱 최초 설치이후 한번만 타게 됨)
                             binding.root.makeToast("원활한 서비스 이용을 위해서 알림권한을 허용해주세요!")
                         }
                         map["explained"]?.let {
                             //권한 영구 거절( 2번째 거절 이후 ) 이때부터는 사용자가 직접 시스템 설정창에서 권한을 주어야 하므로 시스템 설정창으로 이동
-                            Timber.e("hi")
                             this.startActivity(
                                 Intent().setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
                                     .putExtra(
@@ -94,9 +92,9 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
         with(binding.tbAlertToggle) {
             this.isChecked = sharedPref.getBoolean(Constant.FCM_ACTIVATE_KEY, false)
-            setOnClickListener {
+            onSingleClick(1000) {
                 // 토글 온 오프는 서버에서의 FCM 활성화 유무에 달림
-                if (this.isChecked) {
+                if (!this.isChecked) {
                     // FCM 비활성화
                     callPushAlarmActivated(0)
                 } else {
@@ -108,8 +106,6 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
         binding.tvAllow.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    Timber.e("ration")
-
                     //TODO rationale dialog
                     ActivityCompat.requestPermissions(
                         this,
@@ -238,7 +234,8 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                                 if (it.data != "알림 활성화 성공") sharedPref.edit().putBoolean(
                                     Constant.FCM_ACTIVATE_KEY,
                                     false
-                                ) else sharedPref.edit().putBoolean(Constant.FCM_ACTIVATE_KEY, true)
+                                ).apply() else sharedPref.edit()
+                                    .putBoolean(Constant.FCM_ACTIVATE_KEY, true).apply()
                             }
 
                             is UiState.Error -> {
