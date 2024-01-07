@@ -26,8 +26,10 @@ import com.hara.kaera.feature.dialog.DialogSayingFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
 import com.hara.kaera.feature.write.custom.DialogWriteComplete
@@ -130,20 +132,30 @@ class DetailBeforeActivity :
                 binding.worryDetail = uiState.data
                 Timber.e("[ABC] 서버 통신으로 가져온 worryDetail ${binding.worryDetail}")
 
-                binding.layoutLoading.root.visible(false)
-                binding.btnSubmit.visible(true)
+                controlLayout(true)
             }
 
             is UiState.Error -> {
-                binding.layoutLoading.root.visible(false)
-                binding.root.makeToast(uiState.error)
+                controlLayout(false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
+                )
             }
         }
     }
 
+    private fun controlLayout(success: Boolean) {
+        binding.layoutLoading.root.visible(false)
+        binding.btnSubmit.visible(success)
+        binding.svContent.visible(success)
+        binding.layoutError.root.visible(!success)
+    }
+
     // 데드라인 수정
     private fun renderEditDeadline(uiState: UiState<EditDeadlineEntity>) {
-        binding.layoutLoading.root.visible(false)
         when (uiState) {
             is UiState.Success<EditDeadlineEntity> -> {
                 with(binding.worryDetail!!) {
@@ -194,6 +206,14 @@ class DetailBeforeActivity :
 
     private fun setClickListener() {
         with(binding) {
+            with(layoutError) {
+                layoutInternalError.btnInternalError.onSingleClick {
+                    viewModel.getWorryDetail(binding.worryDetail!!.worryId)
+                }
+                layoutNetworkError.btnNetworkError.onSingleClick {
+                    viewModel.getWorryDetail(binding.worryDetail!!.worryId)
+                }
+            }
             with(btnClose) {
                 increaseTouchSize(baseContext)
                 setOnClickListener { // 앱바 'X' 버튼 클릭
@@ -208,7 +228,7 @@ class DetailBeforeActivity :
                         // 1) [글 수정] WriteActivity로 이동
                         {
                             startActivity(
-                                Intent(applicationContext, WriteActivity::class.java).apply {
+                                Intent(baseContext, WriteActivity::class.java).apply {
                                     putExtra("action", "edit")
                                     putExtra("worryDetail", binding.worryDetail)
                                 }

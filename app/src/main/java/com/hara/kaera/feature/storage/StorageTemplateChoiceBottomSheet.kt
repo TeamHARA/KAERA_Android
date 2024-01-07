@@ -11,12 +11,13 @@ import com.hara.kaera.R
 import com.hara.kaera.databinding.BottomsheetTemplateChoiceBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingDraggableBottomSheet
+import com.hara.kaera.feature.storage.adapter.StorageTemplateChoiceAdapter
 import com.hara.kaera.feature.storage.viewmodel.StorageTemplateChoiceViewModel
 import com.hara.kaera.feature.util.LastItemMarginItemDecoration
 import com.hara.kaera.feature.util.UiState
-import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.controlErrorLayout
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
-import com.hara.kaera.feature.write.adapter.StorageTemplateChoiceAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,6 +49,15 @@ class StorageTemplateChoiceBottomSheet(
                 }
             }
         }
+
+        with(binding.layoutError) {
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getTemplateList()
+            }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getTemplateList()
+            }
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -58,18 +68,30 @@ class StorageTemplateChoiceBottomSheet(
     private fun render(uiState: UiState<TemplateTypesEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
-            is UiState.Loading -> binding.loadingBar.visible(true)
+            is UiState.Empty -> Unit
+            is UiState.Loading -> binding.loadingBar.root.visible(true)
 
             is UiState.Success<TemplateTypesEntity> -> {
-                binding.loadingBar.visible(false)
+                controlLayout(true)
                 storageTemplateAdapter.submitList(uiState.data.templateTypeList)
             }
 
             is UiState.Error -> {
-                binding.loadingBar.visible(false)
-                binding.root.makeToast(uiState.error)
+                controlLayout(false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    binding.root
+                )
             }
         }
     }
+
+    private fun controlLayout(success: Boolean) {
+        binding.loadingBar.root.visible(false)
+        binding.rcvTemplate.visible(success)
+        binding.layoutError.root.visible(!success)
+    }
+
 }

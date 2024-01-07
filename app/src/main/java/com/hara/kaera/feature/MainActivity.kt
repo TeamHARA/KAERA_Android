@@ -114,7 +114,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                             DialogFullStoneFragment().show(supportFragmentManager, "fullstone")
                         } else {
                             startActivity(
-                                Intent(applicationContext, WriteActivity::class.java).apply {
+                                Intent(baseContext, WriteActivity::class.java).apply {
                                     putExtra("action", "write")
                                 }
                             )

@@ -17,9 +17,10 @@ import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.detail.custom.DialogDeleteWarning
 import com.hara.kaera.feature.detail.custom.DialogUpdateWarning
 import com.hara.kaera.feature.dialog.DialogWriteSuccess
-import com.hara.kaera.feature.util.SetKeyboard
 import com.hara.kaera.feature.util.Constant
+import com.hara.kaera.feature.util.SetKeyboard
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
@@ -177,12 +178,10 @@ class DetailAfterActivity :
 
     private fun renderGetWorry(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
-            is UiState.Init -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
-
             is UiState.Success<WorryDetailEntity> -> {
-                controlErrorLayout(success = true)
+                controlLayout(success = true)
 
                 val worryDetail = uiState.data
                 binding.worryDetail = worryDetail
@@ -207,29 +206,24 @@ class DetailAfterActivity :
                 viewModel.reviewContent = worryDetail.review?.content.toString()
             }
 
-            is UiState.Error -> controlErrorLayout(uiState.error, false)
+            is UiState.Error -> {
+                controlLayout(false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
+                )
+            }
 
-            UiState.Empty -> TODO()
+            else -> Unit
         }
     }
 
-    private fun controlErrorLayout(error: String? = null, success: Boolean) {
+    private fun controlLayout(success: Boolean) {
         binding.layoutLoading.root.visible(false)
-        if (success) {
-            binding.layoutError.layoutNetworkError.root.visible(false)
-            binding.layoutError.layoutInternalError.root.visible(false)
-        } else {
-            binding.svContent.visible(false)
-            when (error) {
-                Constant.networkError -> {
-                    binding.layoutError.layoutNetworkError.root.visible(true)
-                }
-
-                Constant.internalError -> {
-                    binding.layoutError.layoutInternalError.root.visible(true)
-                }
-            }
-        }
+        binding.svContent.visible(success)
+        binding.layoutError.root.visible(!success)
     }
 
     private fun setKeyboardListener() {

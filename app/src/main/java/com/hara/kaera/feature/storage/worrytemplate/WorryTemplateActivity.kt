@@ -11,8 +11,9 @@ import com.hara.kaera.databinding.ActivityWorryTemplateBinding
 import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
-import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,15 @@ class WorryTemplateActivity :
             increaseTouchSize(baseContext)
             setOnClickListener { finish() }
         }
+        with(binding.layoutError) {
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getWorryTemplates()
+            }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getWorryTemplates()
+            }
+        }
+
     }
 
     private fun initAdapter() {
@@ -44,8 +54,10 @@ class WorryTemplateActivity :
             startActivity(
                 Intent(this, WriteActivity::class.java).apply {
                     putExtra("templateId", templateId)
+                    putExtra("action", "write")
                 },
             )
+            finish()
         }
         binding.rcvWorryTemplate.adapter = worryTemplateAdapter
     }
@@ -64,20 +76,30 @@ class WorryTemplateActivity :
         when (uiState) {
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
-
             is UiState.Success<TemplateTypesEntity> -> {
-                binding.layoutLoading.root.visible(false)
+                controlLayout(true)
                 worryTemplateAdapter.submitList(uiState.data.templateTypeList)
             }
 
             is UiState.Error -> {
-                binding.layoutLoading.root.visible(false)
-                binding.root.makeToast(message = uiState.error)
+                controlLayout(false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
+                )
             }
 
             else -> {
                 Timber.e("else")
             }
         }
+    }
+
+    private fun controlLayout(success: Boolean) {
+        binding.layoutLoading.root.visible(false)
+        binding.layoutError.root.visible(!success)
+        binding.rcvWorryTemplate.visible(success)
     }
 }

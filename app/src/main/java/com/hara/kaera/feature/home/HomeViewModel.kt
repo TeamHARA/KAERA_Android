@@ -7,7 +7,7 @@ import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
-import com.hara.kaera.feature.util.errorToMessage
+import com.hara.kaera.feature.util.errorToLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,8 +45,8 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        flow.value = UiState.Loading
         viewModelScope.launch {
+            flow.value = UiState.Loading
             kotlin.runCatching {
                 homeUseCase(if (!isSolved) 0 else 1, firstPage, itemLimit)
             }.onSuccess { it ->
@@ -59,7 +59,6 @@ class HomeViewModel @Inject constructor(
                                 flow.value = UiState.Empty
                             } else {
                                 collect.data.homeWorryList.forEachIndexed { index, gem ->
-                                    // TODO: 서버에 원석이 12개 넘게 있을 때
                                     if (isSolved) { // 해결된 고민(보석함)의 경우 순서대로 배치되도록 수정
                                         result[index] = gem
                                     } else {
@@ -73,13 +72,13 @@ class HomeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            flow.value = UiState.Error(errorToMessage(collect.error))
+                            flow.value = UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw it
-                UiState.Error("[홈 화면/원석 display] 서버가 불안정합니다.")
             }
         }
     }

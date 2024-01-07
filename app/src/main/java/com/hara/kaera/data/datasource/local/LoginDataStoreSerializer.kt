@@ -8,9 +8,9 @@ import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-class LoginDataStoreSerializer (
-    private val cryptoManager: CryptoManager,
-):Serializer<LoginData> {
+class LoginDataStoreSerializer(
+    private val cryptoManager: CryptoManager
+) : Serializer<LoginData> {
     override val defaultValue: LoginData
         get() = LoginData()
 
@@ -21,7 +21,7 @@ class LoginDataStoreSerializer (
                 deserializer = LoginData.serializer(),
                 string = decryptedBytes.decodeToString()
             )
-        } catch(e: SerializationException) {
+        } catch (e: SerializationException) {
             defaultValue
         }
     }

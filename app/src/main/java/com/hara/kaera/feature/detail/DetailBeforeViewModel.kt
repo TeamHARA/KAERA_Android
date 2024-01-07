@@ -13,6 +13,7 @@ import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.EditDeadlineUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.errorToLayout
 import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,13 +57,13 @@ class DetailBeforeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _detailStateFlow.value = UiState.Error(errorToMessage(collect.error))
+                            _detailStateFlow.value = UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -90,8 +91,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -113,8 +114,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }
@@ -136,8 +137,8 @@ class DetailBeforeViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                UiState.Error("잠시 후 다시 시도해주세요")
                 throw (it)
-                UiState.Error("서버가 불안정합니다.")
             }
         }
     }

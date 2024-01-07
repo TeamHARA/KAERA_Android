@@ -16,18 +16,17 @@ import com.hara.kaera.feature.detail.DetailAfterActivity
 import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.mypage.MypageActivity
 import com.hara.kaera.feature.storage.adapter.StorageGridAdapter
+import com.hara.kaera.feature.storage.viewmodel.StorageViewModel
 import com.hara.kaera.feature.storage.worrytemplate.WorryTemplateActivity
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
-import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.StorageTemplateChoiceBottomSheet
-import com.hara.kaera.presentation.storage.viewmodel.StorageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragment_storage) {
@@ -39,7 +38,6 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
         super.onViewCreated(view, savedInstanceState)
         initLayout()
         setClickListeners()
-        addObserve()
         collectFlows()
     }
 
@@ -51,8 +49,15 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun collectFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.worryStateFlow.collect { uiState ->
-                    render(uiState)
+                launch {
+                    viewModel.worryStateFlow.collect { uiState ->
+                        render(uiState)
+                    }
+                }
+                launch {
+                    viewModel.templateId.collect { _ ->
+                        viewModel.getJewels()
+                    }
                 }
             }
         }
@@ -61,28 +66,28 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
     private fun render(uiState: UiState<WorryByTemplateEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+            is UiState.Loading -> binding.loadingBar.root.visible(true)
 
             is UiState.Success<WorryByTemplateEntity> -> {
-                binding.layoutLoading.root.visible(false)
+                controlLayout(success = true)
                 val worryByTemplate = uiState.data
-                if (!isEmpty(worryByTemplate.totalNum)) {
-                    storageAdapter.submitList(worryByTemplate.worryList)
-                }
-                binding.tvSumJewelNum.text = String.format(
-                    getString(
-                        R.string.storage_jewels_num,
-                        worryByTemplate.totalNum,
-                    ),
-                )
+                storageAdapter.submitList(worryByTemplate.worryList)
+                binding.total = worryByTemplate.totalNum
             }
 
             is UiState.Error -> {
-                binding.layoutLoading.root.visible(false)
-                binding.root.makeToast(uiState.error)
+                controlLayout(success = false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    binding.root
+                )
             }
 
-            is UiState.Empty -> TODO()
+            is UiState.Empty -> {
+                controlLayout(success = true, empty = true)
+            }
         }
     }
 
@@ -104,14 +109,13 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                 StorageTemplateChoiceBottomSheet({ templateId, title ->
                     viewModel.setSelectedId(templateId)
                     tvTemplateTitle.text = title
-                    Timber.d(viewModel.selectedId.value.toString())
-                }, viewModel.templateId.value ?: 0, {
+                }, viewModel.templateId.value, {
                     if (viewModel.templateId.value != viewModel.selectedId.value) { // onDismissed
                         viewModel.setTemplateId()
-                        Timber.d("****\nnew tempate id: ${viewModel.templateId.value}\n****")
                     }
                 }).show(parentFragmentManager, "template_choice")
             }
+
             with(btnHelp) {
                 increaseTouchSize(requireContext())
                 setOnClickListener {
@@ -132,27 +136,23 @@ class StorageFragment : BindingFragment<FragmentStorageBinding>(R.layout.fragmen
                     .replace(R.id.cl_fragment_container, HomeFragment())
                     .commit()
             }
+
+            with(layoutError) {
+                layoutNetworkError.btnNetworkError.onSingleClick {
+                    viewModel.getJewels()
+                }
+                layoutInternalError.btnInternalError.onSingleClick {
+                    viewModel.getJewels()
+                }
+            }
         }
     }
 
-    private fun addObserve() {
-        viewModel.templateId.observe(viewLifecycleOwner) {
-            viewModel.getJewels()
-        }
+    private fun controlLayout(success: Boolean, empty: Boolean = false) {
+        binding.loadingBar.root.visible(false)
+        binding.clEmpty.root.visible(success && empty)
+        binding.clContent.visible(success && !empty)
+        binding.layoutError.root.visible(!success)
     }
 
-    private fun isEmpty(totalNum: Int): Boolean {
-        binding.layoutLoading.root.visible(false)
-        return if (totalNum == 0) {
-            binding.clEmpty.root.visibility = View.VISIBLE
-            binding.tvSumJewelNum.visibility = View.GONE
-            binding.rvJewels.visibility = View.GONE
-            true
-        } else {
-            binding.clEmpty.root.visibility = View.GONE
-            binding.tvSumJewelNum.visibility = View.VISIBLE
-            binding.rvJewels.visibility = View.VISIBLE
-            false
-        }
-    }
 }

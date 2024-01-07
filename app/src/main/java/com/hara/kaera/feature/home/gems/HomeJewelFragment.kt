@@ -16,12 +16,12 @@ import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.home.adapter.HomeJewelAdapter
 import com.hara.kaera.feature.util.GridRvItemIntervalDecoration
 import com.hara.kaera.feature.util.UiState
+import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.dpToPx
-import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fragment_home_jewel) {
@@ -35,8 +35,8 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setRecyclerView()
+        setClickListeners()
         collectFlows()
     }
 
@@ -62,6 +62,17 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
         }
     }
 
+    private fun setClickListeners() {
+        with(binding.layoutError) {
+            layoutNetworkError.btnNetworkError.onSingleClick {
+                viewModel.getHomeWorryList(true)
+            }
+            layoutInternalError.btnInternalError.onSingleClick {
+                viewModel.getHomeWorryList(true)
+            }
+        }
+    }
+
     // 서버 통신 2) 원석 (해결 전 고민들)
     private fun collectFlows() {
         lifecycleScope.launch {
@@ -75,27 +86,31 @@ class HomeJewelFragment : BindingFragment<FragmentHomeJewelBinding>(R.layout.fra
 
     private fun render(uiState: UiState<HomeWorryListEntity>) {
         when (uiState) {
-            is UiState.Init -> Timber.e("[홈 화면/보석 뷰] UiState.init")
-            is UiState.Loading -> binding.loadingBar.visible(true)
-            is UiState.Empty -> {
-                showContent(true)
-            }
+            is UiState.Init -> Unit
+            is UiState.Loading -> binding.loadingBar.root.visible(true)
+            is UiState.Empty -> controlLayout(success = true, empty = true)
 
             is UiState.Success<HomeWorryListEntity> -> {
-                showContent(false)
+                controlLayout(success = true)
                 homeJewelAdapter.submitList(uiState.data.homeWorryList)
             }
 
             is UiState.Error -> {
-                binding.loadingBar.visible(false)
-                binding.root.makeToast(uiState.error)
+                controlLayout(success = false)
+                controlErrorLayout(
+                    error = uiState.error,
+                    networkBinding = binding.layoutError.layoutNetworkError.root,
+                    internalBinding = binding.layoutError.layoutInternalError.root,
+                    root = binding.root
+                )
             }
         }
     }
 
-    private fun showContent(empty: Boolean) {
-        binding.loadingBar.visible(false)
-        binding.clEmpty.visible(empty)
-        binding.rvHomeJewels.visible(!empty)
+    private fun controlLayout(success: Boolean, empty: Boolean = false) {
+        binding.loadingBar.root.visible(false)
+        binding.rvHomeJewels.visible(success && !empty)
+        binding.clEmpty.visible(success && empty)
+        binding.layoutError.root.visible(!success)
     }
 }
