@@ -1,15 +1,17 @@
 package com.hara.kaera.feature.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
+import android.view.MotionEvent
 import android.view.TouchDelegate
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -89,5 +91,18 @@ fun ImageButton.increaseTouchSize(context: Context, expandSize: Int = 12) {
         }
         parent.touchDelegate = TouchDelegate(updateHitRect, targetView) // <-- 핵심 코드
     }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.scrollableInScrollView() {
+    this.setOnTouchListener(View.OnTouchListener { v, event ->
+        if (v.id == this.id) {
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
+            }
+        }
+        false
+    })
 }
 
