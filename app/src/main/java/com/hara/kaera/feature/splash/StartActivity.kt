@@ -19,6 +19,7 @@ import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.dialog.DialogRestartFragment
 import com.hara.kaera.feature.onboarding.OnboardingActivity
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.makeToast
@@ -38,7 +39,22 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkIntent()
         checkNetwork()
+    }
+
+    /*
+    fcm payload 전달용
+     */
+    private fun checkIntent(): Intent {
+
+        return if (intent.hasExtra(Constant.worryIdIntent)) {
+            Intent(this@StartActivity, MainActivity::class.java).apply {
+                putExtra(Constant.worryIdIntent, intent.getStringExtra(Constant.worryIdIntent))
+            }
+        } else {
+            Intent(this@StartActivity, MainActivity::class.java)
+        }
     }
 
     private fun checkNetwork() {
@@ -99,7 +115,7 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
 
 
             is TokenState.Valid -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(checkIntent())
                 finishAffinity()
             }
 

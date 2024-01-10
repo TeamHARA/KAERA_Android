@@ -12,8 +12,10 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
+import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
+import com.hara.kaera.feature.detail.DetailBeforeActivity
 import com.hara.kaera.feature.dialog.DialogFullStoneFragment
 import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.home.HomeViewModel
@@ -57,6 +59,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         setPermission()
         this.onBackPressedDispatcher.addCallback(this, callback)
         registerBottomNav()
+        checkIntent()
     }
 
     private fun setPermission() {
@@ -145,5 +148,35 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             }
         }
         return false
+    }
+
+    /*
+    fcm payload 전달용
+     */
+    private fun checkIntent() {
+        if (intent.hasExtra(Constant.worryIdIntent)) {
+            val resultIntent = Intent(this@MainActivity, DetailBeforeActivity::class.java).apply {
+                putExtra("action", "view")
+                putExtra(
+                    "worryDetail", WorryDetailEntity(
+                        worryId = intent.getStringExtra(Constant.worryIdIntent)!!.toInt(),
+                        title = "",
+                        templateId = 0,
+                        subtitles = emptyList(),
+                        answers = emptyList(),
+                        period = "",
+                        updatedAt = "",
+                        deadline = "",
+                        dDay = -1,
+                        finalAnswer = "",
+                        review = WorryDetailEntity.Review(
+                            content = "",
+                            updatedAt = ""
+                        )
+                    )
+                )
+            }
+            startActivity(resultIntent)
+        }
     }
 }
