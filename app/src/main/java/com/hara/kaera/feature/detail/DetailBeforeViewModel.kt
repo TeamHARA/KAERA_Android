@@ -3,6 +3,7 @@ package com.hara.kaera.feature.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.core.ErrorType
 import com.hara.kaera.data.dto.DecideFinalReqDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
@@ -12,6 +13,7 @@ import com.hara.kaera.domain.usecase.DecideFinalUseCase
 import com.hara.kaera.domain.usecase.DeleteWorryUseCase
 import com.hara.kaera.domain.usecase.EditDeadlineUseCase
 import com.hara.kaera.domain.usecase.GetWorryDetailUseCase
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToLayout
 import com.hara.kaera.feature.util.errorToMessage
@@ -57,7 +59,13 @@ class DetailBeforeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _detailStateFlow.value = UiState.Error(errorToLayout(collect.error))
+                            // fcm을 통해서 진입하는 경우를 위한 예외처리
+                            Timber.e(collect.error.toString())
+                            if (collect.error == ErrorType.Api.BadRequest) {
+                                _detailStateFlow.value = UiState.Error(Constant.notExistedId)
+                            } else {
+                                _detailStateFlow.value = UiState.Error(errorToLayout(collect.error))
+                            }
                         }
                     }
                 }
@@ -132,7 +140,8 @@ class DetailBeforeViewModel @Inject constructor(
                         }
 
                         is ApiResult.Error -> {
-                            _decideFinalFlow.value = UiState.Error(errorToMessage(collect.error))
+                            _decideFinalFlow.value =
+                                UiState.Error(errorToMessage(collect.error))
                         }
                     }
                 }

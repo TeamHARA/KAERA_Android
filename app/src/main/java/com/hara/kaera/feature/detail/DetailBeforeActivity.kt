@@ -136,13 +136,18 @@ class DetailBeforeActivity :
             }
 
             is UiState.Error -> {
-                controlLayout(false)
-                controlErrorLayout(
-                    error = uiState.error,
-                    networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root,
-                    root = binding.root
-                )
+                if (uiState.error == Constant.notExistedId) {
+                    finish()
+                    binding.root.makeToast(Constant.notExistedId)
+                } else {
+                    controlLayout(false)
+                    controlErrorLayout(
+                        error = uiState.error,
+                        networkBinding = binding.layoutError.layoutNetworkError.root,
+                        internalBinding = binding.layoutError.layoutInternalError.root,
+                        root = binding.root
+                    )
+                }
             }
         }
     }
