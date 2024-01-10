@@ -9,7 +9,6 @@ import com.hara.kaera.feature.base.BindingDialogFragment
 class DialogFullStoneFragment :
     BindingDialogFragment<DialogFragmentFullstoneBinding>(R.layout.dialog_fragment_fullstone, 16) {
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnComplete.setOnClickListener {

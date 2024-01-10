@@ -67,6 +67,9 @@
     <string name="dialog_edit_action_change"><![CDATA[지금 템플릿이 변경되면 <font color=\'#ff0000\'>새로운</font> 고민이 작성됩니다.]]></string>
     <string name="dialog_write_change_subtitle">변경하시겠어요?</string>
 
+    <string name="dialog_app_essential_update">필수 업데이트가 있습니다\n 업데이트 이후 사용해주세요</string>
+    <string name="dialog_app_felxible_update">원활한 사용을 위해 업데이트를 진행해주세요</string>
+
     <!--  보관함  -->
     <string name="storage_title">고민 보석함</string>
     <string name="storage_templete">모든 보석 보기</string>
