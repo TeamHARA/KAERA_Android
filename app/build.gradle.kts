@@ -102,6 +102,7 @@ dependencies {
     implementation(Dependency.Firebase.FIREBASE_ANALYTICS)
     implementation(Dependency.Firebase.FIREBASE_CRASHLYTICS)
     implementation(Dependency.Firebase.FIREBASE_MESSAGING)
+    implementation(Dependency.Firebase.FIREBASE_RMOTECONFIG)
 
     //Timber
     implementation(Dependency.ThirdParty.TIMBER)
@@ -114,7 +115,7 @@ dependencies {
     implementation(Dependency.Kotlin.KOTLIN_SERIALIZATION)
 
     implementation(Dependency.Retrofit2.SQUAREUP_RETROFIT2)
-    implementation(Dependency.Retrofit2.RETROFIR2_SERIALIZATIOM)
+    implementation(Dependency.Retrofit2.RETROFIT2_SERIALIZATION)
 
     implementation(platform(Dependency.Okhttp3.OKHTTP3_BOM))
     implementation(Dependency.Okhttp3.OKHTTP3)

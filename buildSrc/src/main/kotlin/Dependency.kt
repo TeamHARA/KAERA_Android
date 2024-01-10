@@ -28,7 +28,8 @@ object Dependency {
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
-        const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging-ktx:${Versions.FIREBASE_MEESAGING}"
+        const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging-ktx:${Versions.FIREBASE_MESSAGING}"
+        const val FIREBASE_RMOTECONFIG = "com.google.firebase:firebase-config-ktx"
     }
 
     object ThirdParty {
@@ -67,7 +68,7 @@ object Dependency {
 
     object Retrofit2{
         const val SQUAREUP_RETROFIT2 = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT2}"
-        const val RETROFIR2_SERIALIZATIOM = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.RETROFIT2_SERIALIZATION_CONVERTER}"
+        const val RETROFIT2_SERIALIZATION = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.RETROFIT2_SERIALIZATION_CONVERTER}"
     }
 
     object KaKaoSDK{
@@ -76,8 +77,8 @@ object Dependency {
         const val KAKAO_USER = "com.kakao.sdk:v2-talk:${Versions.KAKAO_SDK}"
     }
 
-    object SecertsGradle{
-        const val SECERETS_GRADLE_CLASSPATH ="com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:{${Versions.SERCRET_GRADLE}}"
+    object SecretsGradle{
+        const val SECRETS_GRADLE_CLASSPATH ="com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:{${Versions.SECRET_GRADLE}}"
     }
 
 }
