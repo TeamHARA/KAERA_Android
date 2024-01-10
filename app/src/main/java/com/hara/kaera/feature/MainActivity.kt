@@ -92,27 +92,34 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                                 com.hara.kaera.application.Constant.SHARED_PREFERENCE_NAME,
                                 MODE_PRIVATE
                             )
-                        lifecycleScope.launch {
-                            viewModel.pushAlarmActivatedFlow.collect {
-                                when (it) {
-                                    is UiState.Success -> {
-                                        sharedPref.edit()
-                                            .putBoolean(
-                                                com.hara.kaera.application.Constant.FCM_ACTIVATE_KEY,
-                                                true
-                                            ).apply()
+                        if (!sharedPref.getBoolean(
+                                com.hara.kaera.application.Constant.SHARED_PREFERENCE_NAME,
+                                false
+                            )
+                        ) {
+                            lifecycleScope.launch {
+                                viewModel.pushAlarmActivatedFlow.collect {
+                                    when (it) {
+                                        is UiState.Success -> {
+                                            sharedPref.edit()
+                                                .putBoolean(
+                                                    com.hara.kaera.application.Constant.FCM_ACTIVATE_KEY,
+                                                    true
+                                                ).apply()
+                                        }
+
+                                        else -> Unit
                                     }
 
-                                    else -> Unit
                                 }
-
                             }
+                            viewModel.pushAlarmActivated(
+                                FirebaseMessagingService().getDeviceToken(
+                                    baseContext
+                                ) ?: "null"
+                            )
                         }
-                        viewModel.pushAlarmActivated(
-                            FirebaseMessagingService().getDeviceToken(
-                                baseContext
-                            ) ?: "null"
-                        )
+
 
                     }
                 }

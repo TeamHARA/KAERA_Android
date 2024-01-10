@@ -2,19 +2,34 @@ package com.hara.kaera.feature.onboarding
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.viewpager2.widget.ViewPager2
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityOnboardingBinding
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.onboarding.adpter.OnboardingAdapter
+import com.hara.kaera.feature.util.makeSnackBar
 
 class OnboardingActivity :
     BindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
     private lateinit var onboardingAdapter: OnboardingAdapter
 
+    private var time: Long = 0
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (System.currentTimeMillis() - time >= 2000) {
+                time = System.currentTimeMillis()
+                binding.root.makeSnackBar("'뒤로'버튼을 한번더 누르면 종료됩니다.")
+            } else if (System.currentTimeMillis() - time < 2000) {
+                finishAffinity()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.onBackPressedDispatcher.addCallback(this, callback)
         setViewPager()
         setButtonClickListener()
     }

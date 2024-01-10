@@ -2,8 +2,6 @@ package com.hara.kaera.feature.util
 
 import android.view.View
 import com.hara.kaera.core.ErrorType
-import com.hara.kaera.databinding.LayoutErrorInternalBinding
-import com.hara.kaera.databinding.LayoutErrorNetworkBinding
 
 
 fun errorToMessage(error: ErrorType) = when (error) {
@@ -38,10 +36,12 @@ fun controlErrorLayout(
     when (error) {
         Constant.networkError -> {
             networkBinding.visible(true)
+            root.makeToast("인터넷 연결을 확인 해주세요")
         }
 
         Constant.internalError -> {
             internalBinding.visible(true)
+            root.makeToast("잠시후 다시 시도 해주세요")
         }
 
         else -> {
