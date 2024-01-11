@@ -1,6 +1,8 @@
 package com.hara.kaera.feature.splash
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogFragmentAppUpdateBinding
@@ -22,6 +24,15 @@ class DialogUpdateFragment(
         binding.btnNo.setOnClickListener {
             noClickListener.invoke()
             dismiss()
+        }
+
+        dialog!!.setOnKeyListener { dialog: DialogInterface?, keyCode: Int, event: KeyEvent ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                noClickListener.invoke()
+                dismiss()
+                return@setOnKeyListener true
+            }
+            false
         }
     }
 
