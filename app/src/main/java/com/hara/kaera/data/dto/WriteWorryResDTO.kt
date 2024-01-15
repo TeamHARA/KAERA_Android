@@ -1,8 +1,5 @@
 package com.hara.kaera.data.dto
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,6 +22,8 @@ data class WriteWorryResDTO(
         val title: String,
         @SerialName("templateId")
         val templateId: Int,
+        @SerialName("subtitles")
+        val subtitles: List<String>,
         @SerialName("answers")
         val answers: List<String>,
         @SerialName("createdAt")
