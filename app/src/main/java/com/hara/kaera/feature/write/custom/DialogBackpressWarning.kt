@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogFragmentBackpressWarningBinding
-import com.hara.kaera.databinding.DialogFragmentTemplatechangeWarningBinding
 import com.hara.kaera.feature.base.BindingDialogFragment
 import com.hara.kaera.feature.util.onSingleClick
 import dagger.hilt.android.AndroidEntryPoint
