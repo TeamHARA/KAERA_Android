@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,23 +29,30 @@ import com.hara.kaera.feature.util.scrollableInScrollView
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @AndroidEntryPoint
 class DetailAfterActivity :
     BindingActivity<ActivityDetailAfterBinding>(R.layout.activity_detail_after) {
+
     private val viewModel by viewModels<DetailAfterViewModel>()
+
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            onClickBackPressed()
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.onBackPressedDispatcher.addCallback(this, callback)
         collectFlows()
         getWorryById()
         setClickListener()
         setKeyboardListener()
-    }
-
-    override fun onBackPressed() {
-        onClickBackPressed()
+        Timber.e(binding.etRecordContent.text.toString())
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean { // 현재 포커싱 이외의 영역 클릭 시 키보드 제거
@@ -96,6 +104,7 @@ class DetailAfterActivity :
                 }
             }
         }
+
     }
 
 
@@ -131,9 +140,9 @@ class DetailAfterActivity :
         }
     }
 
-
     private fun onClickBackPressed() {
-        if (viewModel.reviewContent != binding.etRecordContent.text.toString()) {
+        Timber.e(viewModel.getReviewContent() + " , " + binding.etRecordContent.text.toString())
+        if (viewModel.getReviewContent() != binding.etRecordContent.text.toString()) {
             DialogUpdateWarning {
                 finish()
             }.show(supportFragmentManager, "update_review")
@@ -168,17 +177,12 @@ class DetailAfterActivity :
 
             is UiState.Success -> {
                 binding.layoutLoading.root.visible(false)
-
-                // update review date
                 binding.tvRecordDate.text = uiState.data.updateDate
                 DialogWriteSuccess().show(supportFragmentManager, "review")
-                // update current review
-                viewModel.reviewContent = binding.etRecordContent.text.toString()
             }
 
             is UiState.Error -> {
                 binding.layoutLoading.root.visible(false)
-                viewModel.reviewContent = ""
                 binding.root.makeToast(uiState.error)
             }
 
@@ -186,16 +190,18 @@ class DetailAfterActivity :
     }
 
     private fun renderGetWorry(uiState: UiState<WorryDetailEntity>) {
+        Timber.e(uiState.toString())
         when (uiState) {
+            is UiState.Init -> Unit
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success<WorryDetailEntity> -> {
                 controlLayout(success = true)
 
-                val worryDetail = uiState.data
-                binding.worryDetail = worryDetail
+                binding.worryDetail = uiState.data
 
-                if (worryDetail.templateId == Constant.freeNoteId) { // freeNote
+                if (binding.worryDetail!!.templateId == Constant.freeNoteId) { // freeNote
                     with(binding) {
                         layoutAnswer2.root.visible(false)
                         layoutAnswer3.root.visible(false)
@@ -205,14 +211,12 @@ class DetailAfterActivity :
                     val layouts =
                         listOf(binding.layoutAnswer2, binding.layoutAnswer3, binding.layoutAnswer4)
                     layouts.forEachIndexed { index, layout ->
-                        if (index < worryDetail.subtitles.size && index < worryDetail.answers.size) {
-                            layout.tvTitle.text = worryDetail.subtitles[index + 1]
-                            layout.tvContent.text = worryDetail.answers[index + 1]
+                        if (index < binding.worryDetail!!.subtitles.size && index < binding.worryDetail!!.answers.size) {
+                            layout.tvTitle.text = binding.worryDetail!!.subtitles[index + 1]
+                            layout.tvContent.text = binding.worryDetail!!.answers[index + 1]
                         }
                     }
                 }
-                // update 된 review 반영
-                viewModel.reviewContent = worryDetail.review.content.toString()
             }
 
             is UiState.Error -> {
@@ -225,7 +229,6 @@ class DetailAfterActivity :
                 )
             }
 
-            else -> Unit
         }
     }
 

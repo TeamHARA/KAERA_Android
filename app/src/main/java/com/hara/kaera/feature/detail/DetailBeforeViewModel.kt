@@ -90,6 +90,7 @@ class DetailBeforeViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _editDeadlineStateFlow.value = UiState.Success(collect.data)
+                            _editDeadlineStateFlow.value = UiState.Init
                         }
 
                         is ApiResult.Error -> {
