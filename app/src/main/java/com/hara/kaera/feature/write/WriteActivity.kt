@@ -116,7 +116,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
 
             clChoice.onSingleClick {
                 if (checkText()) { // 한 글자라도 써놨을 경우
-                    DialogSaveWarning { showTemplateChoiceBottomSheet() }.show(
+                    DialogSaveWarning(
+                        if (viewModel.activityAction.value == ACTION_WRITE) {
+                            R.string.dialog_write_action_change
+                        } else {
+                            R.string.dialog_edit_action_change
+                        }
+                    ) { showTemplateChoiceBottomSheet() }.show(
                         supportFragmentManager,
                         "warning"
                     )
