@@ -54,14 +54,15 @@
     <string name="dialog_record"><![CDATA[기록을 <font color=\'#FF5F5F\'>취소</font> 하시나요?]]></string>
     <string name="dialog_cancel">취소</string>
     <string name="dialog_sure">하시나요?</string>
-    <string name="dialog_record_warning">작성된 기록이 저장되지 않았어요.</string>
+    <string name="dialog_record_warning">작성된 기록이 저장되지 않았어요</string>
     <string name="dialog_backpress_warning">화면을 나가면 작성중인 내용이 사라져요</string>
 
-    <string name="dialog_delete"><![CDATA[고민을 <font color=\'#ff0000\'>삭제</font> 하시나요?]]></string>
+    <string name="dialog_before_delete_title"><![CDATA[작성하신 고민을 정말 <font color=\'#ff0000\'>삭제</font>하시겠어요?]]></string>
+    <string name="dialog_before_delete_subtitle">내가 했던 고민의 과정이 사라지게 돼요😢</string>
+    <string name="dialog_after_delete_title"><![CDATA[고민을 <font color=\'#ff0000\'>삭제</font> 하시나요?]]></string>
+    <string name="dialog_after_delete_subtitle">삭제된 고민은 복구할 수 없어요</string>
     <string name="dialog_delete_confirm">삭제</string>
-    <string name="dialog_delete_warning">삭제된 고민은 복구할 수 없어요.</string>
     <string name="dialog_write_success">작성 완료!</string>
-
 
     <!--  보관함  -->
     <string name="storage_title">고민 보석함</string>

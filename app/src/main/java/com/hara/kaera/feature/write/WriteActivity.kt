@@ -24,6 +24,7 @@ import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
+import com.hara.kaera.feature.util.scrollableInScrollView
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
 import com.hara.kaera.feature.write.custom.DialogBackpressWarning
@@ -60,7 +61,17 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
         )
 
-        editTextList = listOf<EditText>(
+        mappingEditText()
+        getDetailToEditData() // DetailBeforeActivity -> WriteActivity 넘어온 것인지 확인
+        setTextWatcher()
+        setClickListeners()
+        collectFlows()
+        setTemplate()
+    }
+
+    private fun mappingEditText() {
+
+        editTextList = listOf(
             binding.clTemplate.etAnswer1,
             binding.clTemplate.etAnswer2,
             binding.clTemplate.etAnswer3,
@@ -68,12 +79,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         )
         editTextFreeNote = binding.clFreenote.etFreenote
         edittextTitle = binding.etTitle
-
-        getDetailToEditData() // DetailBeforeActivity -> WriteActivity 넘어온 것인지 확인
-        setTextWatcher()
-        setClickListeners()
-        collectFlows()
-        setTemplate()
+        editTextList.forEach {
+            it.scrollableInScrollView()
+        }
+        editTextFreeNote.scrollableInScrollView()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

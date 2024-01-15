@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -43,10 +42,13 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[0]}"
-            android:text="@{userInput.answers[0]}"
             android:lineSpacingExtra="6sp"
             android:maxLength="2000"
+            android:maxLines="5"
             android:nextFocusDown="@id/et_answer2"
+            android:scrollbarThumbVertical="@drawable/shape_rect_gray5_66"
+            android:scrollbars="vertical"
+            android:text="@{userInput.answers[0]}"
             app:layout_constraintStart_toStartOf="@+id/tv_question1"
             app:layout_constraintTop_toBottomOf="@+id/tv_question1"
             tools:hint="걱정하고 있는 걸 \n사실대로 써봅시다" />
@@ -72,10 +74,13 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[1]}"
-            android:text="@{userInput.answers[1]}"
             android:lineSpacingExtra="6sp"
             android:maxLength="2000"
+            android:maxLines="5"
             android:nextFocusDown="@id/et_answer3"
+            android:scrollbarThumbVertical="@drawable/shape_rect_gray5_66"
+            android:scrollbars="vertical"
+            android:text="@{userInput.answers[1]}"
             app:layout_constraintStart_toStartOf="@+id/tv_question2"
             app:layout_constraintTop_toBottomOf="@+id/tv_question2" />
 
@@ -100,10 +105,13 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[2]}"
-            android:text="@{userInput.answers[2]}"
             android:lineSpacingExtra="6sp"
             android:maxLength="2000"
+            android:maxLines="5"
             android:nextFocusDown="@id/et_answer4"
+            android:scrollbarThumbVertical="@drawable/shape_rect_gray5_66"
+            android:scrollbars="vertical"
+            android:text="@{userInput.answers[2]}"
             app:layout_constraintStart_toStartOf="@+id/tv_question3"
             app:layout_constraintTop_toBottomOf="@+id/tv_question3" />
 
@@ -127,9 +135,12 @@
             android:background="@drawable/shape_rect_gray2_12"
             android:gravity="top"
             android:hint="@{templatedata.hints[3]}"
-            android:text="@{userInput.answers[3]}"
             android:lineSpacingExtra="6sp"
             android:maxLength="2000"
+            android:maxLines="5"
+            android:scrollbarThumbVertical="@drawable/shape_rect_gray5_66"
+            android:scrollbars="vertical"
+            android:text="@{userInput.answers[3]}"
             app:layout_constraintStart_toStartOf="@+id/tv_question4"
             app:layout_constraintTop_toBottomOf="@+id/tv_question4" />
 

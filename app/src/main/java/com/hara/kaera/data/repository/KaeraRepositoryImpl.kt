@@ -3,17 +3,14 @@ package com.hara.kaera.data.repository
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.datasource.remote.KaeraDataSource
 import com.hara.kaera.data.dto.DecideFinalReqDTO
-import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
-import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
-import com.hara.kaera.data.dto.EditWorryResDTO
+import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
-import com.hara.kaera.data.dto.WriteWorryResDTO
-import com.hara.kaera.data.mapper.LoginMapper
 import com.hara.kaera.data.mapper.Mapper.mapperToDeleteWorry
 import com.hara.kaera.data.mapper.Mapper.mapperToEditDeadline
+import com.hara.kaera.data.mapper.Mapper.mapperToEnabled
 import com.hara.kaera.data.mapper.Mapper.mapperToHomeWorryList
 import com.hara.kaera.data.mapper.Mapper.mapperToReview
 import com.hara.kaera.data.mapper.Mapper.mapperToStorageWorry
@@ -72,7 +69,11 @@ class KaeraRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getHomeWorryList(isSolved: Int, page: Int, limit: Int): Flow<ApiResult<HomeWorryListEntity>> {
+    override fun getHomeWorryList(
+        isSolved: Int,
+        page: Int,
+        limit: Int
+    ): Flow<ApiResult<HomeWorryListEntity>> {
         return flow {
             kaeraDataSource.getHomeWorryList(isSolved, page, limit).catch {
                 emit(ApiResult.Error(errorHandler(it)))
@@ -180,6 +181,20 @@ class KaeraRepositoryImpl @Inject constructor(
             }.collect {
                 emit(ApiResult.Success(mapperToSuccess(it)))
             }
+        }
+    }
+
+    override fun pushAlarmEnabled(
+        isTrued: Int,
+        pushAlarmReqDTO: PushAlarmReqDTO
+    ): Flow<ApiResult<String>> {
+        return flow {
+            kaeraDataSource.pushAlarmEnabled(isTrued, pushAlarmReqDTO).catch {
+                emit(ApiResult.Error(errorHandler(it)))
+            }.collect {
+                emit(ApiResult.Success(mapperToEnabled(it)))
+            }
+
         }
     }
 }

@@ -2,6 +2,7 @@ package com.hara.kaera.feature.mypage
 
 import android.Manifest
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.hara.kaera.R
+import com.hara.kaera.application.Constant
+import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.mypage.custom.DialogMypage
@@ -24,10 +27,10 @@ import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.makeToast
+import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +39,10 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
     private val myPageViewModel by viewModels<MypageViewModel>()
 
     private lateinit var launcher: ActivityResultLauncher<Array<String>>
+
+    private val sharedPref: SharedPreferences by lazy {
+        applicationContext.getSharedPreferences(Constant.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
+    }
 
     @Inject
     lateinit var kaKaoLoginClient: KaKaoLoginClient
@@ -62,13 +69,11 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                             if (shouldShowRequestPermissionRationale(permission)) "denied" else "explained"
                         }
                         map["denied"]?.let {
-                            Timber.e("first")
                             // 최초거절 케이스 (앱 최초 설치이후 한번만 타게 됨)
                             binding.root.makeToast("원활한 서비스 이용을 위해서 알림권한을 허용해주세요!")
                         }
                         map["explained"]?.let {
                             //권한 영구 거절( 2번째 거절 이후 ) 이때부터는 사용자가 직접 시스템 설정창에서 권한을 주어야 하므로 시스템 설정창으로 이동
-                            Timber.e("hi")
                             this.startActivity(
                                 Intent().setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
                                     .putExtra(
@@ -85,24 +90,22 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                 }
             }
 
-        binding.tbAlertToggle.setOnClickListener {
-            // 토글 온 오프는 서버에서의 FCM 활성화 유무에 달림
-            if (false) {
-                // 여기서 서버에 fcm 토큰을 삭제하고 체크하고 등록하는 로직이 필요함!
-                // 안드로이드에서 즉시 프로그래밍적으로 알림권한을 삭제하거나 비활성화 시키는 방법은 없음(앱의 재시작이 필요)
-                // 따라서 알림권한이 잇는가 -> 그다음 fcm 토큰이서버에 등록되어 있는가? 둘다 true이면 토클이 isChecked true
-                // 하나라도 false일 경우 isCheceked가 false로 될 필요가 있다 따라서.
-                // 서버측에 fcm 관련 api가 필요하다
-                // FCM 활성화
-            } else {
-                // FCM 비활성화
+        with(binding.tbAlertToggle) {
+            this.isChecked = sharedPref.getBoolean(Constant.FCM_ACTIVATE_KEY, false)
+            onSingleClick(1000) {
+                // 토글 온 오프는 서버에서의 FCM 활성화 유무에 달림
+                if (!this.isChecked) {
+                    // FCM 비활성화
+                    callPushAlarmActivated(0)
+                } else {
+                    // FCM 활성화
+                    callPushAlarmActivated(1)
+                }
             }
         }
         binding.tvAllow.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    Timber.e("ration")
-
                     //TODO rationale dialog
                     ActivityCompat.requestPermissions(
                         this,
@@ -145,12 +148,14 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
             btnLogout.setOnClickListener {
                 DialogMypage("logout") {
                     myPageViewModel.serviceLogout()
+                    callPushAlarmActivated(0)
                 }.show(supportFragmentManager, "logout")
             }
 
             tvSignout.setOnClickListener {
                 DialogMypage("unregister") {
                     myPageViewModel.serviceUnRegister()
+                    callPushAlarmActivated(0)
                 }.show(supportFragmentManager, "unregister")
             }
 
@@ -217,8 +222,41 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
                     }
                 }
+                launch {
+                    myPageViewModel.pushState.collect {
+                        when (it) {
+                            is UiState.Loading -> binding.clLoading.visible(true)
+
+                            is UiState.Success -> {
+                                binding.clLoading.visible(false)
+                                binding.root.makeToast(it.data)
+                                binding.tbAlertToggle.isChecked = it.data == "알림 활성화 성공"
+                                if (it.data != "알림 활성화 성공") sharedPref.edit().putBoolean(
+                                    Constant.FCM_ACTIVATE_KEY,
+                                    false
+                                ).apply() else sharedPref.edit()
+                                    .putBoolean(Constant.FCM_ACTIVATE_KEY, true).apply()
+                            }
+
+                            is UiState.Error -> {
+                                binding.tbAlertToggle.isChecked = !(binding.tbAlertToggle.isChecked)
+                                binding.clLoading.visible(false)
+                                binding.root.makeToast(it.error)
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private fun callPushAlarmActivated(isTrued: Int) {
+        myPageViewModel.pushAlarmActivated(
+            isTrued,
+            FirebaseMessagingService().getDeviceToken(baseContext) ?: "null"
+        )
     }
 
     private fun connectWebView(targetUrl: String) {

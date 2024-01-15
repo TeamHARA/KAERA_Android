@@ -10,7 +10,6 @@
             type="Integer" />
     </data>
 
-    <!-- TODO  배경 바꾸기 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

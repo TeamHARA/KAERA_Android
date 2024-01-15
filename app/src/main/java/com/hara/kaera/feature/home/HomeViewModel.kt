@@ -3,20 +3,25 @@ package com.hara.kaera.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hara.kaera.core.ApiResult
+import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.domain.usecase.GetHomeWorryListUseCase
+import com.hara.kaera.domain.usecase.PushAlarmEnabledUseCase
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToLayout
+import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeUseCase: GetHomeWorryListUseCase
+    private val homeUseCase: GetHomeWorryListUseCase,
+    private val pushAlarmEnabledUseCase: PushAlarmEnabledUseCase
 ) : ViewModel() {
 
     init {
@@ -34,6 +39,10 @@ class HomeViewModel @Inject constructor(
     val homeWorryListJewelFlow = _homeWorryListJewelFlow.asStateFlow()
 
     private var fullStone = false
+
+    private val _pushAlarmActivatedFlow =
+        MutableStateFlow<UiState<String>>(UiState.Init)
+    val pushAlarmActivatedFlow = _pushAlarmActivatedFlow.asStateFlow()
 
     fun getHomeWorryList(isSolved: Boolean) {
         val flow = if (!isSolved) _homeWorryListStoneFlow else _homeWorryListJewelFlow
@@ -85,6 +94,32 @@ class HomeViewModel @Inject constructor(
 
     fun isFullStone(): Boolean {
         return fullStone
+    }
+
+    fun pushAlarmActivated(deviceToken: String) {
+        if (deviceToken == "null") return
+        Timber.e("deviceToken:$deviceToken")
+        viewModelScope.launch {
+            kotlin.runCatching {
+                pushAlarmEnabledUseCase(1, PushAlarmReqDTO(deviceToken))
+            }.onSuccess {
+                it.collect { collect ->
+                    when (collect) {
+                        is ApiResult.Success -> {
+                            _pushAlarmActivatedFlow.value = UiState.Success(collect.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            _pushAlarmActivatedFlow.value =
+                                UiState.Error(errorToMessage(collect.error))
+                        }
+                    }
+                }
+            }.onFailure {
+                UiState.Error("마이페이지에서 알림 허용해주세요")
+                throw it
+            }
+        }
     }
 
     companion object {

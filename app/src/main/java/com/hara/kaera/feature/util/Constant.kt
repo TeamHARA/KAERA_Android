@@ -12,4 +12,6 @@ object Constant {
     const val infiniteDeadLine = -888
     const val dummyGemStoneId = -1
     const val worryIdIntent = "worryId"
+
+    const val notExistedId = "해결되었거나 존재하지 않는 고민입니다."
 }

@@ -125,7 +125,7 @@ class DetailBeforeActivity :
     private fun render(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Empty -> Unit // TODO
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success<WorryDetailEntity> -> {
                 uiState.data.worryId = binding.worryDetail!!.worryId
@@ -136,13 +136,18 @@ class DetailBeforeActivity :
             }
 
             is UiState.Error -> {
-                controlLayout(false)
-                controlErrorLayout(
-                    error = uiState.error,
-                    networkBinding = binding.layoutError.layoutNetworkError.root,
-                    internalBinding = binding.layoutError.layoutInternalError.root,
-                    root = binding.root
-                )
+                if (uiState.error == Constant.notExistedId) {
+                    finish()
+                    binding.root.makeToast(Constant.notExistedId)
+                } else {
+                    controlLayout(false)
+                    controlErrorLayout(
+                        error = uiState.error,
+                        networkBinding = binding.layoutError.layoutNetworkError.root,
+                        internalBinding = binding.layoutError.layoutInternalError.root,
+                        root = binding.root
+                    )
+                }
             }
         }
     }
@@ -245,7 +250,10 @@ class DetailBeforeActivity :
                         },
                         // 3) [삭제]
                         {
-                            DialogDeleteWarning {
+                            DialogDeleteWarning(
+                                title = R.string.dialog_before_delete_title,
+                                subtitle = R.string.dialog_before_delete_subtitle
+                            ) {
                                 viewModel.deleteWorry(binding.worryDetail!!.worryId)
                             }.show(supportFragmentManager, "delete")
                         }

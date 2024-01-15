@@ -6,6 +6,14 @@
     <data>
 
         <import type="android.text.Html" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="subtitle"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,25 +36,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
-            android:text="@{Html.fromHtml(@string/dialog_delete)}"
+            android:text="@{Html.fromHtml(title)}"
             android:textAppearance="@style/h_body3_b14"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_warnlight"
-            tools:text="@string/dialog_delete" />
+            tools:text="@string/dialog_after_delete_title" />
 
         <TextView
             android:id="@+id/tv_savewraning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/dialog_delete_warning"
-            android:textAppearance="@style/h_body4_r14"
-            android:textColor="@color/white"
+            android:text="@{subtitle}"
+            android:textAppearance="@style/h_sub1_r12"
+            android:textColor="@color/gray_5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_surecancel" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_surecancel"
+            tools:text="@string/dialog_after_delete_subtitle" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:layout_width="match_parent"

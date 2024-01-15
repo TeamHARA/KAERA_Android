@@ -2,14 +2,11 @@ package com.hara.kaera.domain.repository
 
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.DecideFinalReqDTO
-import com.hara.kaera.data.dto.DecideFinalResDTO
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
-import com.hara.kaera.data.dto.EditDeadlineResDTO
 import com.hara.kaera.data.dto.EditWorryReqDTO
-import com.hara.kaera.data.dto.EditWorryResDTO
+import com.hara.kaera.data.dto.PushAlarmReqDTO
 import com.hara.kaera.data.dto.ReviewReqDTO
 import com.hara.kaera.data.dto.WriteWorryReqDTO
-import com.hara.kaera.data.dto.WriteWorryResDTO
 import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.entity.HomeWorryListEntity
@@ -47,4 +44,6 @@ interface KaeraRepository {
     fun serviceLogout(): Flow<ApiResult<Boolean>>
 
     fun serviceUnRegister(): Flow<ApiResult<Boolean>>
+
+    fun pushAlarmEnabled(isTrued: Int, pushAlarmReqDTO: PushAlarmReqDTO): Flow<ApiResult<String>>
 }
