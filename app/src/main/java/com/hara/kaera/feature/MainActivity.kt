@@ -11,9 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.hara.kaera.R
-import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.domain.entity.WorryDetailEntity
 import com.hara.kaera.feature.base.BindingActivity
@@ -24,13 +22,11 @@ import com.hara.kaera.feature.home.HomeFragment
 import com.hara.kaera.feature.home.HomeViewModel
 import com.hara.kaera.feature.storage.StorageFragment
 import com.hara.kaera.feature.util.Constant
-import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.navigateTo
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -93,34 +89,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                                 MODE_PRIVATE
                             )
                         if (!sharedPref.getBoolean(
-                                com.hara.kaera.application.Constant.SHARED_PREFERENCE_NAME,
-                                false
+                                com.hara.kaera.application.Constant.FCM_FIRST, false
                             )
                         ) {
-                            lifecycleScope.launch {
-                                viewModel.pushAlarmActivatedFlow.collect {
-                                    when (it) {
-                                        is UiState.Success -> {
-                                            sharedPref.edit()
-                                                .putBoolean(
-                                                    com.hara.kaera.application.Constant.FCM_ACTIVATE_KEY,
-                                                    true
-                                                ).apply()
-                                        }
-
-                                        else -> Unit
-                                    }
-
-                                }
-                            }
-                            viewModel.pushAlarmActivated(
-                                FirebaseMessagingService().getDeviceToken(
-                                    baseContext
-                                ) ?: "null"
-                            )
+                            binding.root.makeToast("마이페이지에서 알림을 활성화 해주세요!")
                         }
-
-
                     }
                 }
             }

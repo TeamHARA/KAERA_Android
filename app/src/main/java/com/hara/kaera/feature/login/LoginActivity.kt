@@ -49,7 +49,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         super.onCreate(savedInstanceState)
         this.onBackPressedDispatcher.addCallback(this, callback)
         collectFlow()
-        binding.btnKakaoLogin.onSingleClick(300) { // 최초로그인 로직을 탐
+        binding.btnKakaoLogin.onSingleClick { // 최초로그인 로직을 탐
             kakaoLogin()
         }
 

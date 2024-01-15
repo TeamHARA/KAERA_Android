@@ -12,4 +12,5 @@ object Constant {
     const val SHARED_PREFERENCE_NAME = "fcm_pref"
     const val DEVICE_TOKEN_KEY = "fcm_device_token"
     const val FCM_ACTIVATE_KEY = "fcm_activation"
+    const val FCM_FIRST = "fcm_first"
 }

@@ -234,8 +234,11 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                                 if (it.data != "알림 활성화 성공") sharedPref.edit().putBoolean(
                                     Constant.FCM_ACTIVATE_KEY,
                                     false
-                                ).apply() else sharedPref.edit()
-                                    .putBoolean(Constant.FCM_ACTIVATE_KEY, true).apply()
+                                ).apply() else {
+                                    sharedPref.edit()
+                                        .putBoolean(Constant.FCM_ACTIVATE_KEY, true).apply()
+                                    sharedPref.edit().putBoolean(Constant.FCM_FIRST, true).apply()
+                                }
                             }
 
                             is UiState.Error -> {
