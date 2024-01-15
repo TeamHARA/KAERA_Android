@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -85,16 +84,18 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         editTextFreeNote.scrollableInScrollView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun getDetailToEditData() {
-        action = intent.getStringExtra("action")!!
+        viewModel.setAction(intent.getStringExtra(ACTION_ID) ?: ACTION_WRITE)
 
-        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)
-            ?.let { intentWorryDetail -> // 수정
-                binding.userInput = intentWorryDetail
-                viewModel.setTemplateId(intentWorryDetail.templateId)
-            } ?: run { // 작성
-            showTemplateChoiceBottomSheet() // activity 진입하자마자 bottom sheet 등장
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)
+        } else {
+            intent.getParcelableExtra("worryDetail") as WorryDetailEntity?
+        }?.let { intentWorryDetail ->
+            binding.userInput = intentWorryDetail
+            viewModel.setTemplateId(intentWorryDetail.templateId)
+        } ?: kotlin.run {
+            showTemplateChoiceBottomSheet() // write aciton으로 activity 진입하면 bottom sheet 등장
         }
     }
 
@@ -141,8 +142,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     return@onSingleClick
                 }
 
-                when (action) {
-                    "write" -> { // [글 작성]
+                when (viewModel.activityAction.value) {
+                    ACTION_WRITE -> { // [글 작성]
                         DialogWriteComplete(
                             fun(day: Int) {
                                 viewModel.writeWorry(
@@ -150,11 +151,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                                     answers = getAnswers(),
                                     dDay = day
                                 )
-                            }, "write", -1
+                            }, ACTION_WRITE, -1
                         ).show(supportFragmentManager, "complete")
                     }
 
-                    "edit" -> { // [글 수정]
+                    ACTION_EDIT -> { // [글 수정]
                         viewModel.editWorry(
                             worryId = binding.userInput!!.worryId,
                             title = binding.etTitle.text.toString(),
@@ -163,6 +164,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                     }
                 }
             }
+
             layoutError.layoutNetworkError.btnNetworkError.onSingleClick {
                 viewModel.getTemplateDetailData()
             }
@@ -247,19 +249,24 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                         renderForEdit(it)
                     }
                 }
+                launch {
+                    viewModel.activityAction.collect {
+                        when (it) {
+                            ACTION_WRITE -> binding.btnComplete.text = "완료"
+                            ACTION_EDIT -> binding.btnComplete.text = "수정"
+                        }
+                    }
+                }
+
             }
         }
-        // 마찬가지로 코루틴 열고 수집을 하는데 생명주기에 맞춰서 flow가 자동으로
-        // 꺼지고 수집하고 될수 있도록 repeatOnLifeCycle이란걸 사용! 그리고
-        // 뷰모델에 있는 StateFlow에서 뷰모델에서 해줬던것처럼 collect 해준다/
-        // 여기 내부 값은 UiState가 들어오게 된다!
     }
 
     // [글 수정] EditText에 글 detail 내용 value를 넣는다
     private fun renderForEdit(uiState: UiState<WorryDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Empty -> Unit // TODO: 이건 뭐지
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success<WorryDetailEntity> -> {
                 viewModel.setTemplateId(uiState.data.templateId)
@@ -272,12 +279,10 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         }
     }
 
-    // templateId에 따라 전반적인 구조 visibility 조절
-    // 실제로 뷰에서 대응하는 함수 프로그래스바 visibility 조절, error msg 출력 등을 하면 된다!
     private fun render(uiState: UiState<TemplateDetailEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
-            is UiState.Empty -> Unit // TODO: 추가해주세요 (written by. 수현)
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
 
             is UiState.Success -> {
@@ -289,9 +294,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                 } else if (viewModel.templateIdFlow.value in 2..6) { // 일반 template
                     binding.clFreenote.root.visible(false)
                     binding.clTemplate.root.visible(true)
-                    if (viewModel.templateIdFlow.value == Constant.thanksToId)
-                        binding.clTemplate.tvThanks.visible(true) // thanksTo 템플릿
-                    else binding.clTemplate.tvThanks.visible(false)
+                    when (viewModel.templateIdFlow.value) {
+                        Constant.thanksToId -> binding.clTemplate.tvThanks.visible(true)
+                        // thanksTo 템플릿
+                        else -> binding.clTemplate.tvThanks.visible(false)
+                    }
                 }
             }
 
@@ -315,13 +322,13 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         binding.layoutError.root.visible(!success)
     }
 
+
     private fun clearEditText() {
+        // 제목 제외 초기화
         editTextList.forEach {
             it.text.clear()
         }
         editTextFreeNote.text.clear()
-        edittextTitle.text.clear()
-        //TODO condtion 변수들 초기화
     }
 
     private fun checkFreeFlow() {
@@ -343,6 +350,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun showTemplateChoiceBottomSheet() {
         TemplateChoiceBottomSheet({ id ->
             viewModel.setTemplateId(id)
+            viewModel.setAction(ACTION_WRITE)
+            clearEditText()
         }, viewModel.templateIdFlow.value).show(
             supportFragmentManager,
             "template_choice"
