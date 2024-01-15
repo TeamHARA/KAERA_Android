@@ -226,7 +226,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="20dp"
-                                android:text="@{@string/write_title_count(0)}"
+                                android:text=""
                                 android:textAppearance="@style/h_body2_r16"
                                 android:textColor="@color/gray_5"
                                 app:layout_constraintBottom_toBottomOf="@+id/et_title"

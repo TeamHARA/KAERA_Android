@@ -45,10 +45,8 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private var titleCondition = false
     private var contentCondition = false
 
-    private lateinit var action: String // write | edit
     private val viewModel by viewModels<WriteViewModel>()
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,11 +59,11 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         )
 
         mappingEditText()
-        getDetailToEditData() // DetailBeforeActivity -> WriteActivity 넘어온 것인지 확인
+        setTemplate()
         setTextWatcher()
         setClickListeners()
+        getDetailToEditData() // DetailBeforeActivity -> WriteActivity 넘어온 것인지 확인
         collectFlows()
-        setTemplate()
     }
 
     private fun mappingEditText() {
@@ -229,6 +227,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                             )
                             finish()
                         }
+                        if (it is UiState.Error) binding.root.makeToast(it.error)
                     }
                 }
                 launch {
@@ -248,6 +247,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
                             )
                             finish()
                         }
+                        if (it is UiState.Error) binding.root.makeToast(it.error)
                     }
                 }
                 launch {
@@ -280,6 +280,7 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
             }
 
             is UiState.Error -> {
+                binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
         }
@@ -390,6 +391,12 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
         super.onStop()
         viewModel.setCurTemplateId(viewModel.templateIdFlow.value)
         // 백그라운드 전환시 render 재실행으로 인한 텍스트 초기화를 막기 위해 flow에 현재 id 저장
+    }
+
+    companion object {
+        const val ACTION_ID = "action"
+        const val ACTION_WRITE = "write"
+        const val ACTION_EDIT = "edit"
     }
 
 }

@@ -37,7 +37,7 @@ class WriteViewModel @Inject constructor(
     private val _curTemplateIdFlow = MutableStateFlow(-1)
     val curTemplateIdFlow = _curTemplateIdFlow.asStateFlow()
 
-    // 액티비티의 액션을 나타내는 flow
+    // 액티비티의 액션을 나타내는 flow write | edit
     private val _activityAction = MutableStateFlow(ACTION_WRITE)
     val activityAction = _activityAction.asStateFlow()
 
