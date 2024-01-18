@@ -28,7 +28,7 @@ class OnboardingActivity :
                     message = baseContext.stringOf(R.string.main_backpress),
                     duration = KaeraSnackBar.DURATION.SHORT,
                     backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                    locationY = Constant.completeSnackBarLocationY
+                    locationY = -300.0
                 ).show()
             } else if (System.currentTimeMillis() - time < 2000) {
                 finishAffinity()

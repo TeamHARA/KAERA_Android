@@ -235,7 +235,7 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
                                     message = it.data,
                                     duration = KaeraSnackBar.DURATION.SHORT,
                                     backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                                    locationY = com.hara.kaera.feature.util.Constant.completeSnackBarLocationY
+                                    locationY = 0.0
                                 ).show()
                                 binding.tbAlertToggle.isChecked = it.data == "알림 활성화 성공"
                                 if (it.data != "알림 활성화 성공") sharedPref.edit().putBoolean(
