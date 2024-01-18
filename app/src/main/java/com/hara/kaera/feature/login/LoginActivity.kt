@@ -12,12 +12,15 @@ import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivityLoginBinding
 import com.hara.kaera.feature.MainActivity
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
+import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.KaKaoLoginClient
 import com.hara.kaera.feature.util.TokenState
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.makeSnackBar
 import com.hara.kaera.feature.util.makeToast
 import com.hara.kaera.feature.util.onSingleClick
+import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,7 +41,13 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         override fun handleOnBackPressed() {
             if (System.currentTimeMillis() - time >= 2000) {
                 time = System.currentTimeMillis()
-                binding.root.makeSnackBar("'뒤로'버튼을 한번더 누르면 종료됩니다.")
+                KaeraSnackBar.make(
+                    view = binding.root,
+                    message = baseContext.stringOf(R.string.main_backpress),
+                    duration = KaeraSnackBar.DURATION.SHORT,
+                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                    locationY = Constant.completeSnackBarLocationY
+                ).show()
             } else if (System.currentTimeMillis() - time < 2000) {
                 finish()
             }

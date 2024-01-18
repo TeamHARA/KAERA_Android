@@ -21,6 +21,7 @@ import com.hara.kaera.application.Constant
 import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivityMypageBinding
 import com.hara.kaera.feature.base.BindingActivity
+import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.mypage.custom.DialogMypage
 import com.hara.kaera.feature.onboarding.OnboardingActivity
 import com.hara.kaera.feature.util.KaKaoLoginClient
@@ -229,7 +230,13 @@ class MypageActivity : BindingActivity<ActivityMypageBinding>(R.layout.activity_
 
                             is UiState.Success -> {
                                 binding.clLoading.visible(false)
-                                binding.root.makeToast(it.data)
+                                KaeraSnackBar.make(
+                                    view = binding.root,
+                                    message = it.data,
+                                    duration = KaeraSnackBar.DURATION.SHORT,
+                                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                                    locationY = com.hara.kaera.feature.util.Constant.completeSnackBarLocationY
+                                ).show()
                                 binding.tbAlertToggle.isChecked = it.data == "알림 활성화 성공"
                                 if (it.data != "알림 활성화 성공") sharedPref.edit().putBoolean(
                                     Constant.FCM_ACTIVATE_KEY,
