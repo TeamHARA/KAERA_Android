@@ -132,7 +132,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/background_gradient"
-                        android:paddingHorizontal="10dp">
+                        android:paddingHorizontal="10dp"
+                        android:paddingBottom="48dp">
 
                         <ImageView
                             android:id="@+id/iv_stone"
@@ -208,7 +209,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="54dp"
-                            android:layout_marginBottom="48dp"
                             android:text="@{@string/detail_before_createdat(worryDetail.updatedAt)}"
                             android:textAppearance="@style/h_sub1_r12"
                             android:textColor="@color/gray_5"

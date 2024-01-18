@@ -31,7 +31,6 @@ class DetailBeforeViewModel @Inject constructor(
     private val deleteUseCase: DeleteWorryUseCase,
     private val decideFinalUseCase: DecideFinalUseCase
 ) : ViewModel() {
-    var templateId = -1
 
     private val _detailStateFlow = MutableStateFlow<UiState<WorryDetailEntity>>(UiState.Init)
     val detailStateFlow = _detailStateFlow.asStateFlow()
@@ -55,7 +54,6 @@ class DetailBeforeViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _detailStateFlow.value = UiState.Success(collect.data)
-                            templateId = collect.data.templateId
                         }
 
                         is ApiResult.Error -> {
