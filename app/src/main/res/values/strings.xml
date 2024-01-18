@@ -123,7 +123,7 @@
     <string name="sign_out_yes">탈퇴</string>
     <string name="logout_warning_title">로그아웃하시겠어요?</string>
     <string name="logout_warning_content">고민 원석과 보석은 저장되고 있어요</string>
-    <string name="sign_out_warning_title">정말로 탈퇴하실 건가요?</string>
+    <string name="sign_out_warning_title"><![CDATA[정말로 <font color=\'#ff0000\'>탈퇴</font>하실 건가요?]]></string>
     <string name="sign_out_warning_content">탈퇴 후 내용은 복구가 불가능해요</string>
 
     <!--  온보딩  -->
