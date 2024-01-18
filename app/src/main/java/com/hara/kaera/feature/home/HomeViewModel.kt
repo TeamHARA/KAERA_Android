@@ -15,7 +15,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,9 +39,12 @@ class HomeViewModel @Inject constructor(
 
     private var fullStone = false
 
-    private val _pushAlarmActivatedFlow =
-        MutableStateFlow<UiState<String>>(UiState.Init)
-    val pushAlarmActivatedFlow = _pushAlarmActivatedFlow.asStateFlow()
+    private val _viewPagerPosition = MutableStateFlow(0)
+    val viewPagerPosition = _viewPagerPosition.asStateFlow()
+
+    fun setViewPagerPosition(position: Int) {
+        _viewPagerPosition.value = position
+    }
 
     fun getHomeWorryList(isSolved: Boolean) {
         val flow = if (!isSolved) _homeWorryListStoneFlow else _homeWorryListJewelFlow
@@ -96,9 +98,20 @@ class HomeViewModel @Inject constructor(
         return fullStone
     }
 
+    companion object {
+        const val firstPage = 1
+        const val itemLimit = 12
+    }
+
+    /*
+메인에서 권한 허용이후 해당 함수를 중복호출 하는 문제가 있어서 우선 보류
+ */
+
+    private val _pushAlarmActivatedFlow =
+        MutableStateFlow<UiState<String>>(UiState.Init)
+    val pushAlarmActivatedFlow = _pushAlarmActivatedFlow.asStateFlow()
     fun pushAlarmActivated(deviceToken: String) {
         if (deviceToken == "null") return
-        Timber.e("deviceToken:$deviceToken")
         viewModelScope.launch {
             kotlin.runCatching {
                 pushAlarmEnabledUseCase(1, PushAlarmReqDTO(deviceToken))
@@ -120,10 +133,5 @@ class HomeViewModel @Inject constructor(
                 throw it
             }
         }
-    }
-
-    companion object {
-        const val firstPage = 1
-        const val itemLimit = 12
     }
 }

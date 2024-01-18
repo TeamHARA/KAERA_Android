@@ -10,7 +10,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import com.hara.kaera.R
 import com.hara.kaera.databinding.ActivityMainBinding
 import com.hara.kaera.domain.entity.WorryDetailEntity
@@ -27,14 +26,11 @@ import com.hara.kaera.feature.util.navigateTo
 import com.hara.kaera.feature.util.stringOf
 import com.hara.kaera.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
-    private val homeFragment = HomeFragment()
-    private val storageFragment = StorageFragment()
-    private val viewModel by viewModels<HomeViewModel>()
 
+    private val viewModel by viewModels<HomeViewModel>()
     private lateinit var launcher: ActivityResultLauncher<Array<String>>
 
     private var time: Long = 0
@@ -100,9 +96,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                Timber.e("ration")
-
-                //TODO rationale dialog
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -121,6 +114,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.nav_home -> {
+                        viewModel.setViewPagerPosition(0)
                         this@MainActivity.navigateTo<HomeFragment>(fragContainerId = R.id.cl_fragment_container)
                         return@setOnItemSelectedListener true
                     }
@@ -150,17 +144,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             itemActiveIndicatorColor = null
             selectedItemId = R.id.nav_home
         }
-    }
-
-    private fun isFragmentInBackStack(fragment: Fragment): Boolean {
-        val backStackCount = supportFragmentManager.backStackEntryCount
-        for (i in 0 until backStackCount) {
-            val entry = supportFragmentManager.getBackStackEntryAt(i)
-            if (entry.name == fragment.javaClass.simpleName) {
-                return true
-            }
-        }
-        return false
     }
 
     /*
