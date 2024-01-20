@@ -10,8 +10,6 @@ import com.hara.kaera.feature.base.BindingActivity
 import com.hara.kaera.feature.custom.snackbar.KaeraSnackBar
 import com.hara.kaera.feature.login.LoginActivity
 import com.hara.kaera.feature.onboarding.adpter.OnboardingAdapter
-import com.hara.kaera.feature.util.Constant
-import com.hara.kaera.feature.util.makeSnackBar
 import com.hara.kaera.feature.util.stringOf
 
 class OnboardingActivity :

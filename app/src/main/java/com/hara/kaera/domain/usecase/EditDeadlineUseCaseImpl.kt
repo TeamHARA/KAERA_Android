@@ -2,8 +2,6 @@ package com.hara.kaera.domain.usecase
 
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.data.dto.EditDeadlineReqDTO
-import com.hara.kaera.data.dto.EditDeadlineResDTO
-import com.hara.kaera.domain.entity.DeleteWorryEntity
 import com.hara.kaera.domain.entity.EditDeadlineEntity
 import com.hara.kaera.domain.repository.KaeraRepository
 import kotlinx.coroutines.flow.Flow

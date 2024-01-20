@@ -1,13 +1,12 @@
 package com.hara.kaera.feature.util
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.hara.kaera.R
 import com.hara.kaera.feature.storage.worrytemplate.ExpandAnimation
-import timber.log.Timber
 
 /*
     템플릿 아이디와 이전에 사용한적 있는지에 따라서 이미지를 변화시켜주는 함수
@@ -70,6 +69,7 @@ fun ImageView.setGemSrc(templateId: Int, isSolved: Boolean) {
     }
 }
 
+@SuppressLint("UseCompatLoadingForDrawables")
 @BindingAdapter("app:completebutton")
 fun AppCompatButton.setBackground(activate: Boolean){
     if(activate){

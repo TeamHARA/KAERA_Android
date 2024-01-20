@@ -9,7 +9,6 @@ import com.hara.kaera.databinding.FragmentHomeBinding
 import com.hara.kaera.feature.base.BindingFragment
 import com.hara.kaera.feature.home.gems.HomeFragmentStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {

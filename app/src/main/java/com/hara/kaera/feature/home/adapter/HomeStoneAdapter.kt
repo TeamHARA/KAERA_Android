@@ -9,7 +9,6 @@ import com.hara.kaera.domain.entity.HomeWorryListEntity
 import com.hara.kaera.feature.home.FloatingAnimation
 import com.hara.kaera.feature.util.Constant
 import com.hara.kaera.feature.util.GlobalDiffCallBack
-import timber.log.Timber
 
 class HomeStoneAdapter(
     private val goToDetailBeforeActivity: (worryId: Int) -> Unit

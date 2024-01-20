@@ -25,7 +25,7 @@ class DialogBackpressWarning(
             this.dismiss()
             yesClickListener.invoke()
         }
-        binding.btnNo.onSingleClick() {
+        binding.btnNo.onSingleClick {
             dismiss()
         }
     }

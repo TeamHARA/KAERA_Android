@@ -2,11 +2,9 @@ package com.hara.kaera.feature.dialog
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.FragmentManager
 import com.hara.kaera.R
 import com.hara.kaera.databinding.DialogFragmentEditBinding
 import com.hara.kaera.feature.base.BindingDialogFragment
-import timber.log.Timber
 
 class DialogEditFragment(
     private val onClickEdit: () -> Unit,
@@ -34,7 +32,7 @@ class DialogEditFragment(
                 onClickDelete.invoke()
             }
             tvCancel.setOnClickListener { // 취소
-                val fragmentManager = activity?.getSupportFragmentManager()
+                val fragmentManager = activity?.supportFragmentManager
                 fragmentManager?.beginTransaction()?.remove(this@DialogEditFragment)?.commit()
                 fragmentManager?.popBackStack()
             }

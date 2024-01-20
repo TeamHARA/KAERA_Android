@@ -29,33 +29,37 @@ Mapper는 다음과 같이 DTO타입을 Entity형태로 즉. 실제로 사용할
 
 object Mapper {
     fun mapperToTemplateType(dto: TemplateTypeDTO): TemplateTypesEntity {
-        if (dto.status in 400..499) { // 에러이므로 아무것도 넣지 않고 erroMessage에만 담아준다.
-            return TemplateTypesEntity(
-                errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
-                templateTypeList = null,
-            )
-        } else if (dto.status in 500..599) {
-            return TemplateTypesEntity(
-                errorMessage = "네트워크상태가 불안정합니다.",
-                templateTypeList = null,
-            )
-        } else {
-            val templateTypeList = mutableListOf<TemplateTypesEntity.Template>()
-            dto.data.toList().forEach {
-                templateTypeList.add(
-                    TemplateTypesEntity.Template(
-                        hasUsed = it.hasUsed,
-                        info = it.info,
-                        shortInfo = it.shortInfo,
-                        templateId = it.templateId,
-                        title = it.title,
-                    ),
+        when (dto.status) {
+            in 400..499 -> { // 에러이므로 아무것도 넣지 않고 erroMessage에만 담아준다.
+                return TemplateTypesEntity(
+                    errorMessage = "서버 상태가 불안정합니다. 잠시후 다시 시도해주세요",
+                    templateTypeList = null,
                 )
             }
-            return TemplateTypesEntity(
-                errorMessage = null,
-                templateTypeList = templateTypeList,
-            )
+            in 500..599 -> {
+                return TemplateTypesEntity(
+                    errorMessage = "네트워크상태가 불안정합니다.",
+                    templateTypeList = null,
+                )
+            }
+            else -> {
+                val templateTypeList = mutableListOf<TemplateTypesEntity.Template>()
+                dto.data.toList().forEach {
+                    templateTypeList.add(
+                        TemplateTypesEntity.Template(
+                            hasUsed = it.hasUsed,
+                            info = it.info,
+                            shortInfo = it.shortInfo,
+                            templateId = it.templateId,
+                            title = it.title,
+                        ),
+                    )
+                }
+                return TemplateTypesEntity(
+                    errorMessage = null,
+                    templateTypeList = templateTypeList,
+                )
+            }
         }
     }
 
@@ -114,8 +118,8 @@ object Mapper {
                 dDay = it.dDay,
                 finalAnswer = it.finalAnswer,
                 review = WorryDetailEntity.Review(
-                    content = it.review?.content ?: "",
-                    updatedAt = it.review?.updatedAt ?: "",
+                    content = it.review.content ?: "",
+                    updatedAt = it.review.updatedAt ?: "",
                 ),
             )
         }

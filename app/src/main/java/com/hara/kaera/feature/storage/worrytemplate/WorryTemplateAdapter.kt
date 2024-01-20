@@ -11,7 +11,6 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.feature.mypage.MypageActivity
 import com.hara.kaera.feature.mypage.WebViewActivity
 import com.hara.kaera.feature.util.GlobalDiffCallBack
-import timber.log.Timber
 
 class WorryTemplateAdapter(private val itemClickListener: (Int) -> Unit) :
     ListAdapter<TemplateTypesEntity.Template, RecyclerView.ViewHolder>(

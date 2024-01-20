@@ -11,12 +11,12 @@ class ExpandAnimation {
     companion object {
 
         fun toggleArrow(view: View, isExpanded: Boolean): Boolean {
-            if (!isExpanded) {
+            return if (!isExpanded) {
                 view.animate().setDuration(200).rotation(0f)
-                return false
+                false
             } else {
                 view.animate().setDuration(200).rotation(180f)
-                return true
+                true
             }
         }
 
