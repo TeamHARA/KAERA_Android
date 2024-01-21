@@ -20,10 +20,10 @@ class StorageViewModel @Inject constructor(
     private val _worryStateFlow = MutableStateFlow<UiState<WorryByTemplateEntity>>(UiState.Init)
     val worryStateFlow = _worryStateFlow.asStateFlow()
 
-    private val _templateId = MutableStateFlow<Int>(0)
+    private val _templateId = MutableStateFlow(0)
     val templateId get() = _templateId.asStateFlow()
 
-    private val _selectedId = MutableStateFlow<Int>(0)
+    private val _selectedId = MutableStateFlow(0)
     val selectedId get() = _selectedId.asStateFlow()
 
     fun setTemplateId() {

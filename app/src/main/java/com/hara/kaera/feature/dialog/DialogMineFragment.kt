@@ -38,7 +38,7 @@ class DialogMineFragment(
         }
 
         binding.etComplete.addTextChangedListener {
-            binding.btnComplete.isEnabled = it!!.isNotBlank() && it!!.isNotEmpty()
+            binding.btnComplete.isEnabled = it!!.isNotBlank() && it.isNotEmpty()
         }
 
     }

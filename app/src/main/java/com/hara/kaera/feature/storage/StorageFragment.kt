@@ -24,7 +24,6 @@ import com.hara.kaera.feature.util.controlErrorLayout
 import com.hara.kaera.feature.util.increaseTouchSize
 import com.hara.kaera.feature.util.onSingleClick
 import com.hara.kaera.feature.util.visible
-import com.hara.kaera.feature.write.StorageTemplateChoiceBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
