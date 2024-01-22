@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -43,7 +42,6 @@ class DetailBeforeActivity :
     private val viewModel by viewModels<DetailBeforeViewModel>()
     private val homeVm by viewModels<HomeViewModel>()
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWorryById()
@@ -51,28 +49,30 @@ class DetailBeforeActivity :
         setClickListener()
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun getWorryById() {
-        intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)
-            ?.let { intentWorryDetail ->
-                binding.worryDetail = intentWorryDetail
-
-                val action = intent.getStringExtra("action")
-                if (action == "view") { // view
-                    viewModel.getWorryDetail(binding.worryDetail!!.worryId)
-                    return
-                }
-
-                // write result | edit result
-                KaeraSnackBar.make(
-                    view = binding.root,
-                    message = if (action == "write") baseContext.getString(R.string.complete_write_snackbar)
-                    else baseContext.getString(R.string.complete_edit_snackbar),
-                    duration = KaeraSnackBar.DURATION.SHORT,
-                    backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
-                    locationY = Constant.completeSnackBarLocationY
-                ).show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("worryDetail", WorryDetailEntity::class.java)
+        } else {
+            intent.getParcelableExtra("worryDetail") as WorryDetailEntity?
+        }?.let { intentWorryDetail ->
+            binding.worryDetail = intentWorryDetail
+            val action = intent.getStringExtra("action")
+            if (action == "view") { // view
+                viewModel.getWorryDetail(binding.worryDetail!!.worryId)
+                return
             }
+
+            // write result | edit result
+            KaeraSnackBar.make(
+                view = binding.root,
+                message = if (action == "write") baseContext.getString(R.string.complete_write_snackbar)
+                else baseContext.getString(R.string.complete_edit_snackbar),
+                duration = KaeraSnackBar.DURATION.SHORT,
+                backgroundColor = KaeraSnackBar.BACKGROUNDCOLOR.GRAY_5,
+                locationY = Constant.completeSnackBarLocationY
+            ).show()
+        }
+
     }
 
     private fun collectFlows() {
@@ -113,8 +113,8 @@ class DetailBeforeActivity :
                                     },
                                 )
                             }, 2000) // 애니메이션 시작전 2000ms 후 자동종료
-
                         }
+                        if (it is UiState.Error) binding.root.makeToast(it.error)
                     }
                 }
             }
@@ -126,10 +126,15 @@ class DetailBeforeActivity :
         when (uiState) {
             is UiState.Init -> Unit
             is UiState.Empty -> Unit
-            is UiState.Loading -> binding.layoutLoading.root.visible(true)
+            is UiState.Loading -> {
+                binding.btnSubmit.visible(false)
+                binding.layoutLoading.root.visible(true)
+            }
+
             is UiState.Success<WorryDetailEntity> -> {
                 uiState.data.worryId = binding.worryDetail!!.worryId
                 binding.worryDetail = uiState.data
+                binding.btnSubmit.visible(true)
                 Timber.e("[ABC] 서버 통신으로 가져온 worryDetail ${binding.worryDetail}")
 
                 controlLayout(true)
@@ -195,6 +200,7 @@ class DetailBeforeActivity :
     private fun renderDelete(uiState: UiState<DeleteWorryEntity>) {
         when (uiState) {
             is UiState.Init -> Unit
+            is UiState.Empty -> Unit
             is UiState.Loading -> binding.layoutLoading.root.visible(true)
             is UiState.Success -> {
                 finish()
@@ -204,8 +210,6 @@ class DetailBeforeActivity :
                 binding.layoutLoading.root.visible(false)
                 binding.root.makeToast(uiState.error)
             }
-
-            UiState.Empty -> TODO()
         }
     }
 

@@ -127,7 +127,7 @@ object Mapper {
                 worryId = it.worryId,
                 title = it.title,
                 templateId = it.templateId,
-                subtitles = emptyList(),
+                subtitles = it.subtitles,
                 answers = it.answers,
                 period = "",
                 updatedAt = it.createdAt,
