@@ -2,8 +2,6 @@ package com.hara.kaera.feature.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.hara.kaera.application.Constant.EMPTY_TOKEN
 import com.hara.kaera.core.ApiResult
 import com.hara.kaera.core.ErrorType

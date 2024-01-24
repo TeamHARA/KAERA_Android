@@ -11,12 +11,12 @@ class ExpandAnimation {
     companion object {
 
         fun toggleArrow(view: View, isExpanded: Boolean): Boolean {
-            if (!isExpanded) {
+            return if (!isExpanded) {
                 view.animate().setDuration(200).rotation(0f)
-                return false
+                false
             } else {
                 view.animate().setDuration(200).rotation(180f)
-                return true
+                true
             }
         }
 
@@ -38,7 +38,7 @@ class ExpandAnimation {
                 ),
             )
             // 정밀도를 따로 지정해주어서 정확하게 확장될 view의 높이를 정확하게 측정
-            var actualHeight = view.measuredHeight
+            val actualHeight = view.measuredHeight
 
             view.layoutParams.height = 0
             view.visibility = View.VISIBLE

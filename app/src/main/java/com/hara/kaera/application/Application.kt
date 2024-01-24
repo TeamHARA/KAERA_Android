@@ -2,8 +2,6 @@ package com.hara.kaera.application
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.hara.kaera.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility

@@ -7,7 +7,6 @@ import com.hara.kaera.domain.entity.TemplateTypesEntity
 import com.hara.kaera.domain.usecase.GetTemplateTypeUseCase
 import com.hara.kaera.feature.util.UiState
 import com.hara.kaera.feature.util.errorToLayout
-import com.hara.kaera.feature.util.errorToMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

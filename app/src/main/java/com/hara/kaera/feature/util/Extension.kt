@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.hara.kaera.core.ErrorType
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

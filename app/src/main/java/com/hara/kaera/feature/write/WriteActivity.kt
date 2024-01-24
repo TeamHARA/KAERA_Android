@@ -357,8 +357,9 @@ class WriteActivity : BindingActivity<ActivityWriteBinding>(R.layout.activity_wr
     private fun showTemplateChoiceBottomSheet() {
         TemplateChoiceBottomSheet({ id ->
             viewModel.setTemplateId(id)
-            viewModel.setAction(ACTION_WRITE)
             clearEditText()
+            if (viewModel.activityAction.value == ACTION_EDIT) binding.etTitle.text.clear()
+            viewModel.setAction(ACTION_WRITE)
         }, viewModel.templateIdFlow.value).show(
             supportFragmentManager,
             "template_choice"

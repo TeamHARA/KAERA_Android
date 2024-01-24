@@ -97,7 +97,7 @@ class DetailBeforeActivity :
                     viewModel.decideFinalFlow.collect {
                         if (it is UiState.Success<String>) {
                             val sayingFragment = DialogSayingFragment(
-                                templateId = viewModel.templateId,
+                                templateId = binding.worryDetail!!.templateId,
                                 saying = it.data
                             )
                             sayingFragment.show(supportFragmentManager, "saying")

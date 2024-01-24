@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:templateHasUsed="@{true}"
+            app:isSolved="@{true}"
             app:templateId="@{templateId}"
             tools:src="@drawable/gem_orange_s_off" />
 

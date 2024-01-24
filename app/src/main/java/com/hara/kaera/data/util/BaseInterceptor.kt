@@ -1,6 +1,5 @@
 package com.hara.kaera.data.util
 
-import com.hara.kaera.BuildConfig
 import com.hara.kaera.application.Constant
 import com.hara.kaera.data.datasource.remote.LoginDataSource
 import com.hara.kaera.domain.dto.JWTRefreshReqDTO

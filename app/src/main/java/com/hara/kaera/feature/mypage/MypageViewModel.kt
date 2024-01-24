@@ -119,7 +119,7 @@ class MypageViewModel @Inject constructor(
         if (deviceToken == "null") return
         Timber.e("deviceToken:$deviceToken")
         viewModelScope.launch {
-            _uiStateFlow.value = UiState.Loading
+            _pushStateFlow.value = UiState.Loading
             kotlin.runCatching {
                 pushAlarmEnabledUseCase(isTrued, PushAlarmReqDTO(deviceToken))
             }.onSuccess {
@@ -127,6 +127,7 @@ class MypageViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _pushStateFlow.value = UiState.Success(collect.data)
+                            _pushStateFlow.value = UiState.Init
                         }
 
                         is ApiResult.Error -> {

@@ -1,4 +1,4 @@
-package com.hara.kaera.feature.write
+package com.hara.kaera.feature.storage
 
 import android.content.DialogInterface
 import android.os.Bundle

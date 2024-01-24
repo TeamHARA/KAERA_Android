@@ -22,12 +22,12 @@ class DialogMypage(
     private fun setLayout() {
         with(binding) {
             if (type == "logout") {
-                tvDialogTitle.text = getString(R.string.logout_warning_title)
-                tvDialogContent.text = getString(R.string.logout_warning_content)
+                binding.title = getString(R.string.logout_warning_title)
+                binding.subtitle = getString(R.string.logout_warning_content)
                 btnYes.text = getString(R.string.logout)
             } else {
-                tvDialogTitle.text = getString(R.string.sign_out_warning_title)
-                tvDialogContent.text = getString(R.string.sign_out_warning_content)
+                binding.title = getString(R.string.sign_out_warning_title)
+                binding.subtitle = getString(R.string.sign_out_warning_content)
                 btnYes.text = getString(R.string.sign_out_yes)
             }
         }
@@ -38,7 +38,7 @@ class DialogMypage(
             this.dismiss()
             yesClickListener.invoke()
         }
-        binding.btnNo.onSingleClick() {
+        binding.btnNo.onSingleClick {
             dismiss()
         }
     }

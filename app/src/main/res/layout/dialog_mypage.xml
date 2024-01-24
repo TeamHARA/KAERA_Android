@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.Html" />
 
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="subtitle"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
-            android:text=""
+            android:text="@{Html.fromHtml(title)}"
             android:textAppearance="@style/h_body3_b14"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text=""
+            android:text="@{subtitle}"
             android:textAppearance="@style/h_sub1_r12"
             android:textColor="@color/gray_5"
             app:layout_constraintEnd_toEndOf="parent"

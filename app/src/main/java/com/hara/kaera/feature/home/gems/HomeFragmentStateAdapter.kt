@@ -1,13 +1,9 @@
 package com.hara.kaera.feature.home.gems
 
-import android.Manifest
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.adapter.FragmentViewHolder
-import timber.log.Timber
 
 // 이 adapter를 통해 ViewPager2에 Fragment들을 연결시켜 노출시킨다
 

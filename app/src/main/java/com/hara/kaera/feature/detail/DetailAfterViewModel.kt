@@ -26,7 +26,13 @@ class DetailAfterViewModel @Inject constructor(
     private val reviewUseCase: PutReviewUseCase,
 ) : ViewModel() {
     private var worryId = -1
-    var reviewContent: String = ""
+
+    private var _reviewContent: String = ""
+
+    fun getReviewContent(): String {
+        return _reviewContent
+    }
+
 
     private val _detailStateFlow = MutableStateFlow<UiState<WorryDetailEntity>>(UiState.Init)
     val detailStateFlow = _detailStateFlow.asStateFlow()
@@ -46,10 +52,13 @@ class DetailAfterViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _detailStateFlow.value = UiState.Success(collect.data)
+                            _reviewContent = collect.data.review.content ?: ""
+                            _detailStateFlow.value = UiState.Init
                         }
 
                         is ApiResult.Error -> {
-                            _detailStateFlow.value = UiState.Error(errorToLayout(collect.error))
+                            _detailStateFlow.value =
+                                UiState.Error(errorToLayout(collect.error))
                         }
                     }
                 }
@@ -93,6 +102,8 @@ class DetailAfterViewModel @Inject constructor(
                     when (collect) {
                         is ApiResult.Success -> {
                             _reviewWorryFlow.value = UiState.Success(collect.data)
+                            _reviewContent = review
+                            _reviewWorryFlow.value = UiState.Init
                         }
 
                         is ApiResult.Error -> {
