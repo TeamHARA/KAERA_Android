@@ -4,7 +4,7 @@ buildscript {
         classpath(Dependency.Kotlin.KOTLIN_SERIALIZATION_PLUGIN)
         classpath(Dependency.Hilt.HILT_PLUGIN)
         classpath(Dependency.Google.GOOGLE_SERVICE)
-        classpath(Dependency.SecertsGradle.SECERETS_GRADLE_CLASSPATH)
+        classpath(Dependency.SecretsGradle.SECRETS_GRADLE_CLASSPATH)
         classpath(Dependency.Android.OSS_LICENSES_PLUGIN)
     }
 }

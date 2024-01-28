@@ -13,5 +13,8 @@ object Constant {
     const val dummyGemStoneId = -1
     const val worryIdIntent = "worryId"
 
+    const val CONFIG_FORCE_UPDATE = "android_force_update"
+    const val CONFIG_APP_VERSION = "android_app_version"
+
     const val notExistedId = "해결되었거나 존재하지 않는 고민입니다."
 }

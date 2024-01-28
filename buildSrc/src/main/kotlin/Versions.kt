@@ -44,7 +44,7 @@ object Versions {
 
     //FIREBASE
     const val FIREBASE_BOM = "32.2.0"
-    const val FIREBASE_MEESAGING = "23.2.1"
+    const val FIREBASE_MESSAGING = "23.2.1"
 
     //TIMBER
     const val TIMBER = "5.0.1"
@@ -58,8 +58,8 @@ object Versions {
     //KAKAO_SDK
     const val KAKAO_SDK = "2.15.0"
 
-    //SECERETS_GRADLE
-    const val SERCRET_GRADLE = "2.0.1"
+    //SECRETS_GRADLE
+    const val SECRET_GRADLE = "2.0.1"
 
     //LOTTIE
     const val LOTTIE = "6.1.0"

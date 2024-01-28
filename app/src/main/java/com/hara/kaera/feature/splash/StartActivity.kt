@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,6 +13,11 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.hara.kaera.BuildConfig
 import com.hara.kaera.R
 import com.hara.kaera.application.FirebaseMessagingService
 import com.hara.kaera.databinding.ActivitySplashBinding
@@ -65,37 +71,37 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
                 clickListener = { checkNetwork() }
             ).show(supportFragmentManager, "restart")
         } else {
-            startViewModel.getSavedRefreshToken()
-            Handler(Looper.getMainLooper()).postDelayed({
-                splashAnimated()
-            }, 800) // 애니메이션 시작전 800ms 대기
+            checkAppVersion()
         }
     }
 
     private fun splashAnimated() {
-        binding.flowLogo.apply {
-            alpha = 0f
-            visibility = View.VISIBLE
-            animate()
-                .alpha(1f)
-                .setDuration(300)
-                .setStartDelay(800)
-                .withEndAction {
-                    // 첫 번째 애니메이션 종료 시 실행할 코드
-                    // 두 번째 애니메이션 시작
-                    binding.tvSlogan.apply {
-                        alpha = 0f
-                        visibility = View.VISIBLE
-                        animate()
-                            .alpha(1f)
-                            .setDuration(400)
-                            .setStartDelay(800).withEndAction {
-                                // 두 번째 애니메이션 종료 시 실행할 코드
-                                collectState()
-                            }
+        startViewModel.getSavedRefreshToken()
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.flowLogo.apply {
+                alpha = 0f
+                visibility = View.VISIBLE
+                animate()
+                    .alpha(1f)
+                    .setDuration(300)
+                    .setStartDelay(800)
+                    .withEndAction {
+                        // 첫 번째 애니메이션 종료 시 실행할 코드
+                        // 두 번째 애니메이션 시작
+                        binding.tvSlogan.apply {
+                            alpha = 0f
+                            visibility = View.VISIBLE
+                            animate()
+                                .alpha(1f)
+                                .setDuration(400)
+                                .setStartDelay(800).withEndAction {
+                                    // 두 번째 애니메이션 종료 시 실행할 코드
+                                    collectState()
+                                }
+                        }
                     }
-                }
-        }
+            }
+        }, 800)
     }
 
     private fun tokenCheck(tokenState: TokenState<String>) {
@@ -168,6 +174,51 @@ class StartActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_s
                 //에러
                 throw it
             }
+        }
+    }
+
+    /*
+        config를 통해서 앱 업데이트 확인
+     */
+    private fun checkAppVersion() {
+        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.fetchAndActivate().addOnCompleteListener(this) {
+            if (it.isSuccessful) {
+                Timber.e(remoteConfig.getDouble(Constant.CONFIG_APP_VERSION).toString())
+                Timber.e(remoteConfig.getBoolean(Constant.CONFIG_FORCE_UPDATE).toString())
+                showUpdateDialog(
+                    remoteConfig.getDouble(Constant.CONFIG_APP_VERSION).toInt(),
+                    remoteConfig.getBoolean(Constant.CONFIG_FORCE_UPDATE)
+                )
+            } else {
+                Timber.e(it.toString())
+            }
+        }
+    }
+
+    /*
+        현재 버전이 앱버전보다 낮을 경우 업데이트 , 강제업데이트의 경우 재설치 이전까지 무한루프
+        권자 업데이트의 경우 아니오 누르면 이후 스플래시 로직 이어지도록
+     */
+    private fun showUpdateDialog(appVersion: Int, forceUpdate: Boolean) {
+        val currentVersion = BuildConfig.VERSION_CODE
+        if (appVersion > currentVersion) {
+            if (!forceUpdate) {
+                DialogUpdateFragment(this.getString(R.string.dialog_app_essential_update), {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details")))
+                }, { checkAppVersion() }).show(supportFragmentManager, "update")
+            } else {
+                DialogUpdateFragment(this.getString(R.string.dialog_app_felxible_update), {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details")))
+                }, { splashAnimated() }
+                ).show(supportFragmentManager, "update")
+            }
+        } else {
+            splashAnimated()
         }
     }
 

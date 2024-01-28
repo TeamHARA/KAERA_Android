@@ -2,6 +2,8 @@ package com.hara.kaera.feature.detail
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -178,7 +180,11 @@ class DetailAfterActivity :
             is UiState.Success -> {
                 binding.layoutLoading.root.visible(false)
                 binding.tvRecordDate.text = uiState.data.updateDate
-                DialogWriteSuccess().show(supportFragmentManager, "review")
+                val successDialog = DialogWriteSuccess()
+                successDialog.show(supportFragmentManager, "review")
+                Handler(Looper.getMainLooper()).postDelayed({
+                    successDialog.dismiss()
+                }, 1000)
             }
 
             is UiState.Error -> {
