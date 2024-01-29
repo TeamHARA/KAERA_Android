@@ -56,6 +56,59 @@
     - Lottie
     - skydoves:progressview
 
+## 프로젝트 구조
+``` bash
+└─com
+    └─hara
+        └─kaera
+            ├─application
+            ├─core
+            ├─data
+            │  ├─datasource
+            │  │  ├─local
+            │  │  └─remote
+            │  ├─dto
+            │  │  └─login
+            │  ├─mapper
+            │  ├─repository
+            │  └─util
+            ├─di
+            ├─domain
+            │  ├─dto
+            │  ├─entity
+            │  │  └─login
+            │  ├─repository
+            │  ├─usecase
+            │  └─util
+            └─feature
+                ├─base
+                ├─custom
+                │  └─snackbar
+                ├─detail
+                │  └─custom
+                ├─dialog
+                │  └─detail
+                ├─home
+                │  ├─adapter
+                │  └─gems
+                ├─login
+                ├─mypage
+                │  └─custom
+                ├─onboarding
+                │  └─adpter
+                ├─splash
+                ├─storage
+                │  ├─adapter
+                │  ├─viewmodel
+                │  └─worrytemplate
+                ├─util
+                └─write
+                    ├─adapter
+                    ├─custom
+                    └─viewmodel
+```
+
+
 
 ## 스크린샷
 
