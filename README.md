@@ -16,6 +16,10 @@
 
 </aside>
 
+## 출시 링크
+[플레이스토어에서 앱 다운로드](https://play.google.com/store/apps/details?id=com.hara.kaera)
+
+
 ## 팀원
 | 김준우 [@IslandOfDream](https://github.com/IslandOfDream) | 장유진 [@wkdyujin](https://github.com/wkdyujin) | 이수현 [@skylartosf](https://github.com/skylartosf) |
 | :---: | :---: | :---: |
