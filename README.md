@@ -27,6 +27,11 @@
 <br>
 
 ## 기술 스택 
+Kotlin기반의 프로젝트이며, Mvvm를 채택하였습니다. 소셜 로그인 도입을 위하여 KaKao Login을 사용하였으며, 그 과정 속 토큰 관리를 위하여 ProtoDataStore를 통한 암호화를 진행하였습니다. 
+또한, Flow를 이용하여 서버통신 및 LivaData가 아닌 StateFlow를 통한 반응형UI를 구현해보았습니다.
+프로젝트 전반적으로 의존성 주입을 위하여 Hilt/Dagger2를 사용하였으며 크게 Core, Data, Domain, Presentation 을 통한 패키지 관리를 진행하였습니다.
+
+
 - 의존성 주입
     - Hilt / Dagger2
 - 서버통신
