@@ -40,8 +40,8 @@ android {
         applicationId = "com.hara.kaera"
         minSdk = 28
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         buildConfigField("String", "BEARER_TOKEN", properties.getProperty("BEARER_TOKEN"))
